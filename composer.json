@@ -1,0 +1,28 @@
+{
+    "name": "webcosmonauts/alder",
+    "description": "Alder CMS",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Web Cosmonauts",
+            "email": "info@webcosmonauts.pl"
+        },
+        {
+            "name": "Dmytro Kardava",
+            "email": "dima.kardava@gmail.com"
+        },
+        {
+            "name": "Dmytro Rodionov",
+            "email": "1rastawarrior1@gmail.com"
+        },
+        {
+            "name": "Vadym Ponamarenko",
+            "email": "jarroot1@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "^5.9@dev"
+    }
+}
