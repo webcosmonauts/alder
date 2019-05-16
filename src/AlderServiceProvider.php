@@ -2,6 +2,7 @@
 namespace Webcosmonauts\Alder;
 
 use Illuminate\Support\ServiceProvider;
+use Webcosmonauts\Classes\Alder;
 
 class AlderServiceProvider extends ServiceProvider
 {
@@ -24,5 +25,9 @@ class AlderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/alder.php', 'alder');
+        
+        $this->app->bind('alder', function () {
+            return new Alder();
+        });
     }
 }

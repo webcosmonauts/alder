@@ -37,7 +37,10 @@
     "laravel": {
       "providers": [
         "Webcosmonauts\\Alder\\AlderServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "Alder": "Webcosmonauts\\Alder\\Facades\\Alder"
+      }
     }
   }
 }
