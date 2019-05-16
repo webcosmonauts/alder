@@ -1,28 +1,43 @@
 {
-    "name": "webcosmonauts/alder",
-    "description": "Alder CMS",
-    "type": "project",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Web Cosmonauts",
-            "email": "info@webcosmonauts.pl"
-        },
-        {
-            "name": "Dmytro Kardava",
-            "email": "dima.kardava@gmail.com"
-        },
-        {
-            "name": "Dmytro Rodionov",
-            "email": "1rastawarrior1@gmail.com"
-        },
-        {
-            "name": "Vadym Ponamarenko",
-            "email": "jarroot1@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "illuminate/support": "^5.9@dev"
+  "name": "webcosmonauts/alder",
+  "description": "Alder CMS",
+  "keywords": [""],
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Web Cosmonauts",
+      "email": "info@webcosmonauts.pl"
+    },
+    {
+      "name": "Dmytro Rodionov",
+      "email": "1rastawarrior1@gmail.com"
+    },
+    {
+      "name": "Dmytro Kardava",
+      "email": "dima.kardava@gmail.com"
+    },
+    {
+      "name": "Vadym Ponamarenko",
+      "email": "jarroot1@gmail.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "illuminate/support": "5.8.*",
+    "php": "^7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Webcosmonauts\\Alder\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Webcosmonauts\\Alder\\AlderServiceProvider"
+      ]
+    }
+  }
 }
