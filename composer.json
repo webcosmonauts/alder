@@ -1,7 +1,7 @@
 {
   "name": "webcosmonauts/alder",
   "description": "Alder CMS",
-  "keywords": [""],
+  "keywords": ["laravel", "admin", "CMS", "alder"],
   "type": "project",
   "license": "MIT",
   "authors": [
