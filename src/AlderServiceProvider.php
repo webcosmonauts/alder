@@ -2,7 +2,7 @@
 namespace Webcosmonauts\Alder;
 
 use Illuminate\Support\ServiceProvider;
-use Webcosmonauts\Classes\Alder;
+use Webcosmonauts\Alder\Classes\Alder;
 
 class AlderServiceProvider extends ServiceProvider
 {
