@@ -23,7 +23,7 @@ class AlderServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'\database\migrations');
         
         // Load views
-        $this->loadViewsFrom(__DIR__.'\resources\views', 'alder');
+        $this->loadViewsFrom(__DIR__.'\..\resources\views', 'alder');
     }
     /**
      * Make config publishment optional by merging the config from the package.

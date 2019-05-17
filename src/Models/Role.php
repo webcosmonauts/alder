@@ -2,10 +2,9 @@
     
 namespace Webcosmonauts\Alder\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Webcosmonauts\Alder\Models\Traits\BelongsToLeafTypeTrait;
 
-class Role extends Model
+class Role extends BaseModel
 {
     use BelongsToLeafTypeTrait;
 }

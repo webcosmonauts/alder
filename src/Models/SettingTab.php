@@ -2,12 +2,13 @@
     
 namespace Webcosmonauts\Alder\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Webcosmonauts\Alder\Models\Traits\BelongsToLeafTypeTrait;
 
-class SettingTab extends Model
+class SettingTab extends BaseModel
 {
     use BelongsToLeafTypeTrait;
+    
+    protected $table_columns = ['title'];
     
     public function settings() {
         return $this->hasMany(Setting::class, 'tab_id');

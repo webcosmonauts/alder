@@ -2,9 +2,9 @@
     
 namespace Webcosmonauts\Alder\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Webcosmonauts\Alder\Models\Traits\TableColumnsTrait;
 
-class Leaf extends Model
+class Leaf extends BaseModel
 {
     
 }

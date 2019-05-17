@@ -2,9 +2,7 @@
     
 namespace Webcosmonauts\Alder\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class LeafType extends Model
+class LeafType extends BaseModel
 {
     
 }

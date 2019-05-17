@@ -5,7 +5,7 @@ namespace Webcosmonauts\Alder\Models;
 use Illuminate\Database\Eloquent\Model;
 use Webcosmonauts\Alder\Models\Traits\BelongsToLeafTypeTrait;
 
-class AdminMenuItem extends Model
+class AdminMenuItem extends BaseModel
 {
     use BelongsToLeafTypeTrait;
     
