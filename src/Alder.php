@@ -60,8 +60,4 @@ class Alder
         }
         return $model;
     }
-    
-    public function aaa() {
-        
-    }
 }

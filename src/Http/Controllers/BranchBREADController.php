@@ -3,6 +3,7 @@
 namespace Webcosmonauts\Alder\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Webcosmonauts\Alder\Facades\Alder;
 
@@ -16,7 +17,7 @@ class BranchBREADController extends BaseController
      * @return \Illuminate\View\View
      */
     public function index(Request $request) {
-        $branchType = ucfirst(Str::camel(Str::singular($this->getBranchType($request))));
+        $branchType = $this->getBranchType($request);
         
         $model = Alder::getBranchModel($branchType);
         
@@ -31,12 +32,25 @@ class BranchBREADController extends BaseController
      * Get read view for a leaf
      *
      * @param \Illuminate\Http\Request $request
-     * @param string $slug
+     * @param string $param
      *
      * @return \Illuminate\View\View
      */
-    public function show(Request $request, string $slug) {
+    public function show(Request $request, string $param) {
+        $branchType = $this->getBranchType($request);
     
+        $model = Alder::getBranchModel($branchType);
+    
+        if (Schema::hasColumn($model->getTable(), 'slug')) {
+            $leaf = $model::where('slug', $param)->first();
+        }
+        else {
+            $leaf = $model::find($param);
+        }
+    
+        return view('alder::bread.read')->with([
+            'leaf' => $leaf
+        ]);
     }
     
     /**

@@ -16,5 +16,7 @@ Route::group(['prefix' => 'alder'], function () {
         $type = Str::plural(Str::kebab($type));
         Route::get("$type", "Webcosmonauts\\Alder\\Http\\Controllers\\BranchBREADController@index")
             ->name("alder.$type.index");
+        Route::get("$type/{slug}", "Webcosmonauts\\Alder\\Http\\Controllers\\BranchBREADController@show")
+            ->name("alder.$type.show");
     }
 });
