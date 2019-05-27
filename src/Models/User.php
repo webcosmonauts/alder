@@ -14,7 +14,7 @@ class User extends Authenticatable
         BelongsToLeafTypeTrait,
         TableColumnsTrait;
     
-    protected $table_columns = ['full_name'];
+    protected $table_columns = ['full_name', 'name', 'surname'];
     
     public function getFullNameAttribute() {
         return $this->name . ' ' . $this->surname;

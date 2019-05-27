@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Webcosmonauts\Alder\Facades\Alder;
+use Webcosmonauts\Alder\Models\AdminMenuItem;
+use Webcosmonauts\Alder\Models\LeafType;
 
 class BranchBREADController extends BaseController
 {
@@ -20,11 +22,15 @@ class BranchBREADController extends BaseController
         $branchType = $this->getBranchType($request);
         
         $model = Alder::getBranchModel($branchType);
-        
         $branch = $model::all();
         
+        $leaf_type = LeafType::find($branch->first()->leaf_type_id);
+        $admin_menu_items = AdminMenuItem::with('children')->where('parent_id', null)->get();
+        
         return view('alder::bread.browse')->with([
-            'leaves' => $branch
+            'leaves' => $branch,
+            'leaf_type' => $leaf_type,
+            'admin_menu_items' => $admin_menu_items,
         ]);
     }
     
@@ -42,14 +48,17 @@ class BranchBREADController extends BaseController
         $model = Alder::getBranchModel($branchType);
     
         if (Schema::hasColumn($model->getTable(), 'slug')) {
-            $leaf = $model::where('slug', $param)->first();
+            $leaf = $model::with('leaf_type')->where('slug', $param)->first();
         }
         else {
-            $leaf = $model::find($param);
+            $leaf = $model::with('leaf_type')->find($param);
         }
-    
+        
+        $admin_menu_items = AdminMenuItem::with('children')->where('parent_id', null)->get();
+        
         return view('alder::bread.read')->with([
-            'leaf' => $leaf
+            'leaf' => $leaf,
+            'admin_menu_items' => $admin_menu_items,
         ]);
     }
     
