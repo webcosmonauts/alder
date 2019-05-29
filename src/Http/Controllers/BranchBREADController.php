@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\AdminMenuItem;
+use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafType;
 
 class BranchBREADController extends BaseController
@@ -20,12 +21,19 @@ class BranchBREADController extends BaseController
      */
     public function index(Request $request) {
         $branchType = $this->getBranchType($request);
+    
+        /* Get leaf type with custom modifiers */
+        $leaf_type = LeafType::with('LCMs')->where('name', $branchType)->first();
         
-        $model = Alder::getBranchModel($branchType);
-        $branch = $model::all();
+        /* Get branch instance and all its leaves */
+        $branch = Leaf::with('LCMV')->where('leaf_type_id', $leaf_type->id)->get();
+        foreach ($branch as &$leaf)
+            Alder::populateWithLCMV($leaf, $leaf_type);
         
-        $leaf_type = LeafType::find($branch->first()->leaf_type_id);
-        $admin_menu_items = AdminMenuItem::with('children')->where('parent_id', null)->get();
+        //dd($leaf_type, $leaf_type->LCMs->first(), $branch);
+        
+        /* Get admin panel menu items */
+        $admin_menu_items = Alder::getMenuItems();
         
         return view('alder::bread.browse')->with([
             'leaves' => $branch,
@@ -78,7 +86,7 @@ class BranchBREADController extends BaseController
     public function create() {
     
     }
-    public function destroy() {
+    public function destroy(Request $request, $id) {
     
     }
 }

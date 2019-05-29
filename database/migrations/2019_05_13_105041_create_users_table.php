@@ -21,15 +21,13 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(false);
-            $table->integer('role_id')->unsigned();
-            $table->integer('leaf_type_id')->unsigned();
-            $table->string('phone')->nullable();
-            $table->text('fields')->nullable();
+            $table->integer('LCM_id')->unsigned()->nullable();
+            $table->integer('LCMV_id')->unsigned()->nullable();
             $table->rememberToken();
             $table->timestamps();
     
-            $table->foreign('role_id')->references('id')->on('roles');
-            $table->foreign('leaf_type_id')->references('id')->on('leaf_types');
+            $table->foreign('LCM_id')->references('id')->on('leaf_custom_modifiers');
+            $table->foreign('LCMV_id')->references('id')->on('leaf_custom_modifier_values');
         });
     }
 

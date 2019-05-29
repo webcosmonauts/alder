@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeafTypesTable extends Migration
+class CreateLeafCustomModifiersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateLeafTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('leaf_types', function (Blueprint $table) {
+        Schema::create('leaf_custom_modifiers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('LCM_id')->unsigned();
+            $table->text('modifiers');
             $table->timestamps();
-            
-            $table->foreign('LCM_id')->references('id')
-                ->on('leaf_custom_modifiers')->onDelete('cascade');
         });
     }
 
@@ -31,6 +28,6 @@ class CreateLeafTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leaf_types');
+        Schema::dropIfExists('leaf_custom_modificators');
     }
 }

@@ -2,9 +2,9 @@
     
 namespace Webcosmonauts\Alder\Models;
 
-use Webcosmonauts\Alder\Models\Traits\TableColumnsTrait;
-
 class Leaf extends BaseModel
 {
-    
+    public function LCMV() {
+        return $this->hasOne(LeafCustomModifierValue::class, 'id', 'LCMV_id');
+    }
 }
