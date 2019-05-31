@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->name }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ Str::title(str_replace('-', ' ', $leaf_type->name)) }}</h1>
     </div>
 
     <div class="card shadow mb-4">
@@ -12,7 +12,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        @foreach($leaves->first()->table_columns as $field)
+                        @foreach($params->bread['browse']->table_columns as $field)
                             <td>
                                 {{ $field }}
                             </td>
@@ -22,7 +22,7 @@
                     <tbody>
                     @foreach($leaves as $leaf)
                         <tr>
-                            @foreach($leaf->table_columns as $field)
+                            @foreach($params->bread['browse']->table_columns as $field)
                                 <td>
                                     {{ $leaf->$field }}
                                 </td>

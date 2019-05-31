@@ -23,14 +23,17 @@ class BranchBREADController extends BaseController
         $branchType = $this->getBranchType($request);
     
         /* Get leaf type with custom modifiers */
-        $leaf_type = LeafType::with('LCMs')->where('name', $branchType)->first();
+        $leaf_type = Alder::getLeafType($branchType);
+        
+        /* Get combined parameters of all LCMs */
+        $params = Alder::combineLeafTypeLCMs($leaf_type);
         
         /* Get branch instance and all its leaves */
         $branch = Leaf::with('LCMV')->where('leaf_type_id', $leaf_type->id)->get();
-        foreach ($branch as &$leaf)
-            Alder::populateWithLCMV($leaf, $leaf_type);
         
-        //dd($leaf_type, $leaf_type->LCMs->first(), $branch);
+        /* Populate models with values from LCMV */
+        foreach ($branch as &$leaf)
+            Alder::populateWithLCMV($leaf, $leaf_type, $params);
         
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
@@ -39,6 +42,7 @@ class BranchBREADController extends BaseController
             'leaves' => $branch,
             'leaf_type' => $leaf_type,
             'admin_menu_items' => $admin_menu_items,
+            'params' => $params,
         ]);
     }
     
