@@ -142,28 +142,33 @@ class Alder
         });
         
         foreach ($sections as &$section) {
-            if ($section->slug == $page_type)
-                $section->setAttribute('is_current', true);
+            $section->setAttribute('is_current', $section->slug == $page_type);
             
             // Get items for each section
             list($section->children, $leaves) = $leaves->partition(function ($item) use (&$section, $page_type) {
-                if ($item->slug == $page_type) {
-                    $section->setAttribute('is_current', true);
-                    $item->setAttribute('is_current', true);
+                if ($item->parent_id == $section->id) {
+                    if (!$section->is_current)
+                        $section->setAttribute('is_current', $item->slug == $page_type);
+                    $item->setAttribute('is_current', $item->slug == $page_type);
+                    return true;
                 }
-                
-                return $item->parent_id == $section->id;
+                else
+                    return false;
             });
             
             // Get children for each item
             foreach ($section->children as &$menu_item) {
                 list($menu_item->children, $leaves) = $leaves->partition(function ($item) use (&$section, &$menu_item, $page_type) {
-                    if ($item->slug == $page_type) {
-                        $section->setAttribute('is_current', true);
-                        $menu_item->setAttribute('is_current', true);
-                        $item->setAttribute('is_current', true);
+                    if ($item->parent_id == $menu_item->id) {
+                        if (!$section->is_current)
+                            $section->setAttribute('is_current', $item->slug == $page_type);
+                        if (!$menu_item->is_current)
+                            $menu_item->setAttribute('is_current', $item->slug == $page_type);
+                        $item->setAttribute('is_current', $item->slug == $page_type);
+                        return true;
                     }
-                    return $item->parent_id == $menu_item->id;
+                    else
+                        return false;
                 });
             }
         }

@@ -45,7 +45,7 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link {{ $menu_item->is_current ? 'active' : '' }}" href="charts.html">
+                            <a class="nav-link {{ $menu_item->is_current ? 'active' : '' }}" href="/alder/{{ $menu_item->slug }}">
                                 @if(!empty($menu_item->icon))
                                     <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
                                 @endif
@@ -56,7 +56,7 @@
             @else
                 <hr class="sidebar-divider my-0">
                 <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="/alder/{{ $section->slug }}">
                         @if(!empty($section->icon))
                             <i class="fas fa-fw fa-{{$section->icon}}"></i>
                         @endif
