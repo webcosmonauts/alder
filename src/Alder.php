@@ -130,7 +130,7 @@ class Alder
     public function getMenuItems() {
         $leaf_type = LeafType::with('LCMs')->where('name', 'admin-menu-items')->first();
         $leaves = Leaf::where('leaf_type_id', $leaf_type->id)->get();
-        $page_type = explode('/', Route::getCurrentRoute()->uri)[1];
+        $page_type = explode('/', Route::getCurrentRoute()->uri)[1] ?? '';
         
         foreach ($leaves as &$leaf) {
             $this->populateWithLCMV($leaf, $leaf_type);
@@ -177,7 +177,7 @@ class Alder
      * @param array $array Array to cast
      * @return \stdClass Object casted from array
      */
-    function arrayToObject(array $array) {
+    function arrayToObject($array) {
         if (!is_array($array)) return $array;
         foreach ($array as &$item) {
             $item = $this->arrayToObject($item);

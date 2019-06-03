@@ -9,3 +9,5 @@ Route::group(['prefix' => 'alder'], function () {
 });
 
 Route::get('uploader', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index');
+
+Route::get('uploader-button', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index_button');
