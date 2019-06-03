@@ -189,16 +189,6 @@ class Alder
      * Deploy Alder routes
      */
     public function routes() {
-        Route::group(['prefix' => 'alder'], function () {
-            Route::name('alder.')->group(function () {
-                foreach (LeafType::all() as $type) {
-                    Route::resource($type->name, 'Webcosmonauts\\Alder\\Http\\Controllers\\BranchBREADController');
-                }
-            });
-        });
-        
-        Route::get('uploader', function () {
-            return view('alder::uploader');
-        });
+        require __DIR__.'/../routes/alder.php';
     }
 }
