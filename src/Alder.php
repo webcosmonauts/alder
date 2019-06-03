@@ -79,7 +79,7 @@ class Alder
                 }
             }
         }
-        return (object) $combined;
+        return $this->arrayToObject($combined);
     }
     
     /**
@@ -124,6 +124,7 @@ class Alder
     
     /**
      * Get menu items
+     *
      * @return Collection
      */
     public function getMenuItems() {
@@ -168,5 +169,19 @@ class Alder
         }
         
         return $sections;
+    }
+    
+    /**
+     * Convert array to object recursively
+     *
+     * @param array $array Array to cast
+     * @return \stdClass Object casted from array
+     */
+    function arrayToObject(array $array) {
+        if (!is_array($array)) return $array;
+        foreach ($array as &$item) {
+            $item = $this->arrayToObject($item);
+        }
+        return (object) $array;
     }
 }

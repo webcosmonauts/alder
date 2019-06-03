@@ -38,6 +38,8 @@ class BranchBREADController extends BaseController
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
         
+        dd($branch, $leaf_type, $admin_menu_items, $params);
+        
         return view('alder::bread.browse')->with([
             'leaves' => $branch,
             'leaf_type' => $leaf_type,
@@ -88,7 +90,9 @@ class BranchBREADController extends BaseController
     
     }
     public function create() {
-    
+        return view('alder::bread.edit')->with([
+            'edit' => false,
+        ]);
     }
     public function destroy(Request $request, $id) {
     

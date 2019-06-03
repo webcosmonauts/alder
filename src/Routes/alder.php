@@ -18,3 +18,7 @@ Route::group(['prefix' => 'alder'], function () {
         }
     });
 });
+
+Route::get('uploader', function () {
+    return view('alder::uploader');
+});

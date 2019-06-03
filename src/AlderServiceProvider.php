@@ -12,21 +12,26 @@ class AlderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // config
         $this->publishes([
             __DIR__.'/../config/alder.php' => config_path('alder.php'),
         ], 'alder-config');
         
+        // public folder
         $this->publishes([
             __DIR__.'/../public' => public_path(),
         ], 'public');
         
-        // Load routes
+        // translations
+        $this->loadTranslationsFrom(__DIR__.'\..\resources\lang', 'alder');
+        
+        // routes
         $this->loadRoutesFrom(__DIR__.'\Routes\alder.php');
     
-        // Load migrations
+        // migrations
         $this->loadMigrationsFrom(__DIR__.'\..\database\migrations');
         
-        // Load views
+        // views
         $this->loadViewsFrom(__DIR__.'\..\resources\views', 'alder');
     }
     /**

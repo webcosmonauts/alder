@@ -12,7 +12,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        @foreach($params->bread['browse']->table_columns as $field)
+                        @foreach($params->bread->browse->table_columns as $field)
                             <td>
                                 {{ $field }}
                             </td>
@@ -22,7 +22,7 @@
                     <tbody>
                     @foreach($leaves as $leaf)
                         <tr>
-                            @foreach($params->bread['browse']->table_columns as $field)
+                            @foreach($params->bread->browse->table_columns as $field)
                                 <td>
                                     {{ $leaf->$field }}
                                 </td>
@@ -31,6 +31,8 @@
                     @endforeach
                     </tbody>
                 </table>
+            @else
+                <h3>{{ __('alder::datatable.sEmptyTable') }}</h3>
             @endif
         </div>
     </div>
