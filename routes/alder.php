@@ -8,6 +8,4 @@ Route::group(['prefix' => 'alder'], function () {
     });
 });
 
-Route::get('uploader', function () {
-    return view('alder::uploader');
-});
+Route::get('uploader', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index');

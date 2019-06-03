@@ -15,6 +15,7 @@ class AlderServiceProvider extends ServiceProvider
         // config
         $this->publishes([
             __DIR__.'/../config/alder.php' => config_path('alder.php'),
+            __DIR__.'/../config/file-manager.php' => config_path('file-manager.php'),
         ], 'alder-config');
         
         // public folder
