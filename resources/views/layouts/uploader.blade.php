@@ -1,6 +1,6 @@
-@extends('alder::layouts.uploader')
+@extends('alder::master')
 
-@section('scripts-head')
+@section('scripts-body')
     <link rel="stylesheet" href="{{ asset('file-manager/css/file-manager.css') }}">
     <script src="{{ asset('file-manager/js/file-manager.js') }}"></script>
 @endsection
