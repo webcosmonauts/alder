@@ -24,9 +24,6 @@ class AlderServiceProvider extends ServiceProvider
         
         // translations
         $this->loadTranslationsFrom(__DIR__.'\..\resources\lang', 'alder');
-        
-        // routes
-        $this->loadRoutesFrom(__DIR__.'\Routes\alder.php');
     
         // migrations
         $this->loadMigrationsFrom(__DIR__.'\..\database\migrations');
