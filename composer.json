@@ -26,7 +26,7 @@
   "prefer-stable": true,
   "require": {
     "laravel/laravel": "^5.8.16",
-    "php": "^7.2",
+    "php": "^7.1",
     "ext-json": "*"
   },
   "autoload": {
