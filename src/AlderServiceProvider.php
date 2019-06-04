@@ -20,7 +20,12 @@ class AlderServiceProvider extends ServiceProvider
         
         // public folder
         $this->publishes([
-            __DIR__.'/../public' => public_path(),
+            __DIR__.'/../public/css' => public_path().'/css',
+            __DIR__.'/../public/js' => public_path().'/js',
+            __DIR__.'/../public/sprites' => public_path().'/sprites',
+            __DIR__.'/../public/svgs' => public_path().'/svgs',
+            __DIR__.'/../public/webfonts' => public_path().'/webfonts',
+            __DIR__.'/../public/file-manager' => public_path().'/vendor/file-manager',
         ], 'public');
         
         // translations
