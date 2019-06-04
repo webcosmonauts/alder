@@ -19,7 +19,7 @@
                 </div>
                 @foreach($section->children as $menu_item)
                     @if(count($menu_item->children) > 0)
-                        <li class="nav-item">
+                        <li class="nav-item {{ $menu_item->is_current ? 'active' : '' }}">
                             <a class="nav-link {{ $menu_item->is_current ? '' : 'collapsed' }}"
                                href="#" data-toggle="collapse" data-target="#collapse{{$menu_item->id}}"
                                aria-expanded="true" aria-controls="collapse{{$menu_item->id}}">
@@ -44,7 +44,7 @@
                             </div>
                         </li>
                     @else
-                        <li class="nav-item">
+                        <li class="nav-item {{ $menu_item->is_current ? 'active' : '' }}">
                             <a class="nav-link {{ $menu_item->is_current ? 'active' : '' }}" href="/alder/{{ $menu_item->slug }}">
                                 @if(!empty($menu_item->icon))
                                     <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
@@ -62,10 +62,10 @@
                         @endif
                         <span>{{ $section->title }}</span></a>
                 </li>
-        @endif
-    @endforeach
+            @endif
+        @endforeach
 
-    <!-- Sidebar Toggler (Sidebar) -->
+        <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
