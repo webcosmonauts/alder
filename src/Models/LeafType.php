@@ -2,6 +2,17 @@
     
 namespace Webcosmonauts\Alder\Models;
 
+use Illuminate\Support\Collection;
+
+/**
+ * @property int id
+ * @property string name
+ * @property int LCM_id
+ * @property string created_at
+ * @property string updated_at
+ *
+ * @property Collection LCMs
+ */
 class LeafType extends BaseModel
 {
     public function LCMs() {

@@ -2,36 +2,135 @@
 namespace Webcosmonauts\Alder;
 
 use http\Exception\InvalidArgumentException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpFoundation\File\Exception\UnexpectedTypeException;
+use stdClass;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
-use Webcosmonauts\Alder\Exceptions\ModifierTypeNotSupportedException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafType;
 use Webcosmonauts\Alder\Models\BaseModel;
+use Webcosmonauts\Alder\Models\Root;
+use Webcosmonauts\Alder\Models\RootType;
 
 class Alder
 {
     /**
-     * Get LeafType based on $type data type.
-     *
-     * If $type is an instance of LeafType - use it, else
-     * get instance from database using $type as id or name,
+     * Get LeafType from database using $param as id or name,
      * depending on its data type.
-     * If its neitgher of those, the invalid argument exception will be thrown.
+     * If its neither of those, the invalid argument exception will be thrown.
      *
-     * @param int|string $param
+     * @param int|string|LeafType $param
+     *
      * @return LeafType
      */
     public function getLeafType($param) {
-        if (is_int($param))
-            return $leaf_type = LeafType::with('LCMs')->find($param);
+        if ($param instanceof LeafType)
+            return $param;
+        else if (is_int($param))
+            return LeafType::with('LCMs')->find($param);
         else if (is_string($param))
-            return $leaf_type = LeafType::with('LCMs')->where('name', $param)->first();
+            return LeafType::with('LCMs')->where('name', $param)->first();
         else
             throw new InvalidArgumentException();
+    }
+    
+    /**
+     * Get RootType from database using $param as id or name,
+     * depending on its data type.
+     * If its neither of those, the invalid argument exception will be thrown.
+     *
+     * @param int|string|RootType $param
+     *
+     * @return RootType
+     */
+    public function getRootType($param) {
+        if ($param instanceof RootType)
+            return $param;
+        else if (is_int($param))
+            return RootType::find($param);
+        else if (is_string($param))
+            return RootType::where('name', $param)->first();
+        else
+            throw new InvalidArgumentException();
+    }
+    
+    /**
+     * Get Root from database using $param as id or name,
+     * depending on its data type.
+     * If its neither of those, the invalid argument exception will be thrown.
+     *
+     * @param int|string $param
+     *
+     * @return Root
+     */
+    public function getRoot($param) {
+        if (is_int($param))
+            return Root::find($param);
+        else if (is_string($param))
+            return Root::where('name', $param)->first();
+        else
+            throw new InvalidArgumentException();
+    }
+    
+    /**
+     * Adds new root. Creates new root type if there is none with passed name.
+     *
+     * @param string|int|RootType $root_type
+     * @param array $parameters
+     *
+     * @return Root
+     */
+    public function addRoot($root_type, array $parameters = []) {
+        $rootType = $this->getRootType($root_type);
+        
+        return DB::transaction(function () use ($rootType, $root_type, $parameters) {
+            // make new root type if necessary
+            if (empty($rootType)) {
+                $rootType = new RootType();
+                $rootType->name = $root_type;
+                $rootType->save();
+            }
+    
+            // prepare new root
+            $root = new Root();
+            $root->root_type_id = $rootType->id;
+            
+            // fields that one is allowed to fill
+            $fillables = ['name', 'value', 'order', 'capabilities', 'is_active'];
+            foreach ($fillables as $field) {
+                if (isset($parameters[$field]))
+                    $root->$field = $parameters[$field];
+            }
+            
+            $root->save();
+            return $root;
+        });
+    }
+    
+    /**
+     * Set value to existing root
+     *
+     * @param int|string $param Root's name or ID
+     * @param string $value Value to set
+     *
+     * @return bool|Root
+     */
+    public function setRootValue($param, string $value) {
+        $root = $this->getRoot($param);
+        $root->value = $value;
+        return $root->save() ? $root : false;
+    }
+    
+    /**
+     * Get value of existing root
+     *
+     * @param int|string $param Root's name or ID
+     *
+     * @return string
+     */
+    public function getRootValue($param) {
+        return $this->getRoot($param)->value;
     }
     
     /**
@@ -61,6 +160,7 @@ class Alder
      * Get combined LCMs of LeafType
      *
      * @param LeafType $leaf_type
+     *
      * @return object
      */
     public function combineLeafTypeLCMs(LeafType $leaf_type) {
@@ -79,11 +179,44 @@ class Alder
                 }
             }
         }
+        
         return $this->arrayToObject($combined);
     }
     
     /**
+     * Get relations for combined parameters
+     *
+     * @param $params
+     *
+     * @return stdClass
+     */
+    public function getRelations($params) {
+        $relations = [];
+        
+        foreach ($params->fields as $field_name => $field_modifiers) {
+            if ($field_modifiers->type == 'relation') {
+                switch ($field_modifiers->relation_type) {
+                    case 'hasOne':
+                        break;
+                    case 'hasMany':
+                        break;
+                    case 'belongsTo':
+                        break;
+                    case 'belongsToMany':
+                        break;
+                    
+                    default:
+                }
+            }
+        }
+        
+        return $this->arrayToObject($relations);
+    }
+    
+    /**
      * Add values from model's LCMV
+     *
+     * @throws AssigningNullToNotNullableException
      *
      * @param BaseModel $model
      * @param int|string|LeafType $type
@@ -91,7 +224,7 @@ class Alder
      */
     public function populateWithLCMV(BaseModel &$model, $type, $combined = null) {
         // Get instance of LeafType
-        $leaf_type = $type instanceof LeafType ? $type : $this->getLeafType($type);
+        $leaf_type = $this->getLeafType($type);
         
         /**
          * Combine all LeafType's modifiers.
@@ -124,6 +257,8 @@ class Alder
     
     /**
      * Get menu items
+     *
+     * @throws AssigningNullToNotNullableException
      *
      * @return Collection
      */
@@ -180,7 +315,7 @@ class Alder
      * Convert array to object recursively
      *
      * @param array $array Array to cast
-     * @return \stdClass Object casted from array
+     * @return stdClass|array Object casted from array or array value of parameter
      */
     function arrayToObject($array) {
         if (!is_array($array)) return $array;

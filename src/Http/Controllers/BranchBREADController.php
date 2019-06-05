@@ -4,22 +4,19 @@ namespace Webcosmonauts\Alder\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
-use Webcosmonauts\Alder\Facades\Alder;
-use Webcosmonauts\Alder\Models\AdminMenuItem;
+use Illuminate\View\View;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
-use Webcosmonauts\Alder\Models\LeafType;
+use Webcosmonauts\Alder\Facades\Alder;
 
 class BranchBREADController extends BaseController
 {
     /**
      * Get [B]READ view of branch with leaves
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index(Request $request) {
         $branchType = $this->getBranchType($request);
@@ -51,9 +48,9 @@ class BranchBREADController extends BaseController
     /**
      * Get C[R]UD view for a leaf
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param string $slug
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function show(Request $request, string $slug) {
         $branchType = $this->getBranchType($request);
@@ -84,7 +81,7 @@ class BranchBREADController extends BaseController
     /**
      * Get [C]RUD view
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create(Request $request) {
         $branchType = $this->getBranchType($request);
@@ -108,27 +105,29 @@ class BranchBREADController extends BaseController
     
     /**
      * Create and store new leaf from request
+     *
+     * @param Request $request
      */
     public function store(Request $request) {
         $branchType = $this->getBranchType($request);
-    
+        dd($request->all());
         /* Get leaf type with custom modifiers */
         $leaf_type = Alder::getLeafType($branchType);
-    
+        
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLeafTypeLCMs($leaf_type);
         
-        $staticFields = ['title', 'slug', 'content', 'user_id'];
+        $excludeFields = ['title', 'slug', 'content', 'user_id', '_token'];
         
-        DB::transaction(function () use ($staticFields) {
+        DB::transaction(function () use ($request, $excludeFields) {
             $LCMV = new LeafCustomModifierValue();
             $values = [];
-            foreach ($request->except($staticFields) as $key => $value) {
+            foreach ($request->except($excludeFields) as $key => $value) {
                 $values->$key = $value;
             }
             $LCMV->values = $values;
             $LCMV->save();
-    
+            
             $leaf = new Leaf();
             $leaf->title = $request->title;
             $leaf->slug = $request->slug;
@@ -141,13 +140,8 @@ class BranchBREADController extends BaseController
         });
     }
     
-    /**
-     * Edit a leaf instance
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\View\View
-     */
     public function edit() {
+    
     }
     public function update() {
     
