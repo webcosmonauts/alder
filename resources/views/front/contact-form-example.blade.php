@@ -13,17 +13,25 @@
     </style>
 
     <form action="" method="POST" class="form" hidden>
+
         [text* name:your-name]
+        [text* name:your-name]
+        [text* name:your-name]
+        [text* name:your-name]
+        [text* name:your-name]
+        [text* name:your-name]
+
+
         [email* name:your-email]
         [tel* name:your-tel]
         [date* name:dateofregistration]
 
 
-        [select* name:country options:"Russia,Ukraine,Poland"]
+        [select* name:country options:"     ru pt        :Russia,ua:Ukraine,Poland WEST COST"]
 
         <p>
             <span style="display: block">Are you ready</span>
-            [checkbox* name:areyouready options:"yes,no"]
+            [checkbox* name:areyouready options:"1    : Yes,0     :  No"]
         </p>
 
         <p>

@@ -5,7 +5,8 @@ $(document).ready(function () {
 
 		var
 			content = $form.html(),
-			shortcodes = content.match(/\[[^\]]+]/gi);
+			shortcodes = content.match(/\[[^\]]+]/gi),
+			pastShortcodes = [];
 
 
 		if (shortcodes && shortcodes.length > 0) {
@@ -32,7 +33,7 @@ $(document).ready(function () {
 				// OPTIONS
 				options = item.match(/options:\"[^\"]+\"/i);
 				if (options && options.length > 0) {
-					options = options[0].split(":")[1].replace(/\"/g, "");
+					options = options[0].replace("options:", "").replace(/\"/g, "");
 					options = options.split(',');
 				}
 
@@ -53,30 +54,45 @@ $(document).ready(function () {
 
 						html = '<select name="' + name + '">';
 
-						if (options.length)
+						if (options.length) {
 							options.forEach(function (item) {
-								html += '<option value="' + item + '">' + item + '</option>';
-							});
 
+								var value;
+
+								if (/:/g.test(item)) {
+									item = item.split(":");
+									value = item[0].toLowerCase().trim().replace(/\s/g, '');
+									item = item[1];
+								} else {
+
+									value = item.toLowerCase().trim().replace(/\s/g, '');
+								}
+
+								html += '<option value="' + value + '">' + item + '</option>';
+							});
+						}
 
 						html += '</select>';
 						break;
 
 
 					case "checkbox":
-
-						if (options.length)
-							options.forEach(function (item) {
-								html += '<label>' + item + '<input type="checkbox" name="' + name + '" value="' + item + '"></label>';
-							});
-						break;
-
-
 					case "radio":
 
 						if (options.length)
 							options.forEach(function (item) {
-								html += '<label>' + item + '<input type="radio" name="' + name + '" value="' + item + '"></label>';
+
+								var value;
+								if (/:/g.test(item)) {
+									item = item.split(":");
+									value = item[0].toLowerCase().trim().replace(/\s/g, '');
+									item = item[1];
+								} else {
+
+									value = item.toLowerCase().trim().replace(/\s/g, '');
+								}
+
+								html += '<label>' + item + '<input type="' + type + '" name="' + name + '" value="' + value + '"></label>';
 							});
 						break;
 
@@ -125,11 +141,18 @@ $(document).ready(function () {
 						break;
 				}
 
-				if (html) content = content.replace(item, html);
+				if (html) {
 
-				console.log('item - ', item, ' type = ', type, ' required = ', reqiuired);
-				console.log(item, html, content);
-				console.log('*************** **************** **************');
+					if (pastShortcodes.indexOf(item) === -1) {
+						content = content.replace(item, html);
+						pastShortcodes.push(item);
+					} else
+						content = content.replace(item, '');
+				}
+
+				//console.log('item - ', item, ' type = ', type, ' required = ', reqiuired);
+				//console.log(item, html, content);
+				//console.log('*************** **************** **************');
 			});
 
 

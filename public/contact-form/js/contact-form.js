@@ -90,8 +90,10 @@ function ContactFormTemplate($el) {
 			counter = 0;
 			options.forEach(function (item) {
 
-				if (item)
-					counter ? optionsStr += ',' + item.trim() : optionsStr += item.trim();
+				if (item) {
+					item = item.replace(/\s{2,}/g, ' ');
+					counter ? optionsStr += ',' + item : optionsStr += item;
+				}
 
 				counter++;
 			});

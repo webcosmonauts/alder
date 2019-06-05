@@ -158,7 +158,7 @@
             <!-- OPTIONS -->
             <div class="form-group row" data-component="select checkbox radio">
                 <label for="contact-form-item-options" class="col-12 col-form-label"> Options </label>
-                <em class="col-12">Each option on a separate line</em>
+                <em class="col-12">Each option on a separate line "value : Label"</em>
 
                 <div class="col-12">
                     <textarea id="contact-form-item-options" rows="5" class="form-control"></textarea>
