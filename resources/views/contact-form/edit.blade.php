@@ -7,54 +7,67 @@
 
 @section('content')
 
-    <form action="lalala" method="post">
 
-        <div class="form-group mb-5">
-            <label for="contact-form-title"> Title </label>
-            <input type="text" name="title" id="contact-form-title" class="form-control" required>
-        </div>
-
-
-        <ul class="nav nav-pills mb-3">
-            <li class="nav-item">
-                <a class="nav-link active" id="form-tab" data-toggle="tab" href="#form-tab-pane" role="tab"
-                   aria-controls="form"
-                   aria-selected="true">Form</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="email-tab" data-toggle="tab" href="#email-tab-pane" role="tab"
-                   aria-controls="email"
-                   aria-selected="true">Email</a>
-            </li>
-        </ul>
+    <div class="form-group mb-5">
+        <label for="contact-form-title"> Title </label>
+        <input type="text" name="title" id="contact-form-title" class="form-control" required>
+    </div>
 
 
-        <!-- Tab panes -->
-        <div class="tab-content mb-5">
+    <ul class="nav nav-pills mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" id="form-tab" data-toggle="tab" href="#form-tab-pane" role="tab"
+               aria-controls="form"
+               aria-selected="true">Form</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="email-tab" data-toggle="tab" href="#email-tab-pane" role="tab"
+               aria-controls="email"
+               aria-selected="true">Email</a>
+        </li>
+    </ul>
 
-            <!-- tab 1 -->
-            <div class="tab-pane active" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab">
 
+    <!-- Tab panes -->
+    <div class="tab-content mb-5">
+
+        <!-- tab 1 -->
+        <div class="tab-pane active" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab">
+
+            <form action="lalala" method="post">
                 <!-- Template builder -->
                 <div id="contact-form-template-builder">
 
                     <div class="d-flex flex-wrap components">
                         <a href="#" data-component="text"> Text </a>
                         <a href="#" data-component="email"> Email </a>
+                        <a href="#" data-component="tel"> Telephone </a>
+                        <a href="#" data-component="date"> Date </a>
+                        <a href="#" data-component="textarea" class="mr-4"> Textarea </a>
 
+                        <a href="#" data-component="select">Select</a>
+                        <a href="#" data-component="checkbox">Checkbox</a>
+                        <a href="#" data-component="radio" class="mr-4">Radio</a>
+
+                        <a href="#" data-component="acceptance"> Acceptance </a>
+                        <a href="#" data-component="file">File</a>
                         <a href="#" data-component="submit"> Submit </a>
                     </div>
 
                     <label for="contact-form-content" hidden></label>
-                    <textarea name="content" rows="10" id="contact-form-content" class="form-control"></textarea>
+                    <textarea name="template-content" rows="10" id="contact-form-content" class="form-control"></textarea>
                 </div>
                 <!--  -->
-            </div>
+
+                <input type="submit" class="btn btn-primary btn-success mt-4" value="Submit">
+            </form>
+        </div>
 
 
-            <!-- tab 2 -->
-            <div class="tab-pane" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab">
+        <!-- tab 2 -->
+        <div class="tab-pane" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab">
 
+            <form action="">
                 <!-- recipient -->
                 <div class="form-group row">
                     <label for="contact-form-recipient" class="col-sm-2 col-form-label"> Recipient </label>
@@ -105,29 +118,26 @@
                     </div>
                 </div>
 
-            </div>
+                <input type="submit" class="btn btn-primary btn-success" value="Submit">
+
+            </form>
         </div>
+    </div>
 
 
-        <input type="submit" class="btn btn-primary btn-success" value="Submit">
-    </form>
 
 
 
     <!-- MODAL -->
     <div class="alder-modal" id="contact-form-template-modal" tabindex="-1">
+
         <div class="alder-modal-content">
 
-            <div class="form-group row" data-component="text email">
-                <label for="contact-form-item-name" class="col-sm-2 col-form-label"> Name </label>
-
-                <div class="col-sm-10">
-                    <input type="text" id="contact-form-item-name" class="form-control">
-                </div>
-            </div>
+            <div class="alder-modal-close">&times;</div>
 
 
-            <div class="form-group mb-5 row" data-component="text email">
+            <!-- REQUIRED -->
+            <div class="form-group row" data-component="text email tel date textarea select checkbox radio file">
                 <label for="contact-form-item-required" class="col-sm-2 col-form-label"> Required </label>
 
                 <div class="col-sm-10">
@@ -135,14 +145,57 @@
                 </div>
             </div>
 
+            <!-- NAME -->
+            <div class="form-group row"
+                 data-component="text email tel date textarea select checkbox radio file acceptance">
+                <label for="contact-form-item-name" class="col-sm-2 col-form-label"> Name </label>
 
-            <div class="form-group mb-5 row" data-component="submit">
+                <div class="col-sm-10">
+                    <input type="text" id="contact-form-item-name" class="form-control">
+                </div>
+            </div>
+
+            <!-- OPTIONS -->
+            <div class="form-group row" data-component="select checkbox radio">
+                <label for="contact-form-item-options" class="col-12 col-form-label"> Options </label>
+                <em class="col-12">Each option on a separate line</em>
+
+                <div class="col-12">
+                    <textarea id="contact-form-item-options" rows="5" class="form-control"></textarea>
+                </div>
+            </div>
+
+
+            <!-- Allowed file types -->
+            <div class="form-group row" data-component="file">
+                <label for="contact-form-item-allowed-file-types" class="col-12 col-form-label"> Allowed file
+                    types</label>
+
+                <div class="col-12">
+                    <input type="text" id="contact-form-item-allowed-file-types" class="form-control">
+                </div>
+            </div>
+
+
+            <!-- Condition -->
+            <div class="form-group row" data-component="acceptance">
+                <label for="contact-form-item-condition" class="col-sm-2 col-form-label"> Condition </label>
+
+                <div class="col-sm-10">
+                    <input type="text" id="contact-form-item-condition" class="form-control">
+                </div>
+            </div>
+
+
+            <!-- LABEL -->
+            <div class="form-group row" data-component="submit">
                 <label for="contact-form-item-required" class="col-sm-2 col-form-label"> Label </label>
 
                 <div class="col-sm-10">
                     <input type="text" id="contact-form-item-label" class="form-control">
                 </div>
             </div>
+
 
             <button class="btn btn-primary">Insert</button>
         </div>

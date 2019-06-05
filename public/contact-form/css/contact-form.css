@@ -2,7 +2,7 @@
 .components a {
     cursor: pointer;
     display: inline-block;
-    margin: 0 10px 10px 0;
+    margin: 0 7px 7px 0;
     background-color: #fff;
     color: #555;
     border: 1px solid #555;
@@ -12,6 +12,7 @@
 
 .components a:hover {
     text-decoration: none;
+    background-color: #f2f2f2;
 }
 
 .alder-modal {
@@ -41,12 +42,23 @@
     background-color: rgba(0, 0, 0, .9);
 }
 
+.alder-modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    font-size: 20px;
+    height: 30px;
+    text-align: center;
+}
+
 .alder-modal.visible {
     opacity: 1;
     visibility: visible;
 }
 
 .alder-modal-content {
+    position: relative;
     max-width: 550px;
     width: 550px;
     margin: auto;
