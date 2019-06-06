@@ -6,8 +6,8 @@ use Exception;
 
 class AssigningNullToNotNullableException extends Exception
 {
-    public function __construct() {
-        parent::__construct('Modifier field %s is not nullable and does not have default value');
+    public function __construct($field) {
+        parent::__construct(sprintf('Modifier field "%s" is not nullable and does not have default value', $field));
     }
     
     /*
