@@ -1,7 +1,7 @@
 {
-  "name": "webcosmonauts/alder",
+  "name": "webcosmonauts_alder",
   "version": "1.0.0",
-  "description": "",
+  "description": "package for webcosmonauts",
   "main": "index.js",
   "scripts": {
     "test": "test"
