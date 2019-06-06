@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'test' => true,
+    'show_additional_message_info' => true,
 ];

@@ -24,7 +24,7 @@
                                 {{ $field }}
                             </td>
                         @endforeach
-                        <td>
+                        <td class="text-right">
                             {{ __('alder::generic.actions') }}
                         </td>
                     </tr>
@@ -37,7 +37,7 @@
                                     {{ $leaf->$field }}
                                 </td>
                             @endforeach
-                            <td>
+                            <td class="text-right">
                                 <!-- TODO if can edit -->
                                 <a href="{{ route("alder.$leaf_type->name.edit", $leaf->slug) }}" class="btn btn-warning btn-icon-split ml-3">
                                 <span class="icon text-white-50">
