@@ -39,6 +39,7 @@ gulp.task('styles', gulp.series('sass'));
 
 gulp.task('scripts-admin', function () {
 	return gulp.src([
+		'jquery3-4-1.min.js',
 		'all.min.js',
 		'brands.js',
 		'Chart.bundle.js',
