@@ -39,6 +39,10 @@ gulp.task('styles', gulp.series('sass'));
 
 gulp.task('scripts-admin', function () {
 	return gulp.src([
+		'jquery3-4-1.min.js',
+		'popper.min.js',
+		'bootstrap4.min.js',
+
 		'all.min.js',
 		'brands.js',
 		'Chart.bundle.js',
@@ -48,6 +52,8 @@ gulp.task('scripts-admin', function () {
 		'sb-admin-2.js',
 		'solid.js',
 		'v4-shims.js',
+
+		'datepicker.min.js',
 
 		'contact-form/contact-form.js',
 		'contact-form/contact-form-parser.js',

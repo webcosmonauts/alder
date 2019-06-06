@@ -1,8 +1,6 @@
 @extends('alder::layouts.main')
 
 @section('scripts-body')
-    <link rel="stylesheet" href="{{ asset('vendor/contact-form/css/contact-form.css') }}">
-    <script src="{{ asset('vendor/contact-form/js/contact-form.js') }}"></script>
 @endsection
 
 @section('content')
