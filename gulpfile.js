@@ -45,21 +45,20 @@ gulp.task('scripts-admin', function () {
 
 		'all.min.js',
 		'brands.js',
-		'Chart.bundle.js',
-		'Chart.js',
-		'fontawesome.js',
-		'regular.js',
-		'sb-admin-2.js',
-		'solid.js',
-		'v4-shims.js',
-
-		'datepicker.min.js',
-
-		'contact-form/contact-form.js',
-		'contact-form/contact-form-parser.js',
-
-		'file-manager/file-manager.js',
-		'admin.js'
+        'Chart.bundle.js',
+        'Chart.js',
+        'fontawesome.js',
+        'regular.js',
+        'sb-admin-2.js',
+        'solid.js',
+        'v4-shims.js',
+        'contact-form/contact-form.js',
+        'datepicker.min.js',
+        'file-manager/file-manager.js',
+        'admin.js'
+        /*
+        'contact-form/contact-form-parser.js',
+        */
 
 	].map(path => dir.src.js + path))
 		.pipe(sourcemaps.init({loadMaps: true}))
