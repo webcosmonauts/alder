@@ -1,15 +1,20 @@
 <?php
 namespace Webcosmonauts\Alder;
 
+use Exception;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use stdClass;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Models\Leaf;
+use Webcosmonauts\Alder\Models\LeafCustomModifier;
+use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
+use Webcosmonauts\Alder\Models\LeafStatus;
 use Webcosmonauts\Alder\Models\LeafType;
 use Webcosmonauts\Alder\Models\BaseModel;
 use Webcosmonauts\Alder\Models\Root;
@@ -35,6 +40,59 @@ class Alder
             return LeafType::with('LCMs')->where('name', $param)->first();
         else
             throw new InvalidArgumentException();
+    }
+    
+    /**
+     * Create new LeafType and add AdminMenuItem for it
+     *
+     * @param string $name
+     * @param string $lcm_name
+     * @param array $modifiers
+     * @param array|null $menu_item_values
+     *
+     * @return bool|mixed
+     */
+    public function createLeafType(string $name, string $lcm_name, array $modifiers, array $menu_item_values = null) {
+        $leaf_type = LeafType::where('name', $name)->first();
+        $LCM = LeafCustomModifier::where('name', $lcm_name)->first();
+        if (!empty($leaf_type) || !empty($LCM))
+            return false;
+    
+        return DB::transaction(function () use ($name, $lcm_name, $modifiers, $menu_item_values) {
+            try {
+                $LCM = new LeafCustomModifier();
+                $LCM->name = $lcm_name;
+                $LCM->modifiers = $modifiers;
+                $LCM->save();
+                
+                $leaf_type = new LeafType();
+                $leaf_type->name = $name;
+                $leaf_type->LCM_id = $LCM->id;
+                $leaf_type->save();
+                
+                $LCMV = new LeafCustomModifierValue();
+                $LCMV->values = [
+                    'icon' => $menu_item_values['icon'] ?? 'ellipsis-h',
+                    'position' => $menu_item_values['position'] ?? 'left',
+                    'order' => $menu_item_values['order'] ?? null,
+                    'parent_id' => $menu_item_values['parent_id'] ?? null,
+                    'is_active' => $menu_item_values['is_active'] ?? true,
+                ];
+                $LCMV->save();
+                $leaf = new Leaf();
+                $leaf->title = Str::title(str_replace('-', ' ', $name));
+                $leaf->slug = $menu_item_values['slug'] ?? $name;
+                $leaf->status_id = LeafStatus::where('name', 'published')->value('id');
+                $leaf->leaf_type_id = LeafType::where('name', 'admin-menu-items')->value('id');
+                $leaf->LCMV_id = $LCMV->id;
+                $leaf->save();
+                
+                return true;
+            } catch (Exception $e) {
+                DB::rollBack();
+                return false;
+            }
+        });
     }
     
     /**
