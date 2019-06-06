@@ -2,6 +2,8 @@
 namespace Webcosmonauts\Alder;
 
 use http\Exception\InvalidArgumentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -239,7 +241,7 @@ class Alder
          */
         foreach ($params->fields as $field_name => $field_modifiers) {
             // If LCMV have value for parameter, assign it.
-            if (isset($model->LCMV->values->$field_name))
+            if (isset($model->LCMV->values->$field_name) && !empty($model->LCMV->values->$field_name))
                 $model->$field_name = $model->LCMV->values->$field_name;
             else {
                 // assign default value, if it is set
@@ -250,7 +252,7 @@ class Alder
                     $model->$field_name = null;
                 // if default value is not set and parameter is not nullable, throw exception
                 else
-                    throw new AssigningNullToNotNullableException();
+                    throw new AssigningNullToNotNullableException($field_name);
             }
         }
     }
@@ -330,5 +332,57 @@ class Alder
      */
     public function routes() {
         require __DIR__.'/../routes/alder.php';
+    }
+    
+    /**
+     * Return JSON response or redirect back with flashed message
+     *
+     * @param bool $isAJAX
+     * @param string $message
+     * @param bool $success
+     * @param string $alert_type
+     * @param string|null $exception
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    public function returnResponse(bool $isAJAX, string $message, bool $success = true, string $alert_type = 'primary', string $exception = null) {
+        return $isAJAX ? response()->json([
+                'success' => $success,
+                'alert-type' => $alert_type,
+                'message' => $message,
+                'exception' => $exception,
+            ])
+            : back()->with([
+                'alert-type' => $alert_type,
+                'message' => $message,
+                'exception' => $exception,
+            ]);
+    }
+    
+    /**
+     * Return JSON response or redirect back with flashed message
+     *
+     * @param bool $isAJAX
+     * @param string $message
+     * @param string $redirectTo
+     * @param bool $success
+     * @param string $alert_type
+     * @param string|null $exception
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    public function returnRedirect(bool $isAJAX, string $message, string $redirectTo, bool $success = true, string $alert_type = 'primary', string $exception = null) {
+        return $isAJAX ? response()->json([
+                'success' => $success,
+                'alert-type' => $alert_type,
+                'message' => $message,
+                'exception' => $exception,
+                'redirect' => $redirectTo,
+            ])
+            : redirect($redirectTo)->with([
+                'alert-type' => $alert_type,
+                'message' => $message,
+                'exception' => $exception,
+            ]);
     }
 }
