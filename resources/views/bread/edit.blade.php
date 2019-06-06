@@ -21,31 +21,36 @@
                     </div>
                 @endforeach
 
-                @foreach($params->fields as $field_name => $field_modifiers)
-                    @if($field_modifiers->type == 'relation')
-                        @switch($field_modifiers->relation_type)
-                            @case('hasOne')
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="{{ $field_name }}">{{ $field_name }}</label>
+                @if(isset($params->fields))
+                    @foreach($params->fields as $field_name => $field_modifiers)
+                    <!--
+                        @if($field_modifiers->type == 'relation')
+                            @switch($field_modifiers->relation_type)
+                                @case('hasOne')
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="{{ $field_name }}">{{ $field_name }}</label>
+                                    </div>
+                                    <select class="custom-select" id="{{ $field_name }}">
+                                        <option >Choose...</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
                                 </div>
-                                <select class="custom-select" id="{{ $field_name }}">
-                                    <option >Choose...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            @break
-                            @case('hasMany')
-                            @break
-                            @case('belongsTo')
-                            @break
-                            @case('belongsToMany')
-                            @break
-                            @default
-                        @endswitch
-                    @else
+                                @break
+                                @case('hasMany')
+                                @break
+                                @case('belongsTo')
+                                @break
+                                @case('belongsToMany')
+                                @break
+                                @default
+                            @endswitch
+                        @else
+
+                        @endif
+                            -->
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="{{ $field_name }}">{{ $field_name }}</span>
@@ -53,8 +58,8 @@
                             <input type="text" class="form-control" name="{{ $field_name }}" placeholder="{{ $field_name }}"
                                    aria-label="{{ $field_name }}" aria-describedby="{{ $field_name }}">
                         </div>
-                    @endif
-                @endforeach
+                    @endforeach
+                @endif
 
                 <button type="submit" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
