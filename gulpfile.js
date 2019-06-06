@@ -59,9 +59,7 @@ gulp.task('scripts-admin', function () {
 		'contact-form/contact-form-parser.js',
 
 		'file-manager/file-manager.js',
-		'app.js',
 		'admin.js'
-		
 
 	].map(path => dir.src.js + path))
 		.pipe(sourcemaps.init({loadMaps: true}))
