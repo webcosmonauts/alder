@@ -42,7 +42,7 @@
                                     <span class="icon text-white-50">
                                         <i class="fas fa-book-open"></i>
                                     </span>
-                                    <span class="text">{{ __('alder::generic.edit') }}</span>
+                                    <span class="text">{{ __('alder::generic.read') }}</span>
                                 </a>
 
                                 <!-- TODO if can edit -->
@@ -58,7 +58,7 @@
                                     <span class="icon text-white-50">
                                         <i class="fas fa-trash-alt"></i>
                                     </span>
-                                    <span class="text">{{ __('alder::generic.edit') }}</span>
+                                    <span class="text">{{ __('alder::generic.delete') }}</span>
                                 </a>
                             </td>
                         </tr>
