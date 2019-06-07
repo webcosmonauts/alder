@@ -32,7 +32,6 @@ class LeafController extends Controller
      */
     public function index(Request $request, $slug, LeafController $theme)
     {
-        $leaf;
         if(is_int((int)$slug) && (int)$slug > 0){
             $leaf = LeafEntityController::getLeaf($slug);
         }
