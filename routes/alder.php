@@ -1,5 +1,7 @@
 <?php
 
+Route::get("/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
+
 Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
     Route::name('alder.')->group(function () {
         // leaf types
