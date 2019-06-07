@@ -5,7 +5,10 @@ namespace Webcosmonauts\Alder\Models;
 /**
  * @property int id
  * @property string name
- * @property string value
+ * @property string slug
+ * @property string input_type
+ * @property string|null value
+ * @property string|null options
  * @property int|null order
  * @property string|null capabilities
  * @property bool is_active
@@ -17,6 +20,11 @@ namespace Webcosmonauts\Alder\Models;
  */
 class Root extends BaseModel
 {
+    public $casts = [
+        'value' => 'array',
+        'options' => 'array',
+    ];
+    
     public function root_type() {
         return $this->belongsTo(RootType::class);
     }
