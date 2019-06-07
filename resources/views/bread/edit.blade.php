@@ -6,10 +6,9 @@
         <h1 class="h3 mb-0 text-gray-800">{{ Str::title(str_replace('-', ' ', $leaf_type->name)) }}</h1>
     </div>
 
-    <form action="{{ route("alder.$leaf_type->name.store") }}" method="POST">
+    <form action="{{ $edit ? route("alder.$leaf_type->name.update", $leaf->slug) : route("alder.$leaf_type->name.store") }}" method="POST">
         @csrf
-
-
+        {{$edit ? method_field('PUT') : method_field('POST')}}
         @php
 
             $right_panel_count = 0;
@@ -35,11 +34,15 @@
 
                             <label for="{{ $field }}">{{ $field }}</label>
                             <div class="input-group mb-4">
-                                <input type="text" name="{{ $field }}" id="{{ $field }}" class="form-control"
-                                       placeholder="{{ $field }}"
-                                       aria-label="{{ $field }}" aria-describedby="{{ $field }}">
+                                <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
+                                       placeholder="{{ $field}}"
+                                       aria-label="{{ $field }}" aria-describedby="{{ $field }}"
+                                       value="{{ $edit ? $leaf->$field : '' }}">
+
                             </div>
                         @endforeach
+
+                    <!--                        --><?php //dd($leaf->title); ?>
 
                         <label for="#content">Content</label>
                         <div class="input-group mb-4">
