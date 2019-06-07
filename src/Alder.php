@@ -110,7 +110,7 @@ class Alder
         else if (is_int($param))
             return RootType::find($param);
         else if (is_string($param))
-            return RootType::where('name', $param)->first();
+            return RootType::where('slug', $param)->first();
         else
             throw new InvalidArgumentException();
     }
@@ -128,7 +128,7 @@ class Alder
         if (is_int($param))
             return Root::find($param);
         else if (is_string($param))
-            return Root::where('name', $param)->first();
+            return Root::where('slug', $param)->first();
         else
             throw new InvalidArgumentException();
     }
@@ -157,7 +157,8 @@ class Alder
             $root->root_type_id = $rootType->id;
             
             // fields that one is allowed to fill
-            $fillables = ['name', 'value', 'order', 'capabilities', 'is_active'];
+            $fillables = ['name', 'slug', 'input_type',
+                'value', 'options', 'order', 'capabilities', 'is_active'];
             foreach ($fillables as $field) {
                 if (isset($parameters[$field]))
                     $root->$field = $parameters[$field];
