@@ -19,6 +19,8 @@ return [
     'bulk_delete_confirm'    => 'Yes, Delete These',
     'bulk_delete_nothing'    => 'You haven\'t selected anything to delete',
     'cancel'                 => 'Cancel',
+    'choose_file'            => 'Choose File',
+    'choose_files'           => 'Choose Files',
     'choose_type'            => 'Choose Type',
     'click_here'             => 'Click Here',
     'close'                  => 'Close',

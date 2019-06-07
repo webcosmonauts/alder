@@ -14,15 +14,11 @@
             <div class="collapse show" id="collapseCard{{ Str::camel($root_type->name) }}" style="">
                 <div class="card-body">
                     @foreach($root_type->roots as $root)
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon-{{ Str::camel($root->name) }}">{{ $root->name }}</span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="{{ $root->name }}"
-                                   aria-label="{{ $root->name }}" aria-describedby="basic-addon-{{ Str::camel($root->name) }}"
-                                   value="{{ $root->value }}">
-                        </div>
-                        {{ dump($root) }}
+                        @if($root->slug == 'ico')
+                            <div>ICO - urmomgae</div>
+                        @else
+                            @include('alder::components.root_input', $root)
+                        @endif
                     @endforeach
                 </div>
             </div>
