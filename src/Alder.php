@@ -172,11 +172,11 @@ class Alder
      * Set value to existing root
      *
      * @param int|string $param Root's name or ID
-     * @param string $value Value to set
+     * @param string|array $value Value to set
      *
      * @return bool|Root
      */
-    public function setRootValue($param, string $value) {
+    public function setRootValue($param, $value) {
         $root = $this->getRoot($param);
         $root->value = $value;
         return $root->save() ? $root : false;

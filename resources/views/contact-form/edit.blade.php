@@ -32,7 +32,7 @@
         <!-- tab 1 -->
         <div class="tab-pane active" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab">
 
-            <form action="lalala" method="post">
+            <form action="" method="post">
                 <!-- Template builder -->
                 <div id="contact-form-template-builder">
 
@@ -65,8 +65,9 @@
         <!-- tab 2 -->
         <div class="tab-pane" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab">
 
-            <form action="">
-                <!-- recipient -->
+            <form action="{{route('alder.roots.update')}}" method="post">
+            @csrf
+            <!-- recipient -->
                 <div class="form-group row">
                     <label for="contact-form-recipient" class="col-sm-2 col-form-label"> Recipient </label>
 

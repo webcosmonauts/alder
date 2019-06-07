@@ -48,8 +48,10 @@ class RootsController extends BaseController
     public function edit() {
     
     }
-    public function update() {
-    
+    public function update(Request $request) {
+
+        dd($request);
+
     }
     public function destroy(Request $request, $id) {
     
