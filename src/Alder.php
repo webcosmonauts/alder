@@ -351,22 +351,6 @@ class Alder
                 else
                     return false;
             });
-            
-            // Get children for each item
-            foreach ($section->children as &$menu_item) {
-                list($menu_item->children, $leaves) = $leaves->partition(function ($item) use (&$section, &$menu_item, $page_type) {
-                    if ($item->parent_id == $menu_item->id) {
-                        if (!$section->is_current)
-                            $section->setAttribute('is_current', $item->slug == $page_type);
-                        if (!$menu_item->is_current)
-                            $menu_item->setAttribute('is_current', $item->slug == $page_type);
-                        $item->setAttribute('is_current', $item->slug == $page_type);
-                        return true;
-                    }
-                    else
-                        return false;
-                });
-            }
         }
         
         return $sections;

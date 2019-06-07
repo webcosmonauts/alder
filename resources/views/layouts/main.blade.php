@@ -4,66 +4,50 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/alder/admin-menu-items">
             <div class="sidebar-brand-icon">
                 <i class="fas fa-fw fa-leaf"></i>
             </div>
             <div class="sidebar-brand-text mx-3">Alder</div>
         </a>
+        <hr class="sidebar-divider my-0">
 
         @foreach($admin_menu_items as $section)
             @if(count($section->children) > 0)
-                <hr class="sidebar-divider">
-                <div class="sidebar-heading">
-                    {{ $section->title }}
-                </div>
-                @foreach($section->children as $menu_item)
-                    @if(count($menu_item->children) > 0)
-                        <li class="nav-item {{ $menu_item->is_current ? 'active' : '' }}">
-                            <a class="nav-link {{ $menu_item->is_current ? '' : 'collapsed' }}"
-                               href="#" data-toggle="collapse" data-target="#collapse{{$menu_item->id}}"
-                               aria-expanded="true" aria-controls="collapse{{$menu_item->id}}">
-                                @if(!empty($menu_item->icon))
-                                    <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
-                                @endif
-                                <span>{{ $menu_item->title }}</span>
-                            </a>
-                            <div id="collapse{{$menu_item->id}}" data-parent="#accordionSidebar"
-                                 class="collapse  {{ $menu_item->is_current ? 'show' : '' }}">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    @foreach($menu_item->children as $submenu_item)
-                                        <a class="collapse-item {{ $submenu_item->is_current ? 'active' : '' }}"
-                                           href="/alder/{{ $submenu_item->slug }}">
-                                            @if(!empty($submenu_item->icon))
-                                                <i class="fas fa-fw fa-{{$submenu_item->icon}}"></i>
-                                            @endif
-                                            {{ $submenu_item->title }}
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </li>
-                    @else
-                        <li class="nav-item {{ $menu_item->is_current ? 'active' : '' }}">
-                            <a class="nav-link {{ $menu_item->is_current ? 'active' : '' }}" href="/alder/{{ $menu_item->slug }}">
-                                @if(!empty($menu_item->icon))
-                                    <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
-                                @endif
-                                <span>{{ $menu_item->title }}</span></a>
-                        </li>
-                    @endif
-                @endforeach
-            @else
-                <hr class="sidebar-divider my-0">
                 <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
-                    <a class="nav-link" href="/alder/{{ $section->slug }}">
+                    <a class="nav-link {{ $section->is_current ? '' : 'collapsed' }}"
+                       href="#" data-toggle="collapse" data-target="#collapse{{$section->id}}"
+                       aria-expanded="true" aria-controls="collapse{{$section->id}}">
+                        @if(!empty($section->icon))
+                            <i class="fas fa-fw fa-{{$section->icon}}"></i>
+                        @endif
+                        <span>{{ $section->title }}</span>
+                    </a>
+                    <div id="collapse{{$section->id}}" data-parent="#accordionSidebar"
+                         class="collapse  {{ $section->is_current ? 'show' : '' }}">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            @foreach($section->children as $menu_item)
+                                <a class="collapse-item {{ $menu_item->is_current ? 'active' : '' }}"
+                                   href="/alder/{{ $menu_item->slug }}">
+                                    @if(!empty($menu_item->icon))
+                                        <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
+                                    @endif
+                                    {{ $menu_item->title }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </li>
+            @else
+                <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
+                    <a class="nav-link {{ $section->is_current ? 'active' : '' }}" href="/alder/{{ $section->slug }}">
                         @if(!empty($section->icon))
                             <i class="fas fa-fw fa-{{$section->icon}}"></i>
                         @endif
                         <span>{{ $section->title }}</span></a>
                 </li>
-        @endif
-    @endforeach
+            @endif
+        @endforeach
 
     <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
