@@ -182,7 +182,7 @@ class Alder
         $root->value = $value;
         return $root->save() ? $root : false;
     }
-    
+
     /**
      * Get value of existing root
      *
@@ -192,6 +192,23 @@ class Alder
      */
     public function getRootValue($param) {
         return $this->getRoot($param)->value;
+    }
+
+    /**
+     * Get values of collection of roots
+     *
+     * @param Collection $collection Collection of roots
+     *
+     * @return object
+     */
+    public function getRootsValues($collection) {
+        $result = [];
+
+        foreach ($collection as $root) {
+            $result[$root->slug] = $root->value;
+        }
+
+        return (object) $result;
     }
     
     /**

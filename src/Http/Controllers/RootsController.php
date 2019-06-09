@@ -50,7 +50,7 @@ class RootsController extends BaseController
     }
     public function update(Request $request) {
 
-        dd($request);
+
 
     }
     public function destroy(Request $request, $id) {
