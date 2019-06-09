@@ -50,7 +50,7 @@ class AlderServiceProvider extends ServiceProvider
             return new Alder();
         });
         
-        $this->app->bind('alder', function () {
+        $this->app->bind('leaf_helper', function () {
             return new \Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController();
         });
     }
