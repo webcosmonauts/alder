@@ -40,7 +40,8 @@
         "Webcosmonauts\\Alder\\AlderServiceProvider"
       ],
       "aliases": {
-        "Alder": "Webcosmonauts\\Alder\\Facades\\Alder"
+        "Alder": "Webcosmonauts\\Alder\\Facades\\Alder",
+        "LeafHelper": "Webcosmonauts\\Alder\\Facades\\LeafHelper"
       }
     }
   }
