@@ -96,6 +96,8 @@
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf_type);
             
+            $relations =
+            
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
             
@@ -137,9 +139,7 @@
          */
         public function edit(Request $request, string $slug) {
             /* Get leaf */
-            $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->first();
-            if (!$leaf)
-                abort(404);
+            $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
     
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
