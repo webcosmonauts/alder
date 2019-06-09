@@ -19,6 +19,7 @@ namespace Webcosmonauts\Alder\Models;
  * @property LeafType leaf_type
  * @property User user
  * @property LeafCustomModifierValue LCMV
+ * @property LeafStatus status
  */
 class Leaf extends BaseModel
 {
@@ -32,5 +33,9 @@ class Leaf extends BaseModel
     
     public function user() {
         return $this->belongsTo(User::class);
+    }
+    
+    public function status() {
+        return $this->belongsTo(LeafStatus::class);
     }
 }

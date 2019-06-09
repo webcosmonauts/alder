@@ -125,7 +125,7 @@
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf_type);
             
-            $relations =
+            $relations = Alder::getRelations($params);
             
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
@@ -185,6 +185,9 @@
     
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
+            
+            $relations = Alder::getRelations($params);
+            dd($relations);
     
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
@@ -231,7 +234,7 @@
                 Leaf::where('slug', $slug)->delete()
                     ? Alder::returnResponse(
                         $request->ajax(),
-                        __('alder::messages.processing_error'),
+                        __('alder::messages.processing_error'), // todo deleted successfully
                         true,
                         'success'
                     )

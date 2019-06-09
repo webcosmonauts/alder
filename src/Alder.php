@@ -19,6 +19,7 @@ use Webcosmonauts\Alder\Models\LeafType;
 use Webcosmonauts\Alder\Models\BaseModel;
 use Webcosmonauts\Alder\Models\Root;
 use Webcosmonauts\Alder\Models\RootType;
+use Webcosmonauts\Alder\Models\User;
 
 class Alder
 {
@@ -208,7 +209,7 @@ class Alder
             $result[$root->slug] = $root->value;
         }
 
-        return (object) $result;
+        return $this->arrayToObject($result);
     }
     
     /**
@@ -264,31 +265,33 @@ class Alder
     /**
      * Get relations for combined parameters
      *
-     * @param $params
-     *
+     * @param stdClass $params
+     * @param stdClass|array $relations
      * @return stdClass
      */
-    public function getRelations($params) {
-        $relations = [];
+    public function getRelations(stdClass $params, &$relations = []) {
+        // if array, cast to object (one time action)
+        $relations = $this->arrayToObject($relations);
+        
+        if (!isset($relations->users))
+            $relations->users = User::all(['id', 'name', 'surname']);
+        if (!isset($relations->statuses))
+            $relations->statuses = LeafStatus::all(['id', 'name']);
         
         foreach ($params->fields as $field_name => $field_modifiers) {
             if ($field_modifiers->type == 'relation') {
-                switch ($field_modifiers->relation_type) {
-                    case 'hasOne':
-                        break;
-                    case 'hasMany':
-                        break;
-                    case 'belongsTo':
-                        break;
-                    case 'belongsToMany':
-                        break;
-                    
-                    default:
-                }
+                // get id of leaf type
+                // todo notify if none id found
+                $leaf_type_id = LeafType::where('name', Str::plural($field_modifiers->leaf_type))->value('id');
+        
+                // if relation already loaded, continue
+                if (!isset($relations->$field_name))
+                    $relations->$field_name = Leaf::with(['LCMV', 'leaf_type', 'user', 'status'])
+                        ->where('leaf_type_id', $leaf_type_id)->get();
             }
         }
         
-        return $this->arrayToObject($relations);
+        return $relations;
     }
     
     /**
