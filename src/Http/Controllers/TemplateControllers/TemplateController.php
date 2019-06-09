@@ -57,8 +57,8 @@ class TemplateController extends Controller
             if ( ! preg_match( '|Template Name:(.*)$|mi', file_get_contents( $file ), $header ) )
                 continue;
             $all_files[] =  array(
-                "theme_name"=>$header[1],
-                //"blade_name"=>(string)str_replace('.blade', '', $file->getFilenameWithoutExtension())
+                "label"=>$header[1],
+                "template_name"=>(string)str_replace('.blade', '', $file->getFilenameWithoutExtension()),
                 "blade_name"=>(string)$file->getFilenameWithoutExtension()
             );
         }

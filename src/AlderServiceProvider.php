@@ -53,5 +53,9 @@ class AlderServiceProvider extends ServiceProvider
         $this->app->bind('leaf_helper', function () {
             return new \Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController();
         });
+
+        $this->app->bind('template_helper', function () {
+            return new \Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController();
+        });
     }
 }
