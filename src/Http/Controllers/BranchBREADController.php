@@ -41,13 +41,27 @@
             
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
-            
-            return view('alder::bread.browse')->with([
-                'leaves' => $branch,
-                'leaf_type' => $leaf_type,
-                'admin_menu_items' => $admin_menu_items,
-                'params' => $params,
-            ]);
+
+            /* Get custom browse blade if view exists */
+            if(view()->exists('alder::'.$leaf_type->name.'.browse')){
+                return view('alder::'.$leaf_type->name.'.browse')->with([
+                    'leaves' => $branch,
+                    'leaf_type' => $leaf_type,
+                    'admin_menu_items' => $admin_menu_items,
+                    'params' => $params,
+                ]);
+            }
+            /* If view does not exists, show bread blade */
+            else{
+                return view('alder::bread.browse')->with([
+                    'leaves' => $branch,
+                    'leaf_type' => $leaf_type,
+                    'admin_menu_items' => $admin_menu_items,
+                    'params' => $params,
+                ]);
+            }
+
+
         }
     
         /**
@@ -66,18 +80,33 @@
             
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
-            
+
             /* Populate model with values from LCMV */
             Alder::populateWithLCMV($leaf, $leaf->leaf_type, $params);
-            
+
+            $leaf_type = $leaf->leaf_type->name;
+
+
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
-            
-            return view('alder::bread.read')->with([
-                'leaf' => $leaf,
-                'params' => $params,
-                'admin_menu_items' => $admin_menu_items,
-            ]);
+
+            /* Get custom read blade if view exists */
+            if(view()->exists('alder::'.$leaf_type.'.read')){
+                return view('alder::'.$leaf_type.'.read')->with([
+                    'leaf' => $leaf,
+                    'params' => $params,
+                    'admin_menu_items' => $admin_menu_items,
+                ]);
+            }
+            /* If view does not exists, show bread blade */
+            else{
+                return view('alder::bread.read')->with([
+                    'leaf' => $leaf,
+                    'params' => $params,
+                    'admin_menu_items' => $admin_menu_items,
+                ]);
+            }
+
         }
     
         /**
@@ -98,13 +127,26 @@
             
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
-            
-            return view('alder::bread.edit')->with([
-                'edit' => false,
-                'leaf_type' => $leaf_type,
-                'admin_menu_items' => $admin_menu_items,
-                'params' => $params,
-            ]);
+
+            /* Get custom edit blade if view exists */
+            if(view()->exists('alder::'.$leaf_type->name.'.read')){
+                return view('alder::'.$leaf_type->name.'.edit')->with([
+                    'edit' => false,
+                    'leaf_type' => $leaf_type,
+                    'admin_menu_items' => $admin_menu_items,
+                    'params' => $params,
+                ]);
+            }
+            /* If view does not exists, show bread blade */
+            else{
+                return view('alder::bread.edit')->with([
+                    'edit' => false,
+                    'leaf_type' => $leaf_type,
+                    'admin_menu_items' => $admin_menu_items,
+                    'params' => $params,
+                ]);
+            }
+
         }
     
         /**
