@@ -10,7 +10,13 @@
         <label for="contact-form-title"> Title </label>
         <input type="text" name="title" id="contact-form-title" class="form-control" required>
     </div>
-
+    @if(session()->has('success'))
+        <div class="card mb-4 border-left-{{ session()->get('alert-type', 'success') }}">
+            <div class="card-body">
+                {{ session()->get('success') }}
+            </div>
+        </div>
+    @endif
 
     <ul class="nav nav-pills mb-3">
         <li class="nav-item">
@@ -72,7 +78,9 @@
                     <label for="contact-form-recipient" class="col-sm-2 col-form-label"> Recipient </label>
 
                     <div class="col-sm-10">
-                        <input type="text" name="recipient" id="contact-form-recipient" class="form-control">
+                        <input type="text" name="recipient"
+                               id="contact-form-recipient" class="form-control"
+                               value="{{ $roots->recipient }}">
                     </div>
                 </div>
 
@@ -81,7 +89,8 @@
                     <label for="contact-form-sender" class="col-sm-2 col-form-label"> Sender </label>
 
                     <div class="col-sm-10">
-                        <input type="text" name="sender" id="contact-form-sender" class="form-control">
+                        <input type="text" name="sender" id="contact-form-sender"
+                               class="form-control" value="{{ $roots->sender }}">
                     </div>
                 </div>
 
@@ -91,10 +100,10 @@
                     <label for="contact-form-theme" class="col-sm-2 col-form-label"> Recipient </label>
 
                     <div class="col-sm-10">
-                        <input type="text" name="theme" id="contact-form-theme" class="form-control">
+                        <input type="text" name="theme" id="contact-form-theme"
+                               class="form-control" value="{{ $roots->theme }}">
                     </div>
                 </div>
-
 
                 <!-- Additional headers -->
                 <div class="form-group row">
@@ -102,8 +111,8 @@
                         headers </label>
 
                     <div class="col-sm-10">
-                        <textarea name="additional-headers" id="contact-form-additional-headers"
-                                  class="form-control"></textarea>
+                        <textarea name="additional_headers" id="contact-form-additional-headers"
+                                  class="form-control">{{ $roots->additional_headers }}</textarea>
                     </div>
                 </div>
 
@@ -112,8 +121,9 @@
                     <label for="contact-form-message-content" class="col-sm-2 col-form-label"> Message content</label>
 
                     <div class="col-sm-10">
-                        <textarea name="message-content" rows="8" id="contact-form-message-content"
-                                  class="form-control"></textarea>
+                        <textarea name="message_content" rows="8" id="contact-form-message-content"
+                                  class="form-control"
+                                  value="">{{ $roots->message_content }}</textarea>
                     </div>
                 </div>
 
@@ -197,6 +207,7 @@
 
 
             <button class="btn btn-primary">Insert</button>
+
         </div>
     </div>
     <!-- END MODAL -->
