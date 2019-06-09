@@ -45,9 +45,13 @@ class AlderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/alder.php', 'alder');
-        
+    
         $this->app->bind('alder', function () {
             return new Alder();
+        });
+        
+        $this->app->bind('leaf_helper', function () {
+            return new \Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController();
         });
     }
 }
