@@ -42,7 +42,7 @@
       "aliases": {
         "Alder": "Webcosmonauts\\Alder\\Facades\\Alder",
         "LeafHelper": "Webcosmonauts\\Alder\\Facades\\LeafHelper",
-        "TemplateHelper": "Webcosmonauts\\Alder\\Facades\\TemplateHelper",
+        "TemplateHelper": "Webcosmonauts\\Alder\\Facades\\TemplateHelper"
       }
     }
   }
