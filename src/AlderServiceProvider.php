@@ -2,6 +2,7 @@
 namespace Webcosmonauts\Alder;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 class AlderServiceProvider extends ServiceProvider
 {
@@ -45,7 +46,9 @@ class AlderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/alder.php', 'alder');
-    
+
+        $loader = AliasLoader::getInstance();
+
         $this->app->bind('alder', function () {
             return new Alder();
         });
@@ -54,8 +57,11 @@ class AlderServiceProvider extends ServiceProvider
             return new \Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController();
         });
 
+        $loader->alias("TemplateHelper", "Webcosmonauts\\Alder\\Facades\\TemplateHelper");
+
         $this->app->bind('template_helper', function () {
             return new \Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController();
         });
     }
+
 }
