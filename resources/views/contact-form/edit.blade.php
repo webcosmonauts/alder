@@ -1,6 +1,7 @@
 @extends('alder::layouts.main')
 
 @section('scripts-body')
+    <script src="{{asset('/vendor/contact-form/contact-form.js')}}"></script>
 @endsection
 
 @section('content')

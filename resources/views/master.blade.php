@@ -14,8 +14,9 @@
 
     <!-- Fonts -->
 
-    <!-- Styles -->
-    <link href="{{ asset('css/admin.min.css') }}" rel="stylesheet">
+    <!--  -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}"></script>
 
     @yield('scripts-head')
 </head>
@@ -62,8 +63,11 @@
 <!-- Core plugin JavaScript-->
 
 
-
 @yield('scripts-body')
-<script src="{{ asset('js/admin.min.js') }}"></script>
+
+<script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+<link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 </body>
 </html>
