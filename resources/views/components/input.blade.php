@@ -10,6 +10,23 @@
     </div>
     @break
 
+    @case('relation')
+    <label for="{{$field_name}}">{{ $field_name }}</label>
+    <div class="input-group mb-4">
+        <select name="{{$field_name}}" id="{{$field_name}}"
+                class="custom-select">
+            @if(isset($params->fields->$field_name->nullable) && $params->fields->$field_name->nullable)
+                <option value="">—</option>
+            @endif
+            @foreach($relations->$field_name as $relation)
+                <option value="{{$relation->id}}"
+                        {{ ($edit && $relation->id == $leaf->$field_name->id) ? 'selected' : '' }}>
+                    {{ $relation->title }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    @break
 
     @case('date')
     <label for="{{ $field_name }}">{{ $field_name }}</label>
