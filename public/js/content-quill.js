@@ -17,6 +17,9 @@ $(document).ready(function () {
 		[{'font': []}],
 		[{'align': []}],
 
+
+		['image', 'video'],  // Embeds
+
 		['clean']                                         // remove formatting button
 	];
 
@@ -30,13 +33,10 @@ $(document).ready(function () {
 		});
 
 
+		$('.ql-toolbar').css('width', '100%');
+
 		$('form').on('submit', function (e) {
 			$('[name=content]').val(quill.container.firstChild.innerHTML);
 		});
 	}
-
-	/* this for fix bug when click on toolbar dropdown */
-	$('body').on('click', '.ql-formats', function (e) {
-		e.stopPropagation();
-	});
 });

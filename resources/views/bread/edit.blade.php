@@ -49,7 +49,7 @@
                         <label for="#content">Content</label>
                         <div class="input-group mb-4">
 
-                            <div id="quill" style="min-height: 400px; width: 100%"></div>
+                            <div id="quill" style="height: 400px; width: 100%"></div>
 
                             <textarea type="text" rows="8" hidden name="content" id="content" class="form-control"
                                       aria-label="content" aria-describedby="content" placeholder="Content"></textarea>
