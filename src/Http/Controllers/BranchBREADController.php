@@ -74,9 +74,7 @@
          */
         public function show(Request $request, string $slug) {
             /* Get leaf */
-            $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->first();
-            if (!$leaf)
-                abort(404);
+            $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
             
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
@@ -84,29 +82,19 @@
             /* Populate model with values from LCMV */
             Alder::populateWithLCMV($leaf, $leaf->leaf_type, $params);
 
-            $leaf_type = $leaf->leaf_type->name;
-
-
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
-
+            
             /* Get custom read blade if view exists */
-            if(view()->exists('alder::'.$leaf_type.'.read')){
-                return view('alder::'.$leaf_type.'.read')->with([
-                    'leaf' => $leaf,
-                    'params' => $params,
-                    'admin_menu_items' => $admin_menu_items,
-                ]);
-            }
-            /* If view does not exists, show bread blade */
-            else{
-                return view('alder::bread.read')->with([
-                    'leaf' => $leaf,
-                    'params' => $params,
-                    'admin_menu_items' => $admin_menu_items,
-                ]);
-            }
-
+            $view = "alder::".$leaf->leaf_type->name."read";
+            if (!view()->exists($view))
+                $view = 'alder::bread.read';
+    
+            return view($view)->with([
+                'leaf' => $leaf,
+                'params' => $params,
+                'admin_menu_items' => $admin_menu_items,
+            ]);
         }
     
         /**
@@ -129,26 +117,19 @@
             
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
-
-            /* Get custom edit blade if view exists */
-            if(view()->exists('alder::'.$leaf_type->name.'.read')){
-                return view('alder::'.$leaf_type->name.'.edit')->with([
-                    'edit' => false,
-                    'leaf_type' => $leaf_type,
-                    'admin_menu_items' => $admin_menu_items,
-                    'params' => $params,
-                ]);
-            }
-            /* If view does not exists, show bread blade */
-            else{
-                return view('alder::bread.edit')->with([
-                    'edit' => false,
-                    'leaf_type' => $leaf_type,
-                    'admin_menu_items' => $admin_menu_items,
-                    'params' => $params,
-                ]);
-            }
-
+            
+            /* Get custom read blade if view exists */
+            $view = "alder::$leaf_type->name.edit";
+            if (!view()->exists($view))
+                $view = 'alder::bread.edit';
+    
+            return view($view)->with([
+                'edit' => false,
+                'leaf_type' => $leaf_type,
+                'admin_menu_items' => $admin_menu_items,
+                'params' => $params,
+                'relations' => $relations,
+            ]);
         }
     
         /**
@@ -187,17 +168,22 @@
             $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
             
             $relations = Alder::getRelations($params);
-            dd($relations);
     
             /* Get admin panel menu items */
             $admin_menu_items = Alder::getMenuItems();
+            
+            /* Get custom read blade if view exists */
+            $view = "alder::".$leaf->leaf_type->name."edit";
+            if (!view()->exists($view))
+                $view = 'alder::bread.edit';
     
-            return view('alder::bread.edit')->with([
+            return view($view)->with([
                 'edit' => true,
                 'leaf_type' => $leaf->leaf_type,
                 'leaf' => $leaf,
                 'admin_menu_items' => $admin_menu_items,
                 'params' => $params,
+                'relations' => $relations,
             ]);
         }
     
@@ -211,9 +197,7 @@
          */
         public function update(Request $request, $slug) {
             /* Get leaf */
-            $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->first();
-            if (!$leaf)
-                abort(404);
+            $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
     
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
@@ -276,22 +260,15 @@
                     $leaf->leaf_type_id = $leaf_type->id;
                     $leaf->LCMV_id = $LCMV->id;
                     $leaf->save();
-            
-                    if ($edit)
-                        return Alder::returnRedirect(
-                            $request->ajax(),
-                            __('alder::generic.successfully_updated') . " $leaf->title",
-                            route("alder.$leaf_type->name.index"),
-                            true,
-                            'success'
-                        );
-                    else
-                        return Alder::returnResponse(
-                            $request->ajax(),
-                            __('alder::generic.successfully_created') . " $leaf->title",
-                            true,
-                            'success'
-                        );
+                    
+                    return Alder::returnRedirect(
+                        $request->ajax(),
+                        __('alder::generic.successfully_'
+                            . ($edit ? 'updated' : 'created')) . " $leaf->title",
+                        route("alder.$leaf_type->name.index"),
+                        true,
+                        'success'
+                    );
                 } catch (Exception $e) {
                     DB::rollBack();
                     return Alder::returnResponse(
