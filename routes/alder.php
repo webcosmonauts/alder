@@ -24,6 +24,9 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         // contact form
         Route::get('contact-form', 'ContactController@create')->name('contact-form');
         Route::post('contact-form', 'ContactController@store')->name('contact-form');
+
+        Route::get('dashboard', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('Dashboard.index');
+
     });
     
     // uploader
