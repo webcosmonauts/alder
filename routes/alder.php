@@ -27,8 +27,10 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
 
         Route::get('dashboard', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('Dashboard.index');
 
+        Route::get('users', '\Webcosmonauts\Alder\Http\Controllers\UsersController@index')->name('Users.index');
+
     });
-    
+
     // uploader
     Route::get('media', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index');
     Route::get('media-button', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index_button');
