@@ -3,6 +3,8 @@
 Route::get("/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 
 Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
+    Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('dashboard.index');
+    
     Route::name('alder.')->group(function () {
         // leaf types
         foreach (\Webcosmonauts\Alder\Models\LeafType::all() as $type) {
@@ -24,9 +26,6 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         // contact form
         Route::get('contact-form', 'ContactController@create')->name('contact-form');
         Route::post('contact-form', 'ContactController@store')->name('contact-form');
-
-        Route::get('dashboard', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('Dashboard.index');
-
     });
     
     // uploader
