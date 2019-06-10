@@ -51,14 +51,18 @@
     @case('template')
     <label for="{{$field_name}}"> {{$field_name}} </label>
     <div class="input-group mb-4">
-            @php
-                $templates_object = TemplateHelper::getTemplatesObject("alder");
-            @endphp
-        <select name="{{$field_name}}" id="{{$field_name}}"
-                class="custom-select">
-                @foreach($templates_object as $name=>$single_template)
-                    <option value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
-                @endforeach
+        @php
+            $templates_object = TemplateHelper::getTemplatesObject("alder");
+        @endphp
+        @php
+            $selected_template = $edit ? $leaf->LCMV->values->template : "";
+        @endphp
+        <select name="{{$field_name}}" id="{{$field_name}}" class="custom-select">
+            <option {{ empty($selected_template) ? "selected" : "" }} value="">{{ __("alder::theme.no_template_specified") }}</option>
+            @foreach($templates_object as $name=>$single_template)
+                <option
+                    {{$selected_template == $single_template['template_name'] ? "selected" : ""}} value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
+            @endforeach
         </select>
     </div>
     @break
