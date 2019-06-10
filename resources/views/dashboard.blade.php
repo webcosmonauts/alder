@@ -22,21 +22,27 @@
                     </div>
                 </div>
 
+
+                {{--                @dd($lastpost)--}}
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Lasted post updated in {{$lastpost->updated_at}}</h5>
+                        <h5>Lasted post updated in {{$posts > 0 ? $lastpost->updated_at : 0}}</h5>
                     </div>
                 </div>
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
-                    <div class="card-body">
-                        <a href="posts/{{$lastpost->slug}}">
-                            <button class="btn btn-primary btn-success">Lasted updated post</button>
-                        </a>
-                        <a href="posts/create">
-                            <button class="btn btn-primary btn-success">Create new post</button>
-                        </a>
+                @if ($posts > 0)
+                    <div class="card col-lg border-left-success" style="margin-left: 10px">
+
+                        <div class="card-body">
+                            <a href="posts/{{$lastpost->slug}}">
+                                <button class="btn btn-primary btn-success">Lasted updated post</button>
+                            </a>
+                            <a href="posts/create">
+                                <button class="btn btn-primary btn-success">Create new post</button>
+                            </a>
+                        </div>
+
                     </div>
-                </div>
+                @endif
             </div>
         </div>
 
@@ -53,19 +59,21 @@
 
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Lasted page updated in {{$lastpage->updated_at}}</h5>
+                        <h5>Lasted page updated in {{$pages > 0 ? $lastpage->updated_at : 0}}</h5>
                     </div>
                 </div>
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
-                    <div class="card-body">
-                        <a href="pages/{{$lastpage->slug}}">
-                            <button class="btn btn-primary btn-success">Lasted updated page</button>
-                        </a>
-                        <a href="pages/create">
-                            <button class="btn btn-primary btn-success">Create new page</button>
-                        </a>
+                @if ($pages > 0)
+                    <div class="card col-lg border-left-success" style="margin-left: 10px">
+                        <div class="card-body">
+                            <a href="pages/{{$lastpage->slug}}">
+                                <button class="btn btn-primary btn-success">Lasted updated page</button>
+                            </a>
+                            <a href="pages/create">
+                                <button class="btn btn-primary btn-success">Create new page</button>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
 

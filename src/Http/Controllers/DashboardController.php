@@ -28,13 +28,25 @@ class DashboardController extends BaseController
 
         $sql = LeafType::where('name','posts' )->value('id');
         $posts = Leaf::where('leaf_type_id', $sql)->count();
-        $lastpost = Leaf::where('leaf_type_id', $sql)->orderBy('updated_at','desc')->first();
+
+        if ($posts){
+            $lastpost = Leaf::where('leaf_type_id', $sql)->orderBy('updated_at','desc')->first();
+        }else {
+            $lastpost = NULL;
+        }
+
 
         $sql = LeafType::where('name','pages' )->value('id');
         $pages = Leaf::where('leaf_type_id', $sql)->count();
-        $lastpage = Leaf::where('leaf_type_id', $sql)->orderBy('updated_at','desc')->first();
+
+        if ($pages){
+            $lastpage = Leaf::where('leaf_type_id', $sql)->orderBy('updated_at','desc')->first();
+        }else {
+            $lastpage = NULL;
+        }
 
 
+//        dd($lastpost, $lastpage);
 
         $users = User::where('is_active', 1)->count();
         $users_all = User::all()->count();
