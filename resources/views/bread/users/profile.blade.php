@@ -9,7 +9,7 @@
 
         <div class="tab-pane" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab"></div>
 
-        <h1>Dashboard</h1>
+        <h1>Profile: {{Auth::user()->name}}</h1>
 
         <div class="tab-content">
             <div>
@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Кол-во созданных постов {{$posts}}</h5>
+                        <h5>Number of posts {{$posts}}</h5>
                     </div>
                 </div>
 
@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Кол-во созданных страниц {{$pages}}</h5>
+                        <h5>Number of pages {{$pages}}</h5>
                     </div>
                 </div>
 
@@ -95,7 +95,7 @@
                 </div>
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <a href="alder/users/create">
+                        <a href="">
                             <button class="btn btn-primary btn-success">Create new user</button>
                         </a>
                     </div>
