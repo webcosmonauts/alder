@@ -87,7 +87,7 @@
             $admin_menu_items = Alder::getMenuItems();
             
             /* Get custom read blade if view exists */
-            $view = "alder::".$leaf->leaf_type->name."read";
+            $view = "alder::bread.".$leaf->leaf_type->name.".read";
             if (!view()->exists($view))
                 $view = 'alder::bread.read';
     
@@ -120,7 +120,7 @@
             $admin_menu_items = Alder::getMenuItems();
             
             /* Get custom read blade if view exists */
-            $view = "alder::$leaf_type->name.edit";
+            $view = "alder::bread.$leaf_type->name.edit";
             if (!view()->exists($view))
                 $view = 'alder::bread.edit';
     
@@ -178,7 +178,7 @@
             $admin_menu_items = Alder::getMenuItems();
             
             /* Get custom read blade if view exists */
-            $view = "alder::".$leaf->leaf_type->name."edit";
+            $view = "alder::bread.".$leaf->leaf_type->name.".edit";
             if (!view()->exists($view))
                 $view = 'alder::bread.edit';
     
