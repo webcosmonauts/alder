@@ -395,6 +395,7 @@ class Alder
     /**
      * Get menu items
      *
+     * @throws UnknownRelationException
      * @throws AssigningNullToNotNullableException
      *
      * @return Collection
