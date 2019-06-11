@@ -1,10 +1,25 @@
 #fields-container {
-    padding: 15px;
 }
 
 .field {
-    margin: 15px 0 40px;
     position: relative;
+    margin-bottom: 40px;
+}
+
+.field .card-body {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+.field .form-group {
+    width: calc((100% - 30px * 3) / 3);
+    margin-right: 30px;
+}
+
+.form-group.d-flex label {
+    margin-bottom: 0;
+    margin-right: 8px;
 }
 
 .field .field__delete {
@@ -12,11 +27,24 @@
     font-size: 28px;
     font-weight: bold;
     right: 0;
-    top: -10px;
+    top: 0;
     cursor: pointer;
     width: 30px;
     height: 30px;
     line-height: 30px;
     text-align: center;
+    z-index: 5;
 }
 
+@media (max-width: 1199px) {
+    .field .form-group {
+        width: calc((100% - 30px * 2) / 2);
+    }
+}
+
+@media (max-width: 860px) {
+    .field .form-group {
+        width: 100%;
+        margin-right: 0;
+    }
+}
