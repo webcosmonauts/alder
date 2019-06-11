@@ -28,7 +28,7 @@
 
                             <div class="field card shadow">
 
-                                <div class="card-header"> {{__('alder::lcm.field')}}</div>
+                                <div class="card-header font-weight-bold text-primary"> {{__('alder::lcm.field')}}</div>
                                 <div class="field__delete">&times;</div>
 
                                 <div class="card-body row m-0">

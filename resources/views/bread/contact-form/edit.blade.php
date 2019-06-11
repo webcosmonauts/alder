@@ -62,7 +62,7 @@
                     </div>
 
                     <label for="contact-form-content" hidden></label>
-                    <textarea name="template-content" rows="10" id="contact-form-content" class="form-control"></textarea>
+                    <textarea name="template_content" rows="10" id="contact-form-content" class="form-control"></textarea>
                 </div>
                 <!--  -->
 
@@ -125,8 +125,7 @@
 
                     <div class="col-sm-10">
                         <textarea name="message_content" rows="8" id="contact-form-message-content"
-                                  class="form-control"
-                                  value="">{{ $roots->message_content }}</textarea>
+                                  class="form-control">{{ $roots->message_content }}</textarea>
                     </div>
                 </div>
 
