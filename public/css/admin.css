@@ -1,0 +1,22 @@
+
+.nav-item.has-dropdown .toggle-collapse {
+    padding: 15px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.nav-item.has-dropdown .toggle-collapse:after {
+    width: 1rem;
+    text-align: center;
+    vertical-align: 0;
+    border: 0;
+    color: #fff;
+    font-weight: 900;
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+}
+
+.nav-item.has-dropdown > .nav-link {
+    display: inline-block;
+    width: calc(100% - 46px);
+}

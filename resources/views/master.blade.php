@@ -16,6 +16,7 @@
 
     <!--  -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <link href="{{ asset('css/datepicker.min.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}"></script>
 
@@ -78,5 +79,7 @@
 
 <script src="{{asset('js/datepicker.min.js')}}"></script>
 <script src="{{asset('js/admin.js')}}"></script>
+
+<link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </body>
 </html>
