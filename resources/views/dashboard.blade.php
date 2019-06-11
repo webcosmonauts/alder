@@ -95,7 +95,7 @@
                 </div>
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <a href="">
+                        <a href="alder/users/create">
                             <button class="btn btn-primary btn-success">Create new user</button>
                         </a>
                     </div>
