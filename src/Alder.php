@@ -49,22 +49,24 @@ class Alder
      *
      * @param string $title
      * @param string $slug
-     * @param string $lcm_name
+     * @param string $lcm_title
+     * @param string $lcm_slug
      * @param array $modifiers
      * @param array|null $menu_item_values
      *
      * @return bool|mixed
      */
-    public function createLeafType(string $title, string $slug, string $lcm_name, array $modifiers, array $menu_item_values = null) {
+    public function createLeafType(string $title, string $slug, string $lcm_title, string $lcm_slug, array $modifiers, array $menu_item_values = null) {
         $leaf_type = LeafType::where('slug', $slug)->first();
-        $LCM = LeafCustomModifier::where('name', $lcm_name)->first();
+        $LCM = LeafCustomModifier::where('slug', $lcm_slug)->first();
         if (!empty($leaf_type) || !empty($LCM))
             return false;
     
-        return DB::transaction(function () use ($title, $slug, $lcm_name, $modifiers, $menu_item_values) {
+        return DB::transaction(function () use ($title, $slug, $lcm_title, $lcm_slug, $modifiers, $menu_item_values) {
             try {
                 $LCM = new LeafCustomModifier();
-                $LCM->name = $lcm_name;
+                $LCM->title = $lcm_title;
+                $LCM->slug = $lcm_slug;
                 $LCM->modifiers = $modifiers;
                 $LCM->save();
                 
@@ -86,7 +88,7 @@ class Alder
                 $leaf = new Leaf();
                 $leaf->title = $title;
                 $leaf->slug = $menu_item_values['slug'] ?? $slug;
-                $leaf->status_id = LeafStatus::where('name', 'published')->value('id');
+                $leaf->status_id = LeafStatus::where('slug', 'published')->value('id');
                 $leaf->leaf_type_id = LeafType::where('slug', 'admin-menu-items')->value('id');
                 $leaf->LCMV_id = $LCMV->id;
                 $leaf->save();
@@ -281,7 +283,7 @@ class Alder
         if (!isset($relations->users))
             $relations->users = User::all(['id', 'name', 'surname']);
         if (!isset($relations->statuses))
-            $relations->statuses = LeafStatus::all(['id', 'name']);
+            $relations->statuses = LeafStatus::all();
         
         foreach ($params->fields as $field_name => $field_modifiers) {
             if ($field_modifiers->type == 'relation') {

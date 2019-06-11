@@ -15,7 +15,8 @@ class CreateLeafStatusesTable extends Migration
     {
         Schema::create('leaf_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('title');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
