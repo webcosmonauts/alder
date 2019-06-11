@@ -6,6 +6,10 @@
     margin-bottom: 40px;
 }
 
+.field .card-header{
+    cursor: pointer;
+}
+
 .field .card-body {
     display: flex;
     flex-wrap: wrap;
@@ -26,8 +30,8 @@
     position: absolute;
     font-size: 28px;
     font-weight: bold;
-    right: 0;
-    top: 0;
+    right: 8px;
+    top: 8px;
     cursor: pointer;
     width: 30px;
     height: 30px;

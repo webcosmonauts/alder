@@ -8,13 +8,26 @@ $(document).ready(function () {
 
 		$('#fields-container').append(pattern);
 		$('#fields-container').find('input, select, textarea').removeClass('disabled').removeAttr('disabled');
+
+		$('#fields-container').find('.icheck').iCheck({
+			checkboxClass: 'icheckbox_flat-red',
+			radioClass: 'iradio_flat-red'
+		});
 	});
 
 
 	// REMOVE FIELD
 	$('body').on('click', '.field__delete', function (e) {
 		e.preventDefault();
+		e.stopPropagation();
+
 		$(this).parent().remove();
+	});
+
+
+	$('body').on('click', '.field .card-header', function (e) {
+		e.preventDefault();
+		$(this).parent().find('.card-body').slideToggle();
 	});
 
 
@@ -98,7 +111,7 @@ $(document).ready(function () {
 							break;
 
 						case "options" :
-							
+
 							if (inputValue) {
 								fieldObj[inputName] = {};
 

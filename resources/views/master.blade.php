@@ -16,8 +16,6 @@
 
     <!--  -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('css/datepicker.min.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}"></script>
 
     @yield('scripts-head')
@@ -77,9 +75,21 @@
 <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
 
+<!-- My custom stuff -->
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+
+
+<!-- ICheck -->
+<link rel="stylesheet" href="{{asset('css/icheck.css')}}">
+<script src="{{asset('js/icheck.min.js')}}"></script>
+
+<!-- Datepicker -->
 <script src="{{asset('js/datepicker.min.js')}}"></script>
+<link href="{{ asset('css/datepicker.min.css') }}" rel="stylesheet">
+
+
+<!-- admin main js -->
 <script src="{{asset('js/admin.js')}}"></script>
 
-<link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </body>
 </html>
