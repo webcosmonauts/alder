@@ -26,6 +26,8 @@ class AlderServiceProvider extends ServiceProvider
             __DIR__.'/../public/sprites' => public_path().'/sprites',
             __DIR__.'/../public/svgs' => public_path().'/svgs',
             __DIR__.'/../public/webfonts' => public_path().'/webfonts',
+            __DIR__.'/../public/file-manager' => public_path().'/vendor/file-manager',
+            __DIR__.'/../public/contact-form' => public_path().'/vendor/contact-form',
             
         ], 'public');
         

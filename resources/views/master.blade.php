@@ -14,8 +14,10 @@
 
     <!-- Fonts -->
 
-    <!-- Styles -->
-    <link href="{{ asset('css/admin.min.css') }}" rel="stylesheet">
+    <!--  -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/datepicker.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}"></script>
 
     @yield('scripts-head')
 </head>
@@ -62,8 +64,19 @@
 <!-- Core plugin JavaScript-->
 
 
-
 @yield('scripts-body')
-<script src="{{ asset('js/admin.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"
+        integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k="
+        crossorigin="anonymous"></script>
+<script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+<link href="{{ asset('css/all.min.css') }}" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+<link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+
+<script src="{{asset('js/datepicker.min.js')}}"></script>
+<script src="{{asset('js/admin.js')}}"></script>
 </body>
 </html>

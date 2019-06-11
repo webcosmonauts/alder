@@ -9,6 +9,7 @@
     use Illuminate\Support\Facades\DB;
     use Illuminate\View\View;
     use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
+    use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
     use Webcosmonauts\Alder\Models\Leaf;
     use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
     use Webcosmonauts\Alder\Facades\Alder;
@@ -154,6 +155,7 @@
          * Get BR[E]AD view for leaf
          *
          * @throws AssigningNullToNotNullableException
+         * @throws UnknownRelationException
          *
          * @param Request $request
          * @param string $slug
@@ -166,6 +168,9 @@
     
             /* Get combined parameters of all LCMs */
             $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
+    
+            /* Populate model with values from LCMV */
+            Alder::populateWithLCMV($leaf, $leaf->leaf_type, $params);
             
             $relations = Alder::getRelations($params);
     

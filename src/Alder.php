@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use stdClass;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
+use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifier;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
@@ -266,7 +267,7 @@ class Alder
      * Get relations for combined parameters
      *
      * @param stdClass $params
-     * @param stdClass|array $relations
+     * @param stdClass|array &$relations
      * @return stdClass
      */
     public function getRelations(stdClass $params, &$relations = []) {
@@ -297,11 +298,12 @@ class Alder
     /**
      * Add values from model's LCMV
      *
+     * @throws UnknownRelationException
      * @throws AssigningNullToNotNullableException
      *
-     * @param BaseModel $model
+     * @param BaseModel &$model
      * @param int|string|LeafType $type
-     * @param object $combined
+     * @param object|null $combined
      */
     public function populateWithLCMV(BaseModel &$model, $type, $combined = null) {
         // Get instance of LeafType
@@ -319,13 +321,26 @@ class Alder
          * Assign values to prepared parameters.
          */
         foreach ($params->fields as $field_name => $field_modifiers) {
-            // If LCMV have value for parameter, assign it.
-            if (isset($model->LCMV->values->$field_name) && !empty($model->LCMV->values->$field_name))
+            /**
+             * If LCMV have value for parameter, assign it.
+             */
+            if (isset($model->LCMV->values->$field_name) && !empty($model->LCMV->values->$field_name)) {
                 $model->$field_name = $model->LCMV->values->$field_name;
+                
+                /**
+                 * Load needed relations
+                 */
+                if ($field_modifiers->type == 'relation')
+                    $this->getSingleRelation($model, $field_name, $field_modifiers);
+            }
             else {
                 // assign default value, if it is set
-                if (isset($field_modifiers->default))
+                if (isset($field_modifiers->default)) {
                     $model->$field_name = $field_modifiers->default;
+    
+                    if ($field_modifiers->type == 'relation')
+                        $this->getSingleRelation($model, $field_name, $field_modifiers, true);
+                }
                 // if default value is not set, assign null if possible
                 else if (isset($field_modifiers->nullable) && $field_modifiers->nullable == true)
                     $model->$field_name = null;
@@ -333,6 +348,47 @@ class Alder
                 else
                     throw new AssigningNullToNotNullableException($field_name);
             }
+        }
+    }
+    
+    /**
+     * Get relation for param field
+     *
+     * @throws AssigningNullToNotNullableException
+     * @throws UnknownRelationException
+     *
+     * @param BaseModel &$model
+     * @param $field_name
+     * @param $field_modifiers
+     * @param bool $useDefault
+     */
+    public function getSingleRelation(BaseModel &$model, $field_name, $field_modifiers, bool $useDefault = false) {
+        switch ($field_modifiers->relation_type) {
+            case 'hasOne':
+                break;
+                
+            case 'hasMany':
+                break;
+                
+            case 'belongsTo':
+                // Get leaf id
+                $id = $useDefault
+                    ? $field_modifiers->default
+                    : $model->LCMV->values->$field_name;
+    
+                // Get leaf instance
+                $leaf = Leaf::with(['LCMV', 'status', 'user', 'leaf_type'])->findOrFail($id);
+                $this->populateWithLCMV($leaf, $leaf->leaf_type);
+            
+                // Push relation leaf to model
+                $model->$field_name = $leaf;
+                break;
+                
+            case 'belongsToMany':
+                break;
+                
+            default:
+                throw new UnknownRelationException($field_name);
         }
     }
     
