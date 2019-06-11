@@ -1,0 +1,22 @@
+#fields-container {
+    padding: 15px;
+}
+
+.field {
+    margin: 15px 0 40px;
+    position: relative;
+}
+
+.field .field__delete {
+    position: absolute;
+    font-size: 28px;
+    font-weight: bold;
+    right: 0;
+    top: -10px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+

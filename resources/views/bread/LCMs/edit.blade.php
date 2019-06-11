@@ -2,94 +2,135 @@
 
 
 @section('scripts-body')
-    <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
-    <script src="{{asset('js/quill.min.js')}}"></script>
-    <script src="{{asset('js/content-quill.js')}}"></script>
+
+    <link rel="stylesheet" href="{{asset('vendor/LCMs/css/LCMs.css')}}">
+    <script src="{{asset('vendor/LCMs/js/LCMs.js')}}"></script>
 @endsection
 
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ Str::title(str_replace('-', ' ', $leaf_type->name)) }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{__('alder::lcm.singular')}}</h1>
     </div>
 
-    <form action="{{ $edit ? route("alder.$leaf_type->name.update", $leaf->slug) : route("alder.$leaf_type->name.store") }}"
+    <form action="#" id="LCMs-form"
           method="POST">
         @csrf
-        {{$edit ? method_field('PUT') : method_field('POST')}}
 
-        @php
-            $right_panel_count = 0;
-            if (isset($params->fields)) {
-                foreach ($params->fields as $field_name => $field_modifiers) {
-                    if (isset($field_modifiers->panel) && $field_modifiers->panel == 'right')
-                            $right_panel_count++;
-                }
-            }
-        @endphp
 
         <div class="row">
-            <div class="col-lg-{{ $right_panel_count > 0 ? '9' : '12' }}">
+            <div class="col-lg-12">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        @foreach(['title', 'slug', 'user_id'] as $field)
-                            <label for="{{ $field }}">{{ $field }}</label>
-                            <div class="input-group mb-4">
-                                <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
-                                       placeholder="{{ $field}}"
-                                       aria-label="{{ $field }}" aria-describedby="{{ $field }}"
-                                       value="{{ $edit ? $leaf->$field : '' }}">
 
+
+                        <div id="field-pattern" hidden>
+
+                            <div class="field">
+                                <div class="field__delete"> &times;</div>
+
+                                <!-- FIELD NAME -->
+                                <div class="form-group">
+                                    <label for="field_name">{{__('alder::lcm.field_name')}} *</label>
+                                    <div class="input-group">
+                                        <input type="text" name="field_name" id="field_name"
+                                               class="form-control" disabled required>
+                                    </div>
+                                </div>
+
+                                <!-- TYPE -->
+                                <div class="form-group">
+                                    <label for="type"> {{__('alder::lcm.type')}} *</label>
+                                    <select name="type" id="type" class="form-control" disabled required>
+                                        <option value="text"> {{__('alder::lcm.text')}} </option>
+                                        <option value="relation"> {{__('alder::lcm.relation')}}</option>
+                                        <option value="number"> {{__('alder::lcm.number')}}</option>
+                                        <option value="select"> {{__('alder::lcm.select')}} </option>
+                                        <option value="select-multiple">{{__('alder::lcm.select_multiple')}}</option>
+                                        <option value="checkbox">{{__('alder::lcm.checkbox')}}</option>
+                                        <option value="radio">{{__('alder::lcm.radio')}}</option>
+                                        <option value="password">{{__('alder::lcm.password')}}</option>
+                                        <option value="file">{{__('alder::lcm.file')}}</option>
+                                        <option value="file-multiple">{{__('alder::lcm.file_multiple')}}</option>
+                                        <option value="date">{{__('alder::lcm.date')}}</option>
+                                        <option value="datetime-local">{{__('alder::lcm.datetime_local')}}</option>
+                                        <option value="time">{{__('alder::lcm.time')}}</option>
+                                        <option value="month">{{__('alder::lcm.month')}}</option>
+                                        <option value="color">{{__('alder::lcm.color')}}</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- RELATION TYPE -->
+                                <div class="form-group" data-dependence="type:relation" hidden>
+                                    <label for="relation_type">{{__('alder::lcm.relation_type')}}</label>
+                                    <select name="relation_type" id="relation_type" class="form-control"
+                                            disabled>
+                                        <option value="hasOne">{{__('alder::lcm.hasOne')}}</option>
+                                        <option value="hasMany">{{__('alder::lcm.hasMany')}}</option>
+                                        <option value="belongsTo">{{__('alder::lcm.belongsTo')}}</option>
+                                        <option value="belongsToMany">{{__('alder::lcm.belongsToMany')}}</option>
+                                    </select>
+                                </div>
+
+                                <!-- *** LEAF TYPE *** -->
+                                <div class="form-group" data-dependence="type:relation" hidden>
+                                    <label for="leaf_type">{{__('alder::lcm.leaf_type')}}</label>
+                                    <input type="text" name="leaf_type" id="leaf_type" class="form-control"
+                                           disabled>
+                                </div>
+
+                                <!-- *** OPTIONS *** -->
+                                <div class="form-group"
+                                     data-dependence="type:select select-multiple radio checkbox" hidden>
+                                    <label for="options">{{__('alder::lcm.options')}}</label>
+                                    <div><em>'key' : 'value'</em> EACH OPTION ON SEPARETE LINE</div>
+                                    <textarea name="options" id="options" rows="8" disabled
+                                              class="form-control"></textarea>
+                                </div>
+
+                                <!-- *** PANEL *** -->
+                                <div class="form-group">
+                                    <label for="panel">{{__('alder::lcm.panel')}}</label>
+                                    <select name="panel" id="panel" class="form-control" disabled>
+                                        <option value="left">{{__('alder::lcm.left')}}</option>
+                                        <option value="right">{{__('alder::lcm.right')}}</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- *** DEFAULT *** -->
+                                <div class="form-group">
+                                    <label for="default">{{__('alder::lcm.default')}}</label>
+                                    <input name="default" id="default" class="form-control" disabled>
+                                </div>
+
+                                <!-- *** NULLABLE *** -->
+                                <div class="form-group">
+                                    <label for="nullable">{{__('alder::lcm.nullable')}}</label>
+                                    <select name="nullable" id="nullable" class="form-control" disabled>
+                                        <option value="true">{{__('alder::lcm.true')}}</option>
+                                        <option value="false">{{__('alder::lcm.false')}}</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- *** BROWSE *** -->
+                                <div class="form-group mb-4">
+                                    <label for="browse">{{__('alder::lcm.browse')}}</label>
+                                    <input type="checkbox" name="browse" id="browse" disabled>
+                                </div>
                             </div>
-                        @endforeach
-
-                    <!--                        --><?php //dd($leaf->title); ?>
-
-
-                        <label for="#content">Content</label>
-                        <div class="input-group mb-4">
-
-                            <div id="quill" style="height: 400px; width: 100%"></div>
-
-                            <textarea type="text" rows="8" hidden name="content" id="content" class="form-control"
-                                      aria-label="content" aria-describedby="content" placeholder="Content"></textarea>
                         </div>
 
-                        @if(isset($params->fields))
-                        @foreach($params->fields as $field_name => $field_modifiers)
-                        <!--
-                            @if($field_modifiers->type == 'relation')
-                                @switch($field_modifiers->relation_type)
-                                    @case('hasOne')
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text" for="{{ $field_name }}">{{ $field_name }}</label>
-                                </div>
-                                <select class="custom-select" id="{{ $field_name }}">
-                                    <option >Choose...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            @break
-                                    @case('hasMany')
-                                    @break
-                                    @case('belongsTo')
-                                    @break
-                                    @case('belongsToMany')
-                                    @break
-                                    @default
-                                @endswitch
-                            @else
-                            @endif
-                                -->
 
-                        @if(!isset($field_modifiers->panel) || $field_modifiers->panel != 'right')
-                        @include('alder::components.input')
-                        @endif
-                        @endforeach
-                        @endif
+                        <!-- CONTAINER FOR FIELDS -->
+                        <div id="fields-container" class="mb-5"></div>
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-primary"
+                                    id="add-new-field"> {{__('alder::lcm.add_new_field')}}</button>
+                        </div>
+
 
                         <button type="submit" class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
@@ -101,21 +142,8 @@
                 </div>
             </div>
 
-            @if($right_panel_count > 0)
-            <!-- SIDEBAR -->
-            <div class="col-lg-3">
-                <div class="card shadow mb-4">
-                    <div class="card-body">
-                        @foreach($params->fields as $field_name => $field_modifiers)
-                        @if(isset($field_modifiers->panel) && $field_modifiers->panel == 'right')
-                        @include('alder::components.input')
-                        @endif
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            @endif
+
         </div>
     </form>
-    @endsection
+@endsection
 
