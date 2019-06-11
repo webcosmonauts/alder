@@ -18,7 +18,7 @@ use Webcosmonauts\Alder\Models\User;
 class UsersController extends BaseController
 {
     /**
-     * Get [B]READ view of roots
+     * Get view of users
      *
      * @return View
      */
@@ -33,7 +33,7 @@ class UsersController extends BaseController
         $users = User::all();
 
 
-        return view('alder::users.browse')->with([
+        return view('alder::bread.users.browse')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'users' => $users
         ]);
@@ -54,7 +54,7 @@ class UsersController extends BaseController
         $user = User::where('id',$id)->get();
         $user = $user[0];
 
-        return view('alder::users.read')->with([
+        return view('alder::bread.users.read')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
             'user' => $user
@@ -62,14 +62,14 @@ class UsersController extends BaseController
     }
 
     /**
-     * Get [C]RUD view
+     * Create new user from request
      * @param Request $request
      * @return View
      */
     public function create(Request $request)
     {
         $user = 0;
-        return view('alder::users.edit')->with([
+        return view('alder::bread.users.edit')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
             'user' => $user
@@ -83,8 +83,9 @@ class UsersController extends BaseController
      */
     public function store(Request $request)
     {
-
-        echo 'store';
+        $edit = false;
+        $id = 185448;
+        return $this->editUser($edit, $request, $id);
     }
 
     public function edit(Request $request, $id)
@@ -93,7 +94,7 @@ class UsersController extends BaseController
         $user = User::where('id',$id)->get();
         $user = $user[0];
 
-        return view('alder::users.edit')->with([
+        return view('alder::bread.users.edit')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
             'user' => $user
@@ -102,8 +103,8 @@ class UsersController extends BaseController
 
     public function update(Request $request, $id)
     {
-        dd($request->name);
-        return $this->editUser($request, $id);
+        $edit = true;
+        return $this->editUser($edit, $request, $id);
     }
 
     public function destroy(Request $request, $id) {
@@ -124,36 +125,25 @@ class UsersController extends BaseController
             );
     }
 
-    private function editUser(Request $request, $id) {
-        return DB::transaction(function () use ($request, $id) {
+    private function editUser(bool $edit, Request $request, $id) {
+        return DB::transaction(function () use ($edit, $request, $id) {
             try {
-                $leaf = $id ? $edit_leaf : new Leaf();
-                $LCMV = $edit ? $leaf->LCMV : new LeafCustomModifierValue();
 
-                $values = [];
-                foreach ($params->fields as $field_name => $modifiers) {
-                    if (isset($request->$field_name) && !empty($request->$field_name))
-                        $values[$field_name] = $request->$field_name;
-                    else {
-                        if (isset($modifiers->default))
-                            $values[$field_name] = $modifiers->default;
-                        else if (isset($modifiers->nullable) && $modifiers->nullable)
-                            $values[$field_name] = null;
-                        else
-                            throw new AssigningNullToNotNullableException($field_name);
-                    }
-                }
-                $LCMV->values = $values;
-                $LCMV->save();
+                $User = $edit ? User::where('id',$id)->get()->first() : new User();
 
-                $leaf->title = $request->title;
-                $leaf->slug = $request->slug;
-                $leaf->content = $request->get('content');
-                $leaf->user_id = $request->user_id;
-                $leaf->status_id = 5;
-                $leaf->leaf_type_id = $leaf_type->id;
-                $leaf->LCMV_id = $LCMV->id;
-                $leaf->save();
+                $User->name = $request->name;
+                $User->surname = $request->surname;
+                $User->email = $request->email;
+                $User->password = bcrypt($request->password);
+                $User->is_active = $edit ? $request->is_active : 0;
+                $User->LCM_id = $request->LCM_id;
+                $User->LCMV_id = $request->LCMV_id;
+
+                if (!$edit)
+                    $User->created_at = date("Y-m-d H:i:s");
+                $User->updated_at = date("Y-m-d H:i:s");
+
+                $User->save();
 
                 return Alder::returnRedirect(
                     $request->ajax(),

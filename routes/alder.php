@@ -6,7 +6,7 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
     Route::name('alder.')->group(function () {
         // LCM
         Route::resource('LCMs', '\Webcosmonauts\Alder\Http\Controllers\LCMController');
-        
+
         // leaf types
         foreach (\Webcosmonauts\Alder\Models\LeafType::all() as $type) {
             Route::resource($type->slug, '\Webcosmonauts\Alder\Http\Controllers\BranchBREADController');
