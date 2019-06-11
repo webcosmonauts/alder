@@ -53,7 +53,7 @@
     </div>
     @break
 
-    @case('dropdown')
+    @case('select')
     <label for="{{$field_name}}"> {{$field_name}} </label>
     <div class="input-group mb-4">
         <select name="{{$field_name}}" id="{{$field_name}}"
