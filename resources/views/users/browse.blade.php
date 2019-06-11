@@ -9,12 +9,12 @@
 
         <h1 class="h3 mb-0 text-gray-800"></h1>
         <!-- TODO: if can add new -->
-        {{--                <a href="{{ route("alder.$leaf_type->name.create") }}" class="btn btn-success btn-icon-split ml-3">--}}
-        {{--                    <span class="icon text-white-50">--}}
-        {{--                        <i class="fas fa-plus-circle"></i>--}}
-        {{--                    </span>--}}
-        {{--                    <span class="text">{{ __('alder::generic.add_new') . ' ' . Str::title(Str::singular(str_replace('-', ' ', $leaf_type->name))) }}</span>--}}
-        {{--                </a>--}}
+        <a href="{{ route("alder.users.create") }}" class="btn btn-success btn-icon-split ml-3">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+            <span class="text">{{ __('alder::generic.add_new')}}</span>
+        </a>
     </div>
 
     <div class="card shadow mb-4">
@@ -44,15 +44,14 @@
                                 </td>
                             @endforeach
                             <td class="text-right">
-                                <a href="{{ route("alder.$leaf_type->name.edit", $leaf->slug) }}" class="btn btn-primary btn-icon-split ml-3">
+                                <a href="{{ route("alder.users.show",  $leaf->id) }}" class="btn btn-primary btn-icon-split ml-3">
                                      <span class="icon text-white-50">
                                          <i class="fas fa-book-open"></i>
                                      </span>
                                     <span class="text">{{ __('alder::generic.read') }}</span>
                                 </a>
-
                                 <!-- TODO if can edit -->
-                                <a href="" class="btn btn-warning btn-icon-split ml-3">
+                                <a href="{{ route("alder.users.edit",  $leaf->id) }}" class="btn btn-warning btn-icon-split ml-3">
                                      <span class="icon text-white-50">
                                          <i class="fas fa-edit"></i>
                                      </span>
@@ -60,7 +59,7 @@
                                 </a>
 
                                 <!-- TODO if can delete -->
-                                <a href="" class="btn btn-danger btn-icon-split ml-3">
+                                <a href="{{ route("alder.users.destroy",  $leaf->id) }}" class="btn btn-danger btn-icon-split ml-3">
                                      <span class="icon text-white-50">
                                          <i class="fas fa-trash-alt"></i>
                                      </span>
