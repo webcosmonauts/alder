@@ -1,6 +1,5 @@
 @extends('alder::layouts.main')
 
-
 @section('scripts-body')
     <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
     <script src="{{asset('js/quill.min.js')}}"></script>
@@ -32,7 +31,7 @@
             <div class="col-lg-{{ $right_panel_count > 0 ? '9' : '12' }}">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        @foreach(['title', 'slug', 'user_id'] as $field)
+                        @foreach(['title', 'slug'] as $field)
                             <label for="{{ $field }}">{{ $field }}</label>
                             <div class="input-group mb-4">
                                 <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
@@ -44,7 +43,6 @@
                         @endforeach
 
                     <!--                        --><?php //dd($leaf->title); ?>
-
 
                         <label for="#content">Content</label>
                         <div class="input-group mb-4">
@@ -118,4 +116,3 @@
         </div>
     </form>
     @endsection
-

@@ -25,7 +25,7 @@ use Webcosmonauts\Alder\Models\User;
 class Alder
 {
     /**
-     * Get LeafType from database using $param as id or name,
+     * Get LeafType from database using $param as id or slug,
      * depending on its data type.
      * If its neither of those, the invalid argument exception will be thrown.
      *
@@ -39,7 +39,7 @@ class Alder
         else if (is_int($param))
             return LeafType::with('LCMs')->find($param);
         else if (is_string($param))
-            return LeafType::with('LCMs')->where('name', $param)->first();
+            return LeafType::with('LCMs')->where('slug', $param)->first();
         else
             throw new InvalidArgumentException();
     }
@@ -47,20 +47,21 @@ class Alder
     /**
      * Create new LeafType and add AdminMenuItem for it
      *
-     * @param string $name
+     * @param string $title
+     * @param string $slug
      * @param string $lcm_name
      * @param array $modifiers
      * @param array|null $menu_item_values
      *
      * @return bool|mixed
      */
-    public function createLeafType(string $name, string $lcm_name, array $modifiers, array $menu_item_values = null) {
-        $leaf_type = LeafType::where('name', $name)->first();
+    public function createLeafType(string $title, string $slug, string $lcm_name, array $modifiers, array $menu_item_values = null) {
+        $leaf_type = LeafType::where('slug', $slug)->first();
         $LCM = LeafCustomModifier::where('name', $lcm_name)->first();
         if (!empty($leaf_type) || !empty($LCM))
             return false;
     
-        return DB::transaction(function () use ($name, $lcm_name, $modifiers, $menu_item_values) {
+        return DB::transaction(function () use ($title, $slug, $lcm_name, $modifiers, $menu_item_values) {
             try {
                 $LCM = new LeafCustomModifier();
                 $LCM->name = $lcm_name;
@@ -68,7 +69,8 @@ class Alder
                 $LCM->save();
                 
                 $leaf_type = new LeafType();
-                $leaf_type->name = $name;
+                $leaf_type->title = $title;
+                $leaf_type->slug = $slug;
                 $leaf_type->LCM_id = $LCM->id;
                 $leaf_type->save();
                 
@@ -82,10 +84,10 @@ class Alder
                 ];
                 $LCMV->save();
                 $leaf = new Leaf();
-                $leaf->title = Str::title(str_replace('-', ' ', $name));
-                $leaf->slug = $menu_item_values['slug'] ?? $name;
+                $leaf->title = $title;
+                $leaf->slug = $menu_item_values['slug'] ?? $slug;
                 $leaf->status_id = LeafStatus::where('name', 'published')->value('id');
-                $leaf->leaf_type_id = LeafType::where('name', 'admin-menu-items')->value('id');
+                $leaf->leaf_type_id = LeafType::where('slug', 'admin-menu-items')->value('id');
                 $leaf->LCMV_id = $LCMV->id;
                 $leaf->save();
                 
@@ -283,7 +285,7 @@ class Alder
             if ($field_modifiers->type == 'relation') {
                 // get id of leaf type
                 // todo notify if none id found
-                $leaf_type_id = LeafType::where('name', Str::plural($field_modifiers->leaf_type))->value('id');
+                $leaf_type_id = LeafType::where('slug', Str::plural($field_modifiers->leaf_type))->value('id');
         
                 // if relation already loaded, continue
                 if (!isset($relations->$field_name))
@@ -395,12 +397,13 @@ class Alder
     /**
      * Get menu items
      *
+     * @throws UnknownRelationException
      * @throws AssigningNullToNotNullableException
      *
      * @return Collection
      */
     public function getMenuItems() {
-        $leaf_type = LeafType::with('LCMs')->where('name', 'admin-menu-items')->first();
+        $leaf_type = LeafType::with('LCMs')->where('slug', 'admin-menu-items')->first();
         $leaves = Leaf::where('leaf_type_id', $leaf_type->id)->get();
         $page_type = explode('/', Route::getCurrentRoute()->uri)[1] ?? '';
         

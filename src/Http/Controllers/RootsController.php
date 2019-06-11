@@ -23,7 +23,7 @@ class RootsController extends BaseController
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 
-        return view('alder::roots.browse')->with([
+        return view('alder::bread.roots.browse')->with([
             'root_types' => $root_types,
             'admin_menu_items' => $admin_menu_items,
         ]);

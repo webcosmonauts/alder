@@ -44,8 +44,8 @@
             $admin_menu_items = Alder::getMenuItems();
 
             /* Get custom browse blade if view exists */
-            if(view()->exists('alder::'.$leaf_type->name.'.browse')){
-                return view('alder::'.$leaf_type->name.'.browse')->with([
+            if(view()->exists('alder::'.$leaf_type->slug.'.browse')){
+                return view('alder::'.$leaf_type->slug.'.browse')->with([
                     'leaves' => $branch,
                     'leaf_type' => $leaf_type,
                     'admin_menu_items' => $admin_menu_items,
@@ -87,7 +87,7 @@
             $admin_menu_items = Alder::getMenuItems();
             
             /* Get custom read blade if view exists */
-            $view = "alder::".$leaf->leaf_type->name."read";
+            $view = "alder::bread.".$leaf->leaf_type->slug.".read";
             if (!view()->exists($view))
                 $view = 'alder::bread.read';
     
@@ -120,7 +120,7 @@
             $admin_menu_items = Alder::getMenuItems();
             
             /* Get custom read blade if view exists */
-            $view = "alder::$leaf_type->name.edit";
+            $view = "alder::bread.$leaf_type->slug.edit";
             if (!view()->exists($view))
                 $view = 'alder::bread.edit';
     
@@ -178,7 +178,7 @@
             $admin_menu_items = Alder::getMenuItems();
             
             /* Get custom read blade if view exists */
-            $view = "alder::".$leaf->leaf_type->name."edit";
+            $view = "alder::bread.".$leaf->leaf_type->slug.".edit";
             if (!view()->exists($view))
                 $view = 'alder::bread.edit';
     
@@ -270,7 +270,7 @@
                         $request->ajax(),
                         __('alder::generic.successfully_'
                             . ($edit ? 'updated' : 'created')) . " $leaf->title",
-                        route("alder.$leaf_type->name.index"),
+                        route("alder.$leaf_type->slug.index"),
                         true,
                         'success'
                     );
