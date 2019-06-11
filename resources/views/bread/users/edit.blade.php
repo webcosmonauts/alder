@@ -23,7 +23,7 @@
                                 <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
                                        placeholder="{{ $field}}"
                                        aria-label="{{ $field }}" aria-describedby="{{ $field }}"
-                                       value="{{ $user ? $user->$field : '' }}">
+                                       value="{{ $user ? (($field == 'password') ? '' : $user->$field) : '' }}">
 
                             </div>
                         @endforeach
