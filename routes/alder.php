@@ -28,6 +28,7 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         Route::get('contact-form', 'ContactController@create')->name('contact-form');
         Route::post('contact-form', 'ContactController@store')->name('contact-form');
 
+        //users
         Route::get('users', '\Webcosmonauts\Alder\Http\Controllers\UsersController@index')->name('users.index');
         Route::get('users/edit/{user}', '\Webcosmonauts\Alder\Http\Controllers\UsersController@edit')->name('users.edit');
         Route::put('users/edit/{user}', '\Webcosmonauts\Alder\Http\Controllers\UsersController@update')->name('users.update');
@@ -35,6 +36,9 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         Route::get('users/destroy/{user}', '\Webcosmonauts\Alder\Http\Controllers\UsersController@destroy')->name('users.destroy');
         Route::get('users/create', '\Webcosmonauts\Alder\Http\Controllers\UsersController@create')->name('users.create');
         Route::post('users/store', '\Webcosmonauts\Alder\Http\Controllers\UsersController@store')->name('users.store');
+
+        //profile
+        Route::get('profile', '\Webcosmonauts\Alder\Http\Controllers\ProfileController@index')->name('profile.index');
 
     });
 
