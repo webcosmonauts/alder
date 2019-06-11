@@ -15,7 +15,7 @@ class CreateRootsTable extends Migration
     {
         Schema::create('roots', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('title');
             $table->string('slug')->unique();
             $table->string('input_type')->default('text');
             $table->text('value')->nullable();

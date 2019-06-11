@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property int id
- * @property string name
+ * @property string title
+ * @property string slug
  * @property string created_at
  * @property string updated_at
  *

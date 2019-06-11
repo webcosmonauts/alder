@@ -9,7 +9,7 @@
             <span class="icon text-white-50">
                 <i class="fas fa-plus-circle"></i>
             </span>
-            <span class="text">{{ __('alder::generic.add_new') . ' ' . Str::title(Str::singular($leaf_type->title)) }}</span>
+            <span class="text">{{ __('alder::generic.add_new') . ' ' . Str::singular($leaf_type->title) }}</span>
         </a>
     </div>
 
