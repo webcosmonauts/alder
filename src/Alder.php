@@ -391,6 +391,18 @@ class Alder
                 break;
                 
             case 'belongsToMany':
+                // Get leaf id
+                $ids = $useDefault
+                    ? $field_modifiers->default
+                    : $model->LCMV->values->$field_name;
+    
+                // Get leaf instance
+                $leafs = Leaf::with(['LCMV', 'status', 'user', 'leaf_type'])->findMany($ids);
+                foreach ($leafs as $leaf)
+                    $this->populateWithLCMV($leaf, $leaf->leaf_type);
+    
+                // Push relation leaf to model
+                $model->$field_name = $leafs;
                 break;
                 
             default:

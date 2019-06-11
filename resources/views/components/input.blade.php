@@ -11,20 +11,33 @@
     @break
 
     @case('relation')
-    <label for="{{$field_name}}">{{ $field_name }}</label>
+    <label for="{{ $field_name }}">{{ $field_name }}</label>
     <div class="input-group mb-4">
-        <select name="{{$field_name}}" id="{{$field_name}}"
-                class="custom-select">
-            @if(isset($params->fields->$field_name->nullable) && $params->fields->$field_name->nullable)
-                <option value="">—</option>
-            @endif
-            @foreach($relations->$field_name as $relation)
-                <option value="{{$relation->id}}"
-                        {{ ($edit && $relation->id == $leaf->$field_name->id) ? 'selected' : '' }}>
-                    {{ $relation->title }}
-                </option>
-            @endforeach
-        </select>
+        @if($field_modifiers->relation_type == 'belongsTo')
+            <select class="custom-select" name="{{ $field_name }}" id="{{ $field_name }}">
+                @if(isset($params->fields->$field_name->nullable) && $params->fields->$field_name->nullable)
+                    <option value="">—</option>
+                @endif
+                @foreach($relations->$field_name as $relation)
+                    <option value="{{ $relation->id }}"
+                            {{ ($edit && $relation->id == ($leaf->$field_name->id ?? null)) ? 'selected' : '' }}>
+                        {{ $relation->title }}
+                    </option>
+                @endforeach
+            </select>
+        @elseif($field_modifiers->relation_type == 'belongsToMany')
+            @php
+                $ids = $edit ? $leaf->$field_name->pluck('id')->toArray() : null;
+            @endphp
+            <select multiple class="custom-select" name="{{ $field_name }}[]" id="{{ $field_name }}">
+                @if(isset($field_modifiers->nullable) && $field_modifiers->nullable)
+                    <option value="">—</option>
+                @endif
+                @foreach($relations->$field_name as $relation)
+                    <option value="{{ $relation->id }}" {{ $edit && in_array($relation->id, $ids) ? 'selected' : '' }}>{{ $relation->title }}</option>
+                @endforeach
+            </select>
+        @endif
     </div>
     @break
 
