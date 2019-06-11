@@ -5,6 +5,10 @@
     cursor: pointer;
 }
 
+.nav-item.has-dropdown .toggle-collapse.collapsed::after {
+    content: '\f105';
+}
+
 .nav-item.has-dropdown .toggle-collapse:after {
     width: 1rem;
     text-align: center;
