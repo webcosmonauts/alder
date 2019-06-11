@@ -140,19 +140,21 @@ class Alder
     /**
      * Adds new root. Creates new root type if there is none with passed name.
      *
-     * @param string|int|RootType $root_type
+     * @param string|int|RootType $slug
+     * @param string $title
      * @param array $parameters
      *
      * @return Root
      */
-    public function addRoot($root_type, array $parameters = []) {
-        $rootType = $this->getRootType($root_type);
+    public function addRoot($slug, string $title, array $parameters = []) {
+        $rootType = $this->getRootType($slug);
         
-        return DB::transaction(function () use ($rootType, $root_type, $parameters) {
+        return DB::transaction(function () use ($rootType, $title, $slug, $parameters) {
             // make new root type if necessary
             if (empty($rootType)) {
                 $rootType = new RootType();
-                $rootType->name = $root_type;
+                $rootType->title = $title;
+                $rootType->slug = $slug;
                 $rootType->save();
             }
     
@@ -161,7 +163,7 @@ class Alder
             $root->root_type_id = $rootType->id;
             
             // fields that one is allowed to fill
-            $fillables = ['name', 'slug', 'input_type',
+            $fillables = ['title', 'slug', 'input_type',
                 'value', 'options', 'order', 'capabilities', 'is_active'];
             foreach ($fillables as $field) {
                 if (isset($parameters[$field]))

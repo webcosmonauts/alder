@@ -4,7 +4,7 @@ namespace Webcosmonauts\Alder\Models;
 
 /**
  * @property int id
- * @property string name
+ * @property string title
  * @property string slug
  * @property string input_type
  * @property string|null value

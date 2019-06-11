@@ -8,10 +8,10 @@
 
     @foreach($root_types as $root_type)
         <div class="card shadow mb-4">
-            <a href="#collapseCard{{ Str::camel($root_type->name) }}" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCard{{ Str::camel($root_type->name) }}">
-                <h6 class="m-0 font-weight-bold text-primary">{{ $root_type->name }}</h6>
+            <a href="#collapseCard{{ Str::camel($root_type->title) }}" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCard{{ Str::camel($root_type->name) }}">
+                <h6 class="m-0 font-weight-bold text-primary">{{ $root_type->title }}</h6>
             </a>
-            <div class="collapse show" id="collapseCard{{ Str::camel($root_type->name) }}" style="">
+            <div class="collapse show" id="collapseCard{{ Str::camel($root_type->title) }}" style="">
                 <div class="card-body">
                     @foreach($root_type->roots as $root)
                         @if($root->slug == 'ico')
