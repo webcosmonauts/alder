@@ -151,7 +151,7 @@ class UsersController extends BaseController
                     $request->ajax(),
                     __('alder::generic.successfully_'
                         . ($edit ? 'updated' : 'created')) . " $leaf->title",
-                    route("alder.$leaf_type->name.index"),
+                    route("alder.$leaf_type->slug.index"),
                     true,
                     'success'
                 );

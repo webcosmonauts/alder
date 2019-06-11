@@ -9,10 +9,10 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ Str::title(str_replace('-', ' ', $leaf_type->name)) }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
     </div>
 
-    <form action="{{ $edit ? route("alder.$leaf_type->name.update", $leaf->slug) : route("alder.$leaf_type->name.store") }}"
+    <form action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->slug) : route("alder.$leaf_type->slug.store") }}"
           method="POST">
         @csrf
         {{$edit ? method_field('PUT') : method_field('POST')}}

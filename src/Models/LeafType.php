@@ -6,7 +6,8 @@ use Illuminate\Support\Collection;
 
 /**
  * @property int id
- * @property string name
+ * @property string title
+ * @property string slug
  * @property int LCM_id
  * @property string created_at
  * @property string updated_at

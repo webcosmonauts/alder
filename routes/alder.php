@@ -9,7 +9,7 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         
         // leaf types
         foreach (\Webcosmonauts\Alder\Models\LeafType::all() as $type) {
-            Route::resource($type->name, '\Webcosmonauts\Alder\Http\Controllers\BranchBREADController');
+            Route::resource($type->slug, '\Webcosmonauts\Alder\Http\Controllers\BranchBREADController');
         }
 
         // Authentication Routes
