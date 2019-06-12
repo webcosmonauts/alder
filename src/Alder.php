@@ -250,7 +250,11 @@ class Alder
      * @return object
      */
     public function combineLeafTypeLCMs(LeafType $leaf_type) {
-        $combined = [];
+        $combined = [
+            'lcm' => [],
+            'bread' => [],
+            'conditions' => [],
+        ];
         
         foreach ($leaf_type->LCMs as $LCM) {
             $modifiers = get_object_vars($LCM->modifiers);

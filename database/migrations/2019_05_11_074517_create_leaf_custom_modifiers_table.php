@@ -17,6 +17,8 @@ class CreateLeafCustomModifiersTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('group_title')->nullable();
+            $table->string('group_slug')->nullable();
             $table->text('modifiers');
             $table->timestamps();
         });
