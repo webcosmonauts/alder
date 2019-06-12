@@ -34,5 +34,10 @@ return [
     'false' => 'False',
     'browse' => 'Browse',
     'add_new_field' => 'Add new field',
-    'each_opt_separate_line' => 'Each option on separate line'
+    'each_opt_separate_line' => 'Each option on separate line',
+
+    'yes' => 'Yes',
+    'are_you_sure_delete_tab' => 'Are you sure to delete this tab?',
+    'lcm_title' => 'LCM Title',
+    'main' => 'Main'
 ];

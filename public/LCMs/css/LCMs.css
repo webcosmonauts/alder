@@ -1,4 +1,93 @@
-#fields-container {
+.lcm-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+#add-new-tab {
+    padding: 10px 15px;
+    color: #555;
+}
+
+.lcm-tabs__link {
+    padding: 10px 15px;
+    background: #fff;
+    color: #f2f2f2;
+    border: 1px solid #fff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    position: relative;
+    min-width: 90px;
+    text-align: center;
+    margin-right: 3px;
+
+    -webkit-transition: all .4s;
+    -moz-transition: all .4s;
+    -ms-transition: all .4s;
+    -o-transition: all .4s;
+    transition: all .4s;
+}
+
+.lcm-tabs__link.active {
+    border: 1px solid #f2f2f2;
+    color: #858796 !important;
+    border-bottom: 1px solid #fff;
+}
+
+.lcm-tabs__link:hover {
+    text-decoration: none;
+    color: #ccc;
+}
+
+.invalid {
+    border-color: red !important;
+    background: rgba(255, 0, 0, .1) !important;
+}
+
+.lcm-tabs__link span {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+#lcm-tab-edit {
+    display: none;
+    background: #fff;
+    height: 45px;
+    width: 90px;
+    border: 0;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    padding: 0 5px;
+}
+
+.lcm-tabs__link em {
+    position: absolute;
+    right: 3px;
+    top: -2px;
+}
+
+.lcm-tabs-content {
+    position: relative;
+}
+
+#add-new-field {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.lcm-tabs-content .content {
+    display: none;
+    background: #fff;
+    padding: 15px 15px 60px;
+}
+
+.lcm-tabs-content .content.active {
+    display: block;
 }
 
 .field {
@@ -6,7 +95,7 @@
     margin-bottom: 40px;
 }
 
-.field .card-header{
+.field .card-header {
     cursor: pointer;
 }
 

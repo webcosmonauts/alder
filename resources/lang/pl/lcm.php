@@ -34,5 +34,10 @@ return [
     'false' => 'Fałszywy',
     'browse' => 'Wyświetl',
     'add_new_field' => 'Dodaj nowe pole',
-    'each_opt_separate_line' => 'Każda opcja w osobnej linii'
+    'each_opt_separate_line' => 'Każda opcja w osobnej linii',
+
+    'yes' => 'Tak',
+    'are_you_sure_delete_tab' => 'Czy na pewno chcesz usunąć tę zakładkę?',
+    'lcm_title' => 'Tytuł LCM',
+    'main' => 'Główny'
 ];
