@@ -1,7 +1,7 @@
-@switch($field_modifiers->type)
+@switch($k->type)
     @case('string')
-    <label for="{{ $field_name }}">{{ $field_name }}</label>
-    <div class="input-group mb-4">
+    <label for="{{ $field_name }}">{{ $label }}</label>
+    <div class="input-group mb-2">
         <input type="text" name="{{ $field_name }}" id="{{ $field_name }}"
                class="form-control"
                placeholder="{{ $field_name }}"
@@ -11,11 +11,11 @@
     @break
 
     @case('relation')
-    <label for="{{ $field_name }}">{{ $field_name }}</label>
-    <div class="input-group mb-4">
-        @if($field_modifiers->relation_type == 'belongsTo')
+    <label for="{{ $field_name }}">{{ $label }}</label>
+    <div class="input-group mb-2">
+        @if($k->relation_type == 'belongsTo')
             <select class="custom-select" name="{{ $field_name }}" id="{{ $field_name }}">
-                @if(isset($params->fields->$field_name->nullable) && $params->fields->$field_name->nullable)
+                @if(isset($k->nullable) && $k->nullable)
                     <option value="">—</option>
                 @endif
                 @foreach($relations->$field_name as $relation)
@@ -25,12 +25,12 @@
                     </option>
                 @endforeach
             </select>
-        @elseif($field_modifiers->relation_type == 'belongsToMany')
+        @elseif($k->relation_type == 'belongsToMany')
             @php
                 $ids = $edit ? $leaf->$field_name->pluck('id')->toArray() : null;
             @endphp
             <select multiple class="custom-select" name="{{ $field_name }}[]" id="{{ $field_name }}">
-                @if(isset($field_modifiers->nullable) && $field_modifiers->nullable)
+                @if(isset($k->nullable) && $k->nullable)
                     <option value="">—</option>
                 @endif
                 @foreach($relations->$field_name as $relation)
@@ -42,8 +42,8 @@
     @break
 
     @case('date')
-    <label for="{{ $field_name }}">{{ $field_name }}</label>
-    <div class="input-group mb-4">
+    <label for="{{ $field_name }}">{{ $label }}</label>
+    <div class="input-group mb-2">
         <input type="text" name="{{ $field_name }}" id="{{ $field_name }}"
                class="form-control datepicker"
                placeholder="{{ $field_name }}"
@@ -54,7 +54,7 @@
 
     @case('image')
     <div>{{$field_name}}</div>
-    <div class="input-group mb-4">
+    <div class="input-group mb-2">
         <div class="custom-file">
             <input type="file" name="{{ $field_name }}"
                    accept="image/*"
@@ -67,8 +67,8 @@
     @break
 
     @case('select')
-    <label for="{{$field_name}}"> {{$field_name}} </label>
-    <div class="input-group mb-4">
+    <label for="{{$field_name}}"> {{$label}} </label>
+    <div class="input-group mb-2">
         <select name="{{$field_name}}" id="{{$field_name}}"
                 class="custom-select">
             @foreach($field_modifiers->options as $option => $opt)
@@ -79,8 +79,8 @@
     @break
 
     @case('template')
-    <label for="{{$field_name}}"> {{$field_name}} </label>
-    <div class="input-group mb-4">
+    <label for="{{$field_name}}"> {{$label}} </label>
+    <div class="input-group mb-2">
         @php
             $templates_object = TemplateHelper::getTemplatesObject("alder");
         @endphp
