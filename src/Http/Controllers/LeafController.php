@@ -18,7 +18,7 @@ class LeafController extends Controller
 
     public function __construct()
     {
-        $this->theme = Alder::getRootValue('theme');
+        $this->theme = Alder::getRootValue('active-theme');
     }
 
 
