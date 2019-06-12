@@ -40,6 +40,9 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         //profile
         Route::get('profile', '\Webcosmonauts\Alder\Http\Controllers\ProfileController@index')->name('profile.index');
 
+        //Appearance
+        Route::get('themes', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@index')->name('themes.index');
+        Route::post('themes', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@update')->name('themes.update');
     });
 
     // uploader

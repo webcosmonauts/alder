@@ -5,6 +5,7 @@ namespace Webcosmonauts\Alder\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
 use Webcosmonauts\Alder\Models\Leaf;
@@ -17,7 +18,7 @@ class LeafController extends Controller
 
     public function __construct()
     {
-        $this->theme = "alder";
+        $this->theme = Alder::getRootValue('theme');
     }
 
 
