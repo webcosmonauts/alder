@@ -8,4 +8,5 @@ return [
     'version' => 'Version',
     'license' => 'License',
     'set_theme' => 'Set theme',
+    'appearance_title' => 'Appearance',
 ];

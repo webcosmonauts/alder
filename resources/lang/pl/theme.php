@@ -8,4 +8,5 @@ return [
     'version' => 'Wersja',
     'license' => 'Licencja',
     'set_theme' => 'Ustaw motyw',
+    'appearance_title' => 'Wygląd',
 ];
