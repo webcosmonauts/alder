@@ -75,16 +75,65 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card shadow mb-4">
+                    <div class="card-header font-weight-bold text-primary"> {{__('alder::lcm.conditions')}} </div>
+
                     <div class="card-body">
 
-                        <button type="submit" class="btn btn-success btn-icon-split">
+
+                        <div class="conditional-field d-flex flex-wrap">
+
+                            <div class="form-group">
+                                <label for="parameter"> </label>
+                                <select name="parameter" id="parameter" class="form-control">
+                                    <option value="page-template"> {{__('alder::lcm.page_template')}} </option>
+                                    <option value="leaf-type">LeafType</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-group-small">
+                                <label for="operator"> </label>
+
+                                <select name="operator" id="operator" class="form-control">
+                                    <option value="is">{{__('alder::lcm.is')}}</option>
+                                    <option value="not">{{__('alder::lcm.not')}}</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="value"> </label>
+
+                                @php
+                                    $templates_object = TemplateHelper::getTemplatesObject("alder");
+                                @endphp
+
+                                <select name="value" id="value" class="custom-select">
+
+                                    @foreach($templates_object as $name=>$single_template)
+                                        <option data-group="page-template"
+                                                value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
+                                    @endforeach
+
+                                    <option class="d-none" data-group="leaf-type" value="1">lorem1</option>
+                                    <option class="d-none" data-group="leaf-type" value="2">lorem2</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12 mb-4">
+                <button type="submit" class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                               <i class="fas fa-save"></i>
                             </span>
-                            <span class="text">{{ __('alder::generic.save') }}</span>
-                        </button>
-                    </div>
-                </div>
+                    <span class="text">{{ __('alder::generic.save') }}</span>
+                </button>
             </div>
         </div>
     </form>

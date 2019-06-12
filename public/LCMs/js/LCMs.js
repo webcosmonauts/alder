@@ -9,6 +9,14 @@ $(document).ready(function () {
 		return str;
 	}
 
+
+	// FOR ALL INPUTS AND TEXTAREA [^0-9a-zA-Z\s_:] MUST HAVE NORMAL TEXT
+	$('body').on('keyup', 'input, textarea', function (e) {
+
+		var text = $(this).val();
+		$(this).val(text.replace(/[^0-9a-zA-Z\s_:]+/g, ""));
+	});
+
 	// LCM SLUG
 	$('#lcm_title').on('change', function () {
 
@@ -154,6 +162,29 @@ $(document).ready(function () {
 	});
 
 
+	/******** Condition fields ******/
+	$('body').on('change', 'select[name=parameter]', function (e) {
+
+		var
+			typeSelect = $(this).parents('.conditional-field').find('select[name=value]'),
+			value = $(this).val();
+
+		typeSelect.find('option').addClass('d-none');
+		typeSelect.find('option[data-group="' + value + '"]').removeClass('d-none');
+
+		var index = 0, selected = false;
+		typeSelect.find('option').each(function () {
+			if ($(this).attr('data-group') == value && !selected) {
+				typeSelect.prop('selectedIndex', index);
+				selected = true;
+			}
+
+			index++;
+
+		});
+	});
+
+
 	$('#LCMs-form').on('keyup', 'input', function () {
 		$(this).removeClass('invalid');
 	});
@@ -187,6 +218,7 @@ $(document).ready(function () {
 
 			fieldNamesArray = [],
 			$requiredFields = form.find('[required]'),
+			$conditionFields = form.find('.conditional-field'),
 			$tabs = $('.lcm-tabs-content').find('.content');
 
 		/* VALIDATION */
@@ -251,6 +283,16 @@ $(document).ready(function () {
 			}
 		});
 
+		$conditionFields.each(function () {
+
+			var obj = {};
+
+			$(this).find('select').each(function () {
+				obj[$(this).attr('name')] = $(this).val();
+			});
+			
+			data.conditions.push(obj);
+		});
 
 		function addFieldsToJSONObj(fields, tab) {
 
@@ -260,8 +302,7 @@ $(document).ready(function () {
 					tabName = $('.lcm-tabs__link[href="#' + tab.attr('id') + '"]').find('span').text(),
 					tabSlug = slugify(tabName);
 
-				console.log('tabName', tabSlug);
-
+				tabSlug = checkFieldName(tabSlug);
 
 				data.lcm[tabSlug] = {
 					display_name: tabName,

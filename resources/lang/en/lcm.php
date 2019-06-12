@@ -39,5 +39,9 @@ return [
     'yes' => 'Yes',
     'are_you_sure_delete_tab' => 'Are you sure to delete this tab?',
     'lcm_title' => 'LCM Title',
-    'main' => 'Main'
+    'main' => 'Main',
+    'conditions' => 'Conditions',
+    'page_template' => 'Page template',
+    'is' => 'is',
+    'not' => 'not'
 ];

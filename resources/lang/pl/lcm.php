@@ -39,5 +39,9 @@ return [
     'yes' => 'Tak',
     'are_you_sure_delete_tab' => 'Czy na pewno chcesz usunąć tę zakładkę?',
     'lcm_title' => 'Tytuł LCM',
-    'main' => 'Główny'
+    'main' => 'Główny',
+    'conditions' => 'Warunki',
+    'page_template' => 'Szablon strony',
+    'is' => 'jest',
+    'not' => 'nie'
 ];

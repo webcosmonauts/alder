@@ -129,6 +129,15 @@
     z-index: 5;
 }
 
+.conditional-field .form-group {
+    width: auto;
+}
+
+.conditional-field .form-group.form-group-small {
+    width: auto;
+    margin: 0 30px;
+}
+
 @media (max-width: 1199px) {
     .field .form-group {
         width: calc((100% - 30px * 2) / 2);
