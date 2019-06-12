@@ -10,9 +10,9 @@
             </div>
             <div class="sidebar-brand-text mx-3">Alder</div>
         </a>
-        <hr class="sidebar-divider my-0">
 
         @foreach($admin_menu_items as $section)
+            <hr class="sidebar-divider my-0">
             @if(count($section->children) > 0)
                 <li class="nav-item {{ $section->is_current ? 'active' : '' }} has-dropdown">
                     <a class="nav-link"
