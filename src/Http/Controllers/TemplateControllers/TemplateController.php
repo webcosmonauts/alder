@@ -81,7 +81,7 @@ class TemplateController extends Controller
                 //Get theme slug
                 if ( ! preg_match( '|#Theme slug:(.*)$|mi', file_get_contents( $single_folder."/Readme.md"), $match ) )
                     continue;
-                $single_instance["theme_slug"]=$match[1];
+                $single_instance["theme_slug"]=trim($match[1]);
 
                 //Get theme description
                 if ( ! preg_match( '|##Theme description:(.*)$|mi', file_get_contents( $single_folder."/Readme.md"), $match ) )
