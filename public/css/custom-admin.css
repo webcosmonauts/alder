@@ -1,0 +1,74 @@
+
+.nav-item.has-dropdown .toggle-collapse {
+    padding: 15px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    top: 8px;
+}
+
+.nav-item.has-dropdown .toggle-collapse.collapsed {
+    opacity: .3;
+}
+
+.nav-item.has-dropdown .toggle-collapse.collapsed:hover {
+    opacity: 1;
+}
+
+.nav-item.has-dropdown .toggle-collapse.collapsed::after {
+    content: '\f105';
+}
+
+.nav-item.has-dropdown .toggle-collapse:before {
+    content: '';
+    display: block;
+    background: #fff;
+    z-index: 0;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+}
+
+.nav-item.has-dropdown .toggle-collapse:after {
+    width: 1rem;
+    text-align: center;
+    vertical-align: 0;
+    border: 0;
+    z-index: 1;
+    color: #555;
+    font-weight: 900;
+    position: absolute;
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -12px;
+}
+
+.nav-item.has-dropdown > .nav-link {
+    display: inline-block !important;
+    width: calc(100% - 46px) !important;
+}
+
+@media (min-width: 768px) {
+    .sidebar.toggled .nav-item.has-dropdown .toggle-collapse {
+        position: absolute;
+        top: 15px;
+        right: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .nav-item.has-dropdown .toggle-collapse {
+        top: 15px;
+        position: absolute;
+        right: 0;
+    }
+}
