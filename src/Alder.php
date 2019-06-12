@@ -159,7 +159,7 @@ class Alder
                 $rootType->slug = $slug;
                 $rootType->save();
             }
-    
+            
             // prepare new root
             $root = new Root();
             $root->root_type_id = $rootType->id;
@@ -190,7 +190,7 @@ class Alder
         $root->value = $value;
         return $root->save() ? $root : false;
     }
-
+    
     /**
      * Get value of existing root
      *
@@ -201,7 +201,7 @@ class Alder
     public function getRootValue($param) {
         return $this->getRoot($param)->value;
     }
-
+    
     /**
      * Get values of collection of roots
      *
@@ -211,11 +211,11 @@ class Alder
      */
     public function getRootsValues($collection) {
         $result = [];
-
+        
         foreach ($collection as $root) {
             $result[$root->slug] = $root->value;
         }
-
+        
         return $this->arrayToObject($result);
     }
     
@@ -256,8 +256,34 @@ class Alder
             $modifiers = get_object_vars($LCM->modifiers);
             
             foreach ($modifiers as $name => $modifier) {
+                if (!isset($combined[$name]))
+                    $combined[$name] = [];
+                
                 switch ($name) {
-                    case 'leaf_type': break;
+                    // if some modifiers need custom handling put cases here
+                    case 'bread':
+                        foreach ($modifier as $method_name => $method_parameters) {
+                            if (!isset($combined[$name][$method_name]))
+                                $combined[$name][$method_name] = [];
+                            
+                            foreach ($method_parameters as $field_name => $field_value) {
+                                if (!isset($combined[$name][$method_name][$field_name]))
+                                    $combined[$name][$method_name][$field_name] = [];
+                                
+                                switch ($field_name) {
+                                    case 'table_columns':
+                                        foreach ($field_value as $column) {
+                                            if (!in_array($column, $combined[$name][$method_name][$field_name])) {
+                                                $combined[$name][$method_name][$field_name][] = $column;
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        $this->arrayRecursion($combined[$name][$method_name][$field_name], $field_name, $field_value);
+                                }
+                            }
+                        }
+                        break;
                     default:
                         foreach ($modifier as $field_name => $parameters) {
                             $this->arrayRecursion($combined[$name], $field_name, $parameters);
@@ -285,12 +311,15 @@ class Alder
         if (!isset($relations->statuses))
             $relations->statuses = LeafStatus::all();
         
-        foreach ($params->fields as $field_name => $field_modifiers) {
-            if ($field_modifiers->type == 'relation') {
+        foreach ($params as $field_name => $field_modifiers) {
+            if (!isset($field_modifiers->type)) {
+                $relations = $this->getRelations((object)$field_modifiers->fields, $relations);
+            }
+            else if ($field_modifiers->type == 'relation') {
                 // get id of leaf type
                 // todo notify if none id found
                 $leaf_type_id = LeafType::where('slug', Str::plural($field_modifiers->leaf_type))->value('id');
-        
+                
                 // if relation already loaded, continue
                 if (!isset($relations->$field_name))
                     $relations->$field_name = Leaf::with(['LCMV', 'leaf_type', 'user', 'status'])
@@ -304,14 +333,16 @@ class Alder
     /**
      * Add values from model's LCMV
      *
-     * @throws UnknownRelationException
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownRelationException
      *
-     * @param BaseModel &$model
+     * @param &$model
      * @param int|string|LeafType $type
-     * @param object|null $combined
+     * @param stdClass|null $params
+     *
+     * @return mixed
      */
-    public function populateWithLCMV(BaseModel &$model, $type, $combined = null) {
+    public function populateWithLCMV($model, $type, stdClass $params = null) {
         // Get instance of LeafType
         $leaf_type = $this->getLeafType($type);
         
@@ -321,40 +352,50 @@ class Alder
          * If two modifiers have same fields, only first one will be used.
          * Additionally, log message and notification will be made.
          */
-        $params = is_null($combined) ? $this->combineLeafTypeLCMs($leaf_type) : $combined;
+        $params = is_null($params) ? $this->combineLeafTypeLCMs($leaf_type)->lcm : $params;
         
         /**
          * Assign values to prepared parameters.
          */
-        foreach ($params->fields as $field_name => $field_modifiers) {
-            /**
-             * If LCMV have value for parameter, assign it.
-             */
-            if (isset($model->LCMV->values->$field_name) && !empty($model->LCMV->values->$field_name)) {
-                $model->$field_name = $model->LCMV->values->$field_name;
-                
-                /**
-                 * Load needed relations
-                 */
-                if ($field_modifiers->type == 'relation')
-                    $this->getSingleRelation($model, $field_name, $field_modifiers);
+        foreach ($params as $field_name => $field_modifiers) {
+            if (!isset($field_modifiers->type)) {
+                foreach ($field_modifiers->fields as $entity_name => $entity_modifier) {
+                    $temp = isset($model->$field_name) ? $model->$field_name : new stdClass();
+                    $model->$field_name = $this->populateWithLCMV($temp, $leaf_type, $field_modifiers->fields);
+                }
             }
             else {
-                // assign default value, if it is set
-                if (isset($field_modifiers->default)) {
-                    $model->$field_name = $field_modifiers->default;
-    
+                /**
+                 * If LCMV have value for parameter, assign it.
+                 */
+                if (isset($model->LCMV->values->$field_name) && !empty($model->LCMV->values->$field_name)) {
+                    $model->$field_name = $model->LCMV->values->$field_name;
+                    
+                    /**
+                     * Load needed relations
+                     */
                     if ($field_modifiers->type == 'relation')
-                        $this->getSingleRelation($model, $field_name, $field_modifiers, true);
+                        $this->getSingleRelation($model, $field_name, $field_modifiers);
                 }
-                // if default value is not set, assign null if possible
-                else if (isset($field_modifiers->nullable) && $field_modifiers->nullable == true)
-                    $model->$field_name = null;
-                // if default value is not set and parameter is not nullable, throw exception
-                else
-                    throw new AssigningNullToNotNullableException($field_name);
+                else {
+                    // assign default value, if it is set
+                    if (isset($field_modifiers->default)) {
+                        $model->$field_name = $field_modifiers->default;
+                        
+                        if ($field_modifiers->type == 'relation')
+                            $this->getSingleRelation($model, $field_name, $field_modifiers, true);
+                    }
+                    // if default value is not set, assign null if possible
+                    else if (isset($field_modifiers->nullable) && $field_modifiers->nullable == true)
+                        $model->$field_name = null;
+                    // if default value is not set and parameter is not nullable, throw exception
+                    else
+                        throw new AssigningNullToNotNullableException($field_name);
+                }
             }
         }
+        
+        return $model;
     }
     
     /**
@@ -370,41 +411,35 @@ class Alder
      */
     public function getSingleRelation(BaseModel &$model, $field_name, $field_modifiers, bool $useDefault = false) {
         switch ($field_modifiers->relation_type) {
-            case 'hasOne':
-                break;
-                
-            case 'hasMany':
-                break;
-                
             case 'belongsTo':
                 // Get leaf id
                 $id = $useDefault
                     ? $field_modifiers->default
                     : $model->LCMV->values->$field_name;
-    
+                
                 // Get leaf instance
                 $leaf = Leaf::with(['LCMV', 'status', 'user', 'leaf_type'])->findOrFail($id);
-                $this->populateWithLCMV($leaf, $leaf->leaf_type);
-            
+                $leaf = $this->populateWithLCMV($leaf, $leaf->leaf_type);
+                
                 // Push relation leaf to model
                 $model->$field_name = $leaf;
                 break;
-                
+            
             case 'belongsToMany':
                 // Get leaf id
                 $ids = $useDefault
                     ? $field_modifiers->default
                     : $model->LCMV->values->$field_name;
-    
+                
                 // Get leaf instance
                 $leafs = Leaf::with(['LCMV', 'status', 'user', 'leaf_type'])->findMany($ids);
                 foreach ($leafs as $leaf)
-                    $this->populateWithLCMV($leaf, $leaf->leaf_type);
-    
+                    $leaf = $this->populateWithLCMV($leaf, $leaf->leaf_type);
+                
                 // Push relation leaf to model
                 $model->$field_name = $leafs;
                 break;
-                
+            
             default:
                 throw new UnknownRelationException($field_name);
         }
@@ -424,7 +459,7 @@ class Alder
         $page_type = explode('/', Route::getCurrentRoute()->uri)[1] ?? '';
         
         foreach ($leaves as &$leaf) {
-            $this->populateWithLCMV($leaf, $leaf_type);
+            $leaf = $this->populateWithLCMV($leaf, $leaf_type);
         }
         
         // Separate sections (with parent_id = null)
