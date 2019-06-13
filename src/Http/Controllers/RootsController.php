@@ -66,9 +66,9 @@ class RootsController extends BaseController
      * @param $param
      * @return JsonResponse|RedirectResponse
      */
-    public function update(Request $request, $param)
+    public function update(Request $request)
     {
-        $root = Alder::setRootValue($param, $request->value);
+        $root = Alder::setRootValue($request->param, $request->value);
         return
             $root
                 ? Alder::returnResponse(
