@@ -4,6 +4,7 @@ namespace Webcosmonauts\Alder\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\LeafCustomModifier;
 
