@@ -43,5 +43,6 @@ return [
     'conditions' => 'Warunki',
     'page_template' => 'Szablon strony',
     'is' => 'jest',
-    'not' => 'nie'
+    'not' => 'nie',
+    'repeater' => "Pole powtarzalne"
 ];
