@@ -10,14 +10,25 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{__('alder::lcm.singular')}}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{$edit ? $LCM->title : __('alder::lcm.singular')}}</h1>
     </div>
 
-    <form action="{{route('alder.LCMs.store')}}" id="LCMs-form" method="POST" novalidate>
+
+    <form action="{{$edit ? route('alder.LCMs.update', $LCM->slug) : route('alder.LCMs.store')}}" id="LCMs-form"
+          method="POST"
+          novalidate>
         @csrf
 
+    @php
+        if($edit) {
+            $lcm = $LCM->modifiers->lcm;
+            $conditions = $LCM->conditions;
+            $browse = $LCM->modifiers->bread->browse->table_columns;
+        }
 
-        <!-- *** LCM MAIN FIELDS *** -->
+    @endphp
+
+    <!-- *** LCM MAIN FIELDS *** -->
         <div class="card shadow mb-5">
             <div class="card-header font-weight-bold text-primary">LCM</div>
             <div class="card-body">
@@ -29,7 +40,8 @@
                             <label for="lcm_title">{{__('alder::lcm.lcm_title')}} *</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_title" id="lcm_title"
-                                       class="form-control" required>
+                                       class="form-control" data-title="1" required
+                                        @php if($edit) echo 'value="'.$LCM->title.'"' @endphp>
                             </div>
                         </div>
                     </div>
@@ -40,7 +52,35 @@
                             <label for="lcm_slug">LCM slug *</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_slug" id="lcm_slug"
-                                       class="form-control" required>
+                                       class="form-control" data-slug="1" required
+                                        @php if($edit) echo 'value="'.$LCM->slug.'"' @endphp>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- LCM GROUP TITLE -->
+                        <div class="form-group">
+                            <label for="lcm_group_title">{{__('alder::lcm.lcm_group_title')}}</label>
+                            <div class="input-group">
+                                <input type="text" name="lcm_group_title" id="lcm_group_title"
+                                       class="form-control" data-title="2"
+                                        @php if($edit) echo 'value="'.$LCM->group_title.'"' @endphp>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- LCM SlUG -->
+                        <div class="form-group">
+                            <label for="lcm_group_slug">{{__('alder::lcm.lcm_group_slug')}} </label>
+                            <div class="input-group">
+                                <input type="text" name="lcm_group_slug" id="lcm_group_slug"
+                                       class="form-control" data-slug="2"
+                                        @php if($edit) echo 'value="'.$LCM->group_slug.'"' @endphp>
                             </div>
                         </div>
                     </div>
@@ -56,6 +96,18 @@
             </a>
 
 
+            @if($edit)
+                @php $tabsCounter = 1; @endphp
+                @foreach($lcm as $field_k => $field)
+
+                    @if(!isset($field->type))
+                        <a href="#section-{{$tabsCounter}}" class="lcm-tabs__link">{{$field->display_name}}</a>
+                    @endif
+                    @php $tabsCounter++; @endphp
+                @endforeach
+            @endif
+
+
             <a href="#" id="add-new-tab"> <em class="fa fa-plus"></em> <span class="d-none">add new tab</span> </a>
             <input type="text" id="lcm-tab-edit">
         </div>
@@ -64,7 +116,35 @@
         <!-- *** TABS CONTENT *** -->
         <div class="lcm-tabs-content">
             <div class="content shadow mb-5 active" id="main">
+                @if($edit)
+
+                    @foreach($lcm as $field_k => $field)
+
+                        @if(isset($field->type))
+                            @php $field_name = $field_k; @endphp
+                            @include('alder::components.LCM')
+                        @endif
+
+                    @endforeach
+
+                @endif
             </div>
+
+            @if($edit)
+                @php $tabsCounter = 1; @endphp
+                @foreach($lcm as $field_k => $field)
+
+                    @if(!isset($field->type))
+                        <div class="content shadow mb-5" id="section-{{$tabsCounter}}">
+                            @foreach($field->fields as $subfield_k => $subfield)
+                                @php $field = $subfield; $field_name = $subfield_k; @endphp
+                                @include('alder::components.LCM')
+                            @endforeach
+                        </div>
+                    @endif
+                    @php $tabsCounter++; @endphp
+                @endforeach
+            @endif
 
 
             <button type="button" class="btn btn-primary"
@@ -129,9 +209,9 @@
 
             <div class="col-12 mb-4">
                 <button type="submit" class="btn btn-success btn-icon-split">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-save"></i>
-                            </span>
+                <span class="icon text-white-50">
+                  <i class="fas fa-save"></i>
+                </span>
                     <span class="text">{{ __('alder::generic.save') }}</span>
                 </button>
             </div>
@@ -277,7 +357,7 @@
                 <!-- *** BROWSE *** -->
                 <div class="form-group d-flex align-items-center">
                     <label for="browse">{{__('alder::lcm.browse')}}</label>
-                    <input type="checkbox" name="browse" id="browse" class="icheck" disabled>
+                    <input type="checkbox" name="browse" id="browse" disabled>
                 </div>
             </div>
         </div>

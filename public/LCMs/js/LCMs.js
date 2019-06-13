@@ -18,9 +18,9 @@ $(document).ready(function () {
 	});
 
 	// LCM SLUG
-	$('#lcm_title').on('change', function () {
-
-		$('#lcm_slug').val(slugify($(this).val()));
+	$('[data-title]').on('change', function () {
+		var slug = $('[data-slug=' + $(this).attr('data-title') + ']');
+		slug.val(slugify($(this).val()));
 	});
 
 
@@ -124,7 +124,7 @@ $(document).ready(function () {
 		container.append(pattern);
 		container.find('input, select, textarea').removeClass('disabled').removeAttr('disabled');
 
-		container.find('.icheck').iCheck({
+		container.find('input[type=checkbox]').iCheck({
 			checkboxClass: 'icheckbox_flat-red',
 			radioClass: 'iradio_flat-red'
 		});
@@ -140,7 +140,7 @@ $(document).ready(function () {
 		$(this).before(pattern);
 		container.find('input, select, textarea').removeClass('disabled').removeAttr('disabled');
 
-		container.find('.icheck').iCheck({
+		container.find('input[type=checkbox]').iCheck({
 			checkboxClass: 'icheckbox_flat-red',
 			radioClass: 'iradio_flat-red'
 		});
@@ -398,10 +398,13 @@ $(document).ready(function () {
 										inputValue.forEach(function (item) {
 											var line = item.split(":");
 
-											line[0] = line[0].replace(/\s/g, "");
-											line[1] = line[1].trim().replace(/\s{2,}/g, "");
+											if (line.length > 1) {
+												line[0] = line[0].replace(/\s/g, "");
+												line[1] = line[1].replace(/\s{2,}/g, "");
+												line[1] = line[1].trim();
 
-											fieldObj[inputName][line[0]] = line[1];
+												fieldObj[inputName][line[0]] = line[1];
+											}
 										});
 									} else {
 										fieldObj[inputName] = [];
@@ -442,20 +445,48 @@ $(document).ready(function () {
 		}
 
 
-		console.log(data);
 		data = JSON.stringify(data);
 
+		var method = "POST";
+		if (/edit/g.test(window.location.href)) method = "PUT";
+
+		if ($('#response-message').length) $('#response-message').remove();
+
 		$.ajax({
-			method: "POST",
+			method: method,
 			url: url,
 			data: {
+
+				_token: form.find('[name=_token]').val(),
 				data: data,
 				title: $('#lcm_title').val(),
 				slug: slugify($('#lcm_slug').val()),
-				_token: form.find('[name=_token]').val()
+				group_title: $('#lcm_group_title').val(),
+				group_slug: slugify($('#lcm_group_slug').val())
 			}
-		}).done(function (message) {
-			console.log(message);
+
+		}).done(function (response) {
+
+			var messageHtml = "";
+
+			if (response.redirect) {
+
+				buildAndViewMessage();
+
+				setTimeout(function () {
+					window.location.href = response.redirect;
+				}, 1500);
+			} else {
+				buildAndViewMessage();
+			}
+
+
+			function buildAndViewMessage() {
+				messageHtml = "<div id='response-message' class='card mb-5 border-left-" + response['alert-type'] + " shadow h-100 py-2'><div class='card-body'>" + response.message + "</div></div>";
+
+				$('.container-fluid').eq(0).prepend(messageHtml);
+				$('body, html').animate({scrollTop: 0});
+			}
 		});
 
 	});
