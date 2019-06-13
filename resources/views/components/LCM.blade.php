@@ -58,7 +58,7 @@
 
 
                 @foreach($field->fields as $subfield_k => $subfield)
-                    @php $field = $subfield @endphp
+                    @php $field = $subfield; $field_name = $subfield_k; @endphp
                     @include('alder::components.LCM')
                 @endforeach
 
@@ -76,8 +76,6 @@
                 <select name="relation_type" id="relation_type" class="form-control">
                     @php
                         $relationTypesArray = array(
-                            "hasOne" => "hasOne",
-                            "hasMany" => "hasMany",
                             "belongsTo" => "belongsTo",
                             "belongsToMany" => "belongsToMany",
                         );
@@ -108,7 +106,7 @@
 
                 @php
                     $options = "";
-                    if($field->options):
+                    if(isset($field->options)):
                     foreach($field->options as $opt_k => $opt_v):
                         $options .= $opt_k ." : " . $opt_v . "\n";
                     endforeach;

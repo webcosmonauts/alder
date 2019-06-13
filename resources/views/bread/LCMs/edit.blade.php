@@ -302,8 +302,6 @@
                     <label for="relation_type">{{__('alder::lcm.relation_type')}}</label>
                     <select name="relation_type" id="relation_type" class="form-control"
                             disabled>
-                        <option value="hasOne">hasOne</option>
-                        <option value="hasMany">hasMany</option>
                         <option value="belongsTo">belongsTo</option>
                         <option value="belongsToMany">belongsToMany</option>
                     </select>
