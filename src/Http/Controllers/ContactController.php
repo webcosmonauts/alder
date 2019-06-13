@@ -45,7 +45,7 @@ class ContactController extends BaseController {
     public function create()
     {
         $root_type = RootType::with('roots')
-            ->where('name', 'Mailing')->first();
+            ->where('title', 'Mailing')->first();
 
         $roots = Alder::getRootsValues($root_type->roots);
 
@@ -85,8 +85,10 @@ class ContactController extends BaseController {
     {
 
         $branchType = $this->getBranchType($request);
+
         /* Get leaf type with custom modifiers */
-        $leaf_type = \Webcosmonauts\Alder\Facades\Alder::getLeafType($branchType);
+        $leaf_type = Alder::getLeafType($branchType);
+
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLeafTypeLCMs($leaf_type);
         $edit = false;
@@ -248,6 +250,7 @@ class ContactController extends BaseController {
             try {
 
                 $form = $edit ? Leaf::where('id',$id)->get()->first() : new Leaf();
+                $LCMV = $edit ? $form->LCMV : new LeafCustomModifierValue();
 
                 $form->title = $request->title;
                 $form->slug = $request->slug;
@@ -260,24 +263,12 @@ class ContactController extends BaseController {
                 $form->updated_at = date("Y-m-d H:i:s");
                 $form->revision = 0;
 
-                $LCMV = $edit ? $form->LCMV : new LeafCustomModifierValue();
-                $values = [];
-//                dd($params);
-                foreach ($params->fields as $field_name => $modifiers) {
-//                    dd($modifiers);
-                    if (isset($request->$field_name) && !empty($request->$field_name))
-                        $values[$field_name] = $request->$field_name;
-                    else {
 
-                        if (isset($modifiers->default))
-                            $values[$field_name] = $modifiers->default;
-                        else if (isset($modifiers->nullable) && $modifiers->nullable)
-                            $values[$field_name] = null;
-                        else
-                            throw new AssigningNullToNotNullableException($field_name);
-                    }
-                }
-                $LCMV->values = $values;
+
+//                dd($params);
+                $LCMV->values = $this->addValue($request, $params->lcm);
+
+
                 $LCMV->save();
 
                 $form->LCMV_id = $LCMV->id;
@@ -303,6 +294,26 @@ class ContactController extends BaseController {
                 );
             }
         });
+    }
+    private function addValue($request, $params, $values = []) {
+        foreach ($params as $field_name => $modifiers) {
+            if (!isset($modifiers->type)) {
+                $values[$field_name] = $this->addValue($request, $modifiers->fields);
+            }
+            else {
+                if (isset($request->$field_name) && !empty($request->$field_name))
+                    $values[$field_name] = $request->$field_name;
+                else {
+                    if (isset($modifiers->default))
+                        $values[$field_name] = $modifiers->default;
+                    else if (isset($modifiers->nullable) && $modifiers->nullable)
+                        $values[$field_name] = null;
+                    else
+                        throw new AssigningNullToNotNullableException($field_name);
+                }
+            }
+        }
+        return $values;
     }
 
 }
