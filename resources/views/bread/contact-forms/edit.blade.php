@@ -18,16 +18,22 @@
         </div>
     @endif
 
-    <!-- Tab panes -->
-    <div class="tab-content mb-5">
 
-        <!-- tab 1 -->
-        <div class="tab-pane active" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab">
 
-            <form action="{{ $edit ? route("alder.contact-forms.update",  $form->id) : route("alder.contact-forms.save_form")}}" method="post">
+
+    <div class="card shadow">
+
+        <div class="card-header"><h5
+                    class="font-weight-bold text-primary"> {{$edit ? $form->title : __('alder::contact-forms.singular')}} </h5>
+        </div>
+
+        <div class="card-body">
+
+            <form action="{{ $edit ? route("alder.contact-forms.update",  $form->id) : route("alder.contact-forms.save_form")}}"
+                  method="post">
                 @csrf
-                {{$edit ? method_field('PUT') : method_field('POST')}}
-                <!-- Template builder -->
+            {{$edit ? method_field('PUT') : method_field('POST')}}
+            <!-- Template builder -->
                 <div class="form-group mb-5">
                     <label for="contact-form-title"> Title </label>
                     <input type="text" name="title" id="contact-form-title" class="form-control"
@@ -40,7 +46,8 @@
                            required>
                     <br>
                     <label for="is_accessable">Visibility</label>
-                    <input type="checkbox" name="is_accessable" {{ $edit && $form->is_accessable == '1' ? 'checked' : ''}}>
+                    <input type="checkbox" class="icheck"
+                           name="is_accessable" {{ $edit && $form->is_accessable == '1' ? 'checked' : ''}}>
                 </div>
                 <div id="contact-form-template-builder">
 
@@ -61,82 +68,19 @@
                     </div>
 
                     <label for="contact-form-content" hidden></label>
-                    <textarea name="template-content" rows="10" id="contact-form-content" class="form-control">{{ $edit ? $form->content : '' }}</textarea>
+                    <textarea name="template-content" rows="10" id="contact-form-content"
+                              class="form-control">{{ $edit ? $form->content : '' }}</textarea>
                 </div>
-                    <div>
+                <div>
 
-                    </div>
+                </div>
                 <!--  -->
 
                 <input type="submit" class="btn btn-primary btn-success mt-4" value="Submit">
             </form>
         </div>
-
-
-        <!-- tab 2 -->
-{{--        <div class="tab-pane" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab">--}}
-
-{{--            <form action="{{route('alder.roots.update')}}" method="post">--}}
-{{--            @csrf--}}
-{{--            <!-- recipient -->--}}
-{{--                <div class="form-group row">--}}
-{{--                    <label for="contact-form-recipient" class="col-sm-2 col-form-label"> Recipient </label>--}}
-
-{{--                    <div class="col-sm-10">--}}
-{{--                        <input type="text" name="recipient"--}}
-{{--                               id="contact-form-recipient" class="form-control"--}}
-{{--                               value="{{ $roots->recipient }}">--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-{{--                <!-- sender -->--}}
-{{--                <div class="form-group mb-5 row">--}}
-{{--                    <label for="contact-form-sender" class="col-sm-2 col-form-label"> Sender </label>--}}
-
-{{--                    <div class="col-sm-10">--}}
-{{--                        <input type="text" name="sender" id="contact-form-sender"--}}
-{{--                               class="form-control" value="{{ $roots->sender }}">--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-
-{{--                <!-- theme -->--}}
-{{--                <div class="form-group row">--}}
-{{--                    <label for="contact-form-theme" class="col-sm-2 col-form-label"> Recipient </label>--}}
-
-{{--                    <div class="col-sm-10">--}}
-{{--                        <input type="text" name="theme" id="contact-form-theme"--}}
-{{--                               class="form-control" value="{{ $roots->theme }}">--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-{{--                <!-- Additional headers -->--}}
-{{--                <div class="form-group row">--}}
-{{--                    <label for="contact-form-additional-headers" class="col-sm-2 col-form-label"> Additional--}}
-{{--                        headers </label>--}}
-
-{{--                    <div class="col-sm-10">--}}
-{{--                        <textarea name="additional_headers" id="contact-form-additional-headers"--}}
-{{--                                  class="form-control">{{ $roots->additional_headers }}</textarea>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-{{--                <!-- Message content -->--}}
-{{--                <div class="form-group row">--}}
-{{--                    <label for="contact-form-message-content" class="col-sm-2 col-form-label"> Message content</label>--}}
-
-{{--                    <div class="col-sm-10">--}}
-{{--                        <textarea name="message_content" rows="8" id="contact-form-message-content"--}}
-{{--                                  class="form-control"--}}
-{{--                                  value="">{{ $roots->message_content }}</textarea>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-{{--                <input type="submit" class="btn btn-primary btn-success" value="Submit">--}}
-
-{{--            </form>--}}
-{{--        </div>--}}
     </div>
+
 
 
 
