@@ -4,8 +4,6 @@ return [
     'singular' => 'Leaf custom modifier',
     'plural' => 'Leaf custom modifiers',
 
-    'group_title' => 'Group title',
-    
     'field' => 'Field',
     'field_name' => 'Field Name',
     'type' => 'Type',
@@ -45,5 +43,6 @@ return [
     'conditions' => 'Conditions',
     'page_template' => 'Page template',
     'is' => 'is',
-    'not' => 'not'
+    'not' => 'not',
+    'repeater' => "Repeater"
 ];
