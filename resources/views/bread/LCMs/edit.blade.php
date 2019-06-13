@@ -13,7 +13,7 @@
         <h1 class="h3 mb-0 text-gray-800">{{__('alder::lcm.singular')}}</h1>
     </div>
 
-    <form action="#" id="LCMs-form" method="POST" novalidate>
+    <form action="{{route('alder.LCMs.store')}}" id="LCMs-form" method="POST" novalidate>
         @csrf
 
 
@@ -63,7 +63,7 @@
 
         <!-- *** TABS CONTENT *** -->
         <div class="lcm-tabs-content">
-            <div class="content mb-5 active" id="main">
+            <div class="content shadow mb-5 active" id="main">
             </div>
 
 
@@ -210,7 +210,6 @@
 
                 <!-- REPEATER -->
                 <div class="repeater-field-container" data-dependence="type:repeater" hidden>
-
 
 
                     <button type="button" href="#"

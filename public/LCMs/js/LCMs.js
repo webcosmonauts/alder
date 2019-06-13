@@ -105,7 +105,7 @@ $(document).ready(function () {
 			'                <em>&times;</em></a>';
 
 		$(this).before(lcmLinkHtml);
-		$('#add-new-field').before('<div id="section' + sectionsCounter + '" class="content mb-5"></div>');
+		$('#add-new-field').before('<div id="section' + sectionsCounter + '" class="content shadow mb-5"></div>');
 
 		setTimeout(function () {
 			var length = $('.lcm-tabs__link').length;
@@ -228,10 +228,6 @@ $(document).ready(function () {
 			url = form.attr('action'),
 
 			data = {
-				_token: form.find('[name=_token]').val(),
-				lcm_title: $('#lcm_title').val(),
-				lcm_slug: slugify($('#lcm_slug').val()),
-
 				lcm: {},
 				bread: {
 					browse: {
@@ -393,21 +389,23 @@ $(document).ready(function () {
 
 							case "options" :
 
-								if (inputValue) {
-									fieldObj[inputName] = {};
+								if (fieldType === "select" || fieldType === "select-multiple" || fieldType === "checkbox" || fieldType === "radio") {
+									if (inputValue) {
+										fieldObj[inputName] = {};
 
-									inputValue = inputValue.split('\n');
+										inputValue = inputValue.split('\n');
 
-									inputValue.forEach(function (item) {
-										var line = item.split(":");
+										inputValue.forEach(function (item) {
+											var line = item.split(":");
 
-										line[0] = line[0].replace(/\s/g, "");
-										line[1] = line[1].replace(/\s{2,}/g, "");
+											line[0] = line[0].replace(/\s/g, "");
+											line[1] = line[1].trim().replace(/\s{2,}/g, "");
 
-										fieldObj[inputName][line[0]] = line[1];
-									});
-								} else {
-									fieldObj[inputName] = "";
+											fieldObj[inputName][line[0]] = line[1];
+										});
+									} else {
+										fieldObj[inputName] = [];
+									}
 								}
 
 								break;
@@ -416,15 +414,19 @@ $(document).ready(function () {
 							case "relation_type":
 							case "leaf_type":
 
-								if (fieldType == "relation")
+								if (fieldType === "relation")
 									fieldObj[inputName] = inputValue;
-								else
-									fieldObj[inputName] = "";
+
 								break;
 
 							case "browse":
 								if ($(this).prop('checked'))
 									data.bread.browse.table_columns.push(fieldName);
+								break;
+
+							case "default":
+								if ($(this).val())
+									fieldObj[inputName] = inputValue;
 								break;
 
 							default:
@@ -446,7 +448,12 @@ $(document).ready(function () {
 		$.ajax({
 			method: "POST",
 			url: url,
-			data: data
+			data: {
+				data: data,
+				title: $('#lcm_title').val(),
+				slug: slugify($('#lcm_slug').val()),
+				_token: form.find('[name=_token]').val()
+			}
 		}).done(function (message) {
 			console.log(message);
 		});
