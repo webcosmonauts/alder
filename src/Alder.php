@@ -61,7 +61,7 @@ class Alder
         $LCM = LeafCustomModifier::where('slug', $lcm_slug)->first();
         if (!empty($leaf_type) || !empty($LCM))
             return false;
-    
+        
         return DB::transaction(function () use ($title, $slug, $lcm_title, $lcm_slug, $modifiers, $menu_item_values) {
             try {
                 $LCM = new LeafCustomModifier();
@@ -468,7 +468,7 @@ class Alder
         
         // Separate sections (with parent_id = null)
         list($sections, $leaves) = $leaves->partition(function ($item) {
-            return $item->parent_id == null;
+            return $item->parent == null;
         });
         
         foreach ($sections as &$section) {
@@ -476,7 +476,7 @@ class Alder
             
             // Get items for each section
             list($section->children, $leaves) = $leaves->partition(function ($item) use (&$section, $page_type) {
-                if ($item->parent_id == $section->id) {
+                if ($item->parent->id == $section->id) {
                     if (!$section->is_current)
                         $section->setAttribute('is_current', $item->slug == $page_type);
                     $item->setAttribute('is_current', $item->slug == $page_type);
@@ -524,11 +524,11 @@ class Alder
      */
     public function returnResponse(bool $isAJAX, string $message, bool $success = true, string $alert_type = 'primary', string $exception = null) {
         return $isAJAX ? response()->json([
-                'success' => $success,
-                'alert-type' => $alert_type,
-                'message' => $message,
-                'exception' => $exception,
-            ])
+            'success' => $success,
+            'alert-type' => $alert_type,
+            'message' => $message,
+            'exception' => $exception,
+        ])
             : back()->with([
                 'alert-type' => $alert_type,
                 'message' => $message,
@@ -550,12 +550,12 @@ class Alder
      */
     public function returnRedirect(bool $isAJAX, string $message, string $redirectTo, bool $success = true, string $alert_type = 'primary', string $exception = null) {
         return $isAJAX ? response()->json([
-                'success' => $success,
-                'alert-type' => $alert_type,
-                'message' => $message,
-                'exception' => $exception,
-                'redirect' => $redirectTo,
-            ])
+            'success' => $success,
+            'alert-type' => $alert_type,
+            'message' => $message,
+            'exception' => $exception,
+            'redirect' => $redirectTo,
+        ])
             : redirect($redirectTo)->with([
                 'alert-type' => $alert_type,
                 'message' => $message,
