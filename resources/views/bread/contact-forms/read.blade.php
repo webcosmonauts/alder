@@ -1,5 +1,3 @@
-
-
 @extends('alder::layouts.main')
 
 @section('scripts-body')
@@ -9,75 +7,78 @@
 @endsection
 
 @section('content')
-    <h1>{{$forms->title}}</h1>
 
 
+    <a href="{{route('alder.contact-forms.index')}}" class="btn btn-success mb-3"> {{__('alder::generic.back')}}</a>
 
-{{--    @dd($lincs)--}}
-    <form action="" method="post">
-    @csrf
-        <div style="padding-right: 5%; padding-left: 5%">
-        @foreach ($lin as $key => $value)
-            @switch($value)
-                @case('text')
+    <div class="card shadow">
+        <div class="card-header">
+            <h5 class="text-primary font-weight-bold">{{$forms->title}}</h5>
+        </div>
+
+        <div class="card-body">
+
+            @foreach ($lin as $key => $value)
+                @switch($value)
+                    @case('text')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
                     <input class="form-control" type="text" name="{{$lin[$key + 2]}}"><br>
-                @break
-                @case('text*')
+                    @break
+                    @case('text*')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
                     <input class="form-control" type="text" name="{{$lin[$key + 2]}}" required><br>
-                @break
-                @case('email')
+                    @break
+                    @case('email')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
                     <input class="form-control" type="email" size="30" name="{{$lin[$key + 2]}}"><br>
-                @break
-                @case('email*')
+                    @break
+                    @case('email*')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
                     <input class="form-control" type="email" size="30" name="{{$lin[$key + 2]}}" required><br>
-                @break
-                @case('tel')
+                    @break
+                    @case('tel')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
                     <input class="form-control" type="tel" name="{{$lin[$key + 2]}}"><br>
-                @break
-                @case('tel*')
+                    @break
+                    @case('tel*')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
                     <input class="form-control" type="tel" name="{{$lin[$key + 2]}}" required><br>
-                @break
-                @case('date')
+                    @break
+                    @case('date')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
 
                     <input class="form-control" type="date" name="{{$lin[$key + 2]}}"
                            value=""
                            min="1900-01-01" max="2118-12-31"><br>
-                @break
-                @case('date*')
+                    @break
+                    @case('date*')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label>
 
                     <input class="form-control" type="date" name="{{$lin[$key + 2]}}"
                            value=""
                            min="1900-01-01" max="2118-12-31" required><br>
-                @break
-                @case('textarea')
+                    @break
+                    @case('textarea')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label><br>
 
                     <textarea class="form-control" name="{{$lin[$key + 2]}}"
                               rows="5" cols="33"></textarea><br>
-                @break
-                @case('textarea*')
+                    @break
+                    @case('textarea*')
                     <label for="{{$lin[$key + 2]}}">{{$lin[$key + 2]}}:</label><br>
 
                     <textarea class="form-control" name="{{$lin[$key + 2]}}"
                               rows="5" cols="33" required></textarea><br>
-                @break
-                @case('email')
+                    @break
+                    @case('email')
                     <label for="email">{{$value}}</label>
                     <input type="email" id="email" size="30" name="{{$lin[$key + 2]}}">
-                @break
-                @case('email*')
+                    @break
+                    @case('email*')
                     <label for="email">{{$value}}</label>
                     <input type="email" id="email" size="30" name="{{$lin[$key + 2]}}" required>
-                @break
-                @case('file')
+                    @break
+                    @case('file')
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="{{$lin[$key + 2]}}">Upload</span>
@@ -89,8 +90,8 @@
                         </div>
                     </div>
                     <br>
-                @break
-                @case('file*')
+                    @break
+                    @case('file*')
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="{{$lin[$key + 2]}}">Upload</span>
@@ -102,19 +103,19 @@
                         </div>
                     </div>
                     <br>
-                @break
+                    @break
 
 
 
 
 
-                @case('select')
+                    @case('select')
 
                     <?php
                     foreach ($lincs as $sel):
-                    $single_line_array = explode(' ',$sel);
+                    $single_line_array = explode(' ', $sel);
                     $required = "";
-                    if(strpos($required,'*')){
+                    if (strpos($required, '*')) {
                         $required = "required";
                     }
 
@@ -124,7 +125,7 @@
 
                     <select class='form-control'>
                         @foreach($splitted as $val)
-                            <option  value="{{$val}}">{{$val}}</option>
+                            <option value="{{$val}}">{{$val}}</option>
                         @endforeach
                     </select>
                     <?php
@@ -134,15 +135,15 @@
 
                     ?>
                     <br>
-                @break
+                    @break
 
 
-                @case('select*')
+                    @case('select*')
                     <?php
                     foreach ($lincs as $sel):
-                    $single_line_array = explode(' ',$sel);
+                    $single_line_array = explode(' ', $sel);
                     $required = "";
-                    if(strpos($required,'*')){
+                    if (strpos($required, '*')) {
                         $required = "required";
                     }
 
@@ -152,7 +153,7 @@
 
                     <select class='form-control'>
                         @foreach($splitted as $val)
-                            <option  value="{{$val}}">{{$val}}</option>
+                            <option value="{{$val}}">{{$val}}</option>
                         @endforeach
                     </select>
                     <?php
@@ -161,115 +162,29 @@
                     endforeach;
                     ?>
                     <br>
-                @break
+                    @break
 
-                @case('checkbox*')
+                    @case('checkbox*')
                     <?php
                     foreach ($lincs as $sel):
-                    $single_line_array = explode(' ',$sel);
+                    $single_line_array = explode(' ', $sel);
                     $required = "";
 
 
-                    if(strpos($required,'*')){
+                    if (strpos($required, '*')) {
                         $required = "required";
                     }
                     switch ($single_line_array[0]){
                     case("checkbox*"):
-                        $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
-                    $radiob= explode(':', $single_line_array[1]);
-                        ?>
-                        <fieldset required>
-                            @foreach($splitted as $val)
+                    $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
+                    $radiob = explode(':', $single_line_array[1]);
+                    ?>
+                    <fieldset required>
+                        @foreach($splitted as $val)
 
                             <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" name="{{$radiob[1]}}" id="{{$val}}" value="{{$val}}" >
-                                <label class="custom-control-label" for="{{$val}}">{{$val}}</label>
-                            </div>
-                            @endforeach
-                        </fieldset>
-                        <?php
-                    break;
-                    }
-                    endforeach;
-                    ?>
-                    <br>
-                @break
-
-                @case('checkbox')
-                    <?php
-                    foreach ($lincs as $sel):
-                    $single_line_array = explode(' ',$sel);
-                    $required = "";
-                    if(strpos($required,'*')){
-                        $required = "required";
-                    }
-                    switch ($single_line_array[0]){
-                    case("checkbox"):
-                        $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
-                    $radiob= explode(':', $single_line_array[1]);
-
-                        ?>
-                        <fieldset>
-                            @foreach($splitted as $val)
-                                <div>
-                                    <input class="custom-control-input" type="checkbox" name="{{$radiob[1]}}" id="{{$val}}" value="{{$val}}" >
-                                    <label class="custom-control-label" for="{{$val}}">{{$val}}</label>
-                                </div>
-                            @endforeach
-                        </fieldset>
-                        <?php
-                    break;
-                    }
-                    endforeach;
-                    ?>
-                    <br>
-                @break
-
-
-                @case('radio*')
-                    <?php
-                    foreach ($lincs as $sel):
-                    $single_line_array = explode(' ',$sel);
-                    $required = "";
-                    if(strpos($required,'*')){
-                        $required = "required";
-                    }
-                    switch ($single_line_array[0]){
-                    case("radio*"):
-                    $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
-                    $radiob= explode(':', $single_line_array[1]);
-
-                    ?>
-                        @foreach($splitted as $val)
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" id="{{$val}}" name="{{$radiob[1]}}" value="{{$val}}" required>
-                                <label class="custom-control-label" for="{{$val}}">{{$val}}</label>
-                            </div>
-                        @endforeach
-                    <?php
-                    break;
-                    }
-                    endforeach;
-                    ?>
-                    <br>
-                @break
-                @case('radio')
-                    <?php
-                    foreach ($lincs as $sel):
-                    $single_line_array = explode(' ',$sel);
-                    $required = "";
-                    if(strpos($required,'*')){
-                        $required = "required";
-                    }
-                    switch ($single_line_array[0]){
-                    case("radio*"):
-                    $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
-                    $radiob= explode(':', $single_line_array[1]);
-                    ?>
-                    <fieldset>
-                        @foreach($splitted as $val)
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" id="{{$val}}" name="{{$radiob[1]}}" value="{{$val}}" >
+                                <input class="custom-control-input" type="checkbox" name="{{$radiob[1]}}" id="{{$val}}"
+                                       value="{{$val}}">
                                 <label class="custom-control-label" for="{{$val}}">{{$val}}</label>
                             </div>
                         @endforeach
@@ -280,49 +195,147 @@
                     endforeach;
                     ?>
                     <br>
-                @break
+                    @break
+
+                    @case('checkbox')
+                    <?php
+                    foreach ($lincs as $sel):
+                    $single_line_array = explode(' ', $sel);
+                    $required = "";
+                    if (strpos($required, '*')) {
+                        $required = "required";
+                    }
+                    switch ($single_line_array[0]){
+                    case("checkbox"):
+                    $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
+                    $radiob = explode(':', $single_line_array[1]);
+
+                    ?>
+                    <fieldset>
+                        @foreach($splitted as $val)
+                            <div>
+                                <input class="custom-control-input" type="checkbox" name="{{$radiob[1]}}" id="{{$val}}"
+                                       value="{{$val}}">
+                                <label class="custom-control-label" for="{{$val}}">{{$val}}</label>
+                            </div>
+                        @endforeach
+                    </fieldset>
+                    <?php
+                    break;
+                    }
+                    endforeach;
+                    ?>
+                    <br>
+                    @break
 
 
-                @case('submit')
-                <input class="btn btn-success" type="submit" value="{{$lin[$key + 1]}}"><br><br>
-                @break
+                    @case('radio*')
+                    <?php
+                    foreach ($lincs as $sel):
+                    $single_line_array = explode(' ', $sel);
+                    $required = "";
+                    if (strpos($required, '*')) {
+                        $required = "required";
+                    }
+                    switch ($single_line_array[0]){
+                    case("radio*"):
+                    $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
+                    $radiob = explode(':', $single_line_array[1]);
 
-                @case('acceptance')
-                <?php
+                    ?>
+                    @foreach($splitted as $val)
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="{{$val}}" name="{{$radiob[1]}}"
+                                   value="{{$val}}" required>
+                            <label class="custom-control-label" for="{{$val}}">{{$val}}</label>
+                        </div>
+                    @endforeach
+                    <?php
+                    break;
+                    }
+                    endforeach;
+                    ?>
+                    <br>
+                    @break
+                    @case('radio')
+                    <?php
+                    foreach ($lincs as $sel):
+                    $single_line_array = explode(' ', $sel);
+                    $required = "";
+                    if (strpos($required, '*')) {
+                        $required = "required";
+                    }
+                    switch ($single_line_array[0]){
+                    case("radio*"):
+                    $splitted = explode(',', rtrim(explode('options:"', $sel)[1], '"'));
+                    $radiob = explode(':', $single_line_array[1]);
+                    ?>
+                    <fieldset>
+                        @foreach($splitted as $val)
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" type="radio" id="{{$val}}" name="{{$radiob[1]}}"
+                                       value="{{$val}}">
+                                <label class="custom-control-label" for="{{$val}}">{{$val}}</label>
+                            </div>
+                        @endforeach
+                    </fieldset>
+                    <?php
+                    break;
+                    }
+                    endforeach;
+                    ?>
+                    <br>
+                    @break
+
+
+                    @case('submit')
+                    <input class="btn btn-success" type="submit" value="{{$lin[$key + 1]}}"><br><br>
+                    @break
+
+                    @case('acceptance')
+                    <?php
 
                     foreach ($lincs as $sel):
-                        $single_line_array = explode(' ',$sel);
+                    $single_line_array = explode(' ', $sel);
 
 
-                        switch ($single_line_array[0]){
-                            case("acceptance"):
+                    switch ($single_line_array[0]){
+                    case("acceptance"):
 
                     $name_accept = explode(':', $single_line_array[1]);
-                                $single_line = rtrim(explode(':"', $sel)[1], '"');
-                                ?>
+                    $single_line = rtrim(explode(':"', $sel)[1], '"');
+                    ?>
                     <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="checkbox" id="{{$name_accept[1]}}" name="{{$name_accept[1]}}"  required >
+                        <input class="custom-control-input" type="checkbox" id="{{$name_accept[1]}}"
+                               name="{{$name_accept[1]}}" required>
                         <label class="custom-control-label" for="{{$name_accept[1]}}">{{$single_line}}</label>
                     </div>
 
-<?php
-                                break;
-                        }
+                    <?php
+                    break;
+                    }
                     endforeach
                     ?>
-                @break
+                    @break
 
-                @default
+                    @default
 
 
 
-            @endswitch
-        @endforeach
+                @endswitch
+            @endforeach
             <br>
-        </div>
 
-        <input type="submit" class="btn btn-primary btn-success mt-4" value="Submit">
-    </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
 
 
 

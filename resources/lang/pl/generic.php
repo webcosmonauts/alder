@@ -89,4 +89,5 @@ return [
     'viewing'                => 'Wyświetl',
     'yes'                    => 'Tak',
     'yes_please'             => 'Tak, proszę',
+    'back'                   => 'Z powrotem'
 ];
