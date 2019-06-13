@@ -5,4 +5,8 @@ return [
         'singular' => 'User',
         'plural' => 'Users',
     ],
+    'contact-forms' => [
+        'singular' => 'Contact-form',
+        'plural' => 'Contact-forms',
+    ],
 ];
