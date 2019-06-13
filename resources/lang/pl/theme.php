@@ -1,6 +1,12 @@
 <?php
 
 return [
-    'footer_copyright'  => 'Stworzone z <i class="voyager-heart"></i> przez',
-    'footer_copyright2' => 'Do stworzenia potrzebny był rum, dużo rumu',
+    'no_template_specified' => 'No template specified',
+    'no_templates' => 'Brak szablonów',
+    'themes_page_title' => 'Tematy',
+    'by' => 'Autor',
+    'version' => 'Wersja',
+    'license' => 'Licencja',
+    'set_theme' => 'Ustaw motyw',
+    'appearance_title' => 'Wygląd',
 ];

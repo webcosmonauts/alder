@@ -10,19 +10,23 @@
             </div>
             <div class="sidebar-brand-text mx-3">Alder</div>
         </a>
-        <hr class="sidebar-divider my-0">
 
         @foreach($admin_menu_items as $section)
+            <hr class="sidebar-divider my-0">
             @if(count($section->children) > 0)
-                <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
-                    <a class="nav-link {{ $section->is_current ? '' : 'collapsed' }}"
-                       href="#" data-toggle="collapse" data-target="#collapse{{$section->id}}"
-                       aria-expanded="true" aria-controls="collapse{{$section->id}}">
+                <li class="nav-item {{ $section->is_current ? 'active' : '' }} has-dropdown">
+                    <a class="nav-link"
+                       href="/alder/{{$section->slug}}">
                         @if(!empty($section->icon))
                             <i class="fas fa-fw fa-{{$section->icon}}"></i>
                         @endif
                         <span>{{ $section->title }}</span>
                     </a>
+
+                    <span class="toggle-collapse {{ $section->is_current ? '' : 'collapsed' }}" data-toggle="collapse"
+                          data-target="#collapse{{$section->id}}"
+                          aria-expanded="true" aria-controls="collapse{{$section->id}}"></span>
+
                     <div id="collapse{{$section->id}}" data-parent="#accordionSidebar"
                          class="collapse  {{ $section->is_current ? 'show' : '' }}">
                         <div class="bg-white py-2 collapse-inner rounded">
@@ -46,8 +50,8 @@
                         @endif
                         <span>{{ $section->title }}</span></a>
                 </li>
-            @endif
-        @endforeach
+        @endif
+    @endforeach
 
     <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
@@ -65,19 +69,19 @@
         </button>
 
         <!-- Topbar Search -->
-        {{--<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                       aria-label="Search" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                    </button>
-                </div>
+    {{--<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+        <div class="input-group">
+            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                   aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
             </div>
-        </form>--}}
+        </div>
+    </form>--}}
 
-        <!-- Topbar Navbar -->
+    <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->

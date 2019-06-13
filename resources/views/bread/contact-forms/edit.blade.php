@@ -59,6 +59,7 @@
                         <a href="#" data-component="file">File</a>
                         <a href="#" data-component="submit"> Submit </a>
                     </div>
+
                     <label for="contact-form-content" hidden></label>
                     <textarea name="template-content" rows="10" id="contact-form-content" class="form-control">{{ $edit ? $form->content : '' }}</textarea>
                 </div>

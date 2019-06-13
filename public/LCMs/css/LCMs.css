@@ -1,22 +1,158 @@
-#fields-container {
-    padding: 15px;
+.lcm-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+#add-new-tab {
+    padding: 10px 15px;
+    color: #555;
+}
+
+.lcm-tabs__link {
+    padding: 10px 15px;
+    background: #fff;
+    color: #f2f2f2;
+    border: 1px solid #fff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    position: relative;
+    min-width: 90px;
+    text-align: center;
+    margin-right: 3px;
+
+    -webkit-transition: all .4s;
+    -moz-transition: all .4s;
+    -ms-transition: all .4s;
+    -o-transition: all .4s;
+    transition: all .4s;
+}
+
+.lcm-tabs__link.active {
+    border: 1px solid #f2f2f2;
+    color: #858796 !important;
+    border-bottom: 1px solid #fff;
+}
+
+.lcm-tabs__link:hover {
+    text-decoration: none;
+    color: #ccc;
+}
+
+.invalid {
+    border-color: red !important;
+    background: rgba(255, 0, 0, .1) !important;
+}
+
+.lcm-tabs__link span {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+#lcm-tab-edit {
+    display: none;
+    background: #fff;
+    height: 45px;
+    width: 90px;
+    border: 0;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    padding: 0 5px;
+}
+
+.lcm-tabs__link em {
+    position: absolute;
+    right: 3px;
+    top: -2px;
+}
+
+.lcm-tabs-content {
+    position: relative;
+}
+
+#add-new-field {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.lcm-tabs-content .content {
+    display: none;
+    background: #fff;
+    padding: 15px 15px 60px;
+}
+
+.lcm-tabs-content .content.active {
+    display: block;
 }
 
 .field {
-    margin: 15px 0 40px;
     position: relative;
+    margin-bottom: 40px;
+}
+
+.field .card-header {
+    cursor: pointer;
+}
+
+.field .card-body {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+.field .form-group {
+    width: calc((100% - 30px * 3) / 3);
+    margin-right: 30px;
+}
+
+.form-group.d-flex label {
+    margin-bottom: 0;
+    margin-right: 8px;
 }
 
 .field .field__delete {
     position: absolute;
     font-size: 28px;
     font-weight: bold;
-    right: 0;
-    top: -10px;
+    right: 8px;
+    top: 8px;
     cursor: pointer;
     width: 30px;
     height: 30px;
     line-height: 30px;
     text-align: center;
+    z-index: 5;
 }
 
+.conditional-field .form-group {
+    width: auto;
+}
+
+.conditional-field .form-group.form-group-small {
+    width: auto;
+    margin: 0 30px;
+}
+
+.repeater-field-container {
+    width: 100%;
+    padding: 15px;
+    margin: 30px 0;
+}
+
+@media (max-width: 1199px) {
+    .field .form-group {
+        width: calc((100% - 30px * 2) / 2);
+    }
+}
+
+@media (max-width: 860px) {
+    .field .form-group {
+        width: 100%;
+        margin-right: 0;
+    }
+}
