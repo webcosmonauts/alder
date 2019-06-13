@@ -28,9 +28,10 @@ class LCMController extends BaseController
     public function create(Request $request)
     {
         $admin_menu_items = Alder::getMenuItems();
-        return view('alder::bread.LCMs.edit')->with(compact(
-            'admin_menu_items'
-        ));
+        return view('alder::bread.LCMs.edit')->with([
+            'edit' => false,
+            'admin_menu_items' => $admin_menu_items,
+        ]);
     }
 
     public function store(Request $request)
@@ -63,13 +64,18 @@ class LCMController extends BaseController
         });
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, $param)
     {
+        if (is_int($param))
+            $LCM = LeafCustomModifier::findOrFail($param);
+        else
+            $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
         $admin_menu_items = Alder::getMenuItems();
-        return view('alder::bread.LCMs.edit')->with(compact(
-            'admin_menu_items'
-        ));
-
+        return view('alder::bread.LCMs.edit')->with([
+            'edit' => true,
+            'LCM' => $LCM,
+            'admin_menu_items' => $admin_menu_items,
+        ]);
     }
 
     public function update(Request $request, $param)
