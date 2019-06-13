@@ -32,8 +32,8 @@ class ContactController extends BaseController {
     public function index(){
         /* Get leaf type with custom modifiers */
         $root_types = RootType::with('roots')->get();
-
-        $forms = Leaf::where('leaf_type_id', 8)->get();
+        $cont_id = LeafType::where('slug', 'contact-forms')->value('id');
+        $forms = Leaf::where('leaf_type_id', $cont_id)->get();
 
 
         return view('alder::bread.contact-forms.browse')->with([
@@ -99,7 +99,9 @@ class ContactController extends BaseController {
 
     public function read(Request $request, $id){
 
-        $forms = Leaf::where('leaf_type_id', 8)->where('id', $id)->get()->first();
+//        $cont_id = Leaf::where()
+        $cont_id = LeafType::where('slug', 'contact-forms')->value('id');
+        $forms = Leaf::where('leaf_type_id', $cont_id)->where('id', $id)->get()->first();
 
         $lines = preg_split('/([\[:\]\s])/', $forms['content']);
         $linevs = explode("\n", str_replace(array("\r\n", "\r", "[", "]"), "\n", $forms['content']));
@@ -249,6 +251,8 @@ class ContactController extends BaseController {
         return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $id) {
             try {
 
+                $cont_id = LeafType::where('slug', 'contact-forms')->value('id');
+
                 $form = $edit ? Leaf::where('id',$id)->get()->first() : new Leaf();
                 $LCMV = $edit ? $form->LCMV : new LeafCustomModifierValue();
 
@@ -257,7 +261,7 @@ class ContactController extends BaseController {
                 $form->content = $request['template-content'];
                 $form->is_accessable = $request->is_accessable == 'on' ? 1 : 0;
                 $edit ? : $form->status_id = 5;
-                $edit ? : $form->leaf_type_id = 8;
+                $edit ? : $form->leaf_type_id = $cont_id;
                 $edit ? : $form->user_id = Auth::user()->id;
                 $edit ? : $form->created_at = date("Y-m-d H:i:s");
                 $form->updated_at = date("Y-m-d H:i:s");
