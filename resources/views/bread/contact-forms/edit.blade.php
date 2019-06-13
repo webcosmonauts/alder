@@ -9,10 +9,7 @@
 @section('content')
 
 
-    <div class="form-group mb-5">
-        <label for="contact-form-title"> Title </label>
-        <input type="text" name="title" id="contact-form-title" class="form-control" required>
-    </div>
+
     @if(session()->has('success'))
         <div class="card mb-4 border-left-{{ session()->get('alert-type', 'success') }}">
             <div class="card-body">
@@ -21,28 +18,30 @@
         </div>
     @endif
 
-    <ul class="nav nav-pills mb-3">
-        <li class="nav-item">
-            <a class="nav-link active" id="form-tab" data-toggle="tab" href="#form-tab-pane" role="tab"
-               aria-controls="form"
-               aria-selected="true">Form</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="email-tab" data-toggle="tab" href="#email-tab-pane" role="tab"
-               aria-controls="email"
-               aria-selected="true">Email</a>
-        </li>
-    </ul>
-
-
     <!-- Tab panes -->
     <div class="tab-content mb-5">
 
         <!-- tab 1 -->
         <div class="tab-pane active" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab">
 
-            <form action="" method="post">
+            <form action="{{ $edit ? route("alder.contact-forms.update",  $form->id) : route("alder.contact-forms.save_form")}}" method="post">
+                @csrf
+                {{$edit ? method_field('PUT') : method_field('POST')}}
                 <!-- Template builder -->
+                <div class="form-group mb-5">
+                    <label for="contact-form-title"> Title </label>
+                    <input type="text" name="title" id="contact-form-title" class="form-control"
+                           value="{{ $edit ? $form->title : '' }}"
+                           required>
+                    <br>
+                    <label for="contact-form-title"> Slug </label>
+                    <input type="text" name="slug" id="contact-form-slug" class="form-control"
+                           value="{{ $edit ? $form->slug : '' }}"
+                           required>
+                    <br>
+                    <label for="is_accessable">Visibility</label>
+                    <input type="checkbox" name="is_accessable" {{ $edit && $form->is_accessable == '1' ? 'checked' : ''}}>
+                </div>
                 <div id="contact-form-template-builder">
 
                     <div class="d-flex flex-wrap components">
@@ -60,10 +59,12 @@
                         <a href="#" data-component="file">File</a>
                         <a href="#" data-component="submit"> Submit </a>
                     </div>
-
                     <label for="contact-form-content" hidden></label>
-                    <textarea name="template-content" rows="10" id="contact-form-content" class="form-control"></textarea>
+                    <textarea name="template-content" rows="10" id="contact-form-content" class="form-control">{{ $edit ? $form->content : '' }}</textarea>
                 </div>
+                    <div>
+
+                    </div>
                 <!--  -->
 
                 <input type="submit" class="btn btn-primary btn-success mt-4" value="Submit">
@@ -72,68 +73,68 @@
 
 
         <!-- tab 2 -->
-        <div class="tab-pane" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab">
+{{--        <div class="tab-pane" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab">--}}
 
-            <form action="{{route('alder.roots.update')}}" method="post">
-            @csrf
-            <!-- recipient -->
-                <div class="form-group row">
-                    <label for="contact-form-recipient" class="col-sm-2 col-form-label"> Recipient </label>
+{{--            <form action="{{route('alder.roots.update')}}" method="post">--}}
+{{--            @csrf--}}
+{{--            <!-- recipient -->--}}
+{{--                <div class="form-group row">--}}
+{{--                    <label for="contact-form-recipient" class="col-sm-2 col-form-label"> Recipient </label>--}}
 
-                    <div class="col-sm-10">
-                        <input type="text" name="recipient"
-                               id="contact-form-recipient" class="form-control"
-                               value="{{ $roots->recipient }}">
-                    </div>
-                </div>
+{{--                    <div class="col-sm-10">--}}
+{{--                        <input type="text" name="recipient"--}}
+{{--                               id="contact-form-recipient" class="form-control"--}}
+{{--                               value="{{ $roots->recipient }}">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <!-- sender -->
-                <div class="form-group mb-5 row">
-                    <label for="contact-form-sender" class="col-sm-2 col-form-label"> Sender </label>
+{{--                <!-- sender -->--}}
+{{--                <div class="form-group mb-5 row">--}}
+{{--                    <label for="contact-form-sender" class="col-sm-2 col-form-label"> Sender </label>--}}
 
-                    <div class="col-sm-10">
-                        <input type="text" name="sender" id="contact-form-sender"
-                               class="form-control" value="{{ $roots->sender }}">
-                    </div>
-                </div>
+{{--                    <div class="col-sm-10">--}}
+{{--                        <input type="text" name="sender" id="contact-form-sender"--}}
+{{--                               class="form-control" value="{{ $roots->sender }}">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
 
-                <!-- theme -->
-                <div class="form-group row">
-                    <label for="contact-form-theme" class="col-sm-2 col-form-label"> Recipient </label>
+{{--                <!-- theme -->--}}
+{{--                <div class="form-group row">--}}
+{{--                    <label for="contact-form-theme" class="col-sm-2 col-form-label"> Recipient </label>--}}
 
-                    <div class="col-sm-10">
-                        <input type="text" name="theme" id="contact-form-theme"
-                               class="form-control" value="{{ $roots->theme }}">
-                    </div>
-                </div>
+{{--                    <div class="col-sm-10">--}}
+{{--                        <input type="text" name="theme" id="contact-form-theme"--}}
+{{--                               class="form-control" value="{{ $roots->theme }}">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <!-- Additional headers -->
-                <div class="form-group row">
-                    <label for="contact-form-additional-headers" class="col-sm-2 col-form-label"> Additional
-                        headers </label>
+{{--                <!-- Additional headers -->--}}
+{{--                <div class="form-group row">--}}
+{{--                    <label for="contact-form-additional-headers" class="col-sm-2 col-form-label"> Additional--}}
+{{--                        headers </label>--}}
 
-                    <div class="col-sm-10">
-                        <textarea name="additional_headers" id="contact-form-additional-headers"
-                                  class="form-control">{{ $roots->additional_headers }}</textarea>
-                    </div>
-                </div>
+{{--                    <div class="col-sm-10">--}}
+{{--                        <textarea name="additional_headers" id="contact-form-additional-headers"--}}
+{{--                                  class="form-control">{{ $roots->additional_headers }}</textarea>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <!-- Message content -->
-                <div class="form-group row">
-                    <label for="contact-form-message-content" class="col-sm-2 col-form-label"> Message content</label>
+{{--                <!-- Message content -->--}}
+{{--                <div class="form-group row">--}}
+{{--                    <label for="contact-form-message-content" class="col-sm-2 col-form-label"> Message content</label>--}}
 
-                    <div class="col-sm-10">
-                        <textarea name="message_content" rows="8" id="contact-form-message-content"
-                                  class="form-control"
-                                  value="">{{ $roots->message_content }}</textarea>
-                    </div>
-                </div>
+{{--                    <div class="col-sm-10">--}}
+{{--                        <textarea name="message_content" rows="8" id="contact-form-message-content"--}}
+{{--                                  class="form-control"--}}
+{{--                                  value="">{{ $roots->message_content }}</textarea>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <input type="submit" class="btn btn-primary btn-success" value="Submit">
+{{--                <input type="submit" class="btn btn-primary btn-success" value="Submit">--}}
 
-            </form>
-        </div>
+{{--            </form>--}}
+{{--        </div>--}}
     </div>
 
 
