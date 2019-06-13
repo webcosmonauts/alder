@@ -130,6 +130,22 @@ $(document).ready(function () {
 		});
 	});
 
+
+	// ADD NEW REPEATER FIELD
+	$('body').on('click', '.add-new-field-repeater', function (e) {
+		e.preventDefault();
+
+		var pattern = $('#field-pattern').html(), container = $(this).parent();
+
+		$(this).before(pattern);
+		container.find('input, select, textarea').removeClass('disabled').removeAttr('disabled');
+
+		container.find('.icheck').iCheck({
+			checkboxClass: 'icheckbox_flat-red',
+			radioClass: 'iradio_flat-red'
+		});
+	});
+
 	// REMOVE FIELD
 	$('body').on('click', '.field__delete', function (e) {
 		e.preventDefault();
@@ -149,10 +165,20 @@ $(document).ready(function () {
 	// TYPE DEPENDENCE
 	$('body').on('change', '[name=type]', function () {
 
-		var thisValue = $(this).val();
+		var
+			thisValue = $(this).val(),
+			thisField = $(this).parents('.field').eq(0);
 
-		$(this).parents('.field').find('[data-dependence]').each(function () {
+		/* Check for repeater fields */
+		thisField.attr('current', 'true');
+		var thisDependencies = thisField.find('[data-dependence]').filter(function () {
+			if ($(this).parents('.field').eq(0).attr('current') === 'true') return true;
+		});
 
+		thisField.removeAttr('current');
+
+
+		thisDependencies.each(function () {
 			$(this).attr('hidden', true);
 
 			if (new RegExp(thisValue).test($(this).attr('data-dependence'))) {
@@ -269,38 +295,24 @@ $(document).ready(function () {
 			}
 		}
 
+
+		/* Tabs */
 		$tabs.each(function () {
 
-			var $fields = $(this).find('.field');
+			var $fields = $(this).find('.field').filter(function () {
+				if (!$(this).parents('.repeater-field-container').length) return true;
+			});
 
 			// IF MAIN
 			if ($(this).attr('id') === "main") {
-				addFieldsToJSONObj($fields);
+				addFieldsToJSONObj($fields, data.lcm);
 
 				// FOR OTHER TABS
 			} else {
-				addFieldsToJSONObj($fields, $(this));
-			}
-		});
 
-		$conditionFields.each(function () {
-
-			var obj = {};
-
-			$(this).find('select').each(function () {
-				obj[$(this).attr('name')] = $(this).val();
-			});
-			
-			data.conditions.push(obj);
-		});
-
-		function addFieldsToJSONObj(fields, tab) {
-
-			var obj = data.lcm;
-			if (tab && tab.length) {
 				var
-					tabName = $('.lcm-tabs__link[href="#' + tab.attr('id') + '"]').find('span').text(),
-					tabSlug = slugify(tabName);
+					tabName = $('.lcm-tabs__link[href="#' + $(this).attr('id') + '"]').find('span').text(),
+					tabSlug = slugify(tabName), obj;
 
 				tabSlug = checkFieldName(tabSlug);
 
@@ -310,7 +322,26 @@ $(document).ready(function () {
 				};
 
 				obj = data.lcm[tabSlug].fields;
+
+				addFieldsToJSONObj($fields, obj, $(this));
 			}
+		});
+
+
+		/* Conditions */
+		$conditionFields.each(function () {
+
+			var obj = {};
+
+			$(this).find('select').each(function () {
+				obj[$(this).attr('name')] = $(this).val();
+			});
+
+			data.conditions.push(obj);
+		});
+
+		function addFieldsToJSONObj(fields, obj, tab) {
+
 
 			fields.each(function () {
 
@@ -319,9 +350,32 @@ $(document).ready(function () {
 						display_name: ""
 					},
 
-					fieldName = $(this).find('[name=field_name]').val(),
-					fieldType = $(this).find('[name=type]').val(),
-					$inputs = $(this).find('input, select, textarea');
+					fieldName = $(this).find('[name=field_name]').eq(0).val(),
+					fieldType = $(this).find('[name=type]').eq(0).val();
+
+				/* Filtering inputs in current field */
+				$(this).attr('current', 'true');
+				var $inputs = $(this).find('input, select, textarea').filter(function () {
+					if ($(this).parents('.field').eq(0).attr('current') === "true") return true;
+				});
+
+				$(this).removeAttr('current');
+
+
+				if (fieldType === "repeater") {
+					$(this).attr('current', 'true');
+
+					var repeaterFields = $(this).find('.field').filter(function () {
+						if ($(this).parents('.field').eq(0).attr('current') === "true") return true;
+					});
+
+					$(this).removeAttr('current');
+
+					fieldObj.fields = {};
+					var subfieldObj = fieldObj.fields;
+
+					addFieldsToJSONObj(repeaterFields, subfieldObj, tab);
+				}
 
 				if (fieldName) {
 

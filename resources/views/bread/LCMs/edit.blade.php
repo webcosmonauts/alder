@@ -191,6 +191,7 @@
                         <option value="text"> {{__('alder::lcm.text')}} </option>
                         <option value="relation"> {{__('alder::lcm.relation')}}</option>
                         <option value="number"> {{__('alder::lcm.number')}}</option>
+                        <option value="repeater"> {{__('alder::lcm.repeater')}} </option>
                         <option value="select"> {{__('alder::lcm.select')}} </option>
                         <option value="select-multiple">{{__('alder::lcm.select_multiple')}}</option>
                         <option value="checkbox">{{__('alder::lcm.checkbox')}}</option>
@@ -204,6 +205,16 @@
                         <option value="month">{{__('alder::lcm.month')}}</option>
                         <option value="color">{{__('alder::lcm.color')}}</option>
                     </select>
+                </div>
+
+
+                <!-- REPEATER -->
+                <div class="repeater-field-container" data-dependence="type:repeater" hidden>
+
+
+
+                    <button type="button" href="#"
+                            class="btn btn-sm btn-primary add-new-field-repeater"> {{__('alder::lcm.add_new_field')}} </button>
                 </div>
 
 

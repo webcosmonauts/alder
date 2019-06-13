@@ -138,6 +138,12 @@
     margin: 0 30px;
 }
 
+.repeater-field-container {
+    width: 100%;
+    padding: 15px;
+    margin: 30px 0;
+}
+
 @media (max-width: 1199px) {
     .field .form-group {
         width: calc((100% - 30px * 2) / 2);
