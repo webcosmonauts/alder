@@ -3,8 +3,12 @@
 
 namespace Webcosmonauts\Alder\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
+use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\RootType;
 
@@ -12,6 +16,9 @@ class RootsController extends BaseController
 {
     /**
      * Get [B]READ view of roots
+     *
+     * @throws AssigningNullToNotNullableException
+     * @throws UnknownRelationException
      *
      * @return View
      */
@@ -53,17 +60,29 @@ class RootsController extends BaseController
     {
 
     }
-
-    public function update(Request $request)
+    
+    /**
+     * @param Request $request
+     * @param $param
+     * @return JsonResponse|RedirectResponse
+     */
+    public function update(Request $request, $param)
     {
-
-        foreach ($request->except(['_token']) as $key => $value) {
-            Alder::setRootValue($key, $value);
-            echo 'Updated' . $key . '<br>';
-
-            return redirect()->back()->with(['success' => 'Settings is save']);
-        }
-
+        $root = Alder::setRootValue($param, $request->value);
+        return
+            $root
+                ? Alder::returnResponse(
+                $request->ajax(),
+                __('alder::generic.successfully_updated') . " $root->title",
+                true,
+                'success'
+            )
+                : Alder::returnResponse(
+                $request->ajax(),
+                __('alder::messages.processing_error'),
+                false,
+                'danger'
+            );
     }
 
     public function destroy(Request $request, $id)
