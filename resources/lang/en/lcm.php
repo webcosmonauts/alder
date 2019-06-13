@@ -4,6 +4,8 @@ return [
     'singular' => 'Leaf custom modifier',
     'plural' => 'Leaf custom modifiers',
 
+    'group_title' => 'Group title',
+    
     'field' => 'Field',
     'field_name' => 'Field Name',
     'type' => 'Type',
