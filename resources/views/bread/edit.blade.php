@@ -88,7 +88,7 @@
                                 @foreach($lcm as $lcm_item => $k)
                                     @php $field_name = $lcm_item; $label = $k->display_name; @endphp
 
-                                    @if(!isset($k->fields))
+                                    @if(isset($k->type))
                                         @if(!isset($k->panel) || $k->panel === "left")
                                             @include('alder::components.input')
                                         @endif
@@ -107,7 +107,7 @@
                                     @foreach($lcm as $lcm_item => $k)
                                         @php $field_name = $lcm_item; $label = $k->display_name;@endphp
 
-                                        @if(!isset($k->fields) && isset($k->panel) && $k->panel === "right")
+                                        @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
                                             @include('alder::components.input')
                                         @endif
                                     @endforeach
