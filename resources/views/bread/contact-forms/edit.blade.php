@@ -7,8 +7,9 @@
 @endsection
 
 @section('content')
-
-
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ __('alder::leaf_types.contact-forms.singular') }}</h1>
+    </div>
 
     @if(session()->has('success'))
         <div class="card mb-4 border-left-{{ session()->get('alert-type', 'success') }}">
@@ -18,17 +19,8 @@
         </div>
     @endif
 
-
-
-
     <div class="card shadow">
-
-        <div class="card-header"><h5
-                    class="font-weight-bold text-primary"> {{$edit ? $form->title : __('alder::contact-forms.singular')}} </h5>
-        </div>
-
         <div class="card-body">
-
             <form action="{{ $edit ? route("alder.contact-forms.update",  $form->id) : route("alder.contact-forms.save_form")}}"
                   method="post">
                 @csrf
@@ -81,18 +73,10 @@
         </div>
     </div>
 
-
-
-
-
-
     <!-- MODAL -->
     <div class="alder-modal" id="contact-form-template-modal" tabindex="-1">
-
         <div class="alder-modal-content">
-
             <div class="alder-modal-close">&times;</div>
-
 
             <!-- REQUIRED -->
             <div class="form-group row" data-component="text email tel date textarea select checkbox radio file">
@@ -134,7 +118,6 @@
                 </div>
             </div>
 
-
             <!-- Condition -->
             <div class="form-group row" data-component="acceptance">
                 <label for="contact-form-item-condition" class="col-sm-2 col-form-label"> Condition </label>
@@ -144,21 +127,15 @@
                 </div>
             </div>
 
-
             <!-- LABEL -->
             <div class="form-group row" data-component="submit">
                 <label for="contact-form-item-required" class="col-sm-2 col-form-label"> Label </label>
-
                 <div class="col-sm-10">
                     <input type="text" id="contact-form-item-label" class="form-control">
                 </div>
             </div>
-
-
             <button class="btn btn-primary">Insert</button>
-
         </div>
     </div>
     <!-- END MODAL -->
-
 @endsection

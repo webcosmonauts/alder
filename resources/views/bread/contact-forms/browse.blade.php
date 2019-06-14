@@ -2,17 +2,13 @@
 
 @section('content')
     <!-- Page Heading -->
-
-    <h1>{{ __("alder::leaf_types.contact-forms.plural") }}</h1>
-
     <div class="d-sm-flex align-items-center mb-4">
-
-        <h1 class="h3 mb-0 text-gray-800"></h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ __("alder::leaf_types.contact-forms.plural") }}</h1>
         <!-- TODO: if can add new -->
         <a href="{{ route("alder.contact-forms.create") }}" class="btn btn-success btn-icon-split ml-3">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-plus-circle"></i>
-                            </span>
+            <span class="icon text-white-50">
+                <i class="fas fa-plus-circle"></i>
+            </span>
             <span class="text">{{ __('alder::generic.add_new')}}</span>
         </a>
     </div>
@@ -20,7 +16,6 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($forms->count() > 0)
-{{--                                 @dd($forms->User)--}}
                 <table class="table">
                     <thead>
                     <tr>
@@ -37,7 +32,6 @@
                     <tbody>
                     @foreach($forms as $leaf)
                         <tr>
-
                             @foreach(['title','slug','is_accessable', 'status_id','created_at', 'updated_at'] as $field)
                                 <td>
                                     {{ $leaf->$field }}
