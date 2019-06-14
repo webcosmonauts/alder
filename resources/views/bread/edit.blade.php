@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
     <script src="{{asset('js/quill.min.js')}}"></script>
     <script src="{{asset('js/content-quill.js')}}"></script>
+
+
+    <!-- LCM js uilder -->
+    <script src="{{asset('vendor/LCM-js-builder/LCM-js-builder.js')}}"></script>
 @endsection
 
 @section('content')
@@ -58,32 +62,55 @@
             <!-- *** MAIN TAB *** -->
             <div class="tab-pane fade card shadow show active" id="main-section" role="tabpanel">
                 <div class="row">
-                    <div class="col-lg-{{ $mainRightPanelCounter > 0 ? '9' : '12' }}">
-                        <div class=" mb-4 border-top-0">
-                            <div class="card-body">
-                                @foreach(['title', 'slug', 'user_id'] as $field)
-                                    <label for="{{ $field }}">{{ $field }}</label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
-                                               placeholder="{{ $field}}"
-                                               aria-label="{{ $field }}" aria-describedby="{{ $field }}"
-                                               value="{{ $edit ? $leaf->$field : '' }}">
-
-                                    </div>
-                                @endforeach
-
-                                <label for="#content">Content</label>
+                    <div class="col-lg-{{ $mainRightPanelCounter > 0 ? '9' : '12' }} mb-4 ">
+                        <div class="card-body">
+                            @foreach(['title', 'slug', 'user_id'] as $field)
+                                <label for="{{ $field }}">{{ $field }}</label>
                                 <div class="input-group mb-2">
+                                    <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
+                                           placeholder="{{ $field}}"
+                                           aria-label="{{ $field }}" aria-describedby="{{ $field }}"
+                                           value="{{ $edit ? $leaf->$field : '' }}">
 
-                                    <div id="quill" style="height: 400px; width: 100%"></div>
-
-                                    <textarea type="text" rows="8" hidden name="content" id="content"
-                                              class="form-control"
-                                              aria-label="content" aria-describedby="content"
-                                              placeholder="Content"></textarea>
                                 </div>
+                            @endforeach
+
+                            <label for="#content">Content</label>
+                            <div class="input-group mb-2">
+
+                                <div id="quill" style="height: 400px; width: 100%"></div>
+
+                                <textarea type="text" rows="8" hidden name="content" id="content"
+                                          class="form-control"
+                                          aria-label="content" aria-describedby="content"
+                                          placeholder="Content"></textarea>
+                            </div>
 
 
+                            @foreach($lcm as $lcm_item => $k)
+                                @php
+                                    $field_name = $lcm_item;
+                                    $label = $k->display_name;
+                                    $field = $k;
+                                @endphp
+
+                                @if(isset($k->type))
+
+                                    @php $type = $k->type; @endphp
+
+                                    @if(!isset($k->panel) || $k->panel === "left")
+                                        @include('alder::components.input')
+                                    @endif
+                                @endif
+                            @endforeach
+
+                        </div>
+                    </div>
+
+                @if($mainRightPanelCounter > 0)
+                    <!-- SIDEBAR -->
+                        <div class="col-lg-3 mb-4">
+                            <div class="card-body">
                                 @foreach($lcm as $lcm_item => $k)
                                     @php
                                         $field_name = $lcm_item;
@@ -91,38 +118,11 @@
                                         $field = $k;
                                     @endphp
 
-                                    @if(isset($k->type))
-
+                                    @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
                                         @php $type = $k->type; @endphp
-
-                                        @if(!isset($k->panel) || $k->panel === "left")
-                                            @include('alder::components.input')
-                                        @endif
+                                        @include('alder::components.input')
                                     @endif
                                 @endforeach
-
-                            </div>
-                        </div>
-                    </div>
-
-                @if($mainRightPanelCounter > 0)
-                    <!-- SIDEBAR -->
-                        <div class="col-lg-3">
-                            <div class=" mb-4">
-                                <div class="card-body">
-                                    @foreach($lcm as $lcm_item => $k)
-                                        @php
-                                            $field_name = $lcm_item;
-                                            $label = $k->display_name;
-                                            $field = $k;
-                                        @endphp
-
-                                        @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
-                                            @php $type = $k->type; @endphp
-                                            @include('alder::components.input')
-                                        @endif
-                                    @endforeach
-                                </div>
                             </div>
                         </div>
                     @endif
@@ -150,10 +150,31 @@
                         @endphp
 
                         <div class="row">
-                            <div class="col-lg-{{ $rightPanelCounter > 0 ? '9' : '12' }}">
-                                <div class="mb-4">
-                                    <div class="card-body">
+                            <div class="col-lg-{{ $rightPanelCounter > 0 ? '9' : '12' }} mb-4">
+                                <div class="card-body">
 
+                                    @foreach($lcm_item->fields as $lcm_subitem => $k)
+                                        @php
+                                            $field_name = $lcm_subitem;
+                                            $label = $k->display_name;
+                                            $field = $k;
+                                        @endphp
+
+                                        @if(isset($k->type))
+                                            @php $type = $k->type; @endphp
+                                            @if(!isset($k->panel) || $k->panel === "left")
+                                                @include('alder::components.input')
+                                            @endif
+                                        @endif
+                                    @endforeach
+
+                                </div>
+                            </div>
+
+                        @if($rightPanelCounter > 0)
+                            <!-- SIDEBAR -->
+                                <div class="col-lg-3 mb-4">
+                                    <div class="card-body">
                                         @foreach($lcm_item->fields as $lcm_subitem => $k)
                                             @php
                                                 $field_name = $lcm_subitem;
@@ -161,37 +182,13 @@
                                                 $field = $k;
                                             @endphp
 
-                                            @if(isset($k->type))
+                                            @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
                                                 @php $type = $k->type; @endphp
-                                                @if(!isset($k->panel) || $k->panel === "left")
-                                                    @include('alder::components.input')
-                                                @endif
+                                                @include('alder::components.input')
                                             @endif
                                         @endforeach
-
                                     </div>
-                                </div>
-                            </div>
 
-                        @if($rightPanelCounter > 0)
-                            <!-- SIDEBAR -->
-                                <div class="col-lg-3">
-                                    <div class=" mb-4">
-                                        <div class="card-body">
-                                            @foreach($lcm_item->fields as $lcm_subitem => $k)
-                                                @php
-                                                    $field_name = $lcm_subitem;
-                                                    $label = $k->display_name;
-                                                    $field = $k;
-                                                @endphp
-
-                                                @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
-                                                    @php $type = $k->type; @endphp
-                                                    @include('alder::components.input')
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
                                 </div>
                             @endif
                         </div>
