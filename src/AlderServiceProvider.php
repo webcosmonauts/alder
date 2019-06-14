@@ -4,6 +4,7 @@ namespace Webcosmonauts\Alder;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
+use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
 
 class AlderServiceProvider extends ServiceProvider
 {
@@ -64,7 +65,7 @@ class AlderServiceProvider extends ServiceProvider
         $loader->alias("TemplateHelper", "Webcosmonauts\\Alder\\Facades\\TemplateHelper");
 
         $this->app->bind('template_helper', function () {
-            return new \Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController();
+            return new TemplateController();
         });
     }
 
