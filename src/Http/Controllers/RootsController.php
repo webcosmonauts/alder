@@ -63,7 +63,6 @@ class RootsController extends BaseController
     
     /**
      * @param Request $request
-     * @param $param
      * @return JsonResponse|RedirectResponse
      */
     public function update(Request $request)

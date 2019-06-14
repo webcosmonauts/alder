@@ -22,7 +22,7 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
 
         // roots
         Route::get('roots', '\Webcosmonauts\Alder\Http\Controllers\RootsController@index')->name('roots.index');
-        Route::post('roots/update', '\Webcosmonauts\Alder\Http\Controllers\RootsController@update')->name('roots.update');
+        Route::put('roots/update', '\Webcosmonauts\Alder\Http\Controllers\RootsController@update')->name('roots.update');
 
         // contact form params
         Route::resource('contact-forms', '\Webcosmonauts\Alder\Http\Controllers\ContactController');
