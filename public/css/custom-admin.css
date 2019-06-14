@@ -74,11 +74,11 @@ input::placeholder, select::placeholder, textarea::placeholder {
 }
 
 .rptr-field {
-    padding: 15px 10px;
-    background: #f8f8f8;
-    border-radius: 4px;
-    position: relative;
     margin-bottom: 25px;
+}
+
+.rptr-field .card-header {
+    cursor: pointer;
 }
 
 .rptr-field__add,
@@ -87,19 +87,18 @@ input::placeholder, select::placeholder, textarea::placeholder {
 }
 
 .rptr-field__delete {
-    top: 0;
+    top: 7px;
     right: 0;
 }
 
 .rptr-field__add {
-    cursor: pointer;
-    bottom: 5px;
-    right: 5px;
-    border: 1px solid;
-    border-radius: 50%;
-    padding: 3px 4px;
-    color: #4e73df;
-    background-color: #fff;
+    float: right;
+    position: static;
+    margin-top: 15px;
+}
+
+.card-body .rptr-field:first-child .rptr-field__delete {
+    display: none;
 }
 
 @media (min-width: 768px) {

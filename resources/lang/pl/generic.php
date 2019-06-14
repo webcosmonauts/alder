@@ -89,5 +89,7 @@ return [
     'viewing'                => 'Wyświetl',
     'yes'                    => 'Tak',
     'yes_please'             => 'Tak, proszę',
-    'back'                   => 'Z powrotem'
+    'back'                   => 'Z powrotem',
+    'add_row'                => 'Dodaj wiersz',
+    'fields_row'             => 'Wiersz pól',
 ];

@@ -10,10 +10,11 @@ $(document).ready(function () {
 	}
 
 
+	// ADD NEW PRTR
 	$('body').on('click', '.rptr-field__add', function (e) {
 		e.preventDefault();
 
-		var clone = $(this).parent().clone();
+		var clone = $(this).parents('.rptr-field').clone();
 		clone.find('input', 'textarea', 'select').val('').each(function () {
 			var name = $(this).attr('name'), match;
 
@@ -31,10 +32,17 @@ $(document).ready(function () {
 			$(this).iCheck('uncheck');
 		});
 
-		$(this).parent().after(clone);
+		$(this).parents('.rptr-field').eq(0).after(clone);
 	});
 
 
+	/* RPTR TOGGLE BODY */
+	$('body').on('click', '.rptr-field .card-header', function (e) {
+		$(this).next().slideToggle();
+	});
+
+
+	// REMOVE PRTR
 	$('body').on('click', '.rptr-field__delete', function (e) {
 		e.preventDefault();
 

@@ -23,24 +23,37 @@
         <div class="card-header"><h5 class="text-primary font-weight-bold">{{$label}}</h5></div>
 
         <div class="card-body">
-            <div class="rptr-field">
+            <div class="rptr-field card shadow">
+
+                <div class="rptr-field__delete delete-icon">&times;</div>
 
 
-                <em class="fa fa-times rptr-field__delete"></em>
-                <em class="fa fa-plus rptr-field__add"></em>
+                <div class="card-header text-primary font-weight-bold">
+                    {{__('alder::generic.fields_row')}}
+                </div>
+
+                <div class="card-body">
+
+                    @foreach($k->fields as $lcm_subitem1 => $k1)
+                        @php
+                            $field_name = $lcm_subitem1;
+                            $label = $k1->display_name;
+                            $field = $k1;
+                        @endphp
+
+                        @if(isset($k1->type)) @php $type = $k1->type; @endphp @endif
+
+                        @include('alder::components.input')
+                    @endforeach
 
 
-                @foreach($k->fields as $lcm_subitem1 => $k1)
-                    @php
-                        $field_name = $lcm_subitem1;
-                        $label = $k1->display_name;
-                        $field = $k1;
-                    @endphp
-
-                    @if(isset($k1->type)) @php $type = $k1->type; @endphp @endif
-
-                    @include('alder::components.input')
-                @endforeach
+                    <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                             <i class="fas fa-plus"></i>
+                    </span>
+                        <span class="text"> {{__('alder::generic.add_row')}} </span>
+                    </div>
+                </div>
             </div>
         </div>
 
