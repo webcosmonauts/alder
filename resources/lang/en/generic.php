@@ -109,5 +109,8 @@ return [
     'whoopsie'               => 'Whoopsie!',
     'yes'                    => 'Yes',
     'yes_please'             => 'Yes, please',
-    'back'                   => 'Back'
+    'back'                   => 'Back',
+    'add_row'                => 'Add row',
+    'fields_row'             => 'Fields row',
+    'add_new_custom_link'    => 'Add custom link',
 ];

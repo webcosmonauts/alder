@@ -34,15 +34,20 @@ return [
     'false' => 'False',
     'browse' => 'Browse',
     'add_new_field' => 'Add new field',
+    'add_new_subfield'=> 'Add new subfield',
     'each_opt_separate_line' => 'Each option on separate line',
 
     'yes' => 'Yes',
     'are_you_sure_delete_tab' => 'Are you sure to delete this tab?',
+    'are_you_sure_delete_condition' => 'Are you sure to delete this condition?',
     'lcm_title' => 'LCM Title',
     'main' => 'Main',
     'conditions' => 'Conditions',
     'page_template' => 'Page template',
     'is' => 'is',
     'not' => 'not',
-    'repeater' => "Repeater"
+    'repeater' => "Repeater",
+    'group_title' => 'Group title',
+    'group_slug' => 'Group slug',
+    'add_new_condition' => 'Add new condition',
 ];

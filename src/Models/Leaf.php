@@ -8,6 +8,7 @@ namespace Webcosmonauts\Alder\Models;
  * @property string title
  * @property string slug
  * @property string content
+ * @property bool is_accessible
  * @property int user_id
  * @property int leaf_type_id
  * @property int status_id

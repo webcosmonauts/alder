@@ -4,7 +4,7 @@
 
 <div class="field card shadow">
 
-    <div class="card-header font-weight-bold text-primary"> {{__('alder::lcm.field')}}</div>
+    <div class="card-header font-weight-bold text-primary">{{$field->display_name}}</div>
     <div class="field__delete">&times;</div>
 
     <div class="card-body row m-0">
@@ -63,8 +63,14 @@
                 @endforeach
 
 
-                <button type="button" href="#"
-                        class="btn btn-sm btn-primary add-new-field-repeater"> {{__('alder::lcm.add_new_field')}} </button>
+                <button type="button"
+                        class="btn btn-sm btn-icon-split btn-primary add-new-field-repeater">
+                        <span class="icon text-white-50">
+                                <i class="fa fa-plus"></i>
+                            </span>
+
+                    <span class="text">{{__('alder::lcm.add_new_subfield')}}</span>
+                </button>
             </div>
     @endif
 

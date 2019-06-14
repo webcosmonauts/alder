@@ -158,9 +158,13 @@ $(document).ready(function () {
 	// SLIDE TOGGLE FOR FIELD BODY
 	$('body').on('click', '.field .card-header', function (e) {
 		e.preventDefault();
-		$(this).parent().find('.card-body').slideToggle();
+		$(this).parent().find('.card-body').eq(0).slideToggle();
 	});
 
+	// FIELD NAME CHANGE
+	$('body').on('change', "[name=field_name]", function () {
+		$(this).parents('.field').eq(0).find('.card-header').eq(0).text($(this).val());
+	});
 
 	// TYPE DEPENDENCE
 	$('body').on('change', '[name=type]', function () {
@@ -227,9 +231,18 @@ $(document).ready(function () {
 	$('body').on('click', '.condition-field__delete', function (e) {
 		e.preventDefault();
 
-		if ($('.condition-field').length > 1)
-			$(this).parent().remove();
+		$(".condition-field").removeAttr('data-delete');
+		$(this).parent().attr('data-delete', 'true');
+		$('#confirm-delete-condition').modal('show');
 	});
+
+	$('#confirm-delete-condition').on('click', '.btn', function (e) {
+		$('.condition-field[data-delete=true]').remove();
+		$('#confirm-delete-condition').modal('hide');
+	});
+
+
+	/*********/
 
 
 	$('#LCMs-form').on('keyup', 'input', function () {

@@ -7,17 +7,12 @@
 @endsection
 
 @section('content')
-
-
-    <a href="{{route('alder.contact-forms.index')}}" class="btn btn-success mb-3"> {{__('alder::generic.back')}}</a>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ __('alder::leaf_types.contact-forms.singular') . " $forms->title" }}</h1>
+    </div>
 
     <div class="card shadow">
-        <div class="card-header">
-            <h5 class="text-primary font-weight-bold">{{$forms->title}}</h5>
-        </div>
-
         <div class="card-body">
-
             @foreach ($lin as $key => $value)
                 @switch($value)
                     @case('text')

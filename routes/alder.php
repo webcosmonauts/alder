@@ -48,6 +48,10 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         Route::get('themes', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@showThemes')->name('themes.index');
         //Select active theme
         Route::post('themes', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@selectActiveTheme')->name('themes.update');
+
+        //Menus
+        Route::get('menus/create', '\Webcosmonauts\Alder\Http\Controllers\MenuController@menuCreate')->name('menus.create');
+
     });
 
     // uploader

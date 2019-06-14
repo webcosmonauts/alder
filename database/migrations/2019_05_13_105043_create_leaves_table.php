@@ -18,7 +18,7 @@ class CreateLeavesTable extends Migration
             $table->text('title');
             $table->string('slug', 255);
             $table->text('content')->nullable();
-            $table->boolean('is_accessable')->default(true);
+            $table->boolean('is_accessible')->default(true);
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('leaf_type_id')->unsigned();
             $table->integer('status_id')->unsigned()->default(1);
