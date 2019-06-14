@@ -14,6 +14,7 @@ use Webcosmonauts\Alder\Models\LeafType;
 use Webcosmonauts\Alder\Models\RootType;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\User;
+use Symfony\Component\HttpFoundation\File;
 
 class UsersController extends BaseController
 {
@@ -85,6 +86,7 @@ class UsersController extends BaseController
     {
         $edit = false;
         $id = 185448;
+
         return $this->editUser($edit, $request, $id);
     }
 
@@ -104,6 +106,7 @@ class UsersController extends BaseController
     public function update(Request $request, $id)
     {
         $edit = true;
+
         return $this->editUser($edit, $request, $id);
     }
 
@@ -129,6 +132,22 @@ class UsersController extends BaseController
         return DB::transaction(function () use ($edit, $request, $id) {
             try {
 
+                $file_div = '';
+                if ($request->userfile) {
+                    $file_name = ($request->userfile->getClientOriginalName());
+                    $file_div = public_path() . '\img\users\_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
+                    $file_name_db = '_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
+
+
+                    if (move_uploaded_file($request->userfile, $file_div)) {
+                        echo 'good';
+
+                    } else {
+                        echo 'error';
+                    }
+                }
+
+
                 $User = $edit ? User::where('id',$id)->get()->first() : new User();
 
                 $User->name = $request->name;
@@ -138,6 +157,7 @@ class UsersController extends BaseController
                 $User->is_active = $edit ? $request->is_active : 0;
                 $User->LCM_id = $request->LCM_id;
                 $User->LCMV_id = $request->LCMV_id;
+                $User->images_users = $file_name_db;
 
                 if (!$edit)
                     $User->created_at = date("Y-m-d H:i:s");
