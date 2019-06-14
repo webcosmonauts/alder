@@ -32,7 +32,7 @@
                     <tbody>
                     @foreach($forms as $leaf)
                         <tr>
-                            @foreach(['title','slug','is_accessable', 'status_id','created_at', 'updated_at'] as $field)
+                            @foreach(['title','slug','is_accessible', 'status_id','created_at', 'updated_at'] as $field)
                                 <td>
                                     {{ $leaf->$field }}
                                 </td>
