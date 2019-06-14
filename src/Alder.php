@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use stdClass;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
+use Webcosmonauts\Alder\Exceptions\UnknownConditionOperatorException;
+use Webcosmonauts\Alder\Exceptions\UnknownConditionParameterException;
 use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifier;
@@ -245,21 +247,45 @@ class Alder
     /**
      * Get combined LCMs of LeafType
      *
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
+     *
      * @param LeafType $leaf_type
+     * @param bool $edit
+     * @param null $leaf
      *
      * @return object
      */
-    public function combineLeafTypeLCMs(LeafType $leaf_type) {
+    public function combineLeafTypeLCMs(LeafType $leaf_type, bool $edit = false, $leaf = null) {
         $combined = [
             'lcm' => [],
             'bread' => [],
             'conditions' => [],
         ];
-        
+    
         foreach ($leaf_type->LCMs as $LCM) {
-            $modifiers = get_object_vars($LCM->modifiers);
-            
-            foreach ($modifiers as $name => $modifier) {
+        
+            // conditions check
+            foreach ($LCM->modifiers->conditions as $condition) {
+                switch ($condition->parameter) {
+                    case 'leaf-type':
+                        if (!$this->isNotCheck($condition->value, $condition->operator, $leaf_type->slug))
+                            continue 3;
+                        break;
+                    case 'page-template':
+                        if (!$edit)
+                            continue 2;
+                        else {
+                            if (!$this->isNotCheck($condition->value, $condition->operator, $leaf->LCMV->values->template))
+                                continue 3;
+                        }
+                        break;
+                    default:
+                        throw new UnknownConditionParameterException();
+                }
+            }
+        
+            foreach ($LCM->modifiers as $name => $modifier) {
                 if (!isset($combined[$name]))
                     $combined[$name] = [];
                 
@@ -297,6 +323,33 @@ class Alder
         }
         
         return $this->arrayToObject($combined);
+    }
+    
+    /**
+     * Check LCM condition
+     *
+     * @throws UnknownConditionOperatorException
+     *
+     * @param $cond_value
+     * @param $operator
+     * @param $value
+     *
+     * @return bool
+     */
+    private function isNotCheck($cond_value, $operator, $value) {
+        if ($operator == 'is') {
+            if (is_array($value))
+                return in_array($cond_value, $value);
+            else
+                return $cond_value == $value;
+        }
+        else if ($operator == 'not')
+            if (is_array($value))
+                return !in_array($cond_value, $value);
+            else
+                return $cond_value != $value;
+        else
+            throw new UnknownConditionOperatorException();
     }
     
     /**
