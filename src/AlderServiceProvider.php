@@ -33,13 +33,13 @@ class AlderServiceProvider extends ServiceProvider
         ], 'public');
         
         // translations
-        $this->loadTranslationsFrom(__DIR__.'\..\resources\lang', 'alder');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'alder');
     
         // migrations
-        $this->loadMigrationsFrom(__DIR__.'\..\database\migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         
         // views
-        $this->loadViewsFrom(__DIR__.'\..\resources\views', 'alder');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'alder');
     }
     /**
      * Make config publishment optional by merging the config from the package.
