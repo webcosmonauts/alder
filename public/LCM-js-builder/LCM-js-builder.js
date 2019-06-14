@@ -237,7 +237,7 @@ $(document).ready(function () {
 				if (options) {
 					for (var opt in options) {
 						html += "<div>" +
-							"<label for=\"" + opt + "\"> " + options[opt] + " </label>" +
+							"<label for=\"" + opt + "\" class=\"mr-2\"> " + options[opt] + " </label>  " +
 							"<input type=\"" + type + "\" name=\"" + field_name + "\" id=\"" + opt + "\" value=\"" + opt + "\" class=\"icheck\">" +
 							"</div>";
 					}
