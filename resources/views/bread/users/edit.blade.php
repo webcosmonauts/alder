@@ -3,10 +3,8 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1>{{ __("alder::leaf_types.users.singular") }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ __("alder::leaf_types.users.singular") }}</h1>
     </div>
-
-
 
     <form action="{{ $user ? route("alder.users.update",  $user->id) : route("alder.users.store") }}" method="POST">
         @csrf
