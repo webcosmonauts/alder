@@ -3,6 +3,7 @@ namespace Webcosmonauts\Alder;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 
 class AlderServiceProvider extends ServiceProvider
 {
@@ -33,13 +34,13 @@ class AlderServiceProvider extends ServiceProvider
         ], 'public');
         
         // translations
-        $this->loadTranslationsFrom(__DIR__.'\..\resources\lang', 'alder');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'alder');
     
         // migrations
-        $this->loadMigrationsFrom(__DIR__.'\..\database\migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         
         // views
-        $this->loadViewsFrom(__DIR__.'\..\resources\views', 'alder');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'alder');
     }
     /**
      * Make config publishment optional by merging the config from the package.
@@ -57,7 +58,7 @@ class AlderServiceProvider extends ServiceProvider
         });
         
         $this->app->bind('leaf_helper', function () {
-            return new \Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController();
+            return new LeafEntityController();
         });
 
         $loader->alias("TemplateHelper", "Webcosmonauts\\Alder\\Facades\\TemplateHelper");

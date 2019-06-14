@@ -129,11 +129,25 @@
     z-index: 5;
 }
 
-.conditional-field .form-group {
+.condition-field .form-group {
     width: auto;
 }
 
-.conditional-field .form-group.form-group-small {
+.condition-field__delete {
+    font-size: 28px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.condition-field:first-child .condition-field__delete {
+    display: none;
+}
+
+.condition-field .form-group.form-group-small {
     width: auto;
     margin: 0 30px;
 }

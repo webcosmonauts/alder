@@ -22,12 +22,11 @@
         $right_panel_count = 0;
         $lcm = $params->lcm;
 
+
         $mainRightPanelCounter = 0;
         foreach($lcm as $lcm_item => $k):
             if(isset($k->panel) && $k->panel === 'right') $mainRightPanelCounter++;
         endforeach;
-
-
     @endphp
 
 
@@ -86,9 +85,16 @@
 
 
                                 @foreach($lcm as $lcm_item => $k)
-                                    @php $field_name = $lcm_item; $label = $k->display_name; @endphp
+                                    @php
+                                        $field_name = $lcm_item;
+                                        $label = $k->display_name;
+                                        $field = $k;
+                                    @endphp
 
                                     @if(isset($k->type))
+
+                                        @php $type = $k->type; @endphp
+
                                         @if(!isset($k->panel) || $k->panel === "left")
                                             @include('alder::components.input')
                                         @endif
@@ -105,9 +111,14 @@
                             <div class=" mb-4">
                                 <div class="card-body">
                                     @foreach($lcm as $lcm_item => $k)
-                                        @php $field_name = $lcm_item; $label = $k->display_name;@endphp
+                                        @php
+                                            $field_name = $lcm_item;
+                                            $label = $k->display_name;
+                                            $field = $k;
+                                        @endphp
 
                                         @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
+                                            @php $type = $k->type; @endphp
                                             @include('alder::components.input')
                                         @endif
                                     @endforeach
@@ -144,9 +155,14 @@
                                     <div class="card-body">
 
                                         @foreach($lcm_item->fields as $lcm_subitem => $k)
-                                            @php $field_name = $lcm_subitem; $label = $k->display_name; @endphp
+                                            @php
+                                                $field_name = $lcm_subitem;
+                                                $label = $k->display_name;
+                                                $field = $k;
+                                            @endphp
 
-                                            @if(!isset($k->fields))
+                                            @if(isset($k->type))
+                                                @php $type = $k->type; @endphp
                                                 @if(!isset($k->panel) || $k->panel === "left")
                                                     @include('alder::components.input')
                                                 @endif
@@ -163,9 +179,14 @@
                                     <div class=" mb-4">
                                         <div class="card-body">
                                             @foreach($lcm_item->fields as $lcm_subitem => $k)
-                                                @php $field_name = $lcm_subitem; $label = $k->display_name; @endphp
+                                                @php
+                                                    $field_name = $lcm_subitem;
+                                                    $label = $k->display_name;
+                                                    $field = $k;
+                                                @endphp
 
-                                                @if(!isset($k->fields) && isset($k->panel) && $k->panel === "right")
+                                                @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
+                                                    @php $type = $k->type; @endphp
                                                     @include('alder::components.input')
                                                 @endif
                                             @endforeach

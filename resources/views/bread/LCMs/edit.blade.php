@@ -10,14 +10,25 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{__('alder::lcm.singular')}}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{$edit ? $LCM->title : __('alder::lcm.singular')}}</h1>
     </div>
 
-    <form action="{{route('alder.LCMs.store')}}" id="LCMs-form" method="POST" novalidate>
+
+    <form action="{{$edit ? route('alder.LCMs.update', $LCM->slug) : route('alder.LCMs.store')}}" id="LCMs-form"
+          method="POST"
+          novalidate>
         @csrf
 
+    @php
+        if($edit) {
+            $lcm = $LCM->modifiers->lcm;
+            $conditions = $LCM->modifiers->conditions;
+            $browse = $LCM->modifiers->bread->browse->table_columns;
+        }
 
-        <!-- *** LCM MAIN FIELDS *** -->
+    @endphp
+
+    <!-- *** LCM MAIN FIELDS *** -->
         <div class="card shadow mb-5">
             <div class="card-header font-weight-bold text-primary">LCM</div>
             <div class="card-body">
@@ -29,7 +40,8 @@
                             <label for="lcm_title">{{__('alder::lcm.lcm_title')}} *</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_title" id="lcm_title"
-                                       class="form-control" required>
+                                       class="form-control" data-title="1" required
+                                        @php if($edit) echo 'value="'.$LCM->title.'"' @endphp>
                             </div>
                         </div>
                     </div>
@@ -40,7 +52,35 @@
                             <label for="lcm_slug">LCM slug *</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_slug" id="lcm_slug"
-                                       class="form-control" required>
+                                       class="form-control" data-slug="1" required
+                                        @php if($edit) echo 'value="'.$LCM->slug.'"' @endphp>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- LCM GROUP TITLE -->
+                        <div class="form-group">
+                            <label for="lcm_group_title">{{__('alder::lcm.lcm_group_title')}}</label>
+                            <div class="input-group">
+                                <input type="text" name="lcm_group_title" id="lcm_group_title"
+                                       class="form-control" data-title="2"
+                                        @php if($edit) echo 'value="'.$LCM->group_title.'"' @endphp>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- LCM SlUG -->
+                        <div class="form-group">
+                            <label for="lcm_group_slug">{{__('alder::lcm.lcm_group_slug')}} </label>
+                            <div class="input-group">
+                                <input type="text" name="lcm_group_slug" id="lcm_group_slug"
+                                       class="form-control" data-slug="2"
+                                        @php if($edit) echo 'value="'.$LCM->group_slug.'"' @endphp>
                             </div>
                         </div>
                     </div>
@@ -56,6 +96,18 @@
             </a>
 
 
+            @if($edit)
+                @php $tabsCounter = 1; @endphp
+                @foreach($lcm as $field_k => $field)
+
+                    @if(!isset($field->type))
+                        <a href="#section-{{$tabsCounter}}" class="lcm-tabs__link">{{$field->display_name}}</a>
+                    @endif
+                    @php $tabsCounter++; @endphp
+                @endforeach
+            @endif
+
+
             <a href="#" id="add-new-tab"> <em class="fa fa-plus"></em> <span class="d-none">add new tab</span> </a>
             <input type="text" id="lcm-tab-edit">
         </div>
@@ -64,7 +116,35 @@
         <!-- *** TABS CONTENT *** -->
         <div class="lcm-tabs-content">
             <div class="content shadow mb-5 active" id="main">
+                @if($edit)
+
+                    @foreach($lcm as $field_k => $field)
+
+                        @if(isset($field->type))
+                            @php $field_name = $field_k; @endphp
+                            @include('alder::components.LCM')
+                        @endif
+
+                    @endforeach
+
+                @endif
             </div>
+
+            @if($edit)
+                @php $tabsCounter = 1; @endphp
+                @foreach($lcm as $field_k => $field)
+
+                    @if(!isset($field->type))
+                        <div class="content shadow mb-5" id="section-{{$tabsCounter}}">
+                            @foreach($field->fields as $subfield_k => $subfield)
+                                @php $field = $subfield; $field_name = $subfield_k; @endphp
+                                @include('alder::components.LCM')
+                            @endforeach
+                        </div>
+                    @endif
+                    @php $tabsCounter++; @endphp
+                @endforeach
+            @endif
 
 
             <button type="button" class="btn btn-primary"
@@ -80,48 +160,125 @@
                     <div class="card-body">
 
 
-                        <div class="conditional-field d-flex flex-wrap">
+                        @if($edit && count($conditions) > 0)
 
-                            <div class="form-group">
-                                <label for="parameter"> </label>
-                                <select name="parameter" id="parameter" class="form-control">
-                                    <option value="page-template"> {{__('alder::lcm.page_template')}} </option>
-                                    <option value="leaf-type">LeafType</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group form-group-small">
-                                <label for="operator"> </label>
-
-                                <select name="operator" id="operator" class="form-control">
-                                    <option value="is">{{__('alder::lcm.is')}}</option>
-                                    <option value="not">{{__('alder::lcm.not')}}</option>
-                                </select>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="value"> </label>
+                            @foreach($conditions as $condition)
 
                                 @php
-                                    $templates_object = TemplateHelper::getTemplatesObject("alder");
+                                    $current_parameter = $condition->parameter;
+                                    $current_operator = $condition->operator;
+                                    $current_value  = $condition->value;
+
+                                       $parameters = array(
+                                           "page-template" => __('alder::lcm.page_template'),
+                                           "leaf-type" => "LeafType"
+                                       );
+
+                                        $operators = array(
+                                            "is" =>__('alder::lcm.is'),
+                                            "not" =>__('alder::lcm.not')
+                                        );
                                 @endphp
 
-                                <select name="value" id="value" class="custom-select">
+                                <div class="condition-field d-flex flex-wrap">
+                                    <div class="form-group">
+                                        <label for="parameter"> </label>
+                                        <select name="parameter" id="parameter" class="form-control">
+                                            @foreach($parameters as $parameter_k => $parameter_v)
+                                                <option value="{{$parameter_k }}" @php if($parameter_k === $current_parameter) echo "selected"; @endphp> {{$parameter_v}} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                    @foreach($templates_object as $name=>$single_template)
-                                        <option data-group="page-template"
-                                                value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
-                                    @endforeach
 
-                                    <option class="d-none" data-group="leaf-type" value="1">lorem1</option>
-                                    <option class="d-none" data-group="leaf-type" value="2">lorem2</option>
-                                </select>
+                                    <div class="form-group form-group-small">
+                                        <label for="operator"> </label>
+
+                                        <select name="operator" id="operator" class="form-control">
+                                            @foreach($operators as $operator_k => $operator_v)
+                                                <option value="{{$operator_k }}" @php if($operator_k === $current_operator) echo "selected"; @endphp> {{$operator_v}} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="value"></label>
+                                        @php
+                                            $templates_object = TemplateHelper::getTemplatesObject("alder");
+                                        @endphp
+
+
+                                        <select name="value" id="value" class="custom-select">
+
+                                            @foreach($templates_object as $name=>$single_template)
+                                                <option data-group="page-template"
+                                                        @php if($current_parameter !== "page-template") echo 'class="d-none"'; elseif($single_template['template_name'] == $current_value) echo "selected"; @endphp
+                                                        value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
+                                            @endforeach
+
+                                            @foreach($leaf_types as $leaf_type)
+                                                <option data-group="leaf-type"
+                                                        @php if($current_parameter !== "leaf-type") echo 'class="d-none"'; elseif($leaf_type->id == $current_value) echo "selected"; @endphp
+                                                        value="{{$leaf_type->id}}">{{$leaf_type->title}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="condition-field__delete">&times;</div>
+                                </div>
+
+                            @endforeach
+                        @else
+
+                            <div class="condition-field d-flex flex-wrap">
+                                <div class="form-group">
+                                    <label for="parameter"> </label>
+                                    <select name="parameter" id="parameter" class="form-control">
+                                        <option value="page-template"> {{__('alder::lcm.page_template')}} </option>
+                                        <option value="leaf-type">LeafType</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group form-group-small">
+                                    <label for="operator"> </label>
+
+                                    <select name="operator" id="operator" class="form-control">
+                                        <option value="is">{{__('alder::lcm.is')}}</option>
+                                        <option value="not">{{__('alder::lcm.not')}}</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="value"></label>
+
+                                    @php
+                                        $templates_object = TemplateHelper::getTemplatesObject("alder");
+                                    @endphp
+
+
+                                    <select name="value" id="value" class="custom-select">
+
+                                        @foreach($templates_object as $name=>$single_template)
+                                            <option data-group="page-template"
+                                                    value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
+                                        @endforeach
+
+                                        @foreach($leaf_types as $leaf_type)
+                                            <option class="d-none" data-group="leaf-type"
+                                                    value="{{$leaf_type->id}}">{{$leaf_type->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="condition-field__delete">&times;</div>
 
                             </div>
-                        </div>
+                        @endif
 
 
+                        <button id="add-new-condition" type="button"
+                                class="btn btn-primary mt-5"> {{__('alder::lcm.add_new_condition')}} </button>
                     </div>
                 </div>
             </div>
@@ -129,9 +286,9 @@
 
             <div class="col-12 mb-4">
                 <button type="submit" class="btn btn-success btn-icon-split">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-save"></i>
-                            </span>
+                <span class="icon text-white-50">
+                  <i class="fas fa-save"></i>
+                </span>
                     <span class="text">{{ __('alder::generic.save') }}</span>
                 </button>
             </div>
@@ -222,8 +379,6 @@
                     <label for="relation_type">{{__('alder::lcm.relation_type')}}</label>
                     <select name="relation_type" id="relation_type" class="form-control"
                             disabled>
-                        <option value="hasOne">hasOne</option>
-                        <option value="hasMany">hasMany</option>
                         <option value="belongsTo">belongsTo</option>
                         <option value="belongsToMany">belongsToMany</option>
                     </select>
@@ -277,7 +432,7 @@
                 <!-- *** BROWSE *** -->
                 <div class="form-group d-flex align-items-center">
                     <label for="browse">{{__('alder::lcm.browse')}}</label>
-                    <input type="checkbox" name="browse" id="browse" class="icheck" disabled>
+                    <input type="checkbox" name="browse" id="browse" disabled>
                 </div>
             </div>
         </div>
