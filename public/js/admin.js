@@ -9,6 +9,7 @@ $(document).ready(function () {
 		});
 	}
 
+	if($('#browse-table').length) $('#browse-table').DataTable();
 
 	// ADD NEW PRTR
 	$('body').on('click', '.rptr-field__add', function (e) {
