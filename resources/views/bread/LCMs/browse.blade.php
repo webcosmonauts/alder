@@ -16,13 +16,13 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($LCMs->count() > 0)
-                <table class="table">
+                <table class="table" id="browse-table">
                     <thead>
                     <tr>
-                        <td>{{ __('alder::generic.title') }}</td>
-                        <td>{{ __('alder::lcm.group_title') }}</td>
-                        <td>{{ __('alder::generic.created_at') }}</td>
-                        <td class="text-right">{{ __('alder::generic.actions') }}</td>
+                        <th>{{ __('alder::generic.title') }}</th>
+                        <th>{{ __('alder::lcm.group_title') }}</th>
+                        <th>{{ __('alder::generic.created_at') }}</th>
+                        <th class="text-right">{{ __('alder::generic.actions') }}</th>
                     </tr>
                     </thead>
                     <tbody>

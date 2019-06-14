@@ -17,13 +17,13 @@
         <div class="card-body">
             @if($users->count() > 0)
                 {{--                 @dd($users->User)--}}
-                <table class="table">
+                <table class="table" id="browse-table">
                     <thead>
                     <tr>
                         @foreach(['Title','Surname','Email','Created at', 'Active'] as $field)
-                            <td>
+                            <th>
                                 {{ $field }}
-                            </td>
+                            </th>
                         @endforeach
                         <td class="text-right">
                             {{ __('alder::generic.actions') }}

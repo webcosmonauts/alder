@@ -16,13 +16,13 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($forms->count() > 0)
-                <table class="table">
+                <table class="table" id="browse-table">
                     <thead>
                     <tr>
                         @foreach(['Title','Slug','Is accessable', 'Status','Created at', 'Update at'] as $field)
-                            <td>
+                            <th>
                                 {{ $field }}
-                            </td>
+                            </th>
                         @endforeach
                         <td class="text-right">
                             {{ __('alder::generic.actions') }}

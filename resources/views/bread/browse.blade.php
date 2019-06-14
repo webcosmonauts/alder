@@ -16,17 +16,17 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($leaves->count() > 0)
-                <table class="table">
+                <table class="table" id="browse-table">
                     <thead>
                     <tr>
                         @foreach($params->bread->browse->table_columns as $field)
-                            <td>
+                            <th>
                                 {{ $field }}
-                            </td>
+                            </th>
                         @endforeach
-                        <td class="text-right">
+                        <th class="text-right">
                             {{ __('alder::generic.actions') }}
-                        </td>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
