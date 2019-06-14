@@ -17,6 +17,7 @@ class CreateLeafTypesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug')->unique();
+            $table->boolean('is_accessible')->default(false);
             $table->integer('LCM_id')->unsigned();
             $table->timestamps();
             

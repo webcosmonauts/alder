@@ -92,4 +92,5 @@ return [
     'back'                   => 'Z powrotem',
     'add_row'                => 'Dodaj wiersz',
     'fields_row'             => 'Wiersz pól',
+    'add_new_custom_link'    => 'Dodaj własny link',
 ];
