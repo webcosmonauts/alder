@@ -44,5 +44,8 @@ return [
     'page_template' => 'Page template',
     'is' => 'is',
     'not' => 'not',
-    'repeater' => "Repeater"
+    'repeater' => "Repeater",
+    'lcm_group_title' => 'LCM group title',
+    'lcm_group_slug' => 'LCM group slug',
+    'add_new_condition' => 'Add new condition',
 ];
