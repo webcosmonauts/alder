@@ -26,28 +26,13 @@ class ProfileController extends BaseController
 
         $id = Auth::user()->id;
 
-        $post_id = LeafType::where('slug', 'posts')->value('id');
-        $posts = Leaf::where('leaf_type_id', $post_id)->where('user_id',$id)->count();
-
-        $lastpost = Leaf::where('leaf_type_id', $post_id)->where('user_id',$id)->orderBy('updated_at', 'desc')->first();
-
-        $page_id = LeafType::where('slug', 'pages')->value('id');
+        $user = User::where('id', $id)->first();
 
 
-        $pages = Leaf::where('leaf_type_id', $page_id)->where('user_id',$id)->count();
-        $lastpage = Leaf::where('leaf_type_id', $page_id)->where('user_id',$id)->orderBy('updated_at', 'desc')->first();
-
-        $users = User::where('is_active', 1)->count();
-        $users_all = User::all()->count();
 
         return view('alder::bread.users.profile')->with([
             'admin_menu_items' => $admin_menu_items,
-            'posts' => $posts,
-            'pages' => $pages,
-            'users' => $users,
-            'users_all' => $users_all,
-            'lastpage' => $lastpage,
-            'lastpost' => $lastpost
+            'user' => $user
         ]);
     }
 }
