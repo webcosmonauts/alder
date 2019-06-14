@@ -135,6 +135,7 @@
 
 .condition-field__delete {
     font-size: 28px;
+    font-weight: bold;
     width: 30px;
     height: 30px;
     text-align: center;
