@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
+use Webcosmonauts\Alder\Exceptions\UnknownConditionOperatorException;
+use Webcosmonauts\Alder\Exceptions\UnknownConditionParameterException;
 use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
@@ -18,12 +20,15 @@ use Webcosmonauts\Alder\Models\LeafType;
 class BranchBREADController extends BaseController
 {
     /**
-     * Get [B]READ view of branch with leaves
+     * Get [B]READ view of branch with
      *
-     * @throws AssigningNullToNotNullableException*
+     * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param Request $request
+     *
      * @return View
      */
     public function index(Request $request) {
@@ -70,8 +75,10 @@ class BranchBREADController extends BaseController
     /**
      * Get C[R]UD view for a leaf
      *
-     * @throws UnknownRelationException
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
+     * @throws UnknownRelationException
      *
      * @param Request $request
      * @param string $slug
@@ -104,12 +111,15 @@ class BranchBREADController extends BaseController
     }
     
     /**
-     * Get [C]RUD view
+     * Get [C]RUD
      *
-     * @throws AssigningNullToNotNullableException*
+     * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param Request $request
+     *
      * @return View
      */
     public function create(Request $request) {
@@ -143,7 +153,11 @@ class BranchBREADController extends BaseController
     /**
      * Create and store new leaf from request
      *
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
+     *
      * @param Request $request
+     *
      * @return mixed
      */
     public function store(Request $request) {
@@ -162,6 +176,8 @@ class BranchBREADController extends BaseController
      * Get BR[E]AD view for leaf
      *
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param Request $request
@@ -174,7 +190,7 @@ class BranchBREADController extends BaseController
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
         
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
+        $params = Alder::combineLeafTypeLCMs($leaf->leaf_type, true, $leaf);
         
         /* Populate model with values from LCMV */
         $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type, $params->lcm);
@@ -201,6 +217,9 @@ class BranchBREADController extends BaseController
     
     /**
      * Update existing leaf (CR[U]D)
+     *
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      *
      * @param Request $request
      * @param $slug
@@ -242,6 +261,17 @@ class BranchBREADController extends BaseController
             );
     }
     
+    /**
+     * Edit or create leaf
+     *
+     * @param bool $edit
+     * @param Request $request
+     * @param LeafType $leaf_type
+     * @param $params
+     * @param Leaf|null $edit_leaf
+     *
+     * @return mixed
+     */
     private function editLeaf(bool $edit, Request $request, LeafType $leaf_type, $params, Leaf $edit_leaf = null) {
         return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $edit_leaf) {
             try {
