@@ -64,7 +64,7 @@
             </select>
         @elseif($k->relation_type == 'belongsToMany')
             @php
-                $ids = $edit ? $leaf->$field_name->pluck('id')->toArray() : null;
+                $ids = ($edit && !empty($leaf->$field_name)) ? $leaf->$field_name->pluck('id')->toArray() : null;
             @endphp
             <select multiple class="custom-select" name="{{ $field_name }}[]" id="{{ $field_name }}">
                 @if(isset($k->nullable) && $k->nullable)
