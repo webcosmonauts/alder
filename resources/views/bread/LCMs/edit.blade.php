@@ -64,7 +64,7 @@
                     <div class="col-md-6">
                         <!-- LCM GROUP TITLE -->
                         <div class="form-group">
-                            <label for="lcm_group_title">{{__('alder::lcm.lcm_group_title')}}</label>
+                            <label for="lcm_group_title">{{__('alder::lcm.group_title')}}</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_group_title" id="lcm_group_title"
                                        class="form-control" data-title="2"
@@ -76,7 +76,7 @@
                     <div class="col-md-6">
                         <!-- LCM SlUG -->
                         <div class="form-group">
-                            <label for="lcm_group_slug">{{__('alder::lcm.lcm_group_slug')}} </label>
+                            <label for="lcm_group_slug">{{__('alder::lcm.group_slug')}} </label>
                             <div class="input-group">
                                 <input type="text" name="lcm_group_slug" id="lcm_group_slug"
                                        class="form-control" data-slug="2"
@@ -101,7 +101,8 @@
                 @foreach($lcm as $field_k => $field)
 
                     @if(!isset($field->type))
-                        <a href="#section-{{$tabsCounter}}" class="lcm-tabs__link">{{$field->display_name}}</a>
+                        <a href="#section-{{$tabsCounter}}" class="lcm-tabs__link">{{$field->display_name}}
+                            <em>&times;</em></a>
                     @endif
                     @php $tabsCounter++; @endphp
                 @endforeach
@@ -147,8 +148,12 @@
             @endif
 
 
-            <button type="button" class="btn btn-primary"
-                    id="add-new-field"> {{__('alder::lcm.add_new_field')}}</button>
+            <button type="button" class="btn btn-primary btn-icon-split"
+                    id="add-new-field">
+                <span class="icon text-white-50">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                <span class="text">{{__('alder::lcm.add_new_field')}}</span></button>
         </div>
 
 
@@ -278,7 +283,12 @@
 
 
                         <button id="add-new-condition" type="button"
-                                class="btn btn-primary mt-5"> {{__('alder::lcm.add_new_condition')}} </button>
+                                class="btn btn-primary btn-icon-split mt-5">
+                            <span class="icon text-white-50">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span
+                                    class="text">{{__('alder::lcm.add_new_condition')}}</span></button>
                     </div>
                 </div>
             </div>
@@ -296,9 +306,8 @@
     </form>
 
 
-    <!-- CONFIRM DETELE TAB -->
+    <!-- CONFIRM TO DETELE TAB -->
     <div class="modal fade in" id="confirm-delete-tab" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -323,6 +332,33 @@
         </div>
     </div>
 
+
+    <!-- CONFIRM TO DETELE CONDITION -->
+    <div class="modal fade in" id="confirm-delete-condition" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="exampleModalLabel">{{__('alder::lcm.are_you_sure_delete_condition')}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="text-right">
+
+                        <div class="btn btn-primary"> {{__('alder::lcm.yes')}} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ************************************************************ -->
     <!-- PATTERN -->
     <div id="field-pattern" hidden>
         <div class="field card shadow">
@@ -369,8 +405,14 @@
                 <div class="repeater-field-container" data-dependence="type:repeater" hidden>
 
 
-                    <button type="button" href="#"
-                            class="btn btn-sm btn-primary add-new-field-repeater"> {{__('alder::lcm.add_new_field')}} </button>
+                    <button type="button"
+                            class="btn btn-sm btn-icon-split btn-primary add-new-field-repeater">
+                        <span class="icon text-white-50">
+                                <i class="fa fa-plus"></i>
+                            </span>
+
+                        <span class="text">{{__('alder::lcm.add_new_subfield')}}</span>
+                    </button>
                 </div>
 
 

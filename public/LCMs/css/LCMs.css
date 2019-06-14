@@ -144,13 +144,23 @@
     cursor: pointer;
 }
 
+.condition-field {
+    align-items: center;
+    border-top: 1px solid #ddd;
+    max-width: 530px;
+}
+
+.condition-field:first-child {
+    border-top: 0;
+}
+
 .condition-field:first-child .condition-field__delete {
     display: none;
 }
 
 .condition-field .form-group.form-group-small {
     width: auto;
-    margin: 0 30px;
+    margin: 0 30px 1rem;
 }
 
 .repeater-field-container {
