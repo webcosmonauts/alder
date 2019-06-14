@@ -259,7 +259,7 @@ class ContactController extends BaseController {
                 $form->title = $request->title;
                 $form->slug = $request->slug;
                 $form->content = $request['template-content'];
-                $form->is_accessable = $request->is_accessable == 'on' ? 1 : 0;
+                $form->is_accessable = $request->is_accessible == 'on' ? 1 : 0;
                 $edit ? : $form->status_id = 5;
                 $edit ? : $form->leaf_type_id = $cont_id;
                 $edit ? : $form->user_id = Auth::user()->id;

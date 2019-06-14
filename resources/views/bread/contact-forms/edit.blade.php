@@ -37,9 +37,9 @@
                            value="{{ $edit ? $form->slug : '' }}"
                            required>
                     <br>
-                    <label for="is_accessable">Visibility</label>
+                    <label for="is_accessible">Visibility</label>
                     <input type="checkbox" class="icheck"
-                           name="is_accessable" {{ $edit && $form->is_accessable == '1' ? 'checked' : ''}}>
+                           name="is_accessable" {{ $edit && $form->is_accessible == '1' ? 'checked' : ''}}>
                 </div>
                 <div id="contact-form-template-builder">
 
