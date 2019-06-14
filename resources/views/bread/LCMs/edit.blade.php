@@ -22,7 +22,7 @@
     @php
         if($edit) {
             $lcm = $LCM->modifiers->lcm;
-            $conditions = $LCM->conditions;
+            $conditions = $LCM->modifiers->conditions;
             $browse = $LCM->modifiers->bread->browse->table_columns;
         }
 
@@ -160,48 +160,125 @@
                     <div class="card-body">
 
 
-                        <div class="conditional-field d-flex flex-wrap">
+                        @if($edit && count($conditions) > 0)
 
-                            <div class="form-group">
-                                <label for="parameter"> </label>
-                                <select name="parameter" id="parameter" class="form-control">
-                                    <option value="page-template"> {{__('alder::lcm.page_template')}} </option>
-                                    <option value="leaf-type">LeafType</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group form-group-small">
-                                <label for="operator"> </label>
-
-                                <select name="operator" id="operator" class="form-control">
-                                    <option value="is">{{__('alder::lcm.is')}}</option>
-                                    <option value="not">{{__('alder::lcm.not')}}</option>
-                                </select>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="value"> </label>
+                            @foreach($conditions as $condition)
 
                                 @php
-                                    $templates_object = TemplateHelper::getTemplatesObject("alder");
+                                    $current_parameter = $condition->parameter;
+                                    $current_operator = $condition->operator;
+                                    $current_value  = $condition->value;
+
+                                       $parameters = array(
+                                           "page-template" => __('alder::lcm.page_template'),
+                                           "leaf-type" => "LeafType"
+                                       );
+
+                                        $operators = array(
+                                            "is" =>__('alder::lcm.is'),
+                                            "not" =>__('alder::lcm.not')
+                                        );
                                 @endphp
 
-                                <select name="value" id="value" class="custom-select">
+                                <div class="condition-field d-flex flex-wrap">
+                                    <div class="form-group">
+                                        <label for="parameter"> </label>
+                                        <select name="parameter" id="parameter" class="form-control">
+                                            @foreach($parameters as $parameter_k => $parameter_v)
+                                                <option value="{{$parameter_k }}" @php if($parameter_k === $current_parameter) echo "selected"; @endphp> {{$parameter_v}} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                    @foreach($templates_object as $name=>$single_template)
-                                        <option data-group="page-template"
-                                                value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
-                                    @endforeach
 
-                                    <option class="d-none" data-group="leaf-type" value="1">lorem1</option>
-                                    <option class="d-none" data-group="leaf-type" value="2">lorem2</option>
-                                </select>
+                                    <div class="form-group form-group-small">
+                                        <label for="operator"> </label>
+
+                                        <select name="operator" id="operator" class="form-control">
+                                            @foreach($operators as $operator_k => $operator_v)
+                                                <option value="{{$operator_k }}" @php if($operator_k === $current_operator) echo "selected"; @endphp> {{$operator_v}} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="value"></label>
+                                        @php
+                                            $templates_object = TemplateHelper::getTemplatesObject("alder");
+                                        @endphp
+
+
+                                        <select name="value" id="value" class="custom-select">
+
+                                            @foreach($templates_object as $name=>$single_template)
+                                                <option data-group="page-template"
+                                                        @php if($current_parameter !== "page-template") echo 'class="d-none"'; elseif($single_template['template_name'] == $current_value) echo "selected"; @endphp
+                                                        value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
+                                            @endforeach
+
+                                            @foreach($leaf_types as $leaf_type)
+                                                <option data-group="leaf-type"
+                                                        @php if($current_parameter !== "leaf-type") echo 'class="d-none"'; elseif($leaf_type->id == $current_value) echo "selected"; @endphp
+                                                        value="{{$leaf_type->id}}">{{$leaf_type->title}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="condition-field__delete">&times;</div>
+                                </div>
+
+                            @endforeach
+                        @else
+
+                            <div class="condition-field d-flex flex-wrap">
+                                <div class="form-group">
+                                    <label for="parameter"> </label>
+                                    <select name="parameter" id="parameter" class="form-control">
+                                        <option value="page-template"> {{__('alder::lcm.page_template')}} </option>
+                                        <option value="leaf-type">LeafType</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group form-group-small">
+                                    <label for="operator"> </label>
+
+                                    <select name="operator" id="operator" class="form-control">
+                                        <option value="is">{{__('alder::lcm.is')}}</option>
+                                        <option value="not">{{__('alder::lcm.not')}}</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="value"></label>
+
+                                    @php
+                                        $templates_object = TemplateHelper::getTemplatesObject("alder");
+                                    @endphp
+
+
+                                    <select name="value" id="value" class="custom-select">
+
+                                        @foreach($templates_object as $name=>$single_template)
+                                            <option data-group="page-template"
+                                                    value="{{$single_template['template_name']}}">{{$single_template['label']}}</option>
+                                        @endforeach
+
+                                        @foreach($leaf_types as $leaf_type)
+                                            <option class="d-none" data-group="leaf-type"
+                                                    value="{{$leaf_type->id}}">{{$leaf_type->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="condition-field__delete">&times;</div>
 
                             </div>
-                        </div>
+                        @endif
 
 
+                        <button id="add-new-condition" type="button"
+                                class="btn btn-primary mt-5"> {{__('alder::lcm.add_new_condition')}} </button>
                     </div>
                 </div>
             </div>

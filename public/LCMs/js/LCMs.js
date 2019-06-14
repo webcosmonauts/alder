@@ -192,7 +192,7 @@ $(document).ready(function () {
 	$('body').on('change', 'select[name=parameter]', function (e) {
 
 		var
-			typeSelect = $(this).parents('.conditional-field').find('select[name=value]'),
+			typeSelect = $(this).parents('.condition-field').find('select[name=value]'),
 			value = $(this).val();
 
 		typeSelect.find('option').addClass('d-none');
@@ -208,6 +208,27 @@ $(document).ready(function () {
 			index++;
 
 		});
+	});
+
+	/* ADD NEW CONDITION*/
+	$('#add-new-condition').on('click', function (e) {
+		e.preventDefault();
+
+		var pattern = $('.condition-field').eq(0).clone();
+		pattern.find('select').prop('selectedIndex', 0);
+		pattern.find('[data-group]').addClass('d-none');
+		pattern.find('[data-group=page-template]').removeClass('d-none');
+
+		$(this).before(pattern);
+	});
+
+
+	/*REMOVE CONDITION */
+	$('body').on('click', '.condition-field__delete', function (e) {
+		e.preventDefault();
+
+		if ($('.condition-field').length > 1)
+			$(this).parent().remove();
 	});
 
 
@@ -240,7 +261,7 @@ $(document).ready(function () {
 
 			fieldNamesArray = [],
 			$requiredFields = form.find('[required]'),
-			$conditionFields = form.find('.conditional-field'),
+			$conditionFields = form.find('.condition-field'),
 			$tabs = $('.lcm-tabs-content').find('.content');
 
 		/* VALIDATION */

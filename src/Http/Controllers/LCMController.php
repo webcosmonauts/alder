@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\LeafCustomModifier;
+use Webcosmonauts\Alder\Models\LeafType;
 
 class LCMController extends BaseController
 {
@@ -28,9 +29,11 @@ class LCMController extends BaseController
 
     public function create(Request $request)
     {
+        $leaf_types = LeafType::all();
         $admin_menu_items = Alder::getMenuItems();
         return view('alder::bread.LCMs.edit')->with([
             'edit' => false,
+            'leaf_types' => $leaf_types,
             'admin_menu_items' => $admin_menu_items,
         ]);
     }
@@ -44,7 +47,7 @@ class LCMController extends BaseController
                     $LCM->$field = $request->$field;
                 $LCM->modifiers = json_decode($request->data);
                 $LCM->save();
-            
+
                 return Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_created') . " $LCM->title",
@@ -71,10 +74,13 @@ class LCMController extends BaseController
             $LCM = LeafCustomModifier::findOrFail($param);
         else
             $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
+
+        $leaf_types = LeafType::all();
         $admin_menu_items = Alder::getMenuItems();
         return view('alder::bread.LCMs.edit')->with([
             'edit' => true,
             'LCM' => $LCM,
+            'leaf_types' => $leaf_types,
             'admin_menu_items' => $admin_menu_items,
         ]);
     }
@@ -87,12 +93,12 @@ class LCMController extends BaseController
                     $LCM = LeafCustomModifier::findOrFail($param);
                 else
                     $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
-                
+
                 foreach (['title', 'slug', 'group_title', 'group_slug'] as $field)
                     $LCM->$field = $request->$field;
                 $LCM->modifiers = json_decode($request->data);
                 $LCM->save();
-            
+
                 return Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_updated') . " $LCM->title",
@@ -119,7 +125,7 @@ class LCMController extends BaseController
             $LCM = LeafCustomModifier::findOrFail($param);
         else
             $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
-        
+
         return
             $LCM->delete()
                 ? Alder::returnResponse(
