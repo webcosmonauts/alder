@@ -44,5 +44,8 @@ return [
     'page_template' => 'Szablon strony',
     'is' => 'jest',
     'not' => 'nie',
-    'repeater' => "Pole powtarzalne"
+    'repeater' => "Pole powtarzalne",
+    'lcm_group_title' => 'Tytuł grupy LCM',
+    'lcm_group_slug' => 'Slug grupy LCM',
+    'add_new_condition' => 'Dodaj nowy warunek',
 ];
