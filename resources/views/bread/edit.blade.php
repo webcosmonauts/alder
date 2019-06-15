@@ -5,10 +5,9 @@
     <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
     <script src="{{asset('js/quill.min.js')}}"></script>
     <script src="{{asset('js/content-quill.js')}}"></script>
-
-
-    <!-- LCM js uilder -->
-    <script src="{{asset('vendor/LCM-js-builder/LCM-js-builder.js')}}"></script>
+    
+    <!-- LCM picker -->
+    <script src="{{asset('vendor/LCM-picker/LCM-picker.js')}}"></script>
 @endsection
 
 @section('content')
@@ -17,9 +16,12 @@
         <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
     </div>
 
-    <form action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->slug) : route("alder.$leaf_type->slug.store") }}"
+    <form id="edit-form"
+          action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->slug) : route("alder.$leaf_type->slug.store") }}"
           method="POST">
         @csrf
+
+        <input type="hidden" name="lcm" id="lcm">
     {{$edit ? method_field('PUT') : method_field('POST')}}
 
     @php

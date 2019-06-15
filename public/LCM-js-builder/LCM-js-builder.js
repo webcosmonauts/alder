@@ -111,7 +111,7 @@ $(document).ready(function () {
 		// Removing unnecessary fields in #main-section
 		$('#main-section').find('input, select, textarea').each(function () {
 
-			var necessaryFieldsNames = ['title', 'slug', 'user_id', 'content', 'parent', 'template', 'tags[]', 'categories[]'],
+			var necessaryFieldsNames = ['title', 'slug', 'status_id', 'user_id', 'content', 'parent', 'template', 'tags[]', 'categories[]'],
 				name = $(this).attr('name');
 
 			if (/ql/g.test($(this).attr('class'))) return;
@@ -164,9 +164,9 @@ $(document).ready(function () {
 			case('month'):
 			case('number'):
 			case('text'):
-				html = "<label for=\" " + field_name + " \">" + label + "</label>\n" +
+				html = "<label for=\"" + field_name + "\">" + label + "</label>\n" +
 					"    <div class=\"input-group mb-2\">\n" +
-					"        <input type=\"" + type + "\" name=\" " + field_name + " \" id=\"" + field_name + "\"\n" +
+					"        <input type=\"" + type + "\" name=\"" + field_name + "\" id=\"" + field_name + "\"\n" +
 					"               class=\"form-control\"\n" +
 					"               placeholder=\"" + field_name + "\"\n" +
 					"               aria-label=\"" + field_name + "\">" +
@@ -208,9 +208,9 @@ $(document).ready(function () {
 
 			// DATE
 			case "date":
-				html = "<label for=\" " + field_name + " \">" + label + "</label>\n" +
+				html = "<label for=\"" + field_name + "\">" + label + "</label>\n" +
 					"    <div class=\"input-group mb-2\">\n" +
-					"        <input type=\"text\" name=\" " + field_name + " \" id=\"" + field_name + "\"\n" +
+					"        <input type=\"text\" name=\"" + field_name + "\" id=\"" + field_name + "\"\n" +
 					"               class=\"form-control datepicker\"\n" +
 					"               placeholder=\"" + field_name + "\"\n" +
 					"               aria-label=\"" + field_name + "\">" +
@@ -219,9 +219,9 @@ $(document).ready(function () {
 
 			// DATETIME
 			case "datetime-local":
-				html = "<label for=\" " + field_name + " \">" + label + "</label>\n" +
+				html = "<label for=\"" + field_name + "\">" + label + "</label>\n" +
 					"    <div class=\"input-group mb-2\">\n" +
-					"        <input type=\"datetime-local\" name=\" " + field_name + " \" id=\"" + field_name + "\"\n" +
+					"        <input type=\"datetime-local\" name=\"" + field_name + "\" id=\"" + field_name + "\"\n" +
 					"               class=\"form-control datetimepicker\"\n" +
 					"               placeholder=\"" + field_name + "\"\n" +
 					"               aria-label=\"" + field_name + "\">" +
@@ -237,7 +237,7 @@ $(document).ready(function () {
 				if (options) {
 					for (var opt in options) {
 						html += "<div>" +
-							"<label for=\"" + opt + "\" class=\"mr-2\"> " + options[opt] + " </label>  " +
+							"<label for=\"\" class=\"mr-2\"> " + options[opt] + " </label>  " +
 							"<input type=\"" + type + "\" name=\"" + field_name + "\" id=\"" + opt + "\" value=\"" + opt + "\" class=\"icheck\">" +
 							"</div>";
 					}

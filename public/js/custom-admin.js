@@ -39,9 +39,11 @@ $(document).ready(function () {
 	$('body').on('click', '.rptr-field__add', function (e) {
 		e.preventDefault();
 
-		var clone = $(this).parents('.rptr-field').clone();
-		clone.find('input', 'textarea', 'select').val('').each(function () {
-			var name = $(this).attr('name'), match;
+		var clone = $(this).parents('.rptr-field').clone(true);
+
+		clone.find('input, textarea, select').each(function () {
+			var name = $(this).attr('name'), match,
+				id = $(this).attr('id'), matchID;
 
 			match = name.match(/\d+$/);
 			if (match)
@@ -49,12 +51,39 @@ $(document).ready(function () {
 			else
 				name = name + '_1';
 
+			matchID = id.match(/\d+$/);
+			if (matchID)
+				id = id.replace(matchID[0], ++matchID[0]);
+			else
+				id = id + '_1';
+
 			$(this).attr('name', name);
+			$(this).attr('id', id);
+		});
+
+
+		clone.find('label').each(function () {
+			var id = $(this).attr('for'), match;
+
+			match = name.match(/\d+$/);
+			if (match)
+				id = id.replace(match[0], ++match[0]);
+			else
+				id = id + '_1';
+
+			$(this).attr('for', id);
+		});
+
+		clone.find('input, textarea, select').each(function () {
+			if ($(this).attr("type") !== "radio" && $(this).attr("type") !== "checkbox") $(this).val("");
 		});
 
 		clone.find('input[type=checkbox], input[type=radio]').prop('checked', false);
-		clone.find('.icheck').each(function () {
-			$(this).iCheck('uncheck');
+		clone.find('.icheck').iCheck('destroy');
+
+		clone.find('.icheck').iCheck({
+			checkboxClass: 'icheckbox_flat-red',
+			radioClass: 'iradio_flat-red'
 		});
 
 		$(this).parents('.rptr-field').eq(0).after(clone);

@@ -122,7 +122,7 @@
             @foreach($field->options as $opt_val => $opt_label)
 
                 <div>
-                    <label for="{{$opt_val}}" class="mr-2"> {{$opt_label}} <input type="{{$type}}" name="{{$field_name}}"
+                    <label for="" class="mr-2"> {{$opt_label}} <input type="{{$type}}" name="{{$field_name}}"
                                                                      id="{{$opt_val}}"
                                                                      value="{{$opt_val}}"
                                                                      class="icheck"></label>
