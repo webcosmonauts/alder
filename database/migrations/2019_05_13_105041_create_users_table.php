@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('images_users');
+            $table->string('avatar')->nullable();
             $table->boolean('is_active')->default(false);
             $table->integer('LCM_id')->unsigned()->nullable();
             $table->integer('LCMV_id')->unsigned()->nullable();

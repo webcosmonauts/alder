@@ -18,6 +18,7 @@ class CreateLeafTypesTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->boolean('is_accessible')->default(false);
+            $table->boolean('is_singular')->default(true);
             $table->timestamps();
         });
     }
