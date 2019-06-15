@@ -55,10 +55,13 @@ class UsersController extends BaseController
         $user = User::where('id',$id)->get();
         $user = $user[0];
 
+        $img = asset('img/users/'.$user->images_users);
+
         return view('alder::bread.users.read')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
-            'user' => $user
+            'user' => $user,
+            'img' => $img
         ]);
     }
 
@@ -131,6 +134,7 @@ class UsersController extends BaseController
             try {
 
                 $file_div = '';
+                $file_name_db = '';
                 if ($request->userfile) {
                     $file_name = ($request->userfile->getClientOriginalName());
                     $file_div = public_path() . '\img\users\_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
@@ -151,11 +155,13 @@ class UsersController extends BaseController
                 $User->name = $request->name;
                 $User->surname = $request->surname;
                 $User->email = $request->email;
-                $User->password = bcrypt($request->password);
+                if ($request->password)
+                    $User->password = bcrypt($request->password);
                 $User->is_active = $edit ? $request->is_active : 0;
                 $User->LCM_id = $request->LCM_id;
                 $User->LCMV_id = $request->LCMV_id;
-                $User->images_users = $file_name_db;
+                if ($file_name_db)
+                    $User->images_users = $file_name_db;
 
                 if (!$edit)
                     $User->created_at = date("Y-m-d H:i:s");
