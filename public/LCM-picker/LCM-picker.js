@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 		var
 			lcm = {},
-			defaultFieldsNames = ['title', 'slug', 'status_id', 'user_id', 'content', 'parent', 'template', 'tags[]', 'categories[]'],
+			defaultFieldsNames = ['title', 'slug', 'status_id', 'user_id', 'content'],
 			tabPanes = $('.tab-pane');
 
 		tabPanes.each(function () {
