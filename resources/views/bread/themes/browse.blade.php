@@ -52,7 +52,7 @@
                             <div class="card-footer">
                                 <form action="{{route('alder.themes.update')}}" method="post">
                                     @csrf
-                                    <input type="hidden" name="theme" value="{{$theme['theme_slug']}}">
+                                    <input type="hidden" name="active-theme" value="{{$theme['theme_slug']}}">
                                     <button class="btn btn-success"
                                             type="submit">{{__("alder::theme.set_theme")}}</button>
                                 </form>
