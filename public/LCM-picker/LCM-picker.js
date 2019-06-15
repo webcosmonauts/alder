@@ -2,8 +2,6 @@ $(document).ready(function () {
 
 	$('#edit-form').on('submit', function (e) {
 
-		e.preventDefault();
-
 		var
 			lcm = {},
 			defaultFieldsNames = ['title', 'slug', 'status_id', 'user_id', 'content', 'parent', 'template', 'tags[]', 'categories[]'],
@@ -105,6 +103,6 @@ $(document).ready(function () {
 		}
 
 
-		console.log(lcm);
+		$('[name=lcm]').val(JSON.stringify(lcm));
 	});
 });
