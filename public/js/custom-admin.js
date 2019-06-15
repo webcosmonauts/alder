@@ -9,7 +9,31 @@ $(document).ready(function () {
 		});
 	}
 
-	if($('#browse-table').length) $('#browse-table').DataTable();
+
+	/* dataTable */
+	if ($('#browse-table').length) {
+		var lastBrowseColumn = $('#browse-table th').length - 1;
+
+		$('#browse-table').DataTable({
+			"columnDefs": [
+				{"orderable": false, "targets": lastBrowseColumn}
+			]
+		});
+	}
+
+	function slugify(str) {
+		str = str.toLowerCase().trim();
+		str = str.replace(/\s{2,}/g, "_");
+		str = str.replace(/\s/g, "_");
+		return str;
+	}
+
+
+	// for Slug
+	$('[data-title]').on('change', function () {
+		var slug = $('[data-slug=' + $(this).attr('data-title') + ']');
+		slug.val(slugify($(this).val()));
+	});
 
 	// ADD NEW PRTR
 	$('body').on('click', '.rptr-field__add', function (e) {

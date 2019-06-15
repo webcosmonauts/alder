@@ -3,6 +3,10 @@ input::placeholder, select::placeholder, textarea::placeholder {
     color: #ddd !important;
 }
 
+.dataTables_filter {
+    display: none !important;
+}
+
 .delete-icon {
     font-size: 28px;
     font-weight: bold;

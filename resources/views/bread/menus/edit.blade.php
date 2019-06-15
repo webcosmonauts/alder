@@ -66,6 +66,7 @@
                                     <div class="input-group mb-2">
                                         <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
                                                placeholder="{{ $field}}"
+                                               data-{{$field}}="1"
                                                aria-label="{{ $field }}" aria-describedby="{{ $field }}"
                                                value="{{ $edit ? $leaf->$field : '' }}">
 

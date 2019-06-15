@@ -30,11 +30,13 @@
                     <label for="contact-form-title"> Title </label>
                     <input type="text" name="title" id="contact-form-title" class="form-control"
                            value="{{ $edit ? $form->title : '' }}"
+                           data-title="1"
                            required>
                     <br>
                     <label for="contact-form-title"> Slug </label>
                     <input type="text" name="slug" id="contact-form-slug" class="form-control"
                            value="{{ $edit ? $form->slug : '' }}"
+                           data-slug="1"
                            required>
                     <br>
                     <label for="is_accessible">Visibility</label>

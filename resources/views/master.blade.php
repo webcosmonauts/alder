@@ -91,7 +91,7 @@
 <script src="{{asset('js/datepicker.min.js')}}"></script>
 
 <!-- admin main js -->
-<script src="{{asset('js/admin.js')}}"></script>
+<script src="{{asset('js/custom-admin.js')}}"></script>
 
 </body>
 </html>
