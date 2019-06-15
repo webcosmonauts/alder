@@ -20,7 +20,10 @@ class CreateLeafCustomModifiersTable extends Migration
             $table->string('group_title')->nullable();
             $table->string('group_slug')->nullable();
             $table->text('modifiers');
+            $table->integer('leaf_type_id')->unsigned();
             $table->timestamps();
+            
+            $table->foreign('leaf_type_id')->references('id')->on('leaf_types');
         });
     }
 

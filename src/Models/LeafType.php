@@ -21,6 +21,6 @@ class LeafType extends BaseModel
         return $this->hasMany(Leaf::class);
     }
     public function LCMs() {
-        return $this->hasMany(LeafCustomModifier::class, 'id', 'LCM_id');
+        return $this->hasMany(LeafCustomModifier::class);
     }
 }

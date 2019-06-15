@@ -15,4 +15,8 @@ class LeafCustomModifier extends BaseModel
     protected $casts = [
         'modifiers' => 'object'
     ];
+    
+    public function leaf_type() {
+        return $this->belongsTo(LeafType::class);
+    }
 }
