@@ -493,10 +493,12 @@ $(document).ready(function () {
 
 				_token: form.find('[name=_token]').val(),
 				data: data,
+
 				title: $('#lcm_title').val(),
 				slug: slugify($('#lcm_slug').val()),
 				group_title: $('#lcm_group_title').val(),
-				group_slug: slugify($('#lcm_group_slug').val())
+				group_slug: slugify($('#lcm_group_slug').val()),
+				leaf_type_id: $("#leaf_type_id").val()
 			}
 
 		}).done(function (response) {
