@@ -3,6 +3,9 @@
 
 namespace Webcosmonauts\Alder\Http\Controllers;
 
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Facades\Alder;
@@ -28,11 +31,13 @@ class ProfileController extends BaseController
 
         $user = User::where('id', $id)->first();
 
+        $img = asset('img/users/'.$user->images_users);
 
 
-        return view('alder::bread.users.profile')->with([
+        return view('alder::bread.profile.profile')->with([
             'admin_menu_items' => $admin_menu_items,
-            'user' => $user
+            'user' => $user,
+            'img' => $img
         ]);
     }
 }

@@ -86,7 +86,6 @@ class UsersController extends BaseController
     {
         $edit = false;
         $id = 185448;
-
         return $this->editUser($edit, $request, $id);
     }
 
@@ -106,7 +105,6 @@ class UsersController extends BaseController
     public function update(Request $request, $id)
     {
         $edit = true;
-
         return $this->editUser($edit, $request, $id);
     }
 

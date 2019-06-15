@@ -3,15 +3,15 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1>{{ __("alder::leaf_types.users.singular") }}</h1>
+        <h1>{{ __("alder::leaf_types.profile.singular") }}</h1>
     </div>
 
 
 
-    <form action="{{ $user ? route("alder.users.update",  $user->id) : route("alder.users.store") }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route("alder.profile.update",  $user->id)}}" method="post">
+        {{method_field('PUT')}}
         @csrf
 
-        {{$user ? method_field('PUT') : method_field('POST')}}
 
         <div class="row">
             <div class="col-lg-12">
@@ -27,13 +27,17 @@
 
                             </div>
                         @endforeach
+                            <br>
 
-                        <label for="userfile">{{ __("alder::leaf_types.profile.avatar") }}</label>
-                        <input class="form-control-file" name="userfile" type="file" />
-                        <br>
-                        <br>
 
-                        <button type="submit" class="btn btn-success btn-icon-split">
+                            <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+                            <label for="userfile">{{ __("alder::leaf_types.profile.avatar") }}</label>
+                            <input class="form-control-file" name="userfile" type="file" />
+                            <br>
+                            <br>
+
+
+                            <button type="submit" class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                               <i class="fas fa-save"></i>
                             </span>
