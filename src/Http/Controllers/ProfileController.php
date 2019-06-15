@@ -3,9 +3,6 @@
 
 namespace Webcosmonauts\Alder\Http\Controllers;
 
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Facades\Alder;

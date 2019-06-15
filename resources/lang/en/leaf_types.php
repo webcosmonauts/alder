@@ -6,7 +6,11 @@ return [
         'plural' => 'Users',
     ],
     'contact-forms' => [
-        'singular' => 'Contact form',
-        'plural' => 'Contact forms',
+        'singular' => 'Contact-form',
+        'plural' => 'Contact-forms',
+    ],
+    'profile' => [
+        'singular' => 'Profile',
+        'avatar' => 'Avatar'
     ],
 ];

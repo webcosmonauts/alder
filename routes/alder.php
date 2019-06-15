@@ -41,6 +41,7 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         //profile
         Route::get('profile', '\Webcosmonauts\Alder\Http\Controllers\ProfileController@index')->name('profile.index');
 
+
         //Appearance
         Route::get('appearance', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@appearance')->name('appearance.index');
         //Themes show
@@ -49,8 +50,10 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         //Select active theme
         Route::post('themes', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@selectActiveTheme')->name('themes.update');
 
+
         //Menus
         Route::get('menus/create', '\Webcosmonauts\Alder\Http\Controllers\MenuController@menuCreate')->name('menus.create');
+
 
     });
 
