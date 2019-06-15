@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
@@ -15,6 +16,7 @@ use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
 use Webcosmonauts\Alder\Facades\Alder;
+use Webcosmonauts\Alder\Models\LeafStatus;
 use Webcosmonauts\Alder\Models\LeafType;
 
 class BranchBREADController extends BaseController
@@ -133,6 +135,8 @@ class BranchBREADController extends BaseController
         
         $relations = Alder::getRelations($params->lcm);
         
+        $statuses = LeafStatus::all();
+    
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
         
@@ -147,6 +151,7 @@ class BranchBREADController extends BaseController
             'admin_menu_items' => $admin_menu_items,
             'params' => $params,
             'relations' => $relations,
+            'statuses' => $statuses,
         ]);
     }
     
@@ -197,6 +202,8 @@ class BranchBREADController extends BaseController
         
         $relations = Alder::getRelations($params->lcm);
         
+        $statuses = LeafStatus::all();
+    
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
         
@@ -212,6 +219,7 @@ class BranchBREADController extends BaseController
             'admin_menu_items' => $admin_menu_items,
             'params' => $params,
             'relations' => $relations,
+            'statuses' => $statuses,
         ]);
     }
     
@@ -283,8 +291,8 @@ class BranchBREADController extends BaseController
                 $leaf->title = $request->title;
                 $leaf->slug = $request->slug;
                 $leaf->content = $request->get('content');
-                $leaf->user_id = $request->user_id;
-                $leaf->status_id = 5;
+                $leaf->user_id = Auth::user()->id;
+                $leaf->status_id = $request->status_id;
                 $leaf->leaf_type_id = $leaf_type->id;
                 $leaf->LCMV_id = $LCMV->id;
                 $leaf->save();
