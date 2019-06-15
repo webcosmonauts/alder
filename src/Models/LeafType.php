@@ -9,10 +9,10 @@ use Illuminate\Support\Collection;
  * @property string title
  * @property string slug
  * @property bool is_accessible
- * @property int LCM_id
  * @property string created_at
  * @property string updated_at
  *
+ * @property Collection leaves
  * @property Collection LCMs
  */
 class LeafType extends BaseModel
