@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'singular' => 'Leaf type',
+    'plural' => 'Leaf types',
     'users' => [
         'singular' => 'User',
         'plural' => 'Users',

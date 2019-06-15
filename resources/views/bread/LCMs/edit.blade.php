@@ -17,7 +17,7 @@
     <form action="{{$edit ? route('alder.LCMs.update', $LCM->slug) : route('alder.LCMs.store')}}" id="LCMs-form"
           method="POST"
           novalidate>
-        @csrf
+    @csrf
 
     @php
         if($edit) {
@@ -32,7 +32,6 @@
         <div class="card shadow mb-5">
             <div class="card-header font-weight-bold text-primary">LCM</div>
             <div class="card-body">
-
                 <div class="row">
                     <div class="col-md-6">
                         <!-- LCM TITLE -->
@@ -58,8 +57,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-md-6">
                         <!-- LCM GROUP TITLE -->
@@ -81,6 +78,24 @@
                                 <input type="text" name="lcm_group_slug" id="lcm_group_slug"
                                        class="form-control" data-slug="2"
                                         @php if($edit) echo 'value="'.$LCM->group_slug.'"' @endphp>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- LCM GROUP TITLE -->
+                        <div class="form-group">
+                            <label for="leaf_type_id">{{__('alder::leaf_types.singular')}}</label>
+                            <div class="input-group">
+                                <select class="form-control" name="leaf_type_id" id="leaf_type_id">
+                                    @foreach($leaf_types as $leaf_type)
+                                        <option {{ $edit && ($leaf_type->id == $LCM->leaf_type_id) ? 'selected' : '' }}
+                                                value="{{ $leaf_type->id }}">
+                                            {{ $leaf_type->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

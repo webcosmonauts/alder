@@ -14,19 +14,19 @@ class LCMController extends BaseController
     public function index(Request $request)
     {
         $LCMs = LeafCustomModifier::all();
-
+        
         $admin_menu_items = Alder::getMenuItems();
-
+        
         return view('alder::bread.LCMs.browse')->with(compact(
             'LCMs', 'admin_menu_items'
         ));
     }
-
+    
     public function show(Request $request)
     {
-
+    
     }
-
+    
     public function create(Request $request)
     {
         $leaf_types = LeafType::all();
@@ -37,17 +37,17 @@ class LCMController extends BaseController
             'admin_menu_items' => $admin_menu_items,
         ]);
     }
-
+    
     public function store(Request $request)
     {
         return DB::transaction(function () use ($request) {
             try {
                 $LCM = new LeafCustomModifier();
-                foreach (['title', 'slug', 'group_title', 'group_slug'] as $field)
+                foreach (['title', 'slug', 'group_title', 'group_slug', 'leaf_type_id'] as $field)
                     $LCM->$field = $request->$field;
                 $LCM->modifiers = json_decode($request->data);
                 $LCM->save();
-
+                
                 return Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_created') . " $LCM->title",
@@ -67,14 +67,14 @@ class LCMController extends BaseController
             }
         });
     }
-
+    
     public function edit(Request $request, $param)
     {
         if (is_int($param))
             $LCM = LeafCustomModifier::findOrFail($param);
         else
             $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
-
+        
         $leaf_types = LeafType::all();
         $admin_menu_items = Alder::getMenuItems();
         return view('alder::bread.LCMs.edit')->with([
@@ -84,7 +84,7 @@ class LCMController extends BaseController
             'admin_menu_items' => $admin_menu_items,
         ]);
     }
-
+    
     public function update(Request $request, $param)
     {
         return DB::transaction(function () use ($request, $param) {
@@ -93,12 +93,12 @@ class LCMController extends BaseController
                     $LCM = LeafCustomModifier::findOrFail($param);
                 else
                     $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
-
-                foreach (['title', 'slug', 'group_title', 'group_slug'] as $field)
+                
+                foreach (['title', 'slug', 'group_title', 'group_slug', 'leaf_type_id'] as $field)
                     $LCM->$field = $request->$field;
                 $LCM->modifiers = json_decode($request->data);
                 $LCM->save();
-
+                
                 return Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_updated') . " $LCM->title",
@@ -118,14 +118,14 @@ class LCMController extends BaseController
             }
         });
     }
-
+    
     public function destroy(Request $request, $param)
     {
         if (is_int($param))
             $LCM = LeafCustomModifier::findOrFail($param);
         else
             $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
-
+        
         return
             $LCM->delete()
                 ? Alder::returnResponse(
