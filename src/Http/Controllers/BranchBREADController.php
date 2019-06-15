@@ -116,8 +116,6 @@ class BranchBREADController extends BaseController
      * Get [C]RUD
      *
      * @throws AssigningNullToNotNullableException
-     * @throws UnknownConditionOperatorException
-     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param Request $request
@@ -131,7 +129,7 @@ class BranchBREADController extends BaseController
         $leaf_type = Alder::getLeafType($branchType);
         
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf_type);
+        $params = Alder::prepareLCMs($leaf_type->LCMs);
         
         $relations = Alder::getRelations($params->lcm);
         

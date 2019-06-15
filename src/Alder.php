@@ -245,6 +245,24 @@ class Alder
     }
     
     /**
+     * Prepare all LCMs for edit blade
+     *
+     * @param $LCMs Collection of LCMs to process
+     *
+     * @return stdClass
+     */
+    public function prepareLCMs($LCMs) {
+        $combined = [];
+        
+        foreach ($LCMs as $LCM) {
+            foreach ($LCM->modifiers as $key => $modifier)
+                $combined[$LCM->slug][$key] = $modifier;
+        }
+        
+        return $this->arrayToObject($combined);
+    }
+    
+    /**
      * Get combined LCMs of LeafType
      *
      * @throws UnknownConditionOperatorException
@@ -391,6 +409,8 @@ class Alder
      * Add values from model's LCMV
      *
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param &$model
