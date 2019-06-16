@@ -7,7 +7,7 @@
     @case('number')
     @case('text')
 
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{ $field_name }}">{{ $label }}</label>
         <div class="input-group mb-2">
             <input type="{{$type}}" name="{{ $field_name }}" id="{{ $field_name }}"
@@ -21,7 +21,7 @@
 
 
     @case('repeater')
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <div class="repeater card shadow mb-5">
             <div class="card-header"><h5 class="text-primary font-weight-bold">{{$label}}</h5></div>
 
@@ -64,7 +64,7 @@
     @break
 
     @case('!relation!')
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{ $field_name }}">{{ $label }}</label>
         <div class="input-group mb-2">
             @if($k->relation_type == 'belongsTo')
@@ -97,7 +97,7 @@
     @break
 
     @case('date')
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{ $field_name }}">{{ $label }}</label>
         <div class="input-group mb-2">
             <input type="text" name="{{ $field_name }}" id="{{ $field_name }}"
@@ -111,7 +111,7 @@
 
 
     @case('datetime-local')
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{ $field_name }}">{{ $label }}</label>
         <div class="input-group mb-2">
             <input type="datetime-local" name="{{ $field_name }}" id="{{ $field_name }}"
@@ -128,7 +128,7 @@
     @case('radio')
     @case('checkbox')
     @if(isset($field->options))
-        <div data-condition="{{$conditions_str}}">
+        <div data-condition="{{$conditions_str}}" hidden>
             <label> {{$label}}</label>
             <div class=" mb-2">
                 @foreach($field->options as $opt_val => $opt_label)
@@ -149,7 +149,7 @@
 
     @case('file-multiple')
     @case('file')
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <div>{{$field_name}}</div>
         <div class="input-group mb-2">
             <div class="custom-file">
@@ -166,7 +166,7 @@
 
     @case('select')
     @case('select-multiple')
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{$field_name}}"> {{$label}} </label>
         <div class="input-group mb-2">
             <select name="{{$field_name}}" id="{{$field_name}}"
@@ -182,7 +182,7 @@
 
 
     @case('template')
-    <div data-condition="{{$conditions_str}}">
+    <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{$field_name}}"> {{$label}} </label>
         <div class="input-group mb-2">
             @php

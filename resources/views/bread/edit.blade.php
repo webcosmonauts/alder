@@ -66,7 +66,7 @@
                     @if(isset($lcm_item->fields))
                         @php $tabsCounter++; @endphp
 
-                        <li class="nav-item" data-condition="{{$conditions_str}}">
+                        <li class="nav-item" data-condition="{{$conditions_str}}" hidden>
                             <a class="nav-link" id="section-{{$tabsCounter}}-tab" data-toggle="tab"
                                href="#section-{{$tabsCounter}}" role="tab">{{$lcm_item->display_name}}</a>
                         </li>
@@ -212,7 +212,7 @@
                     @if(isset($lcm_item->fields))
 
                         @php $tabsCounter++; @endphp
-                        <div class="tab-pane card shadow fade show" data-condition="{{$conditions_str}}"
+                        <div class="tab-pane card shadow fade show" data-condition="{{$conditions_str}}" hidden
                              id="section-{{$tabsCounter}}" role="tabpanel">
 
                             @php
