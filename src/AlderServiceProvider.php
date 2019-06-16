@@ -31,7 +31,6 @@ class AlderServiceProvider extends ServiceProvider
             __DIR__.'/../public/file-manager' => public_path().'/vendor/file-manager',
             __DIR__.'/../public/contact-form' => public_path().'/vendor/contact-form',
             __DIR__.'/../public/LCMs' => public_path().'/vendor/LCMs',
-            __DIR__.'/../public/LCM-js-builder/' => public_path().'/vendor/LCM-js-builder',
             __DIR__.'/../public/LCM-picker/' => public_path().'/vendor/LCM-picker',
             
         ], 'public');
