@@ -5,9 +5,11 @@
     <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
     <script src="{{asset('js/quill.min.js')}}"></script>
     <script src="{{asset('js/content-quill.js')}}"></script>
-    
+
     <!-- LCM picker -->
     <script src="{{asset('vendor/LCM-picker/LCM-picker.js')}}"></script>
+    <!-- LCM switcher -->
+    <script src="{{asset('vendor/LCM-switcher/LCM-switcher.js')}}"></script>
 @endsection
 
 @section('content')
@@ -22,17 +24,21 @@
         @csrf
 
         <input type="hidden" name="lcm" id="lcm">
+        <div hidden id="this-leaf-type">{{$leaf_type->slug}}</div>
+
     {{$edit ? method_field('PUT') : method_field('POST')}}
 
     @php
-        $right_panel_count = 0;
-        $lcm = $params->lcm;
-
-
         $mainRightPanelCounter = 0;
-        foreach($lcm as $lcm_item => $k):
-            if(isset($k->panel) && $k->panel === 'right') $mainRightPanelCounter++;
-        endforeach;
+
+           foreach($params as $lcm_group) :
+               $lcm = $lcm_group->lcm;
+
+               foreach($lcm as $lcm_item => $k):
+                    if(isset($k->panel) && $k->panel === 'right') $mainRightPanelCounter++;
+               endforeach;
+
+           endforeach;;
     @endphp
 
 
@@ -44,17 +50,28 @@
             </li>
 
             @php $tabsCounter = 0; @endphp
-            @foreach($lcm as $lcm_item)
+            @foreach($params as $lcm_group)
+                @php
+                    $lcm = $lcm_group->lcm;
+                    $conditions = $lcm_group->conditions;
+                    $conditions_str = "";
 
-                @if(isset($lcm_item->fields))
+                    foreach($conditions as $cond_item):
+                        $conditions_str .= $cond_item->parameter . ":" . $cond_item->operator . ":" . $cond_item->value . " ";
+                    endforeach;
+                @endphp
 
-                    @php $tabsCounter++; @endphp
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="section-{{$tabsCounter}}-tab" data-toggle="tab"
-                           href="#section-{{$tabsCounter}}" role="tab">{{$lcm_item->display_name}}</a>
-                    </li>
-                @endif
+                @foreach($lcm as $lcm_item)
+                    @if(isset($lcm_item->fields))
+                        @php $tabsCounter++; @endphp
+
+                        <li class="nav-item" data-condition="{{$conditions_str}}">
+                            <a class="nav-link" id="section-{{$tabsCounter}}-tab" data-toggle="tab"
+                               href="#section-{{$tabsCounter}}" role="tab">{{$lcm_item->display_name}}</a>
+                        </li>
+                    @endif
+                @endforeach
             @endforeach
         </ul>
 
@@ -102,30 +119,18 @@
                             </div>
 
 
-                            @foreach($lcm as $lcm_item => $k)
+                            @foreach($params as $lcm_group)
+
                                 @php
-                                    $field_name = $lcm_item;
-                                    $label = $k->display_name;
-                                    $field = $k;
+                                    $lcm = $lcm_group->lcm;
+                                    $conditions = $lcm_group->conditions;
+                                    $conditions_str = "";
+
+                                    foreach($conditions as $cond_item):
+                                        $conditions_str .= $cond_item->parameter . ":" . $cond_item->operator . ":" . $cond_item->value . " ";
+                                    endforeach;
                                 @endphp
 
-                                @if(isset($k->type))
-
-                                    @php $type = $k->type; @endphp
-
-                                    @if(!isset($k->panel) || $k->panel === "left")
-                                        @include('alder::components.input')
-                                    @endif
-                                @endif
-                            @endforeach
-
-                        </div>
-                    </div>
-
-                @if($mainRightPanelCounter > 0)
-                    <!-- SIDEBAR -->
-                        <div class="col-lg-3 mb-4">
-                            <div class="card-body">
                                 @foreach($lcm as $lcm_item => $k)
                                     @php
                                         $field_name = $lcm_item;
@@ -133,10 +138,50 @@
                                         $field = $k;
                                     @endphp
 
-                                    @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
+                                    @if(isset($k->type))
+
                                         @php $type = $k->type; @endphp
-                                        @include('alder::components.input')
+
+                                        @if(!isset($k->panel) || $k->panel === "left")
+                                            @include('alder::components.input')
+                                        @endif
                                     @endif
+                                @endforeach
+                            @endforeach
+                        </div>
+                    </div>
+
+                @if($mainRightPanelCounter > 0)
+                    <!-- SIDEBAR -->
+                        <div class="col-lg-3 mb-4">
+                            <div class="card-body">
+
+
+                                @foreach($params as $lcm_group)
+                                    @php
+                                        $lcm = $lcm_group->lcm;
+                                        $conditions = $lcm_group->conditions;
+                                        $conditions_str = "";
+
+                                        foreach($conditions as $cond_item):
+                                                $conditions_str .= $cond_item->parameter . ":" . $cond_item->operator . ":" . $cond_item->value . " ";
+                                        endforeach;
+                                    @endphp
+
+
+
+                                    @foreach($lcm as $lcm_item => $k)
+                                        @php
+                                            $field_name = $lcm_item;
+                                            $label = $k->display_name;
+                                            $field = $k;
+                                        @endphp
+
+                                        @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
+                                            @php $type = $k->type; @endphp
+                                            @include('alder::components.input')
+                                        @endif
+                                    @endforeach
                                 @endforeach
                             </div>
                         </div>
@@ -148,48 +193,39 @@
 
             <!-- *** OTHER TABS **** -->
             @php $tabsCounter = 0; @endphp
-            @foreach($lcm as $lcm_item)
 
 
+            @foreach($params as $lcm_group)
 
-                @if(isset($lcm_item->fields))
+                @php
+                    $lcm = $lcm_group->lcm;
+                    $conditions = $lcm_group->conditions;
+                    $conditions_str = "";
 
-                    @php $tabsCounter++; @endphp
-                    <div class="tab-pane card shadow fade show" id="section-{{$tabsCounter}}" role="tabpanel">
+                    foreach($conditions as $cond_item):
+                            $conditions_str .= $cond_item->parameter . ":" . $cond_item->operator . ":" . $cond_item->value . " ";
+                    endforeach;
+                @endphp
 
-                        @php
-                            $rightPanelCounter = 0;
-                            foreach ($lcm_item->fields as $lcm_subitem => $k):
-                              if(isset($k->panel) && $k->panel === "right") $rightPanelCounter++;
-                            endforeach;
-                        @endphp
+                @foreach($lcm as $lcm_item)
 
-                        <div class="row">
-                            <div class="col-lg-{{ $rightPanelCounter > 0 ? '9' : '12' }} mb-4">
-                                <div class="card-body">
+                    @if(isset($lcm_item->fields))
 
-                                    @foreach($lcm_item->fields as $lcm_subitem => $k)
-                                        @php
-                                            $field_name = $lcm_subitem;
-                                            $label = $k->display_name;
-                                            $field = $k;
-                                        @endphp
+                        @php $tabsCounter++; @endphp
+                        <div class="tab-pane card shadow fade show" data-condition="{{$conditions_str}}"
+                             id="section-{{$tabsCounter}}" role="tabpanel">
 
-                                        @if(isset($k->type))
-                                            @php $type = $k->type; @endphp
-                                            @if(!isset($k->panel) || $k->panel === "left")
-                                                @include('alder::components.input')
-                                            @endif
-                                        @endif
-                                    @endforeach
+                            @php
+                                $rightPanelCounter = 0;
+                                foreach ($lcm_item->fields as $lcm_subitem => $k):
+                                  if(isset($k->panel) && $k->panel === "right") $rightPanelCounter++;
+                                endforeach;
+                            @endphp
 
-                                </div>
-                            </div>
-
-                        @if($rightPanelCounter > 0)
-                            <!-- SIDEBAR -->
-                                <div class="col-lg-3 mb-4">
+                            <div class="row">
+                                <div class="col-lg-{{ $rightPanelCounter > 0 ? '9' : '12' }} mb-4">
                                     <div class="card-body">
+
                                         @foreach($lcm_item->fields as $lcm_subitem => $k)
                                             @php
                                                 $field_name = $lcm_subitem;
@@ -197,18 +233,41 @@
                                                 $field = $k;
                                             @endphp
 
-                                            @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
+                                            @if(isset($k->type))
                                                 @php $type = $k->type; @endphp
-                                                @include('alder::components.input')
+                                                @if(!isset($k->panel) || $k->panel === "left")
+                                                    @include('alder::components.input')
+                                                @endif
                                             @endif
                                         @endforeach
-                                    </div>
 
+                                    </div>
                                 </div>
-                            @endif
+
+                            @if($rightPanelCounter > 0)
+                                <!-- SIDEBAR -->
+                                    <div class="col-lg-3 mb-4">
+                                        <div class="card-body">
+                                            @foreach($lcm_item->fields as $lcm_subitem => $k)
+                                                @php
+                                                    $field_name = $lcm_subitem;
+                                                    $label = $k->display_name;
+                                                    $field = $k;
+                                                @endphp
+
+                                                @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
+                                                    @php $type = $k->type; @endphp
+                                                    @include('alder::components.input')
+                                                @endif
+                                            @endforeach
+                                        </div>
+
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-            @endif
+                @endif
+            @endforeach
         @endforeach
         <!--  -->
         </div>
