@@ -9,7 +9,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if(isset($leaf))
-                @dd($leaf)
+                @dump($leaf)
             @endif
         </div>
     </div>

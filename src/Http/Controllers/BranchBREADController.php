@@ -16,7 +16,6 @@ use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
 use Webcosmonauts\Alder\Facades\Alder;
-use Webcosmonauts\Alder\Models\LeafStatus;
 use Webcosmonauts\Alder\Models\LeafType;
 
 class BranchBREADController extends BaseController
@@ -116,6 +115,8 @@ class BranchBREADController extends BaseController
      * Get [C]RUD
      *
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param Request $request
@@ -277,7 +278,6 @@ class BranchBREADController extends BaseController
      * @return mixed
      */
     private function editLeaf(bool $edit, Request $request, LeafType $leaf_type, $params, Leaf $edit_leaf = null) {
-        //dd($request, json_decode($request->lcm), $params->lcm);
         return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $edit_leaf) {
             try {
                 $leaf = $edit ? $edit_leaf : new Leaf();
