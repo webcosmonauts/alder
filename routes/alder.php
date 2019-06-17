@@ -43,6 +43,8 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         //profile
         Route::get('profile', '\Webcosmonauts\Alder\Http\Controllers\ProfileController@index')->name('profile.index');
 
+        //Register
+
 
         //Appearance
         Route::get('appearance', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@appearance')->name('appearance.index');
@@ -56,6 +58,11 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         //Menus
         Route::get('menus/create', '\Webcosmonauts\Alder\Http\Controllers\MenuController@menuCreate')->name('menus.create');
 
+        //Select active theme
+        Route::get('theme-settings', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\ViewHierarchyController@index')->name('theme_settings.index');
+
+        Route::post('theme-settings', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\ViewHierarchyController@setViewsHierarchy')->name('theme_settings.update');
+
 
     });
 
@@ -64,4 +71,10 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
     Route::get('media-button', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index_button');
 });
 
+Route::get('/register', '\App\Http\Controllers\RegisterController@index')->name('register.index');
+Route::post('/register', '\App\Http\Controllers\RegisterController@save')->name('register.save');
+Route::get('/verificated', '\App\Http\Controllers\RegisterController@verificated')->name('register.verificated');
+
 Route::get("/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
+
+//Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");

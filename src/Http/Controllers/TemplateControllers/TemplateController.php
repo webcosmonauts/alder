@@ -10,6 +10,7 @@ use Illuminate\View\View;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Facades\LeafHelper;
 use Webcosmonauts\Alder\Http\Controllers\LeafController;
+use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafType;
 use Webcosmonauts\Alder\Models\Root;
@@ -38,7 +39,7 @@ class TemplateController extends Controller
         $templates = self::getTemplatesNames($active_theme);
 
         $page_id = LeafType::where('slug', 'pages')->value('id');
-        $pages = Leaf::where('leaf_type_id',$page_id)->get();
+        $pages = Leaf::where('leaf_type_id', $page_id)->get();
 
         /* Return view with prefilled data */
         return view('alder::bread.appearance.browse')->with([
@@ -115,15 +116,15 @@ class TemplateController extends Controller
                 $single_instance["theme_name"] = $match[1];
 
             //Get theme slug
-            if (preg_match('|#Theme slug:(.*)$|mi', file_get_contents($theme_folder. "/Readme.md"), $match))
+            if (preg_match('|#Theme slug:(.*)$|mi', file_get_contents($theme_folder . "/Readme.md"), $match))
                 $single_instance["theme_slug"] = trim($match[1]);
 
             //Get theme description
-            if (preg_match('|##Theme description:(.*)$|mi', file_get_contents($theme_folder. "/Readme.md"), $match))
+            if (preg_match('|##Theme description:(.*)$|mi', file_get_contents($theme_folder . "/Readme.md"), $match))
                 $single_instance["theme_description"] = $match[1];
 
             //Get theme URI
-            if (preg_match('|##Theme URI:(.*)$|mi', file_get_contents($theme_folder. "/Readme.md"), $match))
+            if (preg_match('|##Theme URI:(.*)$|mi', file_get_contents($theme_folder . "/Readme.md"), $match))
                 $single_instance["theme_uri"] = $match[1];
 
             //Get author
@@ -131,7 +132,7 @@ class TemplateController extends Controller
                 $single_instance["author"] = $match[1];
 
             //Get author URI
-            if (preg_match('|###Author URI:(.*)$|mi', file_get_contents($theme_folder. "/Readme.md"), $match))
+            if (preg_match('|###Author URI:(.*)$|mi', file_get_contents($theme_folder . "/Readme.md"), $match))
                 $single_instance["author_uri"] = $match[1];
 
             //Get author URI
@@ -150,7 +151,7 @@ class TemplateController extends Controller
 
         //Get screenshot if available
         if (file_exists($theme_folder . "/screenshot.png")):
-            $theme_folder_name = explode("\\", $theme_folder );
+            $theme_folder_name = explode("\\", $theme_folder);
             $single_instance["screenshot"] = array_pop($theme_folder_name) . "/screenshot.png";
         endif;
 
@@ -245,17 +246,105 @@ class TemplateController extends Controller
     }
 
     /**
-     * Get single leaf view
+     * Get leaf view
      *
-     * @param String $request
-     * @param String $slug
-     * @param LeafController $theme
+     * @param String $leaf
      * @return View
      * @throws AssigningNullToNotNullableException
      */
-    public static function getViewForLeaf($leaf_type)
+    public static function getViewForLeaf($leaf)
     {
+        //Get active theme value
+        $active_theme = Alder::getRootValue('active-theme');
+        $views_hierarchy = Alder::getRootValue('views_hierarchy');
+        $index_page = Alder::getRootValue('static_index_page');
 
+
+        //Get leaf type
+        $leaf_type_object = Alder::getLeafType($leaf->leaf_type_id);
+        //Get current page slug
+        $current_page_slug = $leaf->slug;
+        //Get leaf type
+
+        $leaf_type = $leaf_type_object->slug;
+
+        //Check if leaf is singular
+        $is_singular = $leaf_type_object->is_singular;
+
+        $leaf_view = LeafEntityController::getLeafTemplate($leaf->id);
+
+        //Empty variable for further work
+        $view = "";
+        //Template prefix
+        $template_prefix = "templates.";
+        //Template hierarchy builder
+
+        //dd($leaf_type);
+        //dd($current_page_slug);
+        //dd($views_hierarchy['template_hierarchy']['leaves']);
+        if($leaf_type == "admin-menu-items") {
+            if (view()->exists($template_prefix . $active_theme . "." . $current_page_slug)) {
+                $view = $template_prefix . $active_theme . "." . $current_page_slug;
+            }
+
+        }
+        else{
+            if (count($views_hierarchy['template_hierarchy']['leaves'][$leaf_type]) > 0):
+                if ($leaf_type == 'pages') {
+                    if ($current_page_slug == $index_page) {
+                        foreach ($views_hierarchy['template_hierarchy']['leaves'][$leaf_type]['is_front_page']['true'] as $single_view) {
+                            if (view()->exists($template_prefix . $active_theme . "." . $single_view)) {
+                                $view = $template_prefix . $active_theme . "." . $single_view;
+                                break;
+                            }
+
+                        }
+                    } elseif (!empty($leaf_view)) {
+                        if (view()->exists($template_prefix . $active_theme . ".templates." . $leaf_view)) {
+                            $view = $template_prefix . $active_theme . ".templates." . $leaf_view;
+                        }
+                    } elseif (empty($leaf_view)) {
+                        foreach ($views_hierarchy['template_hierarchy']['leaves'][$leaf_type]['is_front_page']['false'] as $single_view) {
+                            if (view()->exists($template_prefix . $active_theme . "." . $single_view)) {
+                                $view = $template_prefix . $active_theme . "." . $single_view;
+                                break;
+                            }
+
+                        }
+                    } else {
+                        foreach ($views_hierarchy['template_hierarchy']['leaves'][$leaf_type]['is_front_page']['false'] as $single_view) {
+                            if (view()->exists($template_prefix . $active_theme . "." . $single_view)) {
+                                $view = $template_prefix . $active_theme . "." . $single_view;
+                                break;
+                            }
+
+                        }
+                    }
+                } elseif ($leaf_type == 'posts') {
+                    foreach ($views_hierarchy['template_hierarchy']['leaves'][$leaf_type] as $single_view) {
+                        if (view()->exists($template_prefix . $active_theme . "." . $single_view)) {
+                            $view = $template_prefix . $active_theme . "." . $single_view;
+                            break;
+                        }
+
+                    }
+                } else {
+                    foreach ($views_hierarchy['template_hierarchy']['leaves'][$leaf_type] as $single_view) {
+                        if (view()->exists($template_prefix . $active_theme . "." . $single_view)) {
+                            $view = $template_prefix . $active_theme . "." . $single_view;
+                            break;
+                        }
+
+                    }
+                }
+            else:
+                throw new InvalidArgumentException();
+            endif;
+        }
+        //dd($views_hierarchy);
+
+
+        return $view;
     }
 
     /**

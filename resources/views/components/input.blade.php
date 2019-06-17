@@ -153,7 +153,7 @@
         <div>{{$field_name}}</div>
         <div class="input-group mb-2">
             <div class="custom-file">
-                <input type="file" name="{{ $field_name }}"
+                <input type="file" name="{{ $field_name }}{{ $type == 'file-multiple' ? '[]' : '' }}"
                        @php if($type === "file-multiple") echo 'multiple'; @endphp
                        class="custom-file-input" id="{{ $field_name }}"
                        aria-describedby="{{ $field_name }}">
