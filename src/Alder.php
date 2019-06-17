@@ -426,6 +426,7 @@ class Alder
      * @param &$model
      * @param int|string|LeafType $type
      * @param stdClass|null $params
+     * @param $val
      *
      * @return mixed
      */
@@ -441,7 +442,7 @@ class Alder
          */
         $params = is_null($params) ? $this->combineLCMs($leaf_type)->lcm : $params;
         
-        if (is_null($val))
+        if (is_null($val) && (isset($model->LCMV->values)))
             $val = $model->LCMV->values;
         
         /**
@@ -492,6 +493,8 @@ class Alder
      * Get relation for param field
      *
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param BaseModel &$model
@@ -538,8 +541,10 @@ class Alder
     /**
      * Get menu items
      *
-     * @throws UnknownRelationException
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
+     * @throws UnknownRelationException
      *
      * @return Collection
      */

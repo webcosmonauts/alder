@@ -16,7 +16,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($leaves->count() > 0)
-                <table class="table" id="browse-table">
+                <table class="table table-bordered" id="browse-table">
                     <thead>
                     <tr>
                         @foreach($params->bread->browse->table_columns as $field)
@@ -38,28 +38,7 @@
                                 </td>
                             @endforeach
                             <td class="text-right">
-                                <a href="{{ route("alder.$leaf_type->slug.show", $leaf->slug) }}" class="btn btn-primary btn-icon-split ml-3">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-book-open"></i>
-                                    </span>
-                                    <span class="text">{{ __('alder::generic.read') }}</span>
-                                </a>
-
-                                <!-- TODO if can edit -->
-                                <a href="{{ route("alder.$leaf_type->slug.edit", $leaf->slug) }}" class="btn btn-warning btn-icon-split ml-3">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    <span class="text">{{ __('alder::generic.edit') }}</span>
-                                </a>
-
-                                <!-- TODO if can delete -->
-                                <a href="{{ route("alder.$leaf_type->slug.destroy", $leaf->slug) }}" class="btn btn-danger btn-icon-split ml-3">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </span>
-                                    <span class="text">{{ __('alder::generic.delete') }}</span>
-                                </a>
+                                @include('alder::components.actions', ['route' => $leaf_type->slug, 'param' => $leaf->slug])
                             </td>
                         </tr>
                     @endforeach

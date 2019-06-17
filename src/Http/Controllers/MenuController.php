@@ -26,7 +26,7 @@ class MenuController extends BaseController
         $leaf_type = Alder::getLeafType($branchType);
 
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf_type);
+        $params = Alder::combineLCMs($leaf_type);
 
         /* Get branch instance and all its leaves */
         $branch = Leaf::with('LCMV')->where('leaf_type_id', $leaf_type->id)->get();
