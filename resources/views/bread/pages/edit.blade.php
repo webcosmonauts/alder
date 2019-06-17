@@ -7,6 +7,10 @@
     <script src="{{asset('vendor/LCM-picker/LCM-picker.js')}}"></script>
     <!-- LCM switcher -->
     <script src="{{asset('vendor/LCM-switcher/LCM-switcher.js')}}"></script>
+
+    <!-- Page builder -->
+    <link rel="stylesheet" href="{{asset('vendor/page-builder/page-builder.css')}}">
+    <script src="{{asset('vendor/page-builder/page-builder.js')}}"></script>
 @endsection
 
 @section('content')
@@ -258,9 +262,109 @@
         </div>
 
 
-        <div class="card shadow mb-5">
-            <div class="card-header"><h5 class="text-primary"> {{__('alder::generic.content')}} </h5></div>
-            <div class="card-body"></div>
+        <textarea name="content" id="content" hidden></textarea>
+
+
+        <!-- PAGE BUILDER -->
+        <div id="page-builder">
+            <div class="card shadow mb-5">
+                <div class="card-header"><h5 class="text-primary"> {{__('alder::generic.content')}} </h5></div>
+                <div class="card-body">
+
+                    <div id="page-builder-components" class="d-flex flex-wrap mb-5">
+                        <a href="#" class="btn btn-sm btn-success mr-2" data-component="slider"> Big slider </a>
+                        <a href="#" class="btn btn-sm btn-success mr-2" data-component="tiles"> Tiles </a>
+                    </div>
+
+
+                    <div id="page-builder-content"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ******************************* -->
+        <!-- PAGE BUILDER PATTERNS -->
+        <div id="page-builder-patterns" hidden>
+
+            <!-- SLIDER -->
+            <div data-component="slider" data-thumbnail="{{asset('vendor/page-builder/img/slider.png')}}">
+                <div class="repeater">
+
+                    <h4 class="text-primary font-weight-bold mb-4"> Slider </h4>
+
+                    <div class="card-body">
+                        <div class="rptr-field card shadow mb-4">
+                            <div class="delete-icon rptr-field__delete">&times;</div>
+
+                            <div class="card-header"><h5
+                                        class="text-primary font-weight-bold"> {{__('alder::generic.slide')}} </h5>
+                            </div>
+                            <div class="card-body">
+                                [input:text:slide_title]
+                                [textarea:slide_text]
+                                [input:text:slide_link]
+                                [input:file:slide_img:image/*]
+
+
+                                <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                             <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span class="text"> {{__('alder::generic.add_row')}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- TILES -->
+            <div data-component="tiles" data-thumbnail="{{asset('vendor/page-builder/img/tiles.jpg')}}">
+                <div class="page-builder-repeater">
+
+                    <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.tiles')}} </h4>
+
+                    <div class="page-builder-repeater-field card shadow mb-4">
+                        <div class="delete-icon page-builder-repeater-field__delete">&times;</div>
+
+                        <div class="card-header">
+                            <h5 class="text-primary font-weight-bold"> {{__('alder::generic.tile')}} </h5></div>
+                        <div class="card-body">
+                            [input:text:tile_number]
+                            [input:text:tile_title]
+                            [input:file:tile_img:image/*]
+                        </div>
+                    </div>
+
+                    <div class="page-builder-repeater-add-row btn btn-sm btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                             <i class="fas fa-plus"></i>
+                    </span>
+                        <span class="text"> {{__('alder::generic.add_row')}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- PAGE BUILDER MODAL -->
+        <div id="page-builder-modal">
+
+            <div class="remove-modal delete-icon">&times;</div>
+
+            <div class="content"></div>
+
+
+            <div class="btn-container text-right">
+                <button type="button" id="page-builder-modal-save" class="btn btn-primary btn-icon-split mt-3">
+                                        <span class="icon text-white-50">
+                                          <i class="fas fa-save"></i>
+                                        </span>
+                    <span class="text">{{ __('alder::generic.save') }} </span>
+                </button>
+            </div>
         </div>
 
 
@@ -270,8 +374,6 @@
                                         </span>
             <span class="text">{{ __('alder::generic.save') }}</span>
         </button>
-
-
     </form>
 @endsection
 
