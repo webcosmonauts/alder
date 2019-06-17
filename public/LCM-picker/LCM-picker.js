@@ -66,7 +66,7 @@ $(document).ready(function () {
 
 			$repeater.removeAttr('current');
 
-			var repeaterName = $repeater.find('.card-header').eq(0).find('h5').text().trim().toLowerCase().replace(/\s/g, "_");
+			var repeaterName = $repeater.attr('data-name');
 			object[repeaterName] = [];
 
 			rows.each(function () {

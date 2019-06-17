@@ -57,7 +57,7 @@ $(document).ready(function () {
 			else
 				id = id + '_1';
 
-			$(this).attr('name', name);
+			//$(this).attr('name', name);
 			$(this).attr('id', id);
 		});
 

@@ -22,7 +22,7 @@
 
     @case('repeater')
     <div data-condition="{{$conditions_str}}" hidden>
-        <div class="repeater card shadow mb-5">
+        <div class="repeater card shadow mb-5" data-name="{{ $field_name }}">
             <div class="card-header"><h5 class="text-primary font-weight-bold">{{$label}}</h5></div>
 
             <div class="card-body">
@@ -63,7 +63,7 @@
     </div>
     @break
 
-    @case('!relation!')
+    @case('relation')
     <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{ $field_name }}">{{ $label }}</label>
         <div class="input-group mb-2">
