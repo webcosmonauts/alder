@@ -24,10 +24,12 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         Route::get('roots', '\Webcosmonauts\Alder\Http\Controllers\RootsController@index')->name('roots.index');
         Route::put('roots/update', '\Webcosmonauts\Alder\Http\Controllers\RootsController@update')->name('roots.update');
 
-        // contact form params
+// contact form params
         Route::resource('contact-forms', '\Webcosmonauts\Alder\Http\Controllers\ContactController');
         Route::post('contact-forms/save', '\Webcosmonauts\Alder\Http\Controllers\ContactController@save_form')->name('contact-forms.save_form');
         Route::get('contact-forms/read/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@read')->name('contact-forms.read');
+        Route::get('contact-forms/edit/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@edit_mailer')->name('contact-forms.edit_mailer');
+        Route::post('contact-forms/pars_mailer/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@pars_mailer')->name('contact-forms.pars_mailer');
 
         //users
         Route::get('users', '\Webcosmonauts\Alder\Http\Controllers\UsersController@index')->name('users.index');
