@@ -14,7 +14,7 @@
 
 .page-builder-content-item__delete {
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
 }
 
@@ -36,7 +36,7 @@
     transition: opacity .5s;
 }
 
-#page-builder-modal .remove-modal {
+#page-builder-modal .close-modal {
     position: absolute;
     right: 15px;
     top: 15px;
@@ -44,13 +44,13 @@
 }
 
 #page-builder-modal .content {
-    margin: 15% auto 0;
+    margin: 10% auto 0;
     max-width: 1200px;
     background: #ddd;
-    max-height: 60vh;
+    max-height: 65%;
     padding: 30px;
     overflow: scroll;
-    border-radius: 4px;
+    border-radius: 4px
 }
 
 #page-builder-modal .btn-container {

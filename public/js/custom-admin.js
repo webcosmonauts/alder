@@ -35,11 +35,15 @@ $(document).ready(function () {
 		slug.val(slugify($(this).val()));
 	});
 
+
+	// FILE ONCHAGE
+	$("body").on("change", ".custom-file-input", function () {
+		$(this).next(".custom-file-label").text($(this).val());
+	});
+
 	// ADD NEW PRTR
 	$('body').on('click', '.rptr-field__add', function (e) {
 		e.preventDefault();
-
-		console.log("rtpr");
 
 		var clone = $(this).parents('.rptr-field').clone(true);
 

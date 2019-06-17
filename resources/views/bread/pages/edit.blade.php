@@ -272,8 +272,28 @@
                 <div class="card-body">
 
                     <div id="page-builder-components" class="d-flex flex-wrap mb-5">
-                        <a href="#" class="btn btn-sm btn-success mr-2" data-component="slider"> Big slider </a>
-                        <a href="#" class="btn btn-sm btn-success mr-2" data-component="tiles"> Tiles </a>
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="slider"> Slider </a>
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
+                           data-component="tiles"> {{__('alder::generic.tiles')}} </a>
+
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="left_img_right_text">
+                            {{__('alder::generic.left_img_right_text')}}
+                        </a>
+
+
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
+                           data-component="activity_chart">{{__('alder::generic.activity_chart')}}</a>
+
+
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="text_center_with_bg">
+                            {{__('alder::generic.text_center_with_bg')}}
+                        </a>
+
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
+                           data-component="partners"> {{__('alder::generic.partners')}} </a>
+
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
+                           data-component="big_img">{{__('alder::generic.big_img')}}</a>
                     </div>
 
 
@@ -301,10 +321,10 @@
                                         class="text-primary font-weight-bold"> {{__('alder::generic.slide')}} </h5>
                             </div>
                             <div class="card-body">
-                                [input:text:slide_title]
-                                [textarea:slide_text]
-                                [input:text:slide_link]
-                                [input:file:slide_img:image/*]
+                                [input:text:{{__('alder::generic.title')}}]
+                                [textarea:{{__('alder::generic.text')}}]
+                                [input:text:link]
+                                [input:file:{{__('alder::generic.image')}}]
 
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
@@ -322,27 +342,139 @@
 
             <!-- TILES -->
             <div data-component="tiles" data-thumbnail="{{asset('vendor/page-builder/img/tiles.jpg')}}">
-                <div class="page-builder-repeater">
-
+                <div class="repeater">
                     <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.tiles')}} </h4>
 
-                    <div class="page-builder-repeater-field card shadow mb-4">
-                        <div class="delete-icon page-builder-repeater-field__delete">&times;</div>
+                    <div class="card-body">
+                        <div class="rptr-field card shadow mb-4">
+                            <div class="delete-icon rptr-field__delete">&times;</div>
 
-                        <div class="card-header">
-                            <h5 class="text-primary font-weight-bold"> {{__('alder::generic.tile')}} </h5></div>
-                        <div class="card-body">
-                            [input:text:tile_number]
-                            [input:text:tile_title]
-                            [input:file:tile_img:image/*]
+                            <div class="card-header">
+                                <h5 class="text-primary font-weight-bold"> {{__('alder::generic.tile')}} </h5></div>
+                            <div class="card-body">
+                                [input:text:{{__('alder::generic.number')}}]
+                                [input:text:{{__('alder::generic.title')}}]
+                                [input:file:{{__('alder::generic.image')}}]
+
+                                <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                             <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span class="text"> {{__('alder::generic.add_row')}} </span>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="page-builder-repeater-add-row btn btn-sm btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                             <i class="fas fa-plus"></i>
-                    </span>
-                        <span class="text"> {{__('alder::generic.add_row')}}</span>
+
+            <!-- LEFT IMG RIGHT TEXT -->
+            <div data-component="left_img_right_text" data-thumbnail="">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.left_img_right_text')}}</h5>
+                    </div>
+                    <div class="card-body">
+                        [input:file:{{__('alder::generic.image')}}]
+                        [input:text:{{__('alder::generic.title')}}]
+                        [textarea:{{__('alder::generic.text')}}]
+                        [input:text:{{__('alder::generic.link_text')}}]
+                        [input:text:link]
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- TEXT CENTER WITH BG -->
+            <div data-component="text_center_with_bg" data-thumbnail="">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.text_center_with_bg')}}</h5>
+                    </div>
+                    <div class="card-body">
+                        [input:text:{{__('alder::generic.title')}}]
+                        [textarea:{{__('alder::generic.text')}}]
+                        [input:text:{{__('alder::generic.link_text')}}]
+                        [input:text:link]
+                        [input:file:{{__('alder::generic.background')}}]
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ACTIVITY CHART -->
+            <div data-component="activity_chart">
+                <div class="repeater">
+                    <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.activity_chart')}} </h4>
+
+                    <div class="card-body">
+                        <div class="rptr-field card shadow mb-4">
+                            <div class="delete-icon rptr-field__delete">&times;</div>
+
+                            <div class="card-header">
+                                <h5 class="text-primary font-weight-bold"> {{__('alder::generic.item')}} </h5></div>
+                            <div class="card-body">
+                                [input:text:{{__('alder::generic.percent')}}]
+                                [input:file:{{__('alder::generic.percent_bg')}}]
+                                [input:text:{{__('alder::generic.text')}}]
+                                [input:number:{{__('alder::generic.amount')}}]
+
+                                [input:number:{{__('alder::generic.amount')}} 2]
+                                [input:text:{{__('alder::generic.text')}} 2]
+
+                                <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                             <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span class="text"> {{__('alder::generic.add_row')}} </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-component="partners" data-thumbnail="{{asset('vendor/page-builder/img/partners.png')}}">
+                <div class="repeater">
+                    <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.partners')}} </h4>
+
+                    <div class="card-body">
+                        <div class="rptr-field card shadow mb-4">
+                            <div class="delete-icon rptr-field__delete">&times;</div>
+
+                            <div class="card-header">
+                                <h5 class="text-primary font-weight-bold"> {{__('alder::generic.partner_logo')}} </h5>
+                            </div>
+                            <div class="card-body">
+
+                                [input:text:{{__('alder::generic.link_to_partner')}}]
+                                [input:file:{{__('alder::generic.partner_img')}}]
+
+                                <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                             <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span class="text"> {{__('alder::generic.add_row')}} </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- BIG IMAGE -->
+            <div data-component="big_img" data-thumbnail="">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.big_img')}}</h5>
+                    </div>
+                    <div class="card-body">
+                        [input:file:{{__('alder::generic.image')}}]
                     </div>
                 </div>
             </div>
@@ -351,8 +483,7 @@
 
         <!-- PAGE BUILDER MODAL -->
         <div id="page-builder-modal">
-
-            <div class="remove-modal delete-icon">&times;</div>
+            <div class="close-modal delete-icon">&times;</div>
 
             <div class="content"></div>
 
