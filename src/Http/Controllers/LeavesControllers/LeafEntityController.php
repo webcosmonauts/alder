@@ -4,9 +4,11 @@ namespace Webcosmonauts\Alder\Http\Controllers\LeavesController;
 
 use Illuminate\Routing\Controller;
 use PhpParser\Node\Expr\Cast\Object_;
+use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifier;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
+use Webcosmonauts\Alder\Models\LeafType;
 
 class LeafEntityController extends Controller
 {
@@ -109,14 +111,41 @@ class LeafEntityController extends Controller
      */
     public static function getLeafType($id)
     {
-        $leaf = self::getLeaf($id);
-
-        if(empty($leaf)){
+        $leaf_type = Alder::getLeafType($id);
+        if(empty($leaf_type)){
             return false;
         }
         else{
-            return $leaf->content;
+            return $leaf_type;
         }
+    }
+
+    /**
+     * Get Leaves by type
+     *
+     * @param String $leaf_type
+     * @return String
+     * @throws EmptyId
+     */
+    public static function getLeavesByType($leaf_type)
+    {
+        $leaves_per_page = Alder::getRootValue('leaves_per_page');
+        return Leaf::where('leaf_type_id', LeafType::where('slug',$leaf_type)->value('id'))->paginate($leaves_per_page);
+    }
+
+    /**
+     * Get All Leaves by type
+     *
+     * @param String $leaf_type
+     * @return String
+     * @throws EmptyId
+     */
+    public static function getAllLeavesByType($leaf_type)
+    {
+        $leaves_query = LeafType::where('slug',$leaf_type)->value('id');
+        $leaves = Leaf::where('leaf_type_id', $leaves_query)->get();
+
+        return $leaves;
     }
 
     /**
@@ -139,20 +168,79 @@ class LeafEntityController extends Controller
         }
     }
 
-    public static function getLeafTemplate($id)
+    /**
+     * Get Leaf tags
+     *
+     * @param Integer $id
+     * @return Object
+     * @throws EmptyId
+     */
+
+    public static function getLeafTags($id)
     {
-
-        $lcmv = self::getLeafCustomModifiersValues($id);
-
+        $leaf = self::getLeaf($id);
+        $lcmv = LeafCustomModifierValue::where('id', '=', $leaf->LCMV_id)->firstOrFail();
+        $tags_raw = $lcmv->values->tags;
+        $tags = Leaf::whereIn('id',$tags_raw)->get();
         if(empty($lcmv)){
             return false;
         }
-        elseif(empty($lcmv->values->template)){
-            return ".leaf";
+        else{
+            return $tags;
+        }
+    }
+
+    /**
+     * Get Leaf categories
+     *
+     * @param Integer $id
+     * @return Object
+     * @throws EmptyId
+     */
+    public static function getLeafCategories($id)
+    {
+        $leaf = self::getLeaf($id);
+        $lcmv = LeafCustomModifierValue::where('id', '=', $leaf->LCMV_id)->firstOrFail();
+        $categories_raw = $lcmv->values->categories;
+        $categories = Leaf::whereIn('id',$categories_raw)->get();
+        if(empty($lcmv)){
+            return false;
         }
         else{
-            return ".templates.".$lcmv->values->template;
+            return $categories;
         }
+    }
+
+    /**
+     * Get Leaf template
+     *
+     * @param Integer $id
+     * @return Object
+     * @throws EmptyId
+     */
+    public static function getLeafTemplate($id)
+    {
+        $leaf = self::getLeaf($id);
+
+        $leaf_type_object = Alder::getLeafType($leaf->leaf_type_id);
+        //Get leaf type
+        $leaf_type = $leaf_type_object->slug;
+        //Check if leaf is singular
+        $is_singular = $leaf_type_object->is_singular;
+
+        $lcmv = self::getLeafCustomModifiersValues($id);
+        if($leaf_type == 'pages'){
+            if(!empty($lcmv)){
+                return $lcmv->values->template;
+            }
+            else{
+                return "";
+            }
+        }
+        else{
+
+        }
+
     }
 
 }

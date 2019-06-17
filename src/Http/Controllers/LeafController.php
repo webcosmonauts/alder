@@ -31,7 +31,7 @@ class LeafController extends Controller
      * @return View
      * @throws AssigningNullToNotNullableException
      */
-    public function index(Request $request, $slug, LeafController $theme)
+    public function index(Request $request, $slug)
     {
         if(is_int((int)$slug) && (int)$slug > 0){
             $leaf = LeafEntityController::getLeaf($slug);
@@ -39,15 +39,41 @@ class LeafController extends Controller
         elseif(is_string($slug)){
             $leaf = LeafEntityController::getLeafBySlag($slug);
         }
+        //dd($leaf);
+        $leaf_view_renderer = TemplateController::getViewForLeaf($leaf);
 
-        $lcmv = LeafCustomModifierValue::where('id', '=', $leaf->LCMV_id)->firstOrFail();
-
-        $rendered_leaf_template = TemplateController::getViewForLeaf($lcmv->template);
-        
-        $template = LeafEntityController::getLeafTemplate($leaf->id);
-
-        return view("templates." . $this->theme.$template, compact('leaf', 'lcmv'));
+        return view($leaf_view_renderer, compact('leaf'));
     }
+
+    /**
+     * Get leaf type
+     *
+     * @param Request $request
+     * @param String $slug
+     * @param LeafController $theme
+     * @return View
+     * @throws AssigningNullToNotNullableException
+     */
+    public function leafTypeShow(Request $request,$leaf_type, $slug)
+    {
+        $leaves = LeafEntityController::getLeavesByType($leaf_type);
+        dd($leaves);
+        if(!empty($leaf_type) && !empty($slug)){
+            if(is_int((int)$slug) && (int)$slug > 0){
+                $leaf = LeafEntityController::getLeaf($slug);
+            }
+            elseif(is_string($slug)){
+                $leaf = LeafEntityController::getLeafBySlag($slug);
+            }
+
+            $leaf_view_renderer = TemplateController::getViewForLeaf($leaf);
+
+
+            return view($leaf_view_renderer, compact('leaf', 'lcmv'));
+        }
+
+    }
+
 
 
 
