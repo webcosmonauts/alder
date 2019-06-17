@@ -28,7 +28,7 @@ class ProfileController extends BaseController
 
         $user = User::where('id', $id)->first();
 
-        $img = asset('img/users/'.$user->images_users);
+        $img = asset('img/users/'.$user->avatar);
 
 
         return view('alder::bread.profile.profile')->with([
