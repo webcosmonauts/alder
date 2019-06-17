@@ -55,7 +55,7 @@ class UsersController extends BaseController
         $user = User::where('id',$id)->get();
         $user = $user[0];
 
-        $img = asset('img/users/'.$user->images_users);
+        $img = asset('img/users/'.$user->avatar);
 
         return view('alder::bread.users.read')->with([
             'admin_menu_items' => Alder::getMenuItems(),
@@ -161,7 +161,7 @@ class UsersController extends BaseController
                 $User->LCM_id = $request->LCM_id;
                 $User->LCMV_id = $request->LCMV_id;
                 if ($file_name_db)
-                    $User->images_users = $file_name_db;
+                    $User->avatar = $file_name_db;
 
                 if (!$edit)
                     $User->created_at = date("Y-m-d H:i:s");
