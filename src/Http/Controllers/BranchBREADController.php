@@ -16,7 +16,6 @@ use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
 use Webcosmonauts\Alder\Facades\Alder;
-use Webcosmonauts\Alder\Models\LeafStatus;
 use Webcosmonauts\Alder\Models\LeafType;
 
 class BranchBREADController extends BaseController
@@ -40,7 +39,7 @@ class BranchBREADController extends BaseController
         $leaf_type = Alder::getLeafType($branchType);
         
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf_type);
+        $params = Alder::combineLCMs($leaf_type);
         
         /* Get branch instance and all its leaves */
         $branch = Leaf::with('LCMV')->where('leaf_type_id', $leaf_type->id)->get();
@@ -92,7 +91,7 @@ class BranchBREADController extends BaseController
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
         
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
+        $params = Alder::combineLCMs($leaf->leaf_type);
         
         /* Populate model with values from LCMV */
         $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type, $params->lcm);
@@ -116,6 +115,8 @@ class BranchBREADController extends BaseController
      * Get [C]RUD
      *
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param Request $request
@@ -131,10 +132,10 @@ class BranchBREADController extends BaseController
         /* Get combined parameters of all LCMs */
         $params = Alder::prepareLCMs($leaf_type->LCMs);
         
-        $relations = Alder::getRelations($params->lcm);
+        $combined = Alder::combineLCMs($leaf_type, $params);
         
-        $statuses = LeafStatus::all();
-    
+        $relations = Alder::getRelations($combined->lcm);
+        
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
         
@@ -149,7 +150,6 @@ class BranchBREADController extends BaseController
             'admin_menu_items' => $admin_menu_items,
             'params' => $params,
             'relations' => $relations,
-            'statuses' => $statuses,
         ]);
     }
     
@@ -170,7 +170,7 @@ class BranchBREADController extends BaseController
         $leaf_type = Alder::getLeafType($branchType);
         
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf_type);
+        $params = Alder::combineLCMs($leaf_type);
         
         return $this->editLeaf(false, $request, $leaf_type, $params);
     }
@@ -193,15 +193,15 @@ class BranchBREADController extends BaseController
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
         
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf->leaf_type, true, $leaf);
+        $params = Alder::prepareLCMs($leaf->leaf_type->LCMs);
+        
+        $combined = Alder::combineLCMs($leaf->leaf_type, $params, true, $leaf);
         
         /* Populate model with values from LCMV */
-        $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type, $params->lcm);
+        $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type, $combined->lcm);
         
-        $relations = Alder::getRelations($params->lcm);
+        $relations = Alder::getRelations($combined->lcm);
         
-        $statuses = LeafStatus::all();
-    
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
         
@@ -217,7 +217,6 @@ class BranchBREADController extends BaseController
             'admin_menu_items' => $admin_menu_items,
             'params' => $params,
             'relations' => $relations,
-            'statuses' => $statuses,
         ]);
     }
     
@@ -237,7 +236,7 @@ class BranchBREADController extends BaseController
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
         
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf->leaf_type);
+        $params = Alder::combineLCMs($leaf->leaf_type);
         
         return $this->editLeaf(true, $request, $leaf->leaf_type, $params, $leaf);
     }
@@ -283,7 +282,7 @@ class BranchBREADController extends BaseController
             try {
                 $leaf = $edit ? $edit_leaf : new Leaf();
                 $LCMV = $edit ? $leaf->LCMV : new LeafCustomModifierValue();
-                $LCMV->values = $this->addValue($request, $params->lcm);
+                $LCMV->values = $this->addValue(json_decode($request->lcm), $params->lcm);
                 $LCMV->save();
                 
                 $leaf->title = $request->title;
@@ -330,7 +329,7 @@ class BranchBREADController extends BaseController
     private function addValue($request, $params, $values = []) {
         foreach ($params as $field_name => $modifiers) {
             if (!isset($modifiers->type)) {
-                $values[$field_name] = $this->addValue($request, $modifiers->fields);
+                $values[$field_name] = $this->addValue($request->$field_name, $modifiers->fields);
             }
             else {
                 if (isset($request->$field_name) && !empty($request->$field_name))

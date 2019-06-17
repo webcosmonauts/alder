@@ -47,10 +47,14 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
         //Appearance
         Route::get('appearance', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@appearance')->name('appearance.index');
         //Themes show
-
         Route::get('themes', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@showThemes')->name('themes.index');
         //Select active theme
         Route::post('themes', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@selectActiveTheme')->name('themes.update');
+
+        //Select active theme
+        Route::get('theme-settings', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\ViewHierarchyController@index')->name('theme_settings.index');
+
+        Route::post('theme-settings', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\ViewHierarchyController@setViewsHierarchy')->name('theme_settings.update');
 
 
         //Menus
@@ -65,3 +69,5 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
 });
 
 Route::get("/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
+//Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");
+

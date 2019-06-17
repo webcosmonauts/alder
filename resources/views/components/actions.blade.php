@@ -1,4 +1,4 @@
-<a href="{{ route("alder.$route.show", $param) }}" class="btn btn-primary btn-icon-split ml-3">
+<a href="{{ route("alder.$route.show", $param) }}" class="btn btn-sm btn-primary btn-icon-split ml-3">
     <span class="icon text-white-50">
         <i class="fas fa-book-open"></i>
     </span>
@@ -6,7 +6,7 @@
 </a>
 
 <!-- TODO if can edit -->
-<a href="{{ route("alder.$route.edit", $param) }}" class="btn btn-warning btn-icon-split ml-3">
+<a href="{{ route("alder.$route.edit", $param) }}" class="btn btn-sm btn-warning btn-icon-split ml-3">
     <span class="icon text-white-50">
         <i class="fas fa-edit"></i>
     </span>
@@ -14,7 +14,7 @@
 </a>
 
 <!-- TODO if can delete -->
-<a href="{{ route("alder.$route.destroy", $param) }}" class="btn btn-danger btn-icon-split ml-3">
+<a href="{{ route("alder.$route.destroy", $param) }}" class="btn btn-sm btn-danger btn-icon-split ml-3">
     <span class="icon text-white-50">
         <i class="fas fa-trash-alt"></i>
     </span>

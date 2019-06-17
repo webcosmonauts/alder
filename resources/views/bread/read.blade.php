@@ -9,12 +9,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if(isset($leaf))
-                @foreach($leaf->getAttributes() as $key => $value)
-                    <div class="row">
-                        <div class="col-xl-2">{{ $key }}</div>
-                        <div class="col-xl-4">{{ $value }}</div>
-                    </div>
-                @endforeach
+                @dump($leaf)
             @endif
         </div>
     </div>

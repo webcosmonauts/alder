@@ -20,6 +20,7 @@
 
     <form id="edit-form"
           action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->slug) : route("alder.$leaf_type->slug.store") }}"
+          enctype="multipart/form-data"
           method="POST">
         @csrf
 
@@ -98,7 +99,7 @@
                                 <select name="status_id" id="status_id" class="form-control"
                                         aria-label="{{ __('alder::statuses.singular') }}"
                                         aria-describedby="{{ __('alder::statuses.singular') }}">
-                                    @foreach($statuses as $status)
+                                    @foreach($relations->statuses as $status)
                                         <option {{ $edit && ($status->id == $leaf->status_id) ? 'selected' : '' }}
                                                 value="{{ $status->id }}">
                                             {{ $status->title }}

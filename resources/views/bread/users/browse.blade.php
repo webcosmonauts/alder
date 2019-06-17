@@ -6,9 +6,9 @@
         <h1 class="h3 mb-0 text-gray-800">{{ __("alder::leaf_types.users.plural") }}</h1>
         <!-- TODO: if can add new -->
         <a href="{{ route("alder.users.create") }}" class="btn btn-success btn-icon-split ml-3">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-plus-circle"></i>
-                            </span>
+            <span class="icon text-white-50">
+                <i class="fas fa-plus-circle"></i>
+            </span>
             <span class="text">{{ __('alder::generic.add_new')}}</span>
         </a>
     </div>
@@ -34,33 +34,13 @@
                     @foreach($users as $leaf)
                         <tr>
 
-                            @foreach(['name','surname','email','created_at', 'is_active'] as $field)
+                            @foreach(['name', 'surname', 'email', 'created_at', 'is_active'] as $field)
                                 <td>
                                     {{ $leaf->$field }}
                                 </td>
                             @endforeach
                             <td class="text-right">
-                                <a href="{{ route("alder.users.show",  $leaf->id) }}" class="btn btn-primary btn-icon-split ml-3">
-                                     <span class="icon text-white-50">
-                                         <i class="fas fa-book-open"></i>
-                                     </span>
-                                    <span class="text">{{ __('alder::generic.read') }}</span>
-                                </a>
-                                <!-- TODO if can edit -->
-                                <a href="{{ route("alder.users.edit",  $leaf->id) }}" class="btn btn-warning btn-icon-split ml-3">
-                                     <span class="icon text-white-50">
-                                         <i class="fas fa-edit"></i>
-                                     </span>
-                                    <span class="text">{{ __('alder::generic.edit') }}</span>
-                                </a>
-
-                                <!-- TODO if can delete -->
-                                <a href="{{ route("alder.users.destroy",  $leaf->id) }}" class="btn btn-danger btn-icon-split ml-3">
-                                     <span class="icon text-white-50">
-                                         <i class="fas fa-trash-alt"></i>
-                                     </span>
-                                    <span class="text">{{ __('alder::generic.delete') }}</span>
-                                </a>
+                                @include('alder::components.actions', ['route' => 'users', 'param' => $leaf->id])
                             </td>
                         </tr>
                     @endforeach

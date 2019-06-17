@@ -139,7 +139,7 @@ class ContactController extends BaseController {
         /* Get leaf type with custom modifiers */
         $leaf_type = \Webcosmonauts\Alder\Facades\Alder::getLeafType($branchType);
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf_type);
+        $params = Alder::prepareLCMs($leaf_type);
 
         return $this->createForm($edit, $request, $leaf_type,$params, $id);
     }
@@ -153,7 +153,7 @@ class ContactController extends BaseController {
         $leaf_type = Alder::getLeafType($branchType);
 
         /* Get combined parameters of all LCMs */
-        $params = Alder::combineLeafTypeLCMs($leaf_type);
+        $params = Alder::prepareLCMs($leaf_type);
         $edit = false;
         return $this->createForm($edit, $request, $leaf_type, $params);
     }

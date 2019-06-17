@@ -252,58 +252,64 @@ class Alder
      * @return stdClass
      */
     public function prepareLCMs($LCMs) {
-        $combined = [];
+        $prepared = [];
         
         foreach ($LCMs as $LCM) {
             foreach ($LCM->modifiers as $key => $modifier)
-                $combined[$LCM->slug][$key] = $modifier;
+                $prepared[$LCM->slug][$key] = $modifier;
         }
         
-        return $this->arrayToObject($combined);
+        return $this->arrayToObject($prepared);
     }
     
     /**
-     * Get combined LCMs of LeafType
+     * Combine all LCM fields and conditions with checking
+     * conditions and accumulating BREAD fields.
+     *
+     * Result object used to populate leaf with its LCMV.
      *
      * @throws UnknownConditionOperatorException
      * @throws UnknownConditionParameterException
      *
-     * @param LeafType $leaf_type
-     * @param bool $edit
-     * @param null $leaf
+     * @param LeafType $leaf_type Type of leaf that is being loaded
+     * @param $prepared|null Result of 'prepareLCMs' function
+     * @param bool $edit Used to prevent condition check for leaf that is being created
+     * @param Leaf|null $leaf Leaf, which LCMV is used for conditions check
      *
-     * @return object
+     * @return stdClass
      */
-    public function combineLeafTypeLCMs(LeafType $leaf_type, bool $edit = false, $leaf = null) {
+    public function combineLCMs(LeafType $leaf_type, $prepared = null, bool $edit = false, Leaf $leaf = null) {
         $combined = [
             'lcm' => [],
             'bread' => [],
             'conditions' => [],
         ];
-    
-        foreach ($leaf_type->LCMs as $LCM) {
         
+        if (is_null($prepared))
+            $prepared = $this->prepareLCMs($leaf_type->LCMs);
+        
+        foreach ($prepared as $group) {
             // conditions check
-            foreach ($LCM->modifiers->conditions as $condition) {
+            foreach ($group->conditions as $condition) {
                 switch ($condition->parameter) {
                     case 'leaf-type':
                         if (!$this->isNotCheck($condition->value, $condition->operator, $leaf_type->slug))
-                            continue 3;
+                            continue 3; // go to next LCM
                         break;
                     case 'page-template':
                         if (!$edit)
-                            continue 2;
+                            continue 2; // go to next condition
                         else {
                             if (!$this->isNotCheck($condition->value, $condition->operator, $leaf->LCMV->values->template))
-                                continue 3;
+                                continue 3; // go to next LCM
                         }
                         break;
                     default:
                         throw new UnknownConditionParameterException();
                 }
             }
-        
-            foreach ($LCM->modifiers as $name => $modifier) {
+            
+            foreach ($group as $name => $modifier) {
                 if (!isset($combined[$name]))
                     $combined[$name] = [];
                 
@@ -331,6 +337,10 @@ class Alder
                                 }
                             }
                         }
+                        break;
+                    case 'conditions':
+                        foreach ($modifier as $condition)
+                            $combined[$name][] = $condition;
                         break;
                     default:
                         foreach ($modifier as $field_name => $parameters) {
@@ -416,10 +426,11 @@ class Alder
      * @param &$model
      * @param int|string|LeafType $type
      * @param stdClass|null $params
+     * @param $val
      *
      * @return mixed
      */
-    public function populateWithLCMV($model, $type, stdClass $params = null) {
+    public function populateWithLCMV($model, $type, stdClass $params = null, $val = null) {
         // Get instance of LeafType
         $leaf_type = $this->getLeafType($type);
         
@@ -429,7 +440,10 @@ class Alder
          * If two modifiers have same fields, only first one will be used.
          * Additionally, log message and notification will be made.
          */
-        $params = is_null($params) ? $this->combineLeafTypeLCMs($leaf_type)->lcm : $params;
+        $params = is_null($params) ? $this->combineLCMs($leaf_type)->lcm : $params;
+        
+        if (is_null($val) && (isset($model->LCMV->values)))
+            $val = $model->LCMV->values;
         
         /**
          * Assign values to prepared parameters.
@@ -438,15 +452,15 @@ class Alder
             if (!isset($field_modifiers->type)) {
                 foreach ($field_modifiers->fields as $entity_name => $entity_modifier) {
                     $temp = isset($model->$field_name) ? $model->$field_name : new stdClass();
-                    $model->$field_name = $this->populateWithLCMV($temp, $leaf_type, $field_modifiers->fields);
+                    $model->$field_name = $this->populateWithLCMV($temp, $leaf_type, $field_modifiers->fields, $val->$field_name);
                 }
             }
             else {
                 /**
                  * If LCMV have value for parameter, assign it.
                  */
-                if (isset($model->LCMV->values->$field_name) && !empty($model->LCMV->values->$field_name)) {
-                    $model->$field_name = $model->LCMV->values->$field_name;
+                if (isset($val->$field_name) && !empty($val->$field_name)) {
+                    $model->$field_name = $val->$field_name;
                     
                     /**
                      * Load needed relations
@@ -479,6 +493,8 @@ class Alder
      * Get relation for param field
      *
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
      * @param BaseModel &$model
@@ -525,8 +541,10 @@ class Alder
     /**
      * Get menu items
      *
-     * @throws UnknownRelationException
      * @throws AssigningNullToNotNullableException
+     * @throws UnknownConditionOperatorException
+     * @throws UnknownConditionParameterException
+     * @throws UnknownRelationException
      *
      * @return Collection
      */

@@ -39,43 +39,45 @@ $(document).ready(function () {
 	$('body').on('click', '.rptr-field__add', function (e) {
 		e.preventDefault();
 
+		console.log("rtpr");
+
 		var clone = $(this).parents('.rptr-field').clone(true);
 
 		clone.find('input, textarea, select').each(function () {
-			var name = $(this).attr('name'), match,
-				id = $(this).attr('id'), matchID;
+			var id = $(this).attr('id'), matchID;
 
-			match = name.match(/\d+$/);
-			if (match)
-				name = name.replace(match[0], ++match[0]);
-			else
-				name = name + '_1';
+			if (id) {
 
-			matchID = id.match(/\d+$/);
-			if (matchID)
-				id = id.replace(matchID[0], ++matchID[0]);
-			else
-				id = id + '_1';
-
-			$(this).attr('name', name);
-			$(this).attr('id', id);
+				matchID = id.match(/\d+$/);
+				if (matchID)
+					id = id.replace(matchID[0], ++matchID[0]);
+				else
+					id = id + '_1';
+				$(this).attr('id', id);
+			}
 		});
 
 
 		clone.find('label').each(function () {
 			var id = $(this).attr('for'), match;
+			if (id) {
+				match = name.match(/\d+$/);
+				if (match)
+					id = id.replace(match[0], ++match[0]);
+				else
+					id = id + '_1';
 
-			match = name.match(/\d+$/);
-			if (match)
-				id = id.replace(match[0], ++match[0]);
-			else
-				id = id + '_1';
-
-			$(this).attr('for', id);
+				$(this).attr('for', id);
+			}
 		});
 
 		clone.find('input, textarea, select').each(function () {
-			if ($(this).attr("type") !== "radio" && $(this).attr("type") !== "checkbox") $(this).val("");
+			if ($(this).attr("type") !== "radio" && $(this).attr("type") !== "checkbox") {
+				$(this).val("");
+				$(this).attr("value", "");
+			}
+
+			if ($(this).prop("type") === "textarea") $(this).html("");
 		});
 
 		clone.find('input[type=checkbox], input[type=radio]').prop('checked', false);
