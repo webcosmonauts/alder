@@ -2,9 +2,6 @@
 
 
 @section('scripts-body')
-    <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
-    <script src="{{asset('js/quill.min.js')}}"></script>
-    <script src="{{asset('js/content-quill.js')}}"></script>
 
     <!-- LCM picker -->
     <script src="{{asset('vendor/LCM-picker/LCM-picker.js')}}"></script>
@@ -106,18 +103,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
-                            <label for="#content">{{__('alder::generic.content')}}</label>
-                            <div class="input-group mb-2">
-
-                                <div id="quill" style="height: 400px; width: 100%"></div>
-
-                                <textarea type="text" rows="8" hidden name="content" id="content"
-                                          class="form-control"
-                                          aria-label="content" aria-describedby="content"
-                                          placeholder="Content"></textarea>
-                            </div>
-
 
                             @foreach($params as $lcm_group)
 
@@ -270,6 +255,12 @@
             @endforeach
         @endforeach
         <!--  -->
+        </div>
+
+
+        <div class="card shadow mb-5">
+            <div class="card-header"><h5 class="text-primary"> {{__('alder::generic.content')}} </h5></div>
+            <div class="card-body"></div>
         </div>
 
 
