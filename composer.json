@@ -27,7 +27,8 @@
   "require": {
     "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
     "php": "^7.1",
-    "alexusmai/laravel-file-manager": "^2.3"
+    "alexusmai/laravel-file-manager": "^2.3",
+    "anhskohbo/no-captcha": "^3.0"
   },
   "autoload": {
     "psr-4": {

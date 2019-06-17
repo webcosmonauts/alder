@@ -24,6 +24,7 @@ use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
 use Webcosmonauts\Alder\Models\LeafType;
 use Webcosmonauts\Alder\Models\RootType;
+use Webcosmonauts\Alder\Models\Root;
 use Webcosmonauts\Alder\Models\User;
 
 class ContactController extends BaseController {
@@ -49,10 +50,18 @@ class ContactController extends BaseController {
 
         $roots = Alder::getRootsValues($root_type->roots);
 
+        $mailer_type = RootType::where('slug','mailing')->value('id');
+        $mailer = Root::where('root_type_id', $mailer_type)->get();
+
+        $read = false;
+
         return view('alder::bread.contact-forms.edit')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'roots' => $roots,
             'edit' => false,
+            'mailer' => $mailer,
+            'read' => $read,
+            'id' => false
         ]);
     }
     public function edit(Request $request, $id)
@@ -61,11 +70,65 @@ class ContactController extends BaseController {
         $form = Leaf::where('id',$id)->get();
         $form = $form[0];
 
+
+        $mailer_type = RootType::where('slug','mailing')->value('id');
+        $mailer = Root::where('root_type_id', $mailer_type)->get();
+
+        $read = false;
+
         return view('alder::bread.contact-forms.edit')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
             'form' => $form,
-            'edit' => true
+            'edit' => true,
+            'mailer' => $mailer,
+            'read' => $read,
+            'id' => $id
+        ]);
+    }
+    public function edit_mailer(Request $request, $id)
+    {
+
+        $form = Leaf::where('id',$id)->get();
+        $form = $form[0];
+
+        $array_names = $request->all();
+
+        $arr_keys = array();
+        $arr_vals = array();
+        foreach ($array_names as $key => $val){
+            if ($key != '_token'){
+                $array_names[$key] = '['. $key . ']';
+                $arr_keys[] = $key;
+                $arr_vals[] = $val;
+            }
+        }
+
+        $arr_keys = implode('*', $arr_keys);
+        $arr_vals = implode('*', $arr_vals);
+
+        $arr_total = $arr_keys . '|' . $arr_vals;
+
+
+        $read = true;
+
+        $mailer_type = RootType::where('slug','mailing')->value('id');
+        $mailer = Root::where('root_type_id', $mailer_type)->get();
+
+        request()->validate([
+            'g-recaptcha-response' => 'required|captcha',
+        ]);
+
+        return view('alder::bread.contact-forms.edit')->with([
+            'admin_menu_items' => Alder::getMenuItems(),
+            'request' => $request,
+            'form' => $form,
+            'edit' => true,
+            'mailer' => $mailer,
+            'array_names' => $array_names,
+            'id' => $id,
+            'arr_total' => $arr_total,
+            'read' => $read
         ]);
     }
 
@@ -92,8 +155,7 @@ class ContactController extends BaseController {
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLeafTypeLCMs($leaf_type);
         $edit = false;
-        $id = '15457';
-        return $this->createForm($edit, $request, $leaf_type, $params, $id);
+        return $this->createForm($edit, $request, $leaf_type, $params);
     }
 
 
@@ -118,106 +180,137 @@ class ContactController extends BaseController {
         }
 
 
-
         return view('alder::bread.contact-forms.read')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
             'forms' => $forms,
             'lin' => $lin,
-            'lincs' => $lincs
+            'lincs' => $lincs,
+            'id' => $id
         ]);
     }
 
-    public function store(Request $request)
+    public function pars_mailer (Request $request) {
+
+        echo 'Parser Mailer';
+
+        $array_mass = explode('|', $request->array_mail);
+        $array_keys = explode('*', $array_mass[0]);
+        $array_vals = explode('*', $array_mass[1]);
+
+        $total_key = array();
+        foreach ($array_keys as $keyk => $valk){
+            $total_key['[' . $valk . ']'] =  $array_vals[$keyk];
+        }
+
+        $total = array();
+        foreach ($request->all() as $request_key => $request_value){
+            $temp = $request_value;
+            foreach ($total_key as $keys => $vals) {
+                $temp = str_replace($keys, $vals, $temp);
+            }
+            $total[$request_key] = $temp;
+        }
+
+
+        return $this->store($total);
+    }
+
+    public function store($total)
     {
         $mail = new PHPMailer(TRUE);
 
         try{
-
-            $max_rozmiar = 1024*1024*25;
-            if (isset($_FILES['uploaded_file'])) {
-                if ($_FILES['uploaded_file']['size'] > $max_rozmiar) {
-                    return redirect()->back()->with(['error'=>'Error, your file is very big ( > 25 Mb)']);
-                } else {
-                    $mail->AddAttachment($_FILES['uploaded_file']['tmp_name'],
-                        $_FILES['uploaded_file']['name']);
-                }
-            }
-
-            $array_of_addresses = array();
-            if(strpos($request['template-content'],'name:')){
-                $error = "array?";
-                var_dump($error);
-                $array_of_addresses_raw = preg_split('/([\[:\]\s])/', $request['template-content']);
-                $array_of_addresses_raw = array_filter($array_of_addresses_raw, function ($value) {
-                    return !empty($value);
-                });
-                $array_of_emails = array();
-                foreach ($array_of_addresses_raw as $key => $val) {
-                    if ($val == 'email'){
-                        $array_of_emails[] = $array_of_addresses_raw[$key + 2];
-                    }
-                }
-                foreach ($array_of_emails as $key => $val) {
-                    if ($this->isValidEmail($val)){
-                        $array_of_addresses[] = $val;
-                    }
-                }
-                if (empty($array_of_addresses)){
-                    return redirect()->back()->with(['error_email'=>'Sorry, fix emails']);
-                }
-                echo '<pre>';
-                print_r($array_of_addresses);
-                echo '</pre>';
-            }
-            else{
-                return redirect()->back()->with(['error_email'=>'Sorry, fix emails']);
-            }
+//            $max_rozmiar = 1024*1024*25;
+//            if (isset($_FILES['uploaded_file'])) {
+//                if ($_FILES['uploaded_file']['size'] > $max_rozmiar) {
+//                    return redirect()->back()->with(['error'=>'Error, your file is very big ( > 25 Mb)']);
+//                } else {
+//                    $mail->AddAttachment($_FILES['uploaded_file']['tmp_name'],
+//                        $_FILES['uploaded_file']['name']);
+//                }
+//            }
+//
+//            $array_of_addresses = array();
+//            if(strpos($request['template-content'],'name:')){
+//                $error = "array?";
+//                var_dump($error);
+//                $array_of_addresses_raw = preg_split('/([\[:\]\s])/', $request['template-content']);
+//                $array_of_addresses_raw = array_filter($array_of_addresses_raw, function ($value) {
+//                    return !empty($value);
+//                });
+//                $array_of_emails = array();
+//                foreach ($array_of_addresses_raw as $key => $val) {
+//                    if ($val == 'email'){
+//                        $array_of_emails[] = $array_of_addresses_raw[$key + 2];
+//                    }
+//                }
+//                foreach ($array_of_emails as $key => $val) {
+//                    if ($this->isValidEmail($val)){
+//                        $array_of_addresses[] = $val;
+//                    }
+//                }
+//                if (empty($array_of_addresses)){
+//                    return redirect()->back()->with(['error_email'=>'Sorry, fix emails']);
+//                }
+//                echo '<pre>';
+//                print_r($array_of_addresses);
+//                echo '</pre>';
+//            }
+//            else{
+//                return redirect()->back()->with(['error_email'=>'Sorry, fix emails']);
+//            }
 //
 ////          Settings SMTP
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = 's24.linuxpl.com';
+            $mail->Host = $total['smtp-host'];
             $mail->SMTPAuth = TRUE;
-            $mail->Username = 'rawa@nfinity.pl';
-            $mail->Password = 'G111d*#`Le1H2@@';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
-            $mail->setFrom($request['recipient'], $request['sender']);
 
-            dd($request->all());
-            if(count($array_of_addresses) == 0){
-                return redirect()->back()->with(['error_email'=>'Sorry, fix emails(1)']);
-            }
-            elseif(count($array_of_addresses) == 1){
-                $mail->addAddress($array_of_addresses[0], "Your name");
 
-                $mail->isHTML(true);
-                $mail->Subject = $request['title'];
-                $mail->Body    = $request['content'];
-                $mail->AltBody = $request['message-content'];
-                //$mail->addAttachment('/');
-                $mail->send();
-                echo 'Message has been sent';
-                return redirect()->back()->with(['success'=>'Message is send']);
-            }
-            elseif(count($array_of_addresses) > 1){
-                foreach ($array_of_addresses as $key=>$sigle_address_to_send):
-                    $mail->addAddress($sigle_address_to_send, "Your name");
-                    $mail->isHTML(true);
-                    $mail->Subject = $request['title'];
-                    $mail->Body    = $request['content'];
-                    $mail->AltBody = $request['message-content'];
-                    //$mail->addAttachment('/');
-                    $mail->send();
-                    echo 'Message has been sent';
-                    return redirect()->back()->with(['success'=>'Message is send']);
-                endforeach;
-            }
-            else{
-                $error = "Something wnt wrong";
-                return redirect()->back()->with(['error_sthng'=>'Sorry, unexpected error']);
-            }
+            $mail->Username = $total['login'];
+
+            $mail->Password = $total['password'];
+
+            $mail->SMTPSecure = $total['encryption'];
+            $mail->Port = $total['smtp-port'];
+
+            $mail->setFrom($total['from'], $total['sender']);
+
+
+
+//            if(count($array_of_addresses) == 0){
+//                return redirect()->back()->with(['error_email'=>'Sorry, fix emails(1)']);
+//            }
+//            elseif(count($array_of_addresses) == 1){
+            $mail->addAddress($total['recipient'], "");
+
+            $mail->isHTML(true);
+            $mail->Subject = $total['theme'];
+            $mail->Body    = $total['message_content'];
+            $mail->AltBody = $total['message_content'];
+            //$mail->addAttachment('/');
+            $mail->send();
+            echo 'Message has been sent';
+            return redirect()->back()->with(['success'=>'Message is send']);
+//            }
+//            elseif(count($array_of_addresses) > 1){
+//                foreach ($array_of_addresses as $key=>$sigle_address_to_send):
+//                    $mail->addAddress($sigle_address_to_send, "");
+//                    $mail->isHTML(true);
+//                    $mail->Subject = $request['title'];
+//                    $mail->Body    = $request['content'];
+//                    $mail->AltBody = $request['message-content'];
+//                    //$mail->addAttachment('/');
+//                    $mail->send();
+//                    echo 'Message has been sent';
+//                    return redirect()->back()->with(['success'=>'Message is send']);
+//                endforeach;
+//            }
+//            else{
+//                $error = "Something wnt wrong";
+//                return redirect()->back()->with(['error_sthng'=>'Sorry, unexpected error']);
+//            }
         }
         catch (Exception $e) {
 //            echo $e->errorMessage();
@@ -247,7 +340,7 @@ class ContactController extends BaseController {
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
 
-    private function createForm ($edit, Request $request, LeafType $leaf_type, $params, $id) {
+    private function createForm ($edit, Request $request, LeafType $leaf_type, $params, $id = null) {
         return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $id) {
             try {
 
@@ -259,7 +352,7 @@ class ContactController extends BaseController {
                 $form->title = $request->title;
                 $form->slug = $request->slug;
                 $form->content = $request['template-content'];
-                $form->is_accessable = $request->is_accessible == 'on' ? 1 : 0;
+                $form->is_accessible = $request->is_accessible == 'on' ? 1 : 0;
                 $edit ? : $form->status_id = 5;
                 $edit ? : $form->leaf_type_id = $cont_id;
                 $edit ? : $form->user_id = Auth::user()->id;
@@ -269,7 +362,7 @@ class ContactController extends BaseController {
 
 
 
-//                dd($params);
+
                 $LCMV->values = $this->addValue($request, $params->lcm);
 
 
@@ -279,11 +372,13 @@ class ContactController extends BaseController {
 
                 $form->save();
 
+                $id = $form->id;
+
                 return \Webcosmonauts\Alder\Facades\Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_'
                         . ('created')) . " $form->title",
-                    route("alder.contact-forms.index"),
+                    route("alder.contact-forms.edit", $id),
                     true,
                     'success'
                 );
