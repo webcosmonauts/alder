@@ -13,7 +13,6 @@
             </div>
             <div class="col-12 col-lg-9">
                 <h2>{{$theme->theme_name}}</h2>
-
             </div>
         </div>
     </div>
