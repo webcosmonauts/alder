@@ -8,7 +8,7 @@ $(document).ready(function () {
 			component = $('#page-builder-patterns').find('[data-component=' + $(this).attr('data-component') + ']'),
 			thumbnail = component.attr('data-thumbnail'),
 			componentHTML = component.html(),
-			shortcodes = componentHTML.match(/\[[^\s\]]+\]/g);
+			shortcodes = componentHTML.match(/\[[^\]\[]+\]/g);
 
 
 		if (shortcodes) {
@@ -18,7 +18,7 @@ $(document).ready(function () {
 		}
 
 		componentHTML =
-			"<div class=\"page-builder-content-item\" style=\"background-image: url(" + thumbnail + ")\">" +
+			"<div class=\"page-builder-content-item\" data-component=\"" + $(this).attr('data-component') + "\" style=\"background-image: url(" + thumbnail + ")\">" +
 			"<div class=\"page-builder-content-item__delete delete-icon\">&times;</div>" +
 			"<div hidden>" + componentHTML + "</div>" +
 			"</div>";
@@ -37,8 +37,8 @@ $(document).ready(function () {
 		if (shortcode[0] === "input") {
 
 			type = shortcode[1];
-			name = shortcode[2];
-			label = buildLabel(name);
+			label = shortcode[2];
+			name = buildName(label);
 
 			if (type !== "file") {
 				return "<div class=\"mb-2\">" +
@@ -49,30 +49,36 @@ $(document).ready(function () {
 				return "<div class=\"mb-2\">" +
 					"<label>" + label + "</label>" +
 					"<div class=\"input-group\">\n" +
-					"  <div class=\"custom-file\">\n" +
-					"    <input type=\"file\" name=\"" + name + "\" class=\"custom-file-input\">\n" +
-					"    <label class=\"custom-file-label\">Choose file</label>\n" +
-					"  </div>\n" +
-					"</div>" +
-					"</div>";
+					"        <input type=\"text\" class=\"image_label form-control\" name=\"" + name + "\"\n" +
+					"               aria-label=\"Image\" aria-describedby=\"button-image\">\n" +
+					"        <div class=\"input-group-append\">\n" +
+					"            <button class=\"btn btn-outline-secondary button-image\"  type=\"button\">Select</button>\n" +
+					"        </div>\n" +
+					"    </div>" +
+					"    </div>";
 			}
 
 		} else if (shortcode[0] === "textarea") {
 
-			name = shortcode[1];
-			label = buildLabel(name);
+			label = shortcode[1];
+			name = buildName(label);
 
 			return "<div class=\"mb-2\"><label>" + label + "</label><textarea class=\"form-control\" name=\"" + name + "\"></textarea></div>"
 		}
 
 
-		function buildLabel(str) {
-			var label = str.replace("_", " ");
-			label = label[0].toUpperCase() + label.slice(1);
-
-			return label;
+		function buildName(str) {
+			return str.trim().toLowerCase().replace(/\s/g, "_");
 		}
 	}
+
+
+	$('body').on("click", '.button-image', function (e) {
+		e.preventDefault();
+		$("[data-current-file]").removeAttr("data-current-file");
+		$(this).parent().prev().attr("data-current-file", true);
+		window.open('/file-manager/fm-button', 'fm', 'width=1000,height=600,top=200,left=400');
+	});
 
 
 	// Page builder item delete
@@ -100,49 +106,94 @@ $(document).ready(function () {
 		e.stopPropagation();
 
 		$("[data-editing]").html($("#page-builder-modal .content").html());
-
-
-		if (filesBuffer.length) {
-			var i = 0;
-			$("[data-editing]").find("input[type=file]").each(function () {
-				$(this).prop("files", filesBuffer[i]);
-				i++;
-			});
-		}
-
 		$("[data-editing]").removeAttr("data-editing");
 
 		$("#page-builder-modal .content").html("");
 		$("#page-builder-modal").removeClass("visible");
 	});
 
-
-	$("#page-builder-modal").on("click", ".remove-modal", function (e) {
+	// Close modal
+	$("#page-builder-modal").on("click", ".close-modal", function (e) {
 		$("#page-builder-modal").removeClass("visible");
 	});
 
-
-	var filesBuffer = [];
-
-	/* Save value changes */
+	/* Save value changes when we edit component */
 	$('#page-builder-modal').on("change", "input, textarea, select", function (e) {
 
 		var type = $(this).prop("type");
-
 		switch (type) {
 			case "textarea":
 				$(this).html($(this).val());
-				break;
-
-			case "file":
-				$(this).next(".custom-file-label").text($(this).val());
-				filesBuffer.push($(this).prop("files"));
 				break;
 
 			default:
 				$(this).attr("value", $(this).val());
 				break;
 		}
+	});
 
+
+	/* PARSE PAGE BUILDER INTO HTML */
+	$("#edit-form").on("submit", function (e) {
+		var contentHTMLJSON = [];
+
+		$('#page-builder-content').find(".page-builder-content-item").each(function () {
+
+			var
+				content = $(this).find("[hidden]"),
+				componentType = $(this).attr("data-component"),
+				$fields = content.find("input, select, textarea"),
+				$rptrFields = content.find(".rptr-field"),
+				componentObj = {
+					component: componentType,
+					fields: {}
+				};
+
+			switch (componentType) {
+				case "activity_chart":
+				case "partners":
+				case "tiles":
+				case "slider":
+					componentObj.fields = [];
+
+					$rptrFields.each(function () {
+						var obj = {};
+						$(this).find("input, select, textarea").each(function () {
+							obj[$(this).attr("name")] = $(this).val();
+							$(this).attr("disabled", true);
+						});
+
+						componentObj.fields.push(obj);
+					});
+					break;
+
+				case "text_center_with_bg":
+				case "left_img_right_text":
+					$fields.each(function () {
+						componentObj.fields[$(this).attr("name")] = $(this).val();
+						$(this).attr("disabled", true);
+					});
+					break;
+
+				case "big_img":
+					var bigImgUrl = content.find("[name=image]").val();
+					content.find("[name=image]").attr("disabled", "true");
+					componentObj.fields.image = bigImgUrl;
+					break;
+			}
+
+			contentHTMLJSON.push(componentObj);
+		});
+
+
+		contentHTMLJSON = JSON.stringify(contentHTMLJSON);
+		$("[name=content]").val(contentHTMLJSON);
 	});
 });
+
+
+// set file link
+function fmSetLink($url) {
+	$('.image_label[data-current-file]').val($url).attr("value", $url);
+	$("[data-current-file]").removeAttr("data-current-file");
+}
