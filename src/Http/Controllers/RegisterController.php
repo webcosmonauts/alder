@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Webcosmonauts\Alder\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Webcosmonauts\Alder\Models\Root;
 use Webcosmonauts\Alder\Models\RootType;
 use Webcosmonauts\Alder\Models\User;
 
-class RegisterController extends Controller
+class RegisterController extends BaseController
 {
     public function index()
     {
@@ -21,16 +21,22 @@ class RegisterController extends Controller
     {
         return view('alder::registration.verificated');
     }
+    public function activation(Request $request)
+    {
+        return view('alder::registration.verification')->with([
+            'request' => $request
+        ]);
+    }
 
     public function save(Request $request)
     {
-        return $this->saveUser($request);
+        return $this->saveUser($request ,false);
     }
 
 
 
-    private function saveUser(Request $request) {
-        return DB::transaction(function () use ($request) {
+    private function saveUser(Request $request, $edit) {
+        return DB::transaction(function () use ($request, $edit) {
             try {
 
                 $User = new User();
@@ -49,26 +55,14 @@ class RegisterController extends Controller
 
                 $User->save();
 
-                $this->ver_mail($request, $User);
+                if ($this->ver_mail($request, $User)) {
+                    return redirect()->back()->with(['success'=>'Message is send']);
+                };
 
-
-                return Alder::returnRedirect(
-                    $request->ajax(),
-                    __('alder::generic.successfully_'
-                        . ('created')) . " $User->name",
-                    route("register.verificated"),
-                    true,
-                    'success'
-                );
+//                return redirect()->back()->with(['success'=>'Message is send']);
             } catch (Exception $e) {
                 DB::rollBack();
-                return Alder::returnResponse(
-                    $request->ajax(),
-                    __('alder::messages.processing_error'),
-                    false,
-                    'danger',
-                    $e->getMessage()
-                );
+                return redirect()->back()->with(['error_sthng'=>'Sorry, email is not valid or exist']);
             }
         });
     }
@@ -91,12 +85,8 @@ class RegisterController extends Controller
             $total['additional_headers'] = $request->name;
             $total['message_content'] = $request->name;
 
-//            dd($total);
-            $activationLink = route('activation', ['id' => $user->id, 'token' => md5($user->email)]);
+            $activationLink = url('/activation?' . 'id=' . $user->id . '&_token=' . md5($request->exampleInputEmail));
 
-
-            dd($activationLink);
-            dd($request);
 //          Settings SMTP
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
@@ -117,7 +107,7 @@ class RegisterController extends Controller
 
             $mail->isHTML(true);
             $mail->Subject = $total['theme'];
-            $mail->Body    = $total['message_content'];
+            $mail->Body    = $total['message_content'] . '<br>' . $activationLink;
             $mail->AltBody = $total['message_content'];
             //$mail->addAttachment('/');
 
