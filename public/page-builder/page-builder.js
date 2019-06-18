@@ -185,32 +185,40 @@ $(document).ready(function () {
 				$fields = content.find("input, select, textarea").filter(function () {
 					if (!$(this).parents('.rptr-field').length) return true;
 				}),
-				$rptrFields = content.find(".rptr-field"),
+
+				$repeaters = content.find(".repeater"),
 				componentObj = {
 					component: componentType,
 					fields: {}
 				};
 
 
-			if (!$rptrFields.length) {
-				$fields.each(function () {
-					componentObj.fields[$(this).attr("name")] = $(this).val();
-					$(this).attr("disabled", true);
-				});
-			} else if ($rptrFields.length && !$fields.length) {
-				componentObj.fields = [];
+			/*Repeaters */
+			if ($repeaters.length) {
+				var counter = 1;
+				$repeaters.each(function () {
+					componentObj.fields["repeater_" + counter] = [];
 
-				$rptrFields.each(function () {
-					var obj = {};
-					$(this).find("input, select, textarea").each(function () {
-						obj[$(this).attr("name")] = $(this).val();
-						$(this).attr("disabled", true);
+					$(this).find('.rptr-field').each(function () {
+						var obj = {};
+
+						$(this).find("input, select, textarea").each(function () {
+							obj[$(this).attr("name")] = $(this).val();
+							$(this).attr("disabled", true);
+						});
+
+						componentObj.fields["repeater_" + counter].push(obj);
 					});
-
-					componentObj.fields.push(obj);
 				});
 			}
 
+			/**/
+			$fields.each(function () {
+				componentObj.fields[$(this).attr("name")] = $(this).val();
+				$(this).attr("disabled", true);
+			});
+
+			//
 			contentHTMLJSON.push(componentObj);
 		});
 
