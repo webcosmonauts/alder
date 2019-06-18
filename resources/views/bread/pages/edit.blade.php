@@ -373,6 +373,7 @@
                                 [input:text:title:{{__('alder::generic.title')}}]
                                 [textarea:text:{{__('alder::generic.text')}}]
                                 [input:text:link:Link]
+                                [input:text:link_text:{{__('alder::generic.link_text')}}]
                                 [input:file:image:{{__('alder::generic.image')}}]
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
