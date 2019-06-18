@@ -21,7 +21,6 @@
 
     <form id="edit-form"
           action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->slug) : route("alder.$leaf_type->slug.store") }}"
-          enctype="multipart/form-data"
           method="POST">
         @csrf
 
@@ -31,6 +30,8 @@
     {{$edit ? method_field('PUT') : method_field('POST')}}
 
     @php
+
+        //dd($leaf);
         $mainRightPanelCounter = 0;
 
            foreach($params as $lcm_group) :
@@ -298,7 +299,29 @@
                     </div>
 
 
-                    <div id="page-builder-content"></div>
+                    <div id="page-builder-content">
+                        @if($edit)
+
+                            @php
+                                $content = $leaf->content;
+                                if($content) $content = json_decode($content);
+                            @endphp
+
+                            @if($leaf->content)
+                                @foreach($content as $component)
+                                    <div class="page-builder-content-item" data-component="{{$component->component}}"
+                                         style="background-image: url({{asset('vendor/page-builder/img/'. $component->component .'.png')}})">
+
+                                        <div class="page-builder-content-item__delete delete-icon">×</div>
+
+                                        <div hidden>
+                                            @include("alder::components.page_builder")
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -438,6 +461,7 @@
                 </div>
             </div>
 
+            <!-- PARTNERS -->
             <div data-component="partners" data-thumbnail="{{asset('vendor/page-builder/img/partners.png')}}">
                 <div class="repeater">
                     <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.partners')}} </h4>

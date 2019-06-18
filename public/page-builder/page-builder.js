@@ -91,7 +91,6 @@ $(document).ready(function () {
 	$('#page-builder-content').on("click", ".page-builder-content-item", function (e) {
 
 		var content = $(this).find("[hidden]").eq(0);
-		filesBuffer = [];
 
 		$("[data-editing]").removeAttr("data-editing");
 		content.attr("data-editing", true);
