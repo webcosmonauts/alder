@@ -31,8 +31,6 @@
     {{$edit ? method_field('PUT') : method_field('POST')}}
 
     @php
-
-        //dd($leaf);
         $mainRightPanelCounter = 0;
 
            foreach($params as $lcm_group) :
@@ -128,6 +126,11 @@
                                         $field_name = $lcm_item;
                                         $label = $k->display_name;
                                         $field = $k;
+
+                                        $field_value = "";
+
+                                        if($edit)
+                                            $field_value = $leaf[$field_name];
                                     @endphp
 
                                     @if(isset($k->type))
@@ -167,6 +170,11 @@
                                             $field_name = $lcm_item;
                                             $label = $k->display_name;
                                             $field = $k;
+
+                                            $field_value = "";
+
+                                            if($edit)
+                                                $field_value = $leaf[$field_name];
                                         @endphp
 
                                         @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
@@ -199,10 +207,9 @@
                     endforeach;
                 @endphp
 
-                @foreach($lcm as $lcm_item)
+                @foreach($lcm as $tab => $lcm_item)
 
                     @if(isset($lcm_item->fields))
-
                         @php $tabsCounter++; @endphp
                         <div class="tab-pane card shadow fade show" data-condition="{{$conditions_str}}" hidden
                              id="section-{{$tabsCounter}}" role="tabpanel">
@@ -223,6 +230,10 @@
                                                 $field_name = $lcm_subitem;
                                                 $label = $k->display_name;
                                                 $field = $k;
+
+                                                $field_value = "";
+                                                if($edit)
+                                                    $field_value = $leaf[$tab]->$field_name;
                                             @endphp
 
                                             @if(isset($k->type))
@@ -245,6 +256,10 @@
                                                     $field_name = $lcm_subitem;
                                                     $label = $k->display_name;
                                                     $field = $k;
+
+                                                    $field_value = "";
+                                                    if($edit)
+                                                        $field_value = $leaf[$tab]->$field_name;
                                                 @endphp
 
                                                 @if(isset($k->type) && isset($k->panel) && $k->panel === "right")

@@ -137,6 +137,11 @@
                                         $field_name = $lcm_item;
                                         $label = $k->display_name;
                                         $field = $k;
+
+                                        $field_value = "";
+
+                                            if($edit)
+                                                $field_value = $leaf[$field_name];
                                     @endphp
 
                                     @if(isset($k->type))
@@ -176,6 +181,11 @@
                                             $field_name = $lcm_item;
                                             $label = $k->display_name;
                                             $field = $k;
+
+                                            $field_value = "";
+
+                                            if($edit)
+                                                $field_value = $leaf[$field_name];
                                         @endphp
 
                                         @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
@@ -208,7 +218,7 @@
                     endforeach;
                 @endphp
 
-                @foreach($lcm as $lcm_item)
+                @foreach($lcm as $tab => $lcm_item)
 
                     @if(isset($lcm_item->fields))
 
@@ -232,6 +242,10 @@
                                                 $field_name = $lcm_subitem;
                                                 $label = $k->display_name;
                                                 $field = $k;
+
+                                                $field_value = "";
+                                                if($edit)
+                                                    $field_value = $leaf[$tab]->$field_name;
                                             @endphp
 
                                             @if(isset($k->type))
@@ -254,6 +268,10 @@
                                                     $field_name = $lcm_subitem;
                                                     $label = $k->display_name;
                                                     $field = $k;
+
+                                                    $field_value = "";
+                                                    if($edit)
+                                                        $field_value = $leaf[$tab]->$field_name;
                                                 @endphp
 
                                                 @if(isset($k->type) && isset($k->panel) && $k->panel === "right")
