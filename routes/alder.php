@@ -63,7 +63,10 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
 
         Route::post('theme-settings', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\ViewHierarchyController@setViewsHierarchy')->name('theme_settings.update');
 
+        //Widgets builder
+        Route::get('widgets', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@index')->name('widgets.index');
 
+        Route::post('widgets', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@update')->name('widgets.update');
     });
 
     // uploader
