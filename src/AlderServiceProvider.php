@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
+use Webcosmonauts\Alder\Http\Middleware\LocaleSwitcher;
 
 class AlderServiceProvider extends ServiceProvider
 {
@@ -34,17 +35,20 @@ class AlderServiceProvider extends ServiceProvider
             __DIR__.'/../public/LCM-picker/' => public_path().'/vendor/LCM-picker',
             __DIR__.'/../public/LCM-switcher/' => public_path().'/vendor/LCM-switcher',
             __DIR__.'/../public/page-builder/' => public_path().'/vendor/page-builder',
-            
+        
         ], 'public');
         
         // translations
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'alder');
-    
+        
         // migrations
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         
         // views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'alder');
+        
+        // locale switcher
+        $this->app['router']->aliasMiddleware('locale-switcher', LocaleSwitcher::class);
     }
     /**
      * Make config publishment optional by merging the config from the package.
@@ -54,9 +58,9 @@ class AlderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/alder.php', 'alder');
-
+        
         $loader = AliasLoader::getInstance();
-
+        
         $this->app->bind('alder', function () {
             return new Alder();
         });
@@ -64,12 +68,12 @@ class AlderServiceProvider extends ServiceProvider
         $this->app->bind('leaf_helper', function () {
             return new LeafEntityController();
         });
-
+        
         $loader->alias("TemplateHelper", "Webcosmonauts\\Alder\\Facades\\TemplateHelper");
-
+        
         $this->app->bind('template_helper', function () {
             return new TemplateController();
         });
     }
-
+    
 }
