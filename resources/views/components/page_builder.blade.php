@@ -23,7 +23,7 @@
                         ['type' => 'text', 'name' => 'link', 'label' => "link", 'value'=> $row->link])
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'text', 'name' => 'link_text', 'label' => __('alder::generic.link_text'), 'value'=> $row->link])
+                        ['type' => 'text', 'name' => 'link_text', 'label' => __('alder::generic.link_text'), 'value'=> $row->link_text])
 
                         @include("alder::components.page_builder_input",
                         ['type' => 'file', 'name' => 'image', 'label' => __('alder::generic.image'), 'value'=> $row->image])
