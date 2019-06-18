@@ -31,6 +31,7 @@
     {{$edit ? method_field('PUT') : method_field('POST')}}
 
     @php
+
         $mainRightPanelCounter = 0;
 
            foreach($params as $lcm_group) :
@@ -294,24 +295,24 @@
                         <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
                            data-component="tiles"> {{__('alder::generic.tiles')}} </a>
 
-                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="left_img_right_text">
-                            {{__('alder::generic.left_img_right_text')}}
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="img_left_text_right">
+                            {{__('alder::generic.img_left_text_right')}}
                         </a>
 
 
                         <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
-                           data-component="activity_chart">{{__('alder::generic.activity_chart')}}</a>
+                           data-component="circle_diagram">{{__('alder::generic.circle_diagram')}}</a>
 
 
-                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="text_center_with_bg">
-                            {{__('alder::generic.text_center_with_bg')}}
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="center_text_tile">
+                            {{__('alder::generic.center_text_tile')}}
                         </a>
 
                         <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
                            data-component="partners"> {{__('alder::generic.partners')}} </a>
 
                         <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
-                           data-component="big_img">{{__('alder::generic.big_img')}}</a>
+                           data-component="center_image">{{__('alder::generic.center_image')}}</a>
                     </div>
 
 
@@ -326,7 +327,7 @@
                             @if($leaf->content)
                                 @foreach($content as $component)
                                     <div class="page-builder-content-item" data-component="{{$component->component}}"
-                                         style="background-image: url({{asset('vendor/page-builder/img/'. $component->component .'.png')}})">
+                                         style="background-image: url({{asset('vendor/page-builder/img/'. $component->component .'.jpg')}})">
 
                                         <div class="page-builder-content-item__delete delete-icon">×</div>
 
@@ -348,7 +349,7 @@
         <div id="page-builder-patterns" hidden>
 
             <!-- SLIDER -->
-            <div data-component="slider" data-thumbnail="{{asset('vendor/page-builder/img/slider.png')}}">
+            <div data-component="slider" data-thumbnail="{{asset('vendor/page-builder/img/slider.jpg')}}">
                 <div class="repeater">
 
                     <h4 class="text-primary font-weight-bold mb-4"> Slider </h4>
@@ -361,11 +362,10 @@
                                         class="text-primary font-weight-bold"> {{__('alder::generic.slide')}} </h5>
                             </div>
                             <div class="card-body">
-                                [input:text:{{__('alder::generic.title')}}]
-                                [textarea:{{__('alder::generic.text')}}]
-                                [input:text:link]
-                                [input:file:{{__('alder::generic.image')}}]
-
+                                [input:text:title:{{__('alder::generic.title')}}]
+                                [textarea:text:{{__('alder::generic.text')}}]
+                                [input:text:link:Link]
+                                [input:file:image:{{__('alder::generic.image')}}]
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
@@ -392,9 +392,9 @@
                             <div class="card-header">
                                 <h5 class="text-primary font-weight-bold"> {{__('alder::generic.tile')}} </h5></div>
                             <div class="card-body">
-                                [input:text:{{__('alder::generic.number')}}]
-                                [input:text:{{__('alder::generic.title')}}]
-                                [input:file:{{__('alder::generic.image')}}]
+                                [input:text:number:{{__('alder::generic.number')}}]
+                                [input:text:title:{{__('alder::generic.title')}}]
+                                [input:file:image:{{__('alder::generic.image')}}]
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
@@ -411,43 +411,46 @@
 
 
             <!-- LEFT IMG RIGHT TEXT -->
-            <div data-component="left_img_right_text" data-thumbnail="">
+            <div data-component="img_left_text_right"
+                 data-thumbnail="{{asset('vendor/page-builder/img/img_left_text_right.jpg')}}">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.left_img_right_text')}}</h5>
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.img_left_text_right')}}</h5>
                     </div>
                     <div class="card-body">
-                        [input:file:{{__('alder::generic.image')}}]
-                        [input:text:{{__('alder::generic.title')}}]
-                        [textarea:{{__('alder::generic.text')}}]
-                        [input:text:{{__('alder::generic.link_text')}}]
-                        [input:text:link]
+                        [input:file:image:{{__('alder::generic.image')}}]
+                        [input:text:title:{{__('alder::generic.title')}}]
+                        [textarea:text:{{__('alder::generic.text')}}]
+                        [input:text:link_text:{{__('alder::generic.link_text')}}]
+                        [input:text:link:Link]
                     </div>
                 </div>
             </div>
 
 
-            <!-- TEXT CENTER WITH BG -->
-            <div data-component="text_center_with_bg" data-thumbnail="">
+            <!-- CENTER TEXT TILE-->
+            <div data-component="center_text_tile"
+                 data-thumbnail="{{asset('vendor/page-builder/img/center_text_tile.jpg')}}">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.text_center_with_bg')}}</h5>
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.center_text_tile')}}</h5>
                     </div>
                     <div class="card-body">
-                        [input:text:{{__('alder::generic.title')}}]
-                        [textarea:{{__('alder::generic.text')}}]
-                        [input:text:{{__('alder::generic.link_text')}}]
-                        [input:text:link]
-                        [input:file:{{__('alder::generic.background')}}]
+                        [input:text:title:{{__('alder::generic.title')}}]
+                        [textarea:text:{{__('alder::generic.text')}}]
+                        [input:text:link_text:{{__('alder::generic.link_text')}}]
+                        [input:text:link:Link]
+                        [input:file:background:{{__('alder::generic.background')}}]
                     </div>
                 </div>
             </div>
 
 
-            <!-- ACTIVITY CHART -->
-            <div data-component="activity_chart">
+            <!-- CIRCLE DIAGRAM -->
+            <div data-component="circle_diagram"
+                 data-thumbnail="{{asset('vendor/page-builder/img/circle_diagram.jpg')}}">
                 <div class="repeater">
-                    <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.activity_chart')}} </h4>
+                    <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.circle_diagram')}} </h4>
 
                     <div class="card-body">
                         <div class="rptr-field card shadow mb-4">
@@ -456,13 +459,13 @@
                             <div class="card-header">
                                 <h5 class="text-primary font-weight-bold"> {{__('alder::generic.item')}} </h5></div>
                             <div class="card-body">
-                                [input:text:{{__('alder::generic.percent')}}]
-                                [input:file:{{__('alder::generic.percent_bg')}}]
-                                [input:text:{{__('alder::generic.text')}}]
-                                [input:number:{{__('alder::generic.amount')}}]
+                                [input:text:percent:{{__('alder::generic.percent')}}]
+                                [input:file:percent_bg:{{__('alder::generic.percent_bg')}}]
+                                [input:text:text:{{__('alder::generic.text')}}]
+                                [input:number:amount:{{__('alder::generic.amount')}}]
 
-                                [input:number:{{__('alder::generic.amount')}} 2]
-                                [input:text:{{__('alder::generic.text')}} 2]
+                                [input:number:amount_2:{{__('alder::generic.amount')}} 2]
+                                [input:text:text_2:{{__('alder::generic.text')}} 2]
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
@@ -478,7 +481,7 @@
             </div>
 
             <!-- PARTNERS -->
-            <div data-component="partners" data-thumbnail="{{asset('vendor/page-builder/img/partners.png')}}">
+            <div data-component="partners" data-thumbnail="{{asset('vendor/page-builder/img/partners.jpg')}}">
                 <div class="repeater">
                     <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.partners')}} </h4>
 
@@ -491,8 +494,8 @@
                             </div>
                             <div class="card-body">
 
-                                [input:text:{{__('alder::generic.link_to_partner')}}]
-                                [input:file:{{__('alder::generic.partner_img')}}]
+                                [input:text:link_to_partner:{{__('alder::generic.link_to_partner')}}]
+                                [input:file:partner_img:{{__('alder::generic.partner_img')}}]
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
@@ -508,14 +511,14 @@
             </div>
 
 
-            <!-- BIG IMAGE -->
-            <div data-component="big_img" data-thumbnail="">
+            <!-- Center image -->
+            <div data-component="center_image" data-thumbnail="{{asset('vendor/page-builder/img/center_image.jpg')}}">
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.big_img')}}</h5>
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.center_image')}}</h5>
                     </div>
                     <div class="card-body">
-                        [input:file:{{__('alder::generic.image')}}]
+                        [input:file:image:{{__('alder::generic.image')}}]
                     </div>
                 </div>
             </div>

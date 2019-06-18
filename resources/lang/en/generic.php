@@ -115,11 +115,11 @@ return [
     'add_new_custom_link'    => 'Add custom link',
     'content'                => 'Content',
     'tiles'                  =>'Tiles',
-    'left_img_right_text'    =>'Left image Right text',
-    'activity_chart'         =>'Activity Chart',
-    'text_center_with_bg'    =>'Center text with background',
+    'img_left_text_right'    =>'Picture left Right text',
+    'circle_diagram'         =>'Circle diagram',
+    'center_text_tile'    => 'Center text tile',
     'partners'               =>'Partners',
-    'big_img'                =>'Big image',
+    'center_image'           => 'Central image',
     'slide'                  =>'Slide',
     'text'                   =>'Text',
     'image'                  =>'Image',
@@ -132,6 +132,7 @@ return [
     'amount' => 'Amount',
     'partner_logo' => 'Partner logo',
     'link_to_partner' => 'Link to the partner',
-    'partner_img' => 'Partner image'
+    'partner_img' => 'Partner image',
+    'item' => 'Item'
 
  ];

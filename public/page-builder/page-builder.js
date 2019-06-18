@@ -37,8 +37,8 @@ $(document).ready(function () {
 		if (shortcode[0] === "input") {
 
 			type = shortcode[1];
-			label = shortcode[2];
-			name = buildName(label);
+			name = shortcode[2];
+			label = shortcode[3];
 
 			if (type !== "file") {
 				return "<div class=\"mb-2\">" +
@@ -60,15 +60,10 @@ $(document).ready(function () {
 
 		} else if (shortcode[0] === "textarea") {
 
-			label = shortcode[1];
-			name = buildName(label);
+			name = shortcode[1];
+			label = shortcode[2];
 
 			return "<div class=\"mb-2\"><label>" + label + "</label><textarea class=\"form-control\" name=\"" + name + "\"></textarea></div>"
-		}
-
-
-		function buildName(str) {
-			return str.trim().toLowerCase().replace(/\s/g, "_");
 		}
 	}
 
@@ -134,6 +129,7 @@ $(document).ready(function () {
 
 	/* PARSE PAGE BUILDER INTO HTML */
 	$("#edit-form").on("submit", function (e) {
+
 		var contentHTMLJSON = [];
 
 		$('#page-builder-content').find(".page-builder-content-item").each(function () {
@@ -149,7 +145,7 @@ $(document).ready(function () {
 				};
 
 			switch (componentType) {
-				case "activity_chart":
+				case "circle_diagram":
 				case "partners":
 				case "tiles":
 				case "slider":
@@ -166,15 +162,15 @@ $(document).ready(function () {
 					});
 					break;
 
-				case "text_center_with_bg":
-				case "left_img_right_text":
+				case "center_text_tile":
+				case "img_left_text_right":
 					$fields.each(function () {
 						componentObj.fields[$(this).attr("name")] = $(this).val();
 						$(this).attr("disabled", true);
 					});
 					break;
 
-				case "big_img":
+				case "center_image":
 					var bigImgUrl = content.find("[name=image]").val();
 					content.find("[name=image]").attr("disabled", "true");
 					componentObj.fields.image = bigImgUrl;

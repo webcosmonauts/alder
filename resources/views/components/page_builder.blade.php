@@ -76,9 +76,9 @@
     </div>
     @break
 
-    @case("activity_chart")
+    @case("circle_diagram")
     <div class="repeater">
-        <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.activity_chart')}} </h4>
+        <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.circle_diagram')}} </h4>
         <div class="card-body">
             @foreach($component->fields as $row)
                 <div class="rptr-field card shadow mb-4">
@@ -92,7 +92,7 @@
                         ['type' => 'text', 'name' => 'percent', 'label' => __('alder::generic.percent'), 'value'=> $row->percent])
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'file', 'name' => 'percent_background', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_background])
+                        ['type' => 'file', 'name' => 'percent_bg', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_bg])
 
                         @include("alder::components.page_builder_input",
                         ['type' => 'text', 'name' => 'text', 'label' => __('alder::generic.text'), 'value'=> $row->text])
@@ -155,10 +155,10 @@
     @break
 
 
-    @case("text_center_with_bg")
+    @case("center_text_tile")
     <div class="card shadow mb-4">
         <div class="card-header">
-            <h5 class="text-primary font-weight-bold">{{__('alder::generic.text_center_with_bg')}}</h5>
+            <h5 class="text-primary font-weight-bold">{{__('alder::generic.center_text_tile')}}</h5>
         </div>
         <div class="card-body">
             @include("alder::components.page_builder_input",
@@ -179,10 +179,10 @@
     </div>
     @break
 
-    @case("left_img_right_text")
+    @case("img_left_text_right")
     <div class="card shadow mb-4">
         <div class="card-header">
-            <h5 class="text-primary font-weight-bold">{{__('alder::generic.left_img_right_text')}}</h5>
+            <h5 class="text-primary font-weight-bold">{{__('alder::generic.img_left_text_right')}}</h5>
         </div>
         <div class="card-body">
             @include("alder::components.page_builder_input",
@@ -204,10 +204,10 @@
     @break
 
 
-    @case("big_img")
+    @case("center_image")
     <div class="card shadow mb-4">
         <div class="card-header">
-            <h5 class="text-primary font-weight-bold">{{__('alder::generic.big_img')}}</h5>
+            <h5 class="text-primary font-weight-bold">{{__('alder::generic.center_image')}}</h5>
         </div>
         <div class="card-body">
             @include("alder::components.page_builder_input",

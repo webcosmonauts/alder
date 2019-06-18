@@ -95,11 +95,11 @@ return [
     'add_new_custom_link' => 'Dodaj własny link',
     'content' => 'Treść',
     'tiles' => 'Płytki',
-    'left_img_right_text' => 'Lewy obraz Prawy tekst',
-    'activity_chart' => 'Wykres aktywności',
-    'text_center_with_bg' => 'Wyśrodkuj tekst w tle',
+    'left_img_right_text' => 'Obraz po lewej Tekst po prawej',
+    'circle_diagram' => 'Schemat koła',
+    'center_text_tile' => 'Wyśrodkuj kafelek tekstu',
     'partners' => 'Partnerzy',
-    'big_img' => 'Duży obraz',
+    'center_image' => 'Centralny obraz',
     'slide' => 'Ślizgać się',
     'text' => 'Teks',
     'image' => 'Obraz',
@@ -112,5 +112,6 @@ return [
     'amount' => 'Ilość',
     'partner_logo' => 'Logo partnera',
     'link_to_partner' => 'Link do partnera',
-    'partner_img' => 'Obraz partnera'
+    'partner_img' => 'Obraz partnera',
+    'item' => 'Temat'
 ];
