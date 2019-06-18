@@ -70,10 +70,11 @@ Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
     Route::get('media', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index');
     Route::get('media-button', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index_button');
 });
-
-Route::get('/register', '\App\Http\Controllers\RegisterController@index')->name('register.index');
-Route::post('/register', '\App\Http\Controllers\RegisterController@save')->name('register.save');
-Route::get('/verificated', '\App\Http\Controllers\RegisterController@verificated')->name('register.verificated');
+//App\Http\Controllers
+Route::get('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@index')->name('register.index');
+Route::get('activation', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@activation')->name('register.activation');
+Route::post('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@save')->name('register.save');
+Route::get('/verificated', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@verificated')->name('register.verificated');
 
 Route::get("/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 

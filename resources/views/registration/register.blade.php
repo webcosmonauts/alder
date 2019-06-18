@@ -47,6 +47,20 @@
                                         </div>
                                     </div>
                                 @endif
+                                @if(session()->has('error_sthng'))
+                                    <div class="card mb-4 border-left-{{ session()->get('alert-type', 'danger') }}">
+                                        <div class="card-body">
+                                            {{ session()->get('error_sthng') }}
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(session()->has('success'))
+                                    <div class="card mb-4 border-left-{{ session()->get('alert-type', 'success') }}">
+                                        <div class="card-body">
+                                            {{ session()->get('success') }}
+                                        </div>
+                                    </div>
+                                @endif
 
                                 <form class="user" method="POST" action="{{ route('register.save') }}">
                                     @csrf
