@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
  * @property string title
  * @property string slug
  * @property bool is_accessible
+ * @property bool is_singular
  * @property string created_at
  * @property string updated_at
  *
