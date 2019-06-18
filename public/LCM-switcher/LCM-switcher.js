@@ -3,18 +3,21 @@ $(document).ready(function () {
 
 	var
 		leafType = $('#this-leaf-type').text(),
-		leaftTypeCondition = "leaf-type:is:" + leafType;
+		defaultCondition = "leaf-type:is:" + leafType,
+		firstConditions = [];
 
-	if ($('[name=template]').length)
+	if ($('[name=template]').length) {
 		var pageTemplateCondition = "page-template:is:" + $("[name=template]").val();
+		firstConditions.push(pageTemplateCondition);
+	}
 
-	switchLCM([]);
+	// First call
+	switchLCM(firstConditions);
 
 	function switchLCM(conditionsArray) {
 
-		// Default conditions
-		conditionsArray.push(leaftTypeCondition);
-		if (pageTemplateCondition) conditionsArray.push(pageTemplateCondition);
+		// Default condition
+		conditionsArray.push(defaultCondition);
 
 		$('[data-condition]').each(function () {
 			var currentConditions = $(this).attr('data-condition').trim();
