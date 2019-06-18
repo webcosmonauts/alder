@@ -8,7 +8,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Exceptions\UnknownConditionOperatorException;
@@ -251,8 +250,12 @@ class BranchBREADController extends BaseController
      * @return JsonResponse|RedirectResponse
      */
     public function destroy(Request $request, $slug) {
+
+        $branchType = $this->getBranchType($request);
+        $leaf_type = Alder::getLeafType($branchType);
+
         return
-            Leaf::where('slug', $slug)->delete()
+            Leaf::where('slug', $slug)->where('leaf_type_id', $leaf_type->id)->delete()
                 ? Alder::returnResponse(
                 $request->ajax(),
                 __('alder::messages.processing_error'), // todo deleted successfully
@@ -333,54 +336,15 @@ class BranchBREADController extends BaseController
                 $values[$field_name] = $this->addValue($request->$field_name, $modifiers->fields);
             }
             else {
-                if ($modifiers->type == 'file') {
-                    $file = request()->$field_name;
-                    if (!empty($file)) {
-                        $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-                            . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-                        $values[$field_name] = $file->storeAs(
-                            config('alder.file_upload_path', 'public/uploads'), $filename);
-                    }
-                    else {
-                        if (isset($modifiers->default))
-                            $values[$field_name] = $modifiers->default;
-                        else if (isset($modifiers->nullable) && $modifiers->nullable)
-                            $values[$field_name] = null;
-                        else
-                            throw new AssigningNullToNotNullableException($field_name);
-                    }
-                }
-                else if ($modifiers->type == 'file-multiple') {
-                    $files = request()->$field_name;
-                    if (!empty($files)) {
-                        foreach ($files as $file) {
-                            $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-                                . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-                            $values[$field_name][] = $file->storeAs(
-                                config('alder.file_upload_path', 'public/uploads'), $filename);
-                        }
-                    }
-                    else {
-                        if (isset($modifiers->default))
-                            $values[$field_name] = $modifiers->default;
-                        else if (isset($modifiers->nullable) && $modifiers->nullable)
-                            $values[$field_name] = null;
-                        else
-                            throw new AssigningNullToNotNullableException($field_name);
-                    }
-                }
+                if (isset($request->$field_name) && !empty($request->$field_name))
+                    $values[$field_name] = $request->$field_name;
                 else {
-                    if (isset($request->$field_name) && !empty($request->$field_name)) {
-                        $values[$field_name] = $request->$field_name;
-                    }
-                    else {
-                        if (isset($modifiers->default))
-                            $values[$field_name] = $modifiers->default;
-                        else if (isset($modifiers->nullable) && $modifiers->nullable)
-                            $values[$field_name] = null;
-                        else
-                            throw new AssigningNullToNotNullableException($field_name);
-                    }
+                    if (isset($modifiers->default))
+                        $values[$field_name] = $modifiers->default;
+                    else if (isset($modifiers->nullable) && $modifiers->nullable)
+                        $values[$field_name] = null;
+                    else
+                        throw new AssigningNullToNotNullableException($field_name);
                 }
             }
         }
