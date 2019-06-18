@@ -28,7 +28,7 @@
 
             <div class="card-body">
 
-                @if($edit)
+                @if($edit && $field_value)
                     @foreach($field_value as $values)
                         <div class="rptr-field card shadow">
                             <div class="rptr-field__delete delete-icon">&times;</div>

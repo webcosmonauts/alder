@@ -140,8 +140,8 @@
 
                                         $field_value = "";
 
-                                            if($edit)
-                                                $field_value = $leaf[$field_name];
+                                        if($edit && isset($leaf[$field_name]))
+                                            $field_value = $leaf[$field_name];
                                     @endphp
 
                                     @if(isset($k->type))
@@ -184,7 +184,7 @@
 
                                             $field_value = "";
 
-                                            if($edit)
+                                            if($edit && isset($leaf[$field_name]))
                                                 $field_value = $leaf[$field_name];
                                         @endphp
 
@@ -244,7 +244,7 @@
                                                 $field = $k;
 
                                                 $field_value = "";
-                                                if($edit)
+                                                if($edit && isset($leaf[$tab]))
                                                     $field_value = $leaf[$tab]->$field_name;
                                             @endphp
 
@@ -270,7 +270,7 @@
                                                     $field = $k;
 
                                                     $field_value = "";
-                                                    if($edit)
+                                                    if($edit && isset($leaf[$tab]))
                                                         $field_value = $leaf[$tab]->$field_name;
                                                 @endphp
 
