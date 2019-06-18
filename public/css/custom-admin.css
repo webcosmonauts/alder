@@ -18,6 +18,20 @@ input::placeholder, select::placeholder, textarea::placeholder {
     cursor: pointer;
 }
 
+.circle-icon {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.circle-icon:hover {
+    background: #ddd;
+}
+
 .nav-item.has-dropdown .toggle-collapse {
     padding: 15px;
     color: #fff;

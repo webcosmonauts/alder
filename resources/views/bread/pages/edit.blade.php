@@ -329,6 +329,14 @@
                                     <div class="page-builder-content-item" data-component="{{$component->component}}"
                                          style="background-image: url({{asset('vendor/page-builder/img/'. $component->component .'.jpg')}})">
 
+                                        <div class="page-builder-content-item__actions">
+                                            <div class="circle-icon" data-action="up">
+                                                <em class="fa fa-angle-up"></em>
+                                            </div>
+                                            <div class="circle-icon" data-action="down">
+                                                <em class="fa fa-angle-down"></em></div>
+                                        </div>
+
                                         <div class="page-builder-content-item__delete delete-icon">×</div>
 
                                         <div hidden>
