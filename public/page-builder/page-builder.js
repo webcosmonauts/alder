@@ -137,44 +137,33 @@ $(document).ready(function () {
 			var
 				content = $(this).find("[hidden]"),
 				componentType = $(this).attr("data-component"),
-				$fields = content.find("input, select, textarea"),
+				$fields = content.find("input, select, textarea").filter(function () {
+					if (!$(this).parents('.rptr-field').length) return true;
+				}),
 				$rptrFields = content.find(".rptr-field"),
 				componentObj = {
 					component: componentType,
 					fields: {}
 				};
 
-			switch (componentType) {
-				case "circle_diagram":
-				case "partners":
-				case "tiles":
-				case "slider":
-					componentObj.fields = [];
 
-					$rptrFields.each(function () {
-						var obj = {};
-						$(this).find("input, select, textarea").each(function () {
-							obj[$(this).attr("name")] = $(this).val();
-							$(this).attr("disabled", true);
-						});
+			if (!$rptrFields.length) {
+				$fields.each(function () {
+					componentObj.fields[$(this).attr("name")] = $(this).val();
+					$(this).attr("disabled", true);
+				});
+			} else if ($rptrFields.length && !$fields.length) {
+				componentObj.fields = [];
 
-						componentObj.fields.push(obj);
-					});
-					break;
-
-				case "center_text_tile":
-				case "img_left_text_right":
-					$fields.each(function () {
-						componentObj.fields[$(this).attr("name")] = $(this).val();
+				$rptrFields.each(function () {
+					var obj = {};
+					$(this).find("input, select, textarea").each(function () {
+						obj[$(this).attr("name")] = $(this).val();
 						$(this).attr("disabled", true);
 					});
-					break;
 
-				case "center_image":
-					var bigImgUrl = content.find("[name=image]").val();
-					content.find("[name=image]").attr("disabled", "true");
-					componentObj.fields.image = bigImgUrl;
-					break;
+					componentObj.fields.push(obj);
+				});
 			}
 
 			contentHTMLJSON.push(componentObj);
