@@ -46,7 +46,7 @@
                                 <label for="{{$root_val->slug}}">{{$root_val->title}}</label>
                                 <select class="form-control" name="{{$root_val->slug}}" id="{{$root_val->slug}}">
                                     @foreach($root_val->options as $zones)
-                                        <option value="{{$zones}}">{{$zones}}</option>
+                                        <option {{$root_val->value != $zones ? : 'selected' }} value="{{$zones}}">{{$zones}}</option>
                                     @endforeach
                                 </select> <br>
                             @elseif($root_val->slug == 'favicon')
