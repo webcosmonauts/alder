@@ -9,10 +9,26 @@
     <div class="card shadow mb-4">
         <div class="card-body row">
             <div class="col-12 col-lg-3">
+                {{--                @dd($theme)--}}
                 <img src="{{asset($theme->screenshot)}}" alt="" class="img-fluid">
             </div>
             <div class="col-12 col-lg-9">
+
+
                 <h2>{{$theme->theme_name}}</h2>
+
+                <h4>{{$theme->theme_description}}</h4>
+                <br>
+                <?php $autors = explode('>', $theme->author)?>
+                <?php
+                foreach($autors as $value) {
+                    $val = explode('<', $value);
+                    foreach ($val as $values){
+                        echo $values;
+                    }
+                    echo '<br>';
+                }
+                ?>
 
             </div>
         </div>
