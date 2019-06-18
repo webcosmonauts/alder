@@ -5,7 +5,7 @@
         <h4 class="text-primary font-weight-bold mb-4"> Slider </h4>
 
         <div class="card-body">
-            @foreach($component->fields as $row)
+            @foreach($component->fields->repeater_1 as $row)
                 <div class="rptr-field card shadow mb-4">
                     <div class="delete-icon rptr-field__delete">&times;</div>
                     <div class="card-header"><h5
@@ -45,7 +45,7 @@
         <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.tiles')}} </h4>
         <div class="card-body">
 
-            @foreach($component->fields as $row)
+            @foreach($component->fields->repeater_1 as $row)
                 <div class="rptr-field card shadow mb-4">
                     <div class="delete-icon rptr-field__delete">&times;</div>
 
@@ -80,7 +80,7 @@
     <div class="repeater">
         <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.circle_diagram')}} </h4>
         <div class="card-body">
-            @foreach($component->fields as $row)
+            @foreach($component->fields->repeater_1 as $row)
                 <div class="rptr-field card shadow mb-4">
                     <div class="delete-icon rptr-field__delete">&times;</div>
 
@@ -125,7 +125,7 @@
         <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.partners')}} </h4>
 
         <div class="card-body">
-            @foreach($component->fields as $row)
+            @foreach($component->fields->repeater_1 as $row)
                 <div class="rptr-field card shadow mb-4">
                     <div class="delete-icon rptr-field__delete">&times;</div>
 

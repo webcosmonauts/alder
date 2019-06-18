@@ -10,12 +10,30 @@
     -webkit-background-size: contain;
     background-size: contain;
     cursor: pointer;
+
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+
+    background-color: #fff;
 }
 
 .page-builder-content-item__delete {
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.page-builder-content-item__actions {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.page-builder-content-item__actions > div {
+    margin-bottom: 7px;
 }
 
 #page-builder-modal {

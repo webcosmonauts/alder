@@ -29,6 +29,11 @@ $(document).ready(function () {
 	}
 
 
+	// BROWSE REMOVE ITEM
+	$("[data-target=\"#confirm-delete\"]").on("click", function () {
+		$("#confirm-delete").find("form").attr("action", $(this).attr("href"));
+	});
+
 	// for Slug
 	$('[data-title]').on('change', function () {
 		var slug = $('[data-slug=' + $(this).attr('data-title') + ']');

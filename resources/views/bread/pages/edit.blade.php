@@ -329,6 +329,14 @@
                                     <div class="page-builder-content-item" data-component="{{$component->component}}"
                                          style="background-image: url({{asset('vendor/page-builder/img/'. $component->component .'.jpg')}})">
 
+                                        <div class="page-builder-content-item__actions">
+                                            <div class="circle-icon" data-action="up">
+                                                <em class="fa fa-angle-up"></em>
+                                            </div>
+                                            <div class="circle-icon" data-action="down">
+                                                <em class="fa fa-angle-down"></em></div>
+                                        </div>
+
                                         <div class="page-builder-content-item__delete delete-icon">×</div>
 
                                         <div hidden>
@@ -494,8 +502,8 @@
                             </div>
                             <div class="card-body">
 
-                                [input:text:link_to_partner:{{__('alder::generic.link_to_partner')}}]
-                                [input:file:partner_img:{{__('alder::generic.partner_img')}}]
+                                [input:text:link_to_the_partner:{{__('alder::generic.link_to_partner')}}]
+                                [input:file:partner_image:{{__('alder::generic.partner_img')}}]
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
                                     <span class="icon text-white-50">

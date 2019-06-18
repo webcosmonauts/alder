@@ -17,9 +17,16 @@ $(document).ready(function () {
 			});
 		}
 
+
+		var actions =
+			"<div class=\"page-builder-content-item__actions\">" +
+			"<div class=\"circle-icon\" data-action=\"up\"><em class='fa fa-angle-up'></em></div>" +
+			"<div class=\"circle-icon\" data-action=\"down\"><em class='fa fa-angle-down'></em></div>" +
+			"</div>";
+
 		componentHTML =
 			"<div class=\"page-builder-content-item\" data-component=\"" + $(this).attr('data-component') + "\" style=\"background-image: url(" + thumbnail + ")\">" +
-			"<div class=\"page-builder-content-item__delete delete-icon\">&times;</div>" +
+			"<div class=\"page-builder-content-item__delete delete-icon\">&times;</div>" + actions +
 			"<div hidden>" + componentHTML + "</div>" +
 			"</div>";
 
@@ -82,6 +89,44 @@ $(document).ready(function () {
 		$(this).parent().remove();
 	});
 
+
+	// Page builder item move
+	$('#page-builder-content').on("click", ".page-builder-content-item__actions .circle-icon", function (e) {
+		e.stopPropagation();
+
+		if ($('.page-builder-content-item').length === 1) return false;
+		var
+			action = $(this).attr('data-action'),
+			currentItem = $(this).parents('.page-builder-content-item').eq(0),
+			clone = currentItem.clone();
+
+
+		if (action === "up") {
+			if (currentItem.prev('.page-builder-content-item').length) {
+				currentItem.prev().before(clone);
+				currentItem.remove();
+				animateAndScroll();
+			}
+
+		} else if (action === "down") {
+
+			if (currentItem.next('.page-builder-content-item').length) {
+				currentItem.next().after(clone);
+				currentItem.remove();
+				animateAndScroll();
+			}
+		}
+
+
+		function animateAndScroll() {
+			clone.css({"background-color": "#ddd"});
+			$('body, html').animate({scrollTop: clone.offset().top - 15}, 800);
+			setTimeout(function () {
+				clone.css({"background-color": "#fff"});
+			}, 500);
+		}
+	});
+
 	// Page builder start edit
 	$('#page-builder-content').on("click", ".page-builder-content-item", function (e) {
 
@@ -140,32 +185,40 @@ $(document).ready(function () {
 				$fields = content.find("input, select, textarea").filter(function () {
 					if (!$(this).parents('.rptr-field').length) return true;
 				}),
-				$rptrFields = content.find(".rptr-field"),
+
+				$repeaters = content.find(".repeater"),
 				componentObj = {
 					component: componentType,
 					fields: {}
 				};
 
 
-			if (!$rptrFields.length) {
-				$fields.each(function () {
-					componentObj.fields[$(this).attr("name")] = $(this).val();
-					$(this).attr("disabled", true);
-				});
-			} else if ($rptrFields.length && !$fields.length) {
-				componentObj.fields = [];
+			/*Repeaters */
+			if ($repeaters.length) {
+				var counter = 1;
+				$repeaters.each(function () {
+					componentObj.fields["repeater_" + counter] = [];
 
-				$rptrFields.each(function () {
-					var obj = {};
-					$(this).find("input, select, textarea").each(function () {
-						obj[$(this).attr("name")] = $(this).val();
-						$(this).attr("disabled", true);
+					$(this).find('.rptr-field').each(function () {
+						var obj = {};
+
+						$(this).find("input, select, textarea").each(function () {
+							obj[$(this).attr("name")] = $(this).val();
+							$(this).attr("disabled", true);
+						});
+
+						componentObj.fields["repeater_" + counter].push(obj);
 					});
-
-					componentObj.fields.push(obj);
 				});
 			}
 
+			/**/
+			$fields.each(function () {
+				componentObj.fields[$(this).attr("name")] = $(this).val();
+				$(this).attr("disabled", true);
+			});
+
+			//
 			contentHTMLJSON.push(componentObj);
 		});
 
