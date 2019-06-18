@@ -201,7 +201,7 @@ class BranchBREADController extends BaseController
         /* Populate model with values from LCMV */
         $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type, $combined->lcm);
         
-        $relations = Alder::getRelations($combined->lcm);
+        $relations = Alder::getRelations(Alder::combineLCMs($leaf->leaf_type, $params)->lcm);
         
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
