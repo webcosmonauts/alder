@@ -67,10 +67,13 @@ class ViewHierarchyController extends Controller
     }
     public function saveRoots(Request $request)
     {
+
         foreach (['static_index_page','leaves_per_page',
-                     'timezone','favicon'] as $keys => $vals) {
-            if ($vals =! 'favicon') {
+                     'timezone','favicon'] as $vals) {
+
+            if ($vals != 'favicon') {
                 $roots = Root::where('slug',$vals)->get()->first();
+
                 $roots->value = $request->$vals;
 //            dd($roots->value);
                 $roots->save();
