@@ -3,14 +3,15 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ __("alder::leaf_types.$leaf_type->slug.plural") }}</h1>
         <!-- TODO: if can add new -->
         <a href="{{ route("alder.$leaf_type->slug.create") }}" class="btn btn-success btn-icon-split ml-3">
             <span class="icon text-white-50">
                 <i class="fas fa-plus-circle"></i>
             </span>
-            <span class="text">{{ __('alder::generic.add_new') . ' ' . Str::singular($leaf_type->title) }}</span>
+            <span class="text">{{ __('alder::generic.add_new') . ' ' . lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}</span>
         </a>
+        @include('alder::components.locale-switcher')
     </div>
 
     <div class="card shadow mb-4">
@@ -38,7 +39,7 @@
                                 </td>
                             @endforeach
                             <td class="text-right">
-                                @include('alder::components.actions', ['route' => $leaf_type->slug, 'param' => $leaf->slug])
+                                @include('alder::components.actions', ['route' => $leaf_type->slug, 'param' => $leaf->id])
                             </td>
                         </tr>
                     @endforeach
@@ -49,8 +50,6 @@
             @endif
         </div>
     </div>
-
-
 
     <!-- CONFIRM DELETE -->
     <div class="modal fade in" id="confirm-delete" tabindex="-1" role="dialog"
@@ -70,13 +69,10 @@
                     <form action="" method="POST">
                         @method("DELETE")
                         @csrf
-
                         <button class="btn btn-primary"> {{__('alder::lcm.yes')}} </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-
 @endsection

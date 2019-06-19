@@ -16,6 +16,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
+        @include('alder::components.locale-switcher')
     </div>
 
     <form id="edit-form"

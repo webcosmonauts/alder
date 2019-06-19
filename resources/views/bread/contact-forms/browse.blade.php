@@ -9,13 +9,14 @@
             <span class="icon text-white-50">
                 <i class="fas fa-plus-circle"></i>
             </span>
-            <span class="text">{{ __('alder::generic.add_new')}}</span>
+            <span class="text">{{ __('alder::generic.add_new') . ' ' .  lcfirst(__("alder::leaf_types.contact-forms.singular"))}}</span>
         </a>
+        @include('alder::components.locale-switcher')
     </div>
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            @if($forms->count() > 0)
+            @if($leaves->count() > 0)
                 <table class="table" id="browse-table">
                     <thead>
                     <tr>
@@ -30,7 +31,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($forms as $leaf)
+                    @foreach($leaves as $leaf)
                         <tr>
                             @foreach(['title','slug','is_accessible', 'status_id','created_at', 'updated_at'] as $field)
                                 <td>

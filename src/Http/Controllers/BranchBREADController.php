@@ -258,7 +258,7 @@ class BranchBREADController extends BaseController
             Leaf::where('slug', $slug)->where('leaf_type_id', $leaf_type->id)->delete()
                 ? Alder::returnResponse(
                 $request->ajax(),
-                __('alder::messages.processing_error'), // todo deleted successfully
+                __('alder::messages.delete_successfully'),
                 true,
                 'success'
             )

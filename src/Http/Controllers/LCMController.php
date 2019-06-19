@@ -130,7 +130,7 @@ class LCMController extends BaseController
             $LCM->delete()
                 ? Alder::returnResponse(
                 $request->ajax(),
-                __('alder::messages.processing_error'), // todo deleted successfully
+                __('alder::messages.delete_successfully'),
                 true,
                 'success'
             )
