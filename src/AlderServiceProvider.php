@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
+use Webcosmonauts\Alder\Http\Middleware\isAdmin;
 use Webcosmonauts\Alder\Http\Middleware\LocaleSwitcher;
 
 class AlderServiceProvider extends ServiceProvider
@@ -49,6 +50,7 @@ class AlderServiceProvider extends ServiceProvider
         
         // locale switcher
         $this->app['router']->aliasMiddleware('locale-switcher', LocaleSwitcher::class);
+        $this->app['router']->aliasMiddleware('isAdmin', isAdmin::class);
     }
     /**
      * Make config publishment optional by merging the config from the package.
