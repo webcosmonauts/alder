@@ -28,23 +28,19 @@ use Webcosmonauts\Alder\Models\Root;
 use Webcosmonauts\Alder\Models\User;
 
 class ContactController extends BaseController {
-
-
-    public function index(){
-        /* Get leaf type with custom modifiers */
-        $root_types = RootType::with('roots')->get();
-        $cont_id = LeafType::where('slug', 'contact-forms')->value('id');
-        $forms = Leaf::where('leaf_type_id', $cont_id)->get();
-
-
+    public function index() {
+        $forms = Leaf::where(
+            'leaf_type_id',
+            LeafType::where('slug', 'contact-forms')->value('id')
+        )->get();
+        
         return view('alder::bread.contact-forms.browse')->with([
             'admin_menu_items' => Alder::getMenuItems(),
-            'forms' => $forms
+            'leaves' => $forms,
         ]);
     }
 
-    public function create()
-    {
+    public function create() {
         $root_type = RootType::with('roots')
             ->where('title', 'Mailing')->first();
 
