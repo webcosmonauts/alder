@@ -72,12 +72,13 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             //Widgets builder
             Route::get('widgets', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@index')->name('widgets.index');
             Route::post('widgets', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@update')->name('widgets.update');
+            
+            // Uploader
+            Route::get('media', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index');
+            Route::get('media-button', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index_button');
         });
     });
     
-    // uploader
-    Route::get('media', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index');
-    Route::get('media-button', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index_button');
     //App\Http\Controllers
     Route::get('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@index')->name('register.index');
     Route::get('activation', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@activation')->name('register.activation');
