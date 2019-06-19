@@ -4,7 +4,7 @@
     <div class="input-group mb-4">
         <input type="text" name="{{ $root->slug }}" id="{{ $root->slug }}" class="form-control"
                placeholder="{{ $root->title }}" aria-label="{{ $root->title }}" aria-describedby="{{ $root->title }}"
-               value="{{ $root->value }}">
+               value="{{ is_array($root->value) ? json_encode($root->value) : $root->value }}">
     </div>
     @break
     @case('number')
