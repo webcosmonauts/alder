@@ -115,5 +115,8 @@ return [
     'partner_img' => 'Obraz partnera',
     'item' => 'Temat',
     'section_title' => 'Tytuł sekcji',
-    'section_subtitle' => 'Podtytuł sekcji'
+    'section_subtitle' => 'Podtytuł sekcji',
+    'animation' => 'Animacja',
+    'animation_type' => 'Typ animacji',
+    'animation_duration' => 'Czas trwania animacji',
 ];

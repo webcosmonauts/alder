@@ -341,6 +341,7 @@
 
                                         <div hidden>
                                             @include("alder::components.page_builder")
+                                            @include("alder::components.page_builder_animation", ['editing' => true])
                                         </div>
                                     </div>
                                 @endforeach
@@ -416,6 +417,8 @@
                         </div>
                     </div>
                 </div>
+
+                @include("alder::components.page_builder_animation", ['editing' => false])
             </div>
 
 
@@ -434,6 +437,8 @@
                         [input:text:link:Link]
                     </div>
                 </div>
+
+                @include("alder::components.page_builder_animation", ['editing' => false])
             </div>
 
 
@@ -452,6 +457,8 @@
                         [input:file:background:{{__('alder::generic.background')}}]
                     </div>
                 </div>
+
+                @include("alder::components.page_builder_animation", ['editing' => false])
             </div>
 
 
@@ -496,6 +503,7 @@
                     </div>
                 </div>
 
+                @include("alder::components.page_builder_animation", ['editing' => false])
             </div>
 
             <!-- PARTNERS -->
@@ -533,6 +541,8 @@
                         </div>
                     </div>
                 </div>
+
+                @include("alder::components.page_builder_animation", ['editing' => false])
             </div>
 
 
@@ -546,6 +556,8 @@
                         [input:file:image:{{__('alder::generic.image')}}]
                     </div>
                 </div>
+
+                @include("alder::components.page_builder_animation", ['editing' => false])
             </div>
         </div>
 
