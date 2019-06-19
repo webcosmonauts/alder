@@ -94,11 +94,11 @@
                                            value="{{ $edit ? $leaf->$field : '' }}">
                                 </div>
                             @endforeach
-                            <label for="status_id">{{ __('alder::statuses.singular') }}</label>
+                            <label for="status_id">{{ __('alder::leaf_statuses.singular') }}</label>
                             <div class="input-group mb-2">
                                 <select name="status_id" id="status_id" class="form-control"
-                                        aria-label="{{ __('alder::statuses.singular') }}"
-                                        aria-describedby="{{ __('alder::statuses.singular') }}">
+                                        aria-label="{{ __('alder::leaf_statuses.singular') }}"
+                                        aria-describedby="{{ __('alder::leaf_statuses.singular') }}">
                                     @foreach($relations->statuses as $status)
                                         <option {{ $edit && ($status->id == $leaf->status_id) ? 'selected' : '' }}
                                                 value="{{ $status->id }}">
