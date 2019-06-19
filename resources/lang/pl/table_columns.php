@@ -8,4 +8,5 @@ return [
     'content' => 'Zawartość',
     'created_at' => 'Utworzono',
     'updated_at' => 'Zaktualizowano',
+    'icon' => 'Ikona',
 ];

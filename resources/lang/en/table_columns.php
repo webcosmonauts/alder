@@ -8,4 +8,5 @@ return [
     'content' => 'Content',
     'created_at' => 'Created',
     'updated_at' => 'Updated',
+    'icon' => 'Icon',
 ];
