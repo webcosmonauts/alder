@@ -58,7 +58,7 @@
 
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'text', 'name' => 'number', 'label' => __('alder::generic.number'), 'value'=> $row->number])
+                        ['type' => 'number', 'name' => 'number', 'label' => __('alder::generic.number'), 'value'=> $row->number])
 
                         @include("alder::components.page_builder_input",
                         ['type' => 'text', 'name' => 'title', 'label' => __('alder::generic.title'), 'value'=> $row->title])
@@ -103,10 +103,10 @@
                     <div class="card-body">
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'text', 'name' => 'percent', 'label' => __('alder::generic.percent'), 'value'=> $row->percent])
+                        ['type' => 'number', 'name' => 'percent', 'label' => __('alder::generic.percent'), 'value'=> $row->percent])
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'file', 'name' => 'percent_bg', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_bg])
+                        ['type' => 'color', 'name' => 'percent_bg', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_bg])
 
                         @include("alder::components.page_builder_input",
                         ['type' => 'text', 'name' => 'text', 'label' => __('alder::generic.text'), 'value'=> $row->text])

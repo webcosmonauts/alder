@@ -86,7 +86,13 @@ $(document).ready(function () {
 	// Page builder item delete
 	$('#page-builder-content').on("click", ".page-builder-content-item__delete", function (e) {
 		e.stopPropagation();
-		$(this).parent().remove();
+
+		var item = $(this).parent();
+		item.css({"opacity": "0"});
+
+		setTimeout(function () {
+			item.remove();
+		}, 600);
 	});
 
 

@@ -401,7 +401,7 @@
                             <div class="card-header">
                                 <h5 class="text-primary font-weight-bold"> {{__('alder::generic.tile')}} </h5></div>
                             <div class="card-body">
-                                [input:text:number:{{__('alder::generic.number')}}]
+                                [input:number:number:{{__('alder::generic.number')}}]
                                 [input:text:title:{{__('alder::generic.title')}}]
                                 [input:file:image:{{__('alder::generic.image')}}]
 
@@ -476,8 +476,8 @@
                             <div class="card-header">
                                 <h5 class="text-primary font-weight-bold"> {{__('alder::generic.item')}} </h5></div>
                             <div class="card-body">
-                                [input:text:percent:{{__('alder::generic.percent')}}]
-                                [input:file:percent_bg:{{__('alder::generic.percent_bg')}}]
+                                [input:number:percent:{{__('alder::generic.percent')}}]
+                                [input:color:percent_bg:{{__('alder::generic.percent_bg')}}]
                                 [input:text:text:{{__('alder::generic.text')}}]
                                 [input:number:amount:{{__('alder::generic.amount')}}]
 

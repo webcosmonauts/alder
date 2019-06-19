@@ -113,5 +113,7 @@ return [
     'partner_logo' => 'Logo partnera',
     'link_to_partner' => 'Link do partnera',
     'partner_img' => 'Obraz partnera',
-    'item' => 'Temat'
+    'item' => 'Temat',
+    'section_title' => 'Tytuł sekcji',
+    'section_subtitle' => 'Podtytuł sekcji'
 ];

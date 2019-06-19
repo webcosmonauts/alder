@@ -133,6 +133,8 @@ return [
     'partner_logo' => 'Partner logo',
     'link_to_partner' => 'Link to the partner',
     'partner_img' => 'Partner image',
-    'item' => 'Item'
+    'item' => 'Item',
+    'section_title' => 'Section title',
+    'section_subtitle' => 'Section subtitle'
 
  ];
