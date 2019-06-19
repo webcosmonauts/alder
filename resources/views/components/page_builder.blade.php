@@ -82,6 +82,17 @@
     @case("circle_diagram")
     <div class="repeater">
         <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.circle_diagram')}} </h4>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                @include("alder::components.page_builder_input",
+                ['type' => 'text', 'name' => 'section_title', 'label' => __('alder::generic.section_title'), 'value'=> $component->fields->section_title])
+
+                @include("alder::components.page_builder_input",
+                ['type' => 'text', 'name' => 'section_subtitle', 'label' => __('alder::generic.section_subtitle'), 'value'=> $component->fields->section_subtitle])
+            </div>
+        </div>
+
         <div class="card-body">
             @foreach($component->fields->repeater_1 as $row)
                 <div class="rptr-field card shadow mb-4">
