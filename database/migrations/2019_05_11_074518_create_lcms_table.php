@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeafCustomModifiersTable extends Migration
+class CreateLcmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateLeafCustomModifiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('leaf_custom_modifiers', function (Blueprint $table) {
+        Schema::create('lcms', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
             $table->string('slug')->unique();
-            $table->string('group_title')->nullable();
             $table->string('group_slug')->nullable();
-            $table->text('modifiers');
+            $table->text('modifiers')->nullable();
             $table->integer('leaf_type_id')->unsigned();
             $table->timestamps();
             
@@ -34,6 +32,6 @@ class CreateLeafCustomModifiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leaf_custom_modificators');
+        Schema::dropIfExists('lcms');
     }
 }

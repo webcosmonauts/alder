@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeafCustomModifierValuesTable extends Migration
+class CreateLcmvsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateLeafCustomModifierValuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('leaf_custom_modifier_values', function (Blueprint $table) {
+        Schema::create('lcmvs', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('values');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ class CreateLeafCustomModifierValuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leaf_custom_modifier_values');
+        Schema::dropIfExists('lcmvs');
     }
 }

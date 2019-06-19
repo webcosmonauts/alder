@@ -15,9 +15,6 @@ class CreateLeavesTable extends Migration
     {
         Schema::create('leaves', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('title');
-            $table->string('slug', 255);
-            $table->text('content')->nullable();
             $table->boolean('is_accessible')->default(true);
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('leaf_type_id')->unsigned();
@@ -25,13 +22,11 @@ class CreateLeavesTable extends Migration
             $table->integer('LCMV_id')->unsigned()->nullable();
             $table->integer('revision')->default(0);
             $table->timestamps();
-            
-            $table->unique(['slug', 'leaf_type_id']);
     
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('leaf_type_id')->references('id')->on('leaf_types');
             $table->foreign('status_id')->references('id')->on('leaf_statuses');
-            $table->foreign('LCMV_id')->references('id')->on('leaf_custom_modifier_values');
+            $table->foreign('LCMV_id')->references('id')->on('lcmvs');
         });
     }
 
