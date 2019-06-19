@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'singular' => 'Leaf custom modifier',
-    'plural' => 'Leaf custom modifiers',
+    'singular' => 'Modyfikator niestandardowy liści',
+    'plural' => 'Modyfikatory niestandardowe liści',
 
     'field' => 'Pole',
     'field_name' => 'Nazwa pola',

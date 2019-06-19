@@ -22,7 +22,7 @@
                     <tr>
                         @foreach($params->bread->browse->table_columns as $field)
                             <th>
-                                {{ $field }}
+                                {{ __("alder::table_columns.$field") }}
                             </th>
                         @endforeach
                         <th class="text-right">
