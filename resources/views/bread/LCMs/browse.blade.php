@@ -16,7 +16,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($LCMs->count() > 0)
-                <table class="table" id="browse-table">
+                <table class="table table-bordered" id="browse-table">
                     <thead>
                     <tr>
                         <th>{{ __('alder::generic.title') }}</th>
