@@ -458,9 +458,17 @@
             <!-- CIRCLE DIAGRAM -->
             <div data-component="circle_diagram"
                  data-thumbnail="{{asset('vendor/page-builder/img/circle_diagram.jpg')}}">
-                <div class="repeater">
-                    <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.circle_diagram')}} </h4>
 
+                <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.circle_diagram')}} </h4>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        [input:text:section_title:{{__('alder::generic.section_title')}}]
+                        [input:text:section_subtitle:{{__('alder::generic.section_subtitle')}}]
+                    </div>
+                </div>
+
+                <div class="repeater">
                     <div class="card-body">
                         <div class="rptr-field card shadow mb-4">
                             <div class="delete-icon rptr-field__delete">&times;</div>
@@ -487,12 +495,20 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <!-- PARTNERS -->
             <div data-component="partners" data-thumbnail="{{asset('vendor/page-builder/img/partners.jpg')}}">
                 <div class="repeater">
                     <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.partners')}} </h4>
+
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            [input:text:section_title:{{__('alder::generic.section_title')}}]
+                        </div>
+                    </div>
 
                     <div class="card-body">
                         <div class="rptr-field card shadow mb-4">
