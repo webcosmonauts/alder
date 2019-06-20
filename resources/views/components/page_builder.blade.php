@@ -58,7 +58,7 @@
 
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'text', 'name' => 'number', 'label' => __('alder::generic.number'), 'value'=> $row->number])
+                        ['type' => 'number', 'name' => 'number', 'label' => __('alder::generic.number'), 'value'=> $row->number])
 
                         @include("alder::components.page_builder_input",
                         ['type' => 'text', 'name' => 'title', 'label' => __('alder::generic.title'), 'value'=> $row->title])
@@ -82,6 +82,17 @@
     @case("circle_diagram")
     <div class="repeater">
         <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.circle_diagram')}} </h4>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                @include("alder::components.page_builder_input",
+                ['type' => 'text', 'name' => 'section_title', 'label' => __('alder::generic.section_title'), 'value'=> $component->fields->section_title])
+
+                @include("alder::components.page_builder_input",
+                ['type' => 'text', 'name' => 'section_subtitle', 'label' => __('alder::generic.section_subtitle'), 'value'=> $component->fields->section_subtitle])
+            </div>
+        </div>
+
         <div class="card-body">
             @foreach($component->fields->repeater_1 as $row)
                 <div class="rptr-field card shadow mb-4">
@@ -92,10 +103,10 @@
                     <div class="card-body">
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'text', 'name' => 'percent', 'label' => __('alder::generic.percent'), 'value'=> $row->percent])
+                        ['type' => 'number', 'name' => 'percent', 'label' => __('alder::generic.percent'), 'value'=> $row->percent])
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'file', 'name' => 'percent_bg', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_bg])
+                        ['type' => 'color', 'name' => 'percent_bg', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_bg])
 
                         @include("alder::components.page_builder_input",
                         ['type' => 'text', 'name' => 'text', 'label' => __('alder::generic.text'), 'value'=> $row->text])
@@ -126,6 +137,13 @@
     @case("partners")
     <div class="repeater">
         <h4 class="text-primary font-weight-bold mb-4"> {{__('alder::generic.partners')}} </h4>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                @include("alder::components.page_builder_input",
+                ['type' => 'text', 'name' => 'section_title', 'label' => __('alder::generic.section_title'), 'value'=> $component->fields->section_title])
+            </div>
+        </div>
 
         <div class="card-body">
             @foreach($component->fields->repeater_1 as $row)

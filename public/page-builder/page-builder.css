@@ -18,6 +18,7 @@
     transition: all .5s;
 
     background-color: #fff;
+    opacity: 1;
 }
 
 .page-builder-content-item__delete {
@@ -62,18 +63,19 @@
 }
 
 #page-builder-modal .content {
-    margin: 10% auto 0;
-    max-width: 1200px;
+    width: 100%;
+    height: calc(100% - 80px);
     background: #ddd;
-    max-height: 65%;
     padding: 30px;
-    overflow: scroll;
+    overflow-y: scroll;
     border-radius: 4px
 }
 
 #page-builder-modal .btn-container {
-    max-width: 1200px;
-    margin: auto;
+    width: 100%;
+    height: 80px;
+    background: #ddd;
+    padding: 0 15px;
 }
 
 #page-builder-modal.visible {

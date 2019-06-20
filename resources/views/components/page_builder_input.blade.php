@@ -2,6 +2,7 @@
     <label>{{$label}}</label>
     @switch($type)
 
+        @case("color")
         @case("number")
         @case("text")
         <input type="{{$type}}" class="form-control" name="{{$name}}" value="{{$value}}">
