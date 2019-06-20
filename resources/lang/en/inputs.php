@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'field' => 'Field',
+    'field_name' => 'Field Name',
+    'type' => 'Type',
+    'text' => 'Text',
+    'relation' => 'Relation',
+    'number' => 'Number',
+    'select' => 'Select',
+    'select_multiple' => 'Select Multiple',
+    'checkbox' => 'Checkbox',
+    'radio' => 'Radio',
+    'password' => 'Password',
+    'file' => 'File',
+    'file_multiple' => 'File Multiple',
+    'date' => 'Date',
+    'datetime_local' => 'Date Time Local',
+    'time' => 'Time',
+    'month' => 'Month',
+    'color' => 'Color',
+    'relation_type' => 'Relation type',
+    'options' => 'Options',
+    'repeater' => "Repeater",
+];
