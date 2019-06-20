@@ -248,7 +248,7 @@ class TemplateController extends Controller
     /**
      * Get leaf view
      *
-     * @param String $leaf
+     * @param Leaf $leaf
      * @return View
      * @throws AssigningNullToNotNullableException
      */

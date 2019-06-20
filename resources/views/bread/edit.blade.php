@@ -23,7 +23,7 @@
     </div>
 
     <form id="edit-form"
-          action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->slug) : route("alder.$leaf_type->slug.store") }}"
+          action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->id) : route("alder.$leaf_type->slug.store") }}"
           enctype="multipart/form-data"
           method="POST">
         @csrf

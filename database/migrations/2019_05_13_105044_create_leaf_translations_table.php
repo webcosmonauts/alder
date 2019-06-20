@@ -22,6 +22,7 @@ class CreateLeafTranslationsTable extends Migration
             $table->text('content')->nullable();
     
             $table->unique(['leaf_id','locale']);
+            $table->unique(['slug','locale']);
             $table->foreign('leaf_id')->references('id')
                 ->on('leaves')->onDelete('cascade');
         });
