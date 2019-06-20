@@ -16,11 +16,14 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">
+            {{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
+            {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}
+        </h1>
     </div>
 
     <form id="edit-form"
-          action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->slug) : route("alder.$leaf_type->slug.store") }}"
+          action="{{ $edit ? route("alder.$leaf_type->slug.update", $leaf->id) : route("alder.$leaf_type->slug.store") }}"
           enctype="multipart/form-data"
           method="POST">
         @csrf
