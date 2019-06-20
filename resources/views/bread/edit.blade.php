@@ -115,8 +115,7 @@
                             <label for="#content">{{__('alder::generic.content')}}</label>
                             <div class="input-group mb-2">
 
-                                <div id="quill" style="height: 400px; width: 100%"></div>
-
+                                <div id="quill" style="height: 400px; width: 100%">@if($edit) {!! $leaf->content !!} @endif</div>
                                 <textarea type="text" rows="8" hidden name="content" id="content"
                                           class="form-control"
                                           aria-label="content" aria-describedby="content"

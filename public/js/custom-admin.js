@@ -1,14 +1,16 @@
 $(document).ready(function () {
 
 	if ($('.datepicker').length) $('.datepicker').datetimepicker({
-		format: "L"
+		format: "DD/MM/YYYY"
 	});
 
 	if ($('.timepicker').length) $('.timepicker').datetimepicker({
-		format: 'LT'
+		format: "HH:mm"
 	});
 
-	if ($('.datetimepicker').length) $('.datetimepicker').datetimepicker();
+	if ($('.datetimepicker').length) $('.datetimepicker').datetimepicker({
+		format: "DD/MM/YYYY HH:mm"
+	});
 
 	if ($('.icheck').length) {
 		$('.icheck').iCheck({

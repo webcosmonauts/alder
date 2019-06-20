@@ -25,6 +25,7 @@ $(document).ready(function () {
 
 	// QUILL INIT
 	if ($('#quill').length) {
+
 		var quill = new Quill('#quill', {
 			theme: 'snow',
 			modules: {
@@ -34,7 +35,6 @@ $(document).ready(function () {
 
 
 		$('.ql-toolbar').css('width', '100%');
-
 		$('form').on('submit', function (e) {
 			$('[name=content]').val(quill.container.firstChild.innerHTML);
 		});
