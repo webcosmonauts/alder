@@ -21,6 +21,14 @@ $(document).ready(function () {
 	$("select[multiple]").select2();
 
 
+	$('body').on("click", '.button-image', function (e) {
+		e.preventDefault();
+		$("[data-current-file]").removeAttr("data-current-file");
+		$(this).parent().prev().attr("data-current-file", true);
+		window.open('/file-manager/fm-button', 'fm', 'width=1000,height=600,top=200,left=400');
+	});
+
+
 	/* dataTable */
 	if ($('#browse-table').length) {
 		var lastBrowseColumn = $('#browse-table th').length - 1;
@@ -139,3 +147,10 @@ $(document).ready(function () {
 			$(this).parent().remove();
 	});
 });
+
+
+// set file link
+function fmSetLink($url) {
+	$('.image_label[data-current-file]').val($url).attr("value", $url);
+	$("[data-current-file]").removeAttr("data-current-file");
+}

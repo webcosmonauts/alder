@@ -75,14 +75,6 @@ $(document).ready(function () {
 	}
 
 
-	$('body').on("click", '.button-image', function (e) {
-		e.preventDefault();
-		$("[data-current-file]").removeAttr("data-current-file");
-		$(this).parent().prev().attr("data-current-file", true);
-		window.open('/file-manager/fm-button', 'fm', 'width=1000,height=600,top=200,left=400');
-	});
-
-
 	// Page builder item delete
 	$('#page-builder-content').on("click", ".page-builder-content-item__delete", function (e) {
 		e.stopPropagation();
@@ -261,8 +253,3 @@ $(document).ready(function () {
 });
 
 
-// set file link
-function fmSetLink($url) {
-	$('.image_label[data-current-file]').val($url).attr("value", $url);
-	$("[data-current-file]").removeAttr("data-current-file");
-}

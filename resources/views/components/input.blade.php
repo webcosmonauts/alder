@@ -195,7 +195,7 @@
 
 
     @case('checkbox')
-    @if(isset($field->options))
+    @if(is_array($field->options))
         <div data-condition="{{$conditions_str}}" hidden>
             <label> {{$label}}</label>
             <div class=" mb-2">
@@ -206,7 +206,7 @@
                             <input type="{{$type}}" name="{{$field_name}}"
                                    id="{{$opt_val}}"
                                    value="{{$opt_val}}"
-                                   @if($field_value && $edit)
+                                   @if($edit && isset($field_value))
                                    @foreach($field_value as $val)
                                    @if($val === $opt_val) checked @endif
                                    @endforeach
@@ -232,7 +232,7 @@
                             <input type="{{$type}}" name="{{$field_name}}"
                                    id="{{$opt_val}}"
                                    value="{{$opt_val}}"
-                                   @if($field_value && $edit && $field_value === $opt_val) checked @endif
+                                   @if(isset($field_value) && $edit && $field_value === $opt_val) checked @endif
                                    class="icheck"></label>
                     </div>
                 @endforeach
@@ -245,14 +245,14 @@
     @case('file-multiple')
     @case('file')
     <div data-condition="{{$conditions_str}}" hidden>
-        <div>{{$field_name}}</div>
-        <div class="input-group mb-2">
-            <div class="custom-file">
-                <input type="file" name="{{ $field_name }}{{ $type == 'file-multiple' ? '[]' : '' }}"
-                       @php if($type === "file-multiple") echo 'multiple'; @endphp
-                       class="custom-file-input" id="{{ $field_name }}"
-                       aria-describedby="{{ $field_name }}">
-                <label class="custom-file-label" for="{{$field_name}}">{{__('alder::generic.choose_file')}}</label>
+        <div>{{$label}}</div>
+        <div class="input-group">
+            <input type="text" class="image_label form-control" name="{{$field_name}}"
+                   aria-label="Image"
+                   aria-describedby="button-image" @if($edit) value="{{$field_value}}" @endif>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary button-image" type="button">Select
+                </button>
             </div>
         </div>
     </div>
@@ -287,7 +287,7 @@
             <select name="{{$field_name}}" id="{{$field_name}}" class="form-control" multiple>
                 @foreach($field->options as $option => $opt)
                     <option value="{{$option}}"
-                            @if($edit)
+                            @if($edit && is_array($field_value))
                             @foreach($field_value as $val)
                             @if($val === $option) selected @endif
                             @endforeach
