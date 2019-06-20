@@ -18,6 +18,9 @@ $(document).ready(function () {
 	}
 
 
+	$("select[multiple]").select2();
+
+
 	/* dataTable */
 	if ($('#browse-table').length) {
 		var lastBrowseColumn = $('#browse-table th').length - 1;

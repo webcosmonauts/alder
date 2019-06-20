@@ -1,4 +1,8 @@
 
+.select2{
+    width: 100% !important;
+}
+
 input::placeholder, select::placeholder, textarea::placeholder {
     color: #ddd !important;
 }

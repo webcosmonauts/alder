@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{asset('css/icheck.css')}}">
     <link href="{{ asset('css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/select2.min.css')}}">
 
 
     <link href="{{ asset('css/custom-admin.css') }}" rel="stylesheet" type="text/css">
@@ -90,6 +91,9 @@
 <!-- Datepicker -->
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+<!-- Select 2 -->
+<script src="{{asset('js/select2.min.js')}}"></script>
 
 <!-- admin main js -->
 <script src="{{asset('js/custom-admin.js')}}"></script>

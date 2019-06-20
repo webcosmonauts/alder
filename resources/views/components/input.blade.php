@@ -52,7 +52,7 @@
 
                                             $field_name = Alder::chooseNameFormRptr($field_name, $values);
                                             $field_value = $values->$field_name;
-                                            
+
                                          endif;
 
 
@@ -113,7 +113,7 @@
     @case('relation')
     <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{ $field_name }}">{{ $label }}</label>
-        <div class="input-group mb-2">
+        <div class="mb-2">
             @if($k->relation_type == 'belongsTo')
                 <select class="custom-select" name="{{ $field_name }}" id="{{ $field_name }}">
                     @if(isset($k->nullable) && $k->nullable)
@@ -260,15 +260,40 @@
 
 
     @case('select')
+    <div data-condition="{{$conditions_str}}" hidden>
+        <label for="{{$field_name}}"> {{$label}} </label>
+        <div class="mb-2">
+            <select name="{{$field_name}}" id="{{$field_name}}"
+                    class="custom-select">
+                @foreach($field->options as $option => $opt)
+                    <option value="{{$option}}"
+                            @if($edit)
+
+                            @if($field_value === $option) selected @endif
+
+                            @endif
+                    >{{$opt}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @break
+
+
     @case('select-multiple')
     <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{$field_name}}"> {{$label}} </label>
-        <div class="input-group mb-2">
-            <select name="{{$field_name}}" id="{{$field_name}}"
-                    @php if($type === "select-multiple") echo "multiple";@endphp
-                    class="custom-select">
+        <div class="mb-2">
+            <select name="{{$field_name}}" id="{{$field_name}}" class="form-control" multiple>
                 @foreach($field->options as $option => $opt)
-                    <option value="{{$option}}">{{$opt}}</option>
+                    <option value="{{$option}}"
+                            @if($edit)
+                            @foreach($field_value as $val)
+                            @if($val === $option) selected @endif
+                            @endforeach
+                            @endif
+
+                    >{{$opt}}</option>
                 @endforeach
             </select>
         </div>
@@ -279,7 +304,7 @@
     @case('template')
     <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{$field_name}}"> {{$label}} </label>
-        <div class="input-group mb-2">
+        <div class="mb-2">
             @php
                 $templates_object = TemplateHelper::getTemplatesObject("alder");
             @endphp
