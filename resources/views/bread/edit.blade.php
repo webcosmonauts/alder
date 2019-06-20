@@ -15,7 +15,10 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">
+            {{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
+            {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}
+        </h1>
         @include('alder::components.locale-switcher')
     </div>
 
@@ -86,7 +89,7 @@
                     <div class="col-lg-{{ $mainRightPanelCounter > 0 ? '9' : '12' }} mb-4 ">
                         <div class="card-body">
                             @foreach(['title', 'slug'] as $field)
-                                <label for="{{ $field }}">{{ $field }}</label>
+                                <label for="{{ $field }}">{{ __("alder::table_columns.$field") }}</label>
                                 <div class="input-group mb-2">
                                     <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
                                            placeholder="{{ $field }}"
@@ -103,7 +106,7 @@
                                     @foreach($relations->statuses as $status)
                                         <option {{ $edit && ($status->id == $leaf->status_id) ? 'selected' : '' }}
                                                 value="{{ $status->id }}">
-                                            {{ $status->title }}
+                                            {{ __("alder::leaf_statuses.$status->slug") }}
                                         </option>
                                     @endforeach
                                 </select>

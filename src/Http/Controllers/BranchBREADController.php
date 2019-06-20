@@ -227,13 +227,13 @@ class BranchBREADController extends BaseController
      * @throws UnknownConditionParameterException
      *
      * @param Request $request
-     * @param $slug
+     * @param int $id
      *
      * @return mixed
      */
-    public function update(Request $request, $slug) {
+    public function update(Request $request, int $id) {
         /* Get leaf */
-        $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
+        $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
         
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf->leaf_type);
