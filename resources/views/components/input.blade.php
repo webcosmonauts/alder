@@ -1,7 +1,6 @@
 @switch($type)
 
     @case('password')
-    @case('time')
     @case('color')
     @case('month')
     @case('number')
@@ -29,6 +28,7 @@
             <div class="card-body">
 
                 @if($edit && $field_value)
+
                     @foreach($field_value as $values)
                         <div class="rptr-field card shadow">
                             <div class="rptr-field__delete delete-icon">&times;</div>
@@ -46,8 +46,17 @@
                                         $label = $k1->display_name;
                                         $field = $k1;
 
-                                        if($edit)
-                                            $field_value = $values->$lcm_subitem1;
+
+
+                                        if($edit) :
+
+                                            $field_name = Alder::chooseNameFormRptr($field_name, $values);
+                                            $field_value = $values->$field_name;
+                                            
+                                         endif;
+
+
+
                                     @endphp
 
                                     @if(isset($k1->type)) @php $type = $k1->type; @endphp @endif
@@ -140,6 +149,8 @@
         <div class="input-group mb-2">
             <input type="text" name="{{ $field_name }}" id="{{ $field_name }}"
                    value="{{$field_value}}"
+                   data-toggle="datetimepicker"
+                   data-target="#{{$field_name}}"
                    class="form-control datepicker"
                    placeholder="{{ $label }}"
                    aria-label="{{ $field_name }}"
@@ -148,12 +159,29 @@
     </div>
     @break
 
+    @case('time')
+    <div data-condition="{{$conditions_str}}" hidden>
+        <label for="{{ $field_name }}">{{ $label }}</label>
+        <div class="input-group mb-2">
+            <input type="text" name="{{ $field_name }}" id="{{ $field_name }}"
+                   value="{{$field_value}}"
+                   data-toggle="datetimepicker"
+                   data-target="#{{$field_name}}"
+                   class="form-control timepicker"
+                   placeholder="{{ $label }}"
+                   aria-label="{{ $field_name }}"
+                   aria-describedby="{{ $field_name }}">
+        </div>
+    </div>
+    @break
 
     @case('datetime-local')
     <div data-condition="{{$conditions_str}}" hidden>
         <label for="{{ $field_name }}">{{ $label }}</label>
         <div class="input-group mb-2">
-            <input type="datetime-local" name="{{ $field_name }}" id="{{ $field_name }}"
+            <input type="text" name="{{ $field_name }}" id="{{ $field_name }}"
+                   data-toggle="datetimepicker"
+                   data-target="#{{$field_name}}"
                    value="{{$field_value}}"
                    class="form-control datetimepicker"
                    placeholder="{{ $label }}"
@@ -165,7 +193,7 @@
 
 
 
-    @case('radio')
+
     @case('checkbox')
     @if(isset($field->options))
         <div data-condition="{{$conditions_str}}" hidden>
@@ -174,17 +202,44 @@
                 @foreach($field->options as $opt_val => $opt_label)
 
                     <div>
-                        <label for="" class="mr-2"> {{$opt_label}} <input type="{{$type}}" name="{{$field_name}}"
-                                                                          id="{{$opt_val}}"
-                                                                          value="{{$opt_val}}"
-                                                                          class="icheck"></label>
+                        <label for="" class="mr-2"> {{$opt_label}}
+                            <input type="{{$type}}" name="{{$field_name}}"
+                                   id="{{$opt_val}}"
+                                   value="{{$opt_val}}"
+                                   @if($field_value && $edit)
+                                   @foreach($field_value as $val)
+                                   @if($val === $opt_val) checked @endif
+                                   @endforeach
+                                   @endif
+                                   class="icheck"></label>
                     </div>
                 @endforeach
             </div>
         </div>
     @endif
-    @break;
+    @break
 
+
+    @case('radio')
+    @if(isset($field->options))
+        <div data-condition="{{$conditions_str}}" hidden>
+            <label> {{$label}}</label>
+            <div class=" mb-2">
+                @foreach($field->options as $opt_val => $opt_label)
+
+                    <div>
+                        <label for="" class="mr-2"> {{$opt_label}}
+                            <input type="{{$type}}" name="{{$field_name}}"
+                                   id="{{$opt_val}}"
+                                   value="{{$opt_val}}"
+                                   @if($field_value && $edit && $field_value === $opt_val) checked @endif
+                                   class="icheck"></label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+    @break
 
 
     @case('file-multiple')

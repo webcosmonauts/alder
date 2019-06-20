@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'field' => 'Pole',
+    'field_name' => 'Nazwa pola',
+    'type' => 'Rodzaj',
+    'text' => 'Tekst',
+    'relation' => 'Relacja',
+    'number' => 'Numer',
+    'select' => 'Wybierz',
+    'select_multiple' => 'Wybierz Wiele',
+    'checkbox' => 'Pole wyboru',
+    'radio' => 'Radio',
+    'password' => 'Hasło',
+    'file' => 'Plik',
+    'file_multiple' => 'Plik wielokrotny',
+    'date' => 'Data',
+    'datetime_local' => 'Data czasu lokalnego',
+    'time' => 'Czas',
+    'month' => 'Miesiąc',
+    'color' => 'Kolor',
+    'relation_type' => 'Typ relacji',
+    'options' => 'Opcje',
+    'repeater' => "Pole powtarzalne",
+];

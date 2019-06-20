@@ -9,7 +9,7 @@ Route::get('setlocale/{locale}', function ($locale) {
 
 Route::group(['middleware' => 'locale-switcher'], function () {
     
-    Route::group(['prefix' => 'alder', 'middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'alder', 'middleware' => 'isAdmin'], function () {
         Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('dashboard.index');
         
         Route::name('alder.')->group(function () {

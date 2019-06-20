@@ -350,13 +350,13 @@
     <!-- PATTERN -->
     <div id="field-pattern" hidden>
         <div class="field card shadow">
-            <div class="card-header font-weight-bold text-primary"> {{__('alder::lcm.field')}}</div>
+            <div class="card-header font-weight-bold text-primary"> {{__('alder::inputs.field')}}</div>
             <div class="field__delete">&times;</div>
 
             <div class="card-body row m-0">
                 <!-- FIELD NAME -->
                 <div class="form-group">
-                    <label for="field_name">{{__('alder::lcm.field_name')}} *</label>
+                    <label for="field_name">{{__('alder::inputs.field_name')}} *</label>
                     <div class="input-group">
                         <input type="text" name="field_name" id="field_name"
                                class="form-control" disabled required>
@@ -365,24 +365,24 @@
 
                 <!-- TYPE -->
                 <div class="form-group">
-                    <label for="type"> {{__('alder::lcm.type')}} *</label>
+                    <label for="type"> {{__('alder::inputs.type')}} *</label>
                     <select name="type" id="type" class="form-control" disabled required>
-                        <option value="text"> {{__('alder::lcm.text')}} </option>
-                        <option value="relation"> {{__('alder::lcm.relation')}}</option>
-                        <option value="number"> {{__('alder::lcm.number')}}</option>
-                        <option value="repeater"> {{__('alder::lcm.repeater')}} </option>
-                        <option value="select"> {{__('alder::lcm.select')}} </option>
-                        <option value="select-multiple">{{__('alder::lcm.select_multiple')}}</option>
-                        <option value="checkbox">{{__('alder::lcm.checkbox')}}</option>
-                        <option value="radio">{{__('alder::lcm.radio')}}</option>
-                        <option value="password">{{__('alder::lcm.password')}}</option>
-                        <option value="file">{{__('alder::lcm.file')}}</option>
-                        <option value="file-multiple">{{__('alder::lcm.file_multiple')}}</option>
-                        <option value="date">{{__('alder::lcm.date')}}</option>
-                        <option value="datetime-local">{{__('alder::lcm.datetime_local')}}</option>
-                        <option value="time">{{__('alder::lcm.time')}}</option>
-                        <option value="month">{{__('alder::lcm.month')}}</option>
-                        <option value="color">{{__('alder::lcm.color')}}</option>
+                        <option value="text"> {{__('alder::inputs.text')}} </option>
+                        <option value="relation"> {{__('alder::inputs.relation')}}</option>
+                        <option value="number"> {{__('alder::inputs.number')}}</option>
+                        <option value="repeater"> {{__('alder::inputs.repeater')}} </option>
+                        <option value="select"> {{__('alder::inputs.select')}} </option>
+                        <option value="select-multiple">{{__('alder::inputs.select_multiple')}}</option>
+                        <option value="checkbox">{{__('alder::inputs.checkbox')}}</option>
+                        <option value="radio">{{__('alder::inputs.radio')}}</option>
+                        <option value="password">{{__('alder::inputs.password')}}</option>
+                        <option value="file">{{__('alder::inputs.file')}}</option>
+                        <option value="file-multiple">{{__('alder::inputs.file_multiple')}}</option>
+                        <option value="date">{{__('alder::inputs.date')}}</option>
+                        <option value="datetime-local">{{__('alder::inputs.datetime_local')}}</option>
+                        <option value="time">{{__('alder::inputs.time')}}</option>
+                        <option value="month">{{__('alder::inputs.month')}}</option>
+                        <option value="color">{{__('alder::inputs.color')}}</option>
                     </select>
                 </div>
 
@@ -399,7 +399,7 @@
 
                 <!-- RELATION TYPE -->
                 <div class="form-group" data-dependence="type:relation" hidden>
-                    <label for="relation_type">{{__('alder::lcm.relation_type')}}</label>
+                    <label for="relation_type">{{__('alder::inputs.relation_type')}}</label>
                     <select name="relation_type" id="relation_type" class="form-control"
                             disabled>
                         <option value="belongsTo">belongsTo</option>
@@ -417,7 +417,7 @@
                 <!-- *** OPTIONS *** -->
                 <div class="form-group"
                      data-dependence="type:select select-multiple radio checkbox" hidden>
-                    <label for="options" class="mb-0">{{__('alder::lcm.options')}}</label>
+                    <label for="options" class="mb-0">{{__('alder::inputs.options')}}</label>
                     <div><em>"key : value" ({{__('alder::lcm.each_opt_separate_line')}})</em></div>
                     <textarea name="options" id="options" rows="4" disabled
                               class="form-control"></textarea>

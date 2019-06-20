@@ -86,7 +86,13 @@ $(document).ready(function () {
 	// Page builder item delete
 	$('#page-builder-content').on("click", ".page-builder-content-item__delete", function (e) {
 		e.stopPropagation();
-		$(this).parent().remove();
+
+		var item = $(this).parent();
+		item.css({"opacity": "0"});
+
+		setTimeout(function () {
+			item.remove();
+		}, 600);
 	});
 
 
@@ -136,6 +142,20 @@ $(document).ready(function () {
 		content.attr("data-editing", true);
 
 		$("#page-builder-modal").find(".content").html(content.html());
+
+
+		/* TRIGGER SELECTS*/
+		$("#page-builder-modal").find("select").each(function () {
+
+			var attrValue = $(this).attr("value");
+
+			if (attrValue) {
+				$(this).prop("selectedIndex", $(this).find("option[value=" + attrValue + "]").index());
+				$(this).change();
+			}
+		});
+
+		// Show modal
 		$("#page-builder-modal").addClass("visible");
 	});
 
@@ -145,6 +165,18 @@ $(document).ready(function () {
 		e.stopPropagation();
 
 		$("[data-editing]").html($("#page-builder-modal .content").html());
+
+		/* TRIGGER SELECTS*/
+		$("[data-editing]").find("select").each(function () {
+
+			var attrValue = $(this).attr("value");
+
+			if (attrValue) {
+				$(this).prop("selectedIndex", $(this).find("option[value=" + attrValue + "]").index());
+				$(this).change();
+			}
+		});
+
 		$("[data-editing]").removeAttr("data-editing");
 
 		$("#page-builder-modal .content").html("");

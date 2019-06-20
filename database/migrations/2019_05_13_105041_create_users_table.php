@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->string('type')->default('user');
             $table->integer('LCM_id')->unsigned()->nullable();
             $table->integer('LCMV_id')->unsigned()->nullable();
             $table->rememberToken();
