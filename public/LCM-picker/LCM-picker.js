@@ -90,8 +90,11 @@ $(document).ready(function () {
 			var name = $field.attr('name'), type = $field.attr('type');
 
 			if (type === "radio") {
-				$field.prop('checked') ? object[name] = $field.val() : "";
-			} else if (type === "checkbox") {
+				if (!object[name]) object[name] = "";
+				if ($field.prop('checked')) object[name] = $field.val();
+			}
+
+			else if (type === "checkbox") {
 				object[name] = [];
 				if ($field.prop('checked')) object[name].push($field.val());
 			} else if (type === "file") {
@@ -105,4 +108,5 @@ $(document).ready(function () {
 
 		$('[name=lcm]').val(JSON.stringify(lcm));
 	});
-});
+})
+;

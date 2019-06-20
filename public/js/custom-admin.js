@@ -1,6 +1,14 @@
 $(document).ready(function () {
 
-	if ($('.datepicker').length) $('.datepicker').datepicker();
+	if ($('.datepicker').length) $('.datepicker').datetimepicker({
+		format: "L"
+	});
+
+	if ($('.timepicker').length) $('.timepicker').datetimepicker({
+		format: 'LT'
+	});
+
+	if ($('.datetimepicker').length) $('.datetimepicker').datetimepicker();
 
 	if ($('.icheck').length) {
 		$('.icheck').iCheck({
@@ -63,6 +71,19 @@ $(document).ready(function () {
 				else
 					id = id + '_1';
 				$(this).attr('id', id);
+			}
+
+			if ($(this).prop("type") === "radio" || $(this).prop("type") === "checkbox") {
+				var name = $(this).attr("name"), matchName;
+
+				if (name) {
+					matchName = name.match(/\d+$/);
+					if (matchName)
+						name = name.replace(matchName[0], ++matchName[0]);
+					else
+						name = name + '_1';
+					$(this).attr('name', name);
+				}
 			}
 		});
 
