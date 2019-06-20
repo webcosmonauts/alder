@@ -9,7 +9,7 @@ Route::get('setlocale/{locale}', function ($locale) {
 
 Route::group(['middleware' => 'locale-switcher'], function () {
     
-    Route::group(['prefix' => 'alder', 'middleware' => 'isAdmin'], function () {
+    Route::group(['prefix' => 'alder', 'middleware' => 'AlderGuard'], function () {
         Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('dashboard.index');
         
         Route::name('alder.')->group(function () {
@@ -20,15 +20,7 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             foreach (\Webcosmonauts\Alder\Models\LeafType::all() as $type) {
                 Route::resource($type->slug, '\Webcosmonauts\Alder\Http\Controllers\BranchBREADController');
             }
-            
-            // Authentication Routes
-            //Route::get('login', 'Auth\AlderLoginController@showLoginFormUsers')->name('login');
-            //Route::post('users', 'Auth\AlderLoginController@checklogin');
-            //Route::post('logout', 'Auth\AlderLoginController@logout')->name('logout');
-            // Registration Routes
-            //Route::get('users/registration', 'Auth\RegisterController@showRegistrationFormUsers')->name('register');
-            //Route::post('users/registration', 'Auth\RegisterController@register');
-            
+
             // roots
             Route::get('roots', '\Webcosmonauts\Alder\Http\Controllers\RootsController@index')->name('roots.index');
             Route::put('roots/update', '\Webcosmonauts\Alder\Http\Controllers\RootsController@update')->name('roots.update');
@@ -72,10 +64,21 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             //Widgets builder
             Route::get('widgets', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@index')->name('widgets.index');
             Route::post('widgets', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@update')->name('widgets.update');
-            
+
             // Uploader
             Route::get('media', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index');
             Route::get('media-button', '\Webcosmonauts\Alder\Http\Controllers\FileManagerController@index_button');
+
+            //Roles
+            Route::get('roles', '\Webcosmonauts\Alder\Http\Controllers\AlderRolesController@index')->name('roles.index');
+            Route::post('roles', '\Webcosmonauts\Alder\Http\Controllers\AlderRolesController@createBaseRoles')->name('roles.init_default_roles');
+            Route::post('roles-add', '\Webcosmonauts\Alder\Http\Controllers\AlderRolesController@addNewRole')->name('roles.add_new');
+            Route::post('roles-delete', '\Webcosmonauts\Alder\Http\Controllers\AlderRolesController@deleteRole')->name('roles.delete');
+
+            /*//Capabilities
+            Route::get('capabilities', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@index')->name('capabilities.index');
+            Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@update')->name('capabilities.update');*/
+
         });
     });
     
