@@ -2,6 +2,8 @@
     
 namespace Webcosmonauts\Alder\Models;
 
+use Dimsav\Translatable\Translatable;
+
 /**
  * Class Leaf
  * @property int id
@@ -24,6 +26,10 @@ namespace Webcosmonauts\Alder\Models;
  */
 class Leaf extends BaseModel
 {
+    use Translatable;
+    
+    public $translatedAttributes = ['title', 'slug', 'content'];
+    
     public function LCMV() {
         return $this->hasOne(LeafCustomModifierValue::class, 'id', 'LCMV_id');
     }

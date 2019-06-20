@@ -2,6 +2,8 @@
     
 namespace Webcosmonauts\Alder\Models;
 
+use Dimsav\Translatable\Translatable;
+
 /**
  * @property int id
  * @property string title
@@ -20,6 +22,10 @@ namespace Webcosmonauts\Alder\Models;
  */
 class Root extends BaseModel
 {
+    use Translatable;
+    
+    public $translatedAttributes = ['title'];
+    
     public $casts = [
         'value' => 'array',
         'options' => 'array',

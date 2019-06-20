@@ -2,8 +2,6 @@
     
 namespace Webcosmonauts\Alder\Models;
 
-use Illuminate\Database\Eloquent\Collection;
-
 /**
  * @property int id
  * @property string title
@@ -11,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property string created_at
  * @property string updated_at
  *
- * @property Collection roots
+ * @property \Illuminate\Database\Eloquent\Collection\Collection roots
  */
 class RootType extends BaseModel
 {

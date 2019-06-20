@@ -82,13 +82,13 @@ class BranchBREADController extends BaseController
      * @throws UnknownRelationException
      *
      * @param Request $request
-     * @param string $slug
+     * @param int $id
      *
      * @return View
      */
-    public function show(Request $request, string $slug) {
+    public function show(Request $request, int $id) {
         /* Get leaf */
-        $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
+        $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
         
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf->leaf_type);
@@ -184,13 +184,13 @@ class BranchBREADController extends BaseController
      * @throws UnknownRelationException
      *
      * @param Request $request
-     * @param string $slug
+     * @param int $id
      *
      * @return View
      */
-    public function edit(Request $request, string $slug) {
+    public function edit(Request $request, int $id) {
         /* Get leaf */
-        $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
+        $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
         
         /* Get combined parameters of all LCMs */
         $params = Alder::prepareLCMs($leaf->leaf_type->LCMs);
@@ -227,13 +227,13 @@ class BranchBREADController extends BaseController
      * @throws UnknownConditionParameterException
      *
      * @param Request $request
-     * @param $slug
+     * @param int $id
      *
      * @return mixed
      */
-    public function update(Request $request, $slug) {
+    public function update(Request $request, int $id) {
         /* Get leaf */
-        $leaf = Leaf::with(['leaf_type', 'LCMV'])->where('slug', $slug)->firstOrFail();
+        $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
         
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf->leaf_type);
@@ -245,20 +245,20 @@ class BranchBREADController extends BaseController
      * Delete leaf (CRU[D])
      *
      * @param Request $request
-     * @param $slug
+     * @param int $id
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function destroy(Request $request, $slug) {
+    public function destroy(Request $request, int $id) {
 
         $branchType = $this->getBranchType($request);
         $leaf_type = Alder::getLeafType($branchType);
 
         return
-            Leaf::where('slug', $slug)->where('leaf_type_id', $leaf_type->id)->delete()
+            Leaf::where('leaf_type_id', $leaf_type->id)->find($id)->delete()
                 ? Alder::returnResponse(
                 $request->ajax(),
-                __('alder::messages.processing_error'), // todo deleted successfully
+                __('alder::messages.delete_successfully'),
                 true,
                 'success'
             )

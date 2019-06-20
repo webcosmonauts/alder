@@ -15,7 +15,6 @@ class CreateLeafTypesTable extends Migration
     {
         Schema::create('leaf_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
             $table->string('slug')->unique();
             $table->boolean('is_accessible')->default(false);
             $table->boolean('is_singular')->default(true);

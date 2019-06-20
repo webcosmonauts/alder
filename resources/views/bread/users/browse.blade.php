@@ -9,14 +9,14 @@
             <span class="icon text-white-50">
                 <i class="fas fa-plus-circle"></i>
             </span>
-            <span class="text">{{ __('alder::generic.add_new')}}</span>
+            <span class="text">{{ __('alder::generic.add_new') . ' ' . __("alder::leaf_types.users.singular") }}</span>
         </a>
+        @include('alder::components.locale-switcher')
     </div>
 
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($users->count() > 0)
-                {{--                 @dd($users->User)--}}
                 <table class="table" id="browse-table">
                     <thead>
                     <tr>
@@ -33,7 +33,6 @@
                     <tbody>
                     @foreach($users as $leaf)
                         <tr>
-
                             @foreach(['name', 'surname', 'email', 'created_at', 'is_active'] as $field)
                                 <td>
                                     {{ $leaf->$field }}

@@ -39,7 +39,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeafBySlag($slug)
     {
-        $leaf = Leaf::where('slug', '=', $slug)->where('is_accessible',true)->firstOrFail();
+        $leaf = Leaf::whereTranslation('slug', $slug)->where('is_accessible',true)->firstOrFail();
         if(empty($leaf)){
             return false;
         }

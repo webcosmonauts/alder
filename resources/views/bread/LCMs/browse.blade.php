@@ -11,12 +11,13 @@
             </span>
             <span class="text">{{ __('alder::generic.add_new') . ' ' . lcfirst(__('alder::lcm.singular')) }}</span>
         </a>
+        @include('alder::components.locale-switcher')
     </div>
 
     <div class="card shadow mb-4">
         <div class="card-body">
             @if($LCMs->count() > 0)
-                <table class="table" id="browse-table">
+                <table class="table table-bordered" id="browse-table">
                     <thead>
                     <tr>
                         <th>{{ __('alder::generic.title') }}</th>
@@ -32,7 +33,7 @@
                             <td>{{ $LCM->group_title }}</td>
                             <td>{{ $LCM->created_at }}</td>
                             <td class="text-right">
-                                @include('alder::components.actions', ['route' => 'LCMs', 'param' => $LCM->slug])
+                                @include('alder::components.actions', ['route' => 'LCMs', 'param' => $LCM->id])
                             </td>
                         </tr>
                     @endforeach

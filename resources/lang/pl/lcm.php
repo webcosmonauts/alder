@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'singular' => 'Leaf custom modifier',
-    'plural' => 'Leaf custom modifiers',
+    'singular' => 'Modyfikator niestandardowy liści',
+    'plural' => 'Modyfikatory niestandardowe liści',
 
     'leaf_type' => 'Rodzaj liścia',
     'panel' => 'Płyta',

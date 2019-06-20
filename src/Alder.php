@@ -205,11 +205,11 @@ class Alder
      *
      * @param int|string $param Root's name or ID
      *
-     * @return string
+     * @return mixed|null
      */
-    public function getRootValue($param)
-    {
-        return $this->getRoot($param)->value;
+    public function getRootValue($param) {
+        $root = $this->getRoot($param);
+        return $root ? $root->value : null;
     }
 
     /**

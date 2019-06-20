@@ -2,6 +2,9 @@
     
 namespace Webcosmonauts\Alder\Models;
 
+use Dimsav\Translatable\Translatable;
+use Illuminate\Support\Carbon;
+
 /**
  * Class LeafCustomModifier
  *
@@ -15,6 +18,11 @@ namespace Webcosmonauts\Alder\Models;
  */
 class LeafCustomModifier extends BaseModel
 {
+    use Translatable;
+    
+    protected $table = 'lcms';
+    public $translatedAttributes = ['title', 'group_title'];
+    
     protected $casts = [
         'modifiers' => 'object'
     ];

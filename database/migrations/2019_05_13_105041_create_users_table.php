@@ -28,8 +28,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
     
-            $table->foreign('LCM_id')->references('id')->on('leaf_custom_modifiers');
-            $table->foreign('LCMV_id')->references('id')->on('leaf_custom_modifier_values');
+            $table->foreign('LCM_id')->references('id')->on('lcms');
+            $table->foreign('LCMV_id')->references('id')->on('lcmvs');
         });
     }
 

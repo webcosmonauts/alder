@@ -15,11 +15,10 @@ class CreateRootsTable extends Migration
     {
         Schema::create('roots', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
             $table->string('slug')->unique();
-            $table->string('input_type')->default('text');
             $table->text('value')->nullable();
             $table->text('options')->nullable();
+            $table->string('input_type')->default('text');
             $table->integer('order')->nullable();
             $table->string('capabilities')->nullable();
             $table->boolean('is_active')->default(true);

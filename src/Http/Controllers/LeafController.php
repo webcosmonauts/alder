@@ -39,7 +39,7 @@ class LeafController extends Controller
         elseif(is_string($slug)){
             $leaf = LeafEntityController::getLeafBySlag($slug);
         }
-        //dd($leaf);
+        
         $leaf_view_renderer = TemplateController::getViewForLeaf($leaf);
 
         return view($leaf_view_renderer, compact('leaf'));
