@@ -464,7 +464,7 @@ class Alder
             if (!isset($field_modifiers->type)) {
                 foreach ($field_modifiers->fields as $entity_name => $entity_modifier) {
                     $temp = isset($model->$field_name) ? $model->$field_name : new stdClass();
-                    $model->$field_name = $this->populateWithLCMV($temp, $leaf_type, $field_modifiers->fields, $val->$field_name);
+                    $model->$field_name = $this->populateWithLCMV($temp, $leaf_type, $field_modifiers->fields, $val->$field_name ?? null);
                 }
             } else {
                 /**
