@@ -356,7 +356,7 @@ class TemplateController extends Controller
      */
     public static function getTemplatesNames($theme)
     {
-
+        $theme = Alder::getRootValue('active-theme');
         $files = File::allFiles(resource_path('views/templates/' . $theme . '/templates'));
         $all_files = array();
         foreach ($files as $file) {
@@ -377,7 +377,7 @@ class TemplateController extends Controller
      */
     public static function getTemplatesObject($theme)
     {
-
+        $theme = Alder::getRootValue('active-theme');
         $files = File::allFiles(resource_path('views/templates/' . $theme . '/templates'));
         $all_files = array();
         foreach ($files as $file) {
