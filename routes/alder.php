@@ -100,7 +100,8 @@ Route::group(['middleware' => 'locale-switcher'], function () {
         });
     });
     
-    Route::get("/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
+    Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@getIndexPage');
+    Route::get("/{slug}", "\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 
     //Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");
 });
