@@ -39,7 +39,7 @@
                                 </td>
                             @endforeach
                             <td class="text-right">
-                                @include('alder::components.actions', ['route' => 'users', 'param' => $leaf->id])
+                                @include('alder::components.actions', ['route' => 'users', 'leaf' => $leaf, 'preview' => true])
                             </td>
                         </tr>
                     @endforeach
