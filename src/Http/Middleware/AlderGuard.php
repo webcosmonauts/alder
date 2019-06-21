@@ -14,12 +14,10 @@ class AlderGuard
      */
     public function handle($request, \Closure $next)
     {
-
-        if( Auth::user() && Auth::user()->isAdmin() ) {
-
+        if (Auth::user() && Auth::user()->isAdmin())
             return $next($request);
-        }
-        return redirect('/');
+        
+        return redirect('/alder/login');
     }
 
 }

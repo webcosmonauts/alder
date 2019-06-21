@@ -9,8 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-    use HasRoles;
+    use Notifiable, HasRoles;
     
     /**
      * The attributes that should be hidden for arrays.
@@ -32,7 +31,6 @@ class User extends Authenticatable
     
     const ADMIN_TYPE = 'admin';
     const DEFAULT_TYPE = 'user';
-    
     
     public function isAdmin(){
         return $this->type === self::ADMIN_TYPE;

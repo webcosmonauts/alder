@@ -108,7 +108,7 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Alerts -->
+            {{--<!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -159,16 +159,14 @@
                 </div>
             </li>
 
-            <div class="topbar-divider d-none d-sm-block"></div>
+            <div class="topbar-divider d-none d-sm-block"></div>--}}
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                        {{Auth::user()->surname}}
-                        &nbsp;
-                        {{Auth::user()->name}}
+                        {{ Auth::user()->fullname }}
                     </span>
                     <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                 </a>
@@ -177,24 +175,15 @@
                      aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="{{route('alder.profile.index')}}">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Profile
-                    </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Settings
-                    </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Activity Log
+                        {{ __('alder::generic.profile') }}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form action="{{ route('alder.logout') }}" method="POST">
                         @csrf
+                        <button class="dropdown-item" type="submit">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            {{ __('alder::generic.logout') }}
+                        </button>
                     </form>
                 </div>
             </li>
