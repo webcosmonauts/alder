@@ -41,9 +41,9 @@
     <div class="input-group mb-4">
         <div class="input-group-prepend">
             <div class="input-group-text">
-                <input type="checkbox" name="{{ $root->slug }}" id="{{ $root->slug }}"
+                <input type="checkbox" name="{{ $root->slug }}" id="{{ $root->slug }}" class="icheck"
                        placeholder="{{ $root->title }}" aria-label="{{ $root->title }}" aria-describedby="{{ $root->title }}"
-                        {{ $root->value === true ? 'checked' : '' }}>
+                        {{ $root->value === "true" ? 'checked' : '' }}>
             </div>
         </div>
         <input type="text" class="form-control" readonly

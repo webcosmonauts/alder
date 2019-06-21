@@ -307,9 +307,7 @@
         <div class="mb-2">
             @php
                 $templates_object = TemplateHelper::getTemplatesObject("alder");
-            @endphp
-            @php
-                $selected_template = $edit ? $leaf->LCMV->values->template : "";
+                $selected_template = $edit ? $leaf->LCMV->values->template ?? '' : "";
             @endphp
             <select name="{{$field_name}}" id="{{$field_name}}" class="custom-select">
                 <option {{ empty($selected_template) ? "selected" : "" }} value="">{{ __("alder::theme.no_template_specified") }}</option>

@@ -98,7 +98,7 @@ return [
     'add_new_custom_link' => 'Dodaj własny link',
     'content' => 'Treść',
     'tiles' => 'Płytki',
-    'left_img_right_text' => 'Obraz po lewej Tekst po prawej',
+    'img_left_text_right' => 'Obraz po lewej Tekst po prawej',
     'circle_diagram' => 'Schemat koła',
     'center_text_tile' => 'Wyśrodkuj kafelek tekstu',
     'partners' => 'Partnerzy',
