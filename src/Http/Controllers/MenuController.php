@@ -156,7 +156,7 @@ class MenuController extends BaseController
                 $LCMV = $edit ? $menu->LCMV : new LeafCustomModifierValue();
 
                 $menu->title = $request->title;
-//                $menu->slug = $request->slug;
+                $menu->slug = $request->slug;
                 $menu->content = $request['content'];
                 $menu->is_accessible = 1;
                 $edit ? : $menu->status_id = 5;
