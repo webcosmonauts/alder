@@ -17,8 +17,8 @@ class CreateLeafTranslationsTable extends Migration
             $table->increments('id');
             $table->integer('leaf_id')->unsigned();
             $table->string('locale')->index();
-            $table->text('title');
-            $table->string('slug', 255);
+            $table->text('title')->nullable();
+            $table->string('slug', 255)->nullable();
             $table->text('content')->nullable();
     
             $table->unique(['leaf_id','locale']);
