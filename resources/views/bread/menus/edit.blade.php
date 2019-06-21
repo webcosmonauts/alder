@@ -2,11 +2,6 @@
 
 
 @section('scripts-body')
-    <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
-    <script src="{{asset('js/quill.min.js')}}"></script>
-    <script src="{{asset('js/content-quill.js')}}"></script>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
     <link rel="stylesheet" href="bootstrap-iconpicker/css/bootstrap-iconpicker.min.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -122,7 +117,7 @@
                                            value="{{ $edit ? $menu->$field : '' }}">
                                 </div>
                             @endforeach
-                            <div class="card" style="display: none">
+                            <div class="card">
                                 <div class="card-header">JSON Output
                                 </div>
                                 <div class="card-body">
