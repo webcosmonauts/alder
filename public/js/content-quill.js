@@ -23,6 +23,7 @@ $(document).ready(function () {
 		['clean']                                         // remove formatting button
 	];
 
+
 	// QUILL INIT
 	if ($('#quill').length) {
 
@@ -37,6 +38,29 @@ $(document).ready(function () {
 		$('.ql-toolbar').css('width', '100%');
 		$('form').on('submit', function (e) {
 			$('[name=content]').val(quill.container.firstChild.innerHTML);
+		});
+	}
+
+	// WIDGETS QUILL
+	if ($(".quill").length) {
+
+
+		$('.quill').each(function () {
+
+			var ID = $(this).attr("id");
+			var quill = new Quill("#" + ID, {
+				theme: 'snow',
+				modules: {
+					toolbar: toolbarOptions
+				}
+			});
+
+			$('.ql-toolbar').css('width', '100%');
+
+
+			$(this).parents('form').eq(0).on("submit", function () {
+				$(this).find("textarea").val(quill.container.firstChild.innerHTML);
+			});
 		});
 	}
 });
