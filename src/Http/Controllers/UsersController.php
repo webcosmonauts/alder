@@ -117,7 +117,7 @@ class UsersController extends BaseController
             User::where('id', $id)->delete()
                 ? Alder::returnResponse(
                 $request->ajax(),
-                __('user::messages.delete_successfully'),
+                __('alder::messages.delete_successfully'),
                 true,
                 'success'
             )

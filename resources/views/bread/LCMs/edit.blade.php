@@ -89,7 +89,7 @@
                                     @foreach($leaf_types as $leaf_type)
                                         <option {{ $edit && ($leaf_type->id == $LCM->leaf_type_id) ? 'selected' : '' }}
                                                 value="{{ $leaf_type->id }}">
-                                            {{ $leaf_type->title }}
+                                            {{ __("alder::leaf_types.$leaf_type->slug.singular") }}
                                         </option>
                                     @endforeach
                                 </select>

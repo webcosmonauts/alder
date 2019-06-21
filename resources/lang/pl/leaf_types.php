@@ -35,4 +35,24 @@ return [
         'singular' => 'Profil',
         'avatar' => 'Awatara',
     ],
+    'menus' => [
+        'singular' => 'Menu',
+        'plural' => 'Menus',
+    ],
+    'capabilities' => [
+        'singular' => 'Zdolność',
+        'plural' => 'Możliwości',
+    ],
+    'categories'=> [
+        'singular' => 'Kategoria',
+        'plural' => 'Kategorie',
+    ],
+    'roles'=> [
+        'singular' => 'Rola',
+        'plural' => 'Role',
+    ],
+    'tags'=> [
+        'singular' => 'Tag',
+        'plural' => 'Tagi',
+    ],
 ];

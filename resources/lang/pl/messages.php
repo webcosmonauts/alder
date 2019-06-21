@@ -2,6 +2,6 @@
 
 return [
     'processing_error' => 'Podczas przetwarzania żądania wystąpił błąd',
-    'delete_successful' => 'Skutecznie usunięte',
-    'delete_successful_named' => 'Pomyślnie usunięto :name',
+    'delete_successfully' => 'Skutecznie usunięte',
+    'delete_successfully_named' => 'Pomyślnie usunięto :name',
 ];

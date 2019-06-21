@@ -39,4 +39,20 @@ return [
         'singular' => 'Menu',
         'plural' => 'Menus',
     ],
+    'capabilities' => [
+        'singular' => 'Capability',
+        'plural' => 'Capabilities',
+    ],
+    'categories'=> [
+        'singular' => 'Category',
+        'plural' => 'Categories',
+    ],
+    'roles'=> [
+        'singular' => 'Role',
+        'plural' => 'Roles',
+    ],
+    'tags'=> [
+        'singular' => 'Tag',
+        'plural' => 'Tags',
+    ],
 ];

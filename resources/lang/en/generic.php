@@ -82,6 +82,7 @@ return [
     'route' => 'Route',
     'save' => 'Save',
     'search' => 'Search',
+    'search_keyword' => 'Enter the keyword',
     'select_all' => 'Select all',
     'select_group' => 'Select existing group or add new',
     'settings' => 'Settings',
