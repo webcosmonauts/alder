@@ -78,7 +78,7 @@
                 });
             });
 
-                    /* ====================================== */
+            /* ====================================== */
 
             /** PAGE ELEMENTS **/
             $('[data-toggle="tooltip"]').tooltip();
@@ -94,184 +94,191 @@
 @endsection
 
 @section('content')
-<!-- Page Heading -->
+
+    <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
     </div>
-        <!-- tabs content -->
-        <div class="tab-content" id="myTabContent">
+    <!-- tabs content -->
+    <div class="tab-content" id="myTabContent">
 
-            <!-- *** MAIN TAB *** -->
-            <div class="tab-pane fade card shadow show active" id="main-section" role="tabpanel">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <form action="{{ $edit ? route("alder.$leaf_type->slug.update", $menu->slug) : route("alder.$leaf_type->slug.store") }}"
-                              method="POST">
-                            @csrf
-                            {{$edit ? method_field('PUT') : method_field('POST')}}
+        <!-- *** MAIN TAB *** -->
+        <div class="tab-pane fade card shadow show active" id="main-section" role="tabpanel">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="{{ $edit ? route("alder.$leaf_type->slug.update", $menu->id) : route("alder.$leaf_type->slug.store") }}"
+                          method="POST">
+                        @csrf
+                        {{$edit ? method_field('PUT') : method_field('POST')}}
 
-                            <div style="padding: 10px 15px">
-                                @foreach(['title', 'slug', 'user_id'] as $field)
-                                    <label for="{{ $field }}">{{ $field }}</label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
-                                               placeholder="{{ $field}}"
-                                               data-{{$field}}="1"
-                                               aria-label="{{ $field }}" aria-describedby="{{ $field }}"
-                                               value="{{ $edit ? $menu->$field : '' }}">
-                                    </div>
-                                @endforeach
-                                <div class="card" style="display: none">
-                                    <div class="card-header">JSON Output
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group"><textarea name="content" id="out" class="form-control" cols="50" rows="10">{{!$edit ?  : $menu->content}}</textarea>
-                                        </div>
+                        <div style="padding: 10px 15px">
+                            @foreach(['title', 'slug', 'user_id'] as $field)
+                                <label for="{{ $field }}">{{ $field }}</label>
+                                <div class="input-group mb-2">
+                                    <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
+                                           placeholder="{{ $field}}"
+                                           data-{{$field}}="1"
+                                           aria-label="{{ $field }}" aria-describedby="{{ $field }}"
+                                           value="{{ $edit ? $menu->$field : '' }}">
+                                </div>
+                            @endforeach
+                            <div class="card">
+                                <div class="card-header">JSON Output
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group"><textarea name="content" id="out" class="form-control" cols="50" rows="10">{{!$edit ?  : $menu->content}}</textarea>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success btn-icon-split mb-1">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-icon-split mb-1">
                                         <span class="icon text-white-50">
                                           <i class="fas fa-save"></i>
                                         </span>
-                                <span class="text">{{ __('alder::generic.save') }}</span>
-                            </button>
-                        </form>
-                        <div class=" mb-4 border-top-0">
-                            <div class="card-body">
+                            <span class="text">{{ __('alder::generic.save') }}</span>
+                        </button>
+                    </form>
+                    <div class=" mb-4 border-top-0">
+                        <div class="card-body">
 
 
-                                <div class="row">
-                                    <div class="col-12 col-lg-4">
-                                            @foreach($leaf_types as $single_leaf)
-                                                @if(!empty($single_leaf))
-                                                    <div class="card shadow mb-0 ">
-                                                        <!-- Card Header - Accordion -->
-                                                        <a href="#menu-{{$single_leaf->slug}}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
-                                                            <h6 class="m-0 font-weight-bold text-primary">{{$single_leaf->title}}
-                                                                ({{count($single_leaf->leaves)}})
-                                                            </h6>
-                                                        </a>
-                                                        <!-- Card Content - Collapse -->
-                                                        <div class="collapse " id="menu-{{$single_leaf->slug}}">
-                                                            <div class="card-body ">
-                                                                @if(!empty($single_leaf->leaves))
-                                                                    <ul class="list-group mb-3 ">
-                                                                    @foreach($single_leaf->leaves as $singular)
-                                                                        <li class="list-group-item textBlock" draggable="true" name="{{$singular->slug}}">
-                                                                            {{$singular->title}}
-                                                                        </li>
-                                                                    @endforeach
-                                                                    </ul>
-                                                                    <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
+                            <div class="row">
+                                <div class="col-12 col-lg-4">
+                                    @foreach($leaf_types as $single_leaf)
+                                        @if(!empty($single_leaf))
+                                            <div class="card shadow mb-0 ">
+                                                <!-- Card Header - Accordion -->
+                                                <a href="#menu-{{$single_leaf->slug}}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
+                                                    <h6 class="m-0 font-weight-bold text-primary">{{$single_leaf->slug}}
+                                                        ({{count($single_leaf->leaves)}})
+                                                    </h6>
+                                                </a>
+
+                                                <!-- Card Content - Collapse -->
+                                                <div class="collapse " id="menu-{{$single_leaf->slug}}">
+                                                    <div class="card-body ">
+                                                        @if(!empty($single_leaf->leaves))
+                                                            <ul class="list-group mb-3 ">
+                                                                @foreach($single_leaf->leaves as $singular)
+                                                                    <li class="list-group-item textBlock" draggable="true" name="{{$singular->slug}}">
+                                                                        {{$singular->slug}}
+                                                                    </li>
+
+                                                                @endforeach
+                                                            </ul>
+                                                            <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
                                                                         <span class="icon text-white-50">
                                                                             <i class="fas fa-plus-circle"></i>
                                                                         </span>
-                                                                        <span class="text">{{ __('alder::generic.add_new') . ' ' . Str::singular($single_leaf->title) }}</span>
-                                                                    </a>
-                                                                @endif
-                                                            </div>
-                                                        </div>
+                                                                <span class="text">{{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
+                                                                    {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}</span>
+
+
+
+                                                            </a>
+                                                        @endif
                                                     </div>
-                                                @endif
-                                            @endforeach
-                                                <div class="card shadow mb-0">
-                                                    <!-- Card Header - Accordion -->
-                                                    <a href="#menu-custom-link" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
-                                                        <h6 class="m-0 font-weight-bold text-primary">
-                                                            {{__('alder::generic.add_new_custom_link')}}
-                                                        </h6>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    <div class="card shadow mb-0">
+                                        <!-- Card Header - Accordion -->
+                                        <a href="#menu-custom-link" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
+                                            <h6 class="m-0 font-weight-bold text-primary">
+                                                {{__('alder::generic.add_new_custom_link')}}
+                                            </h6>
+                                        </a>
+                                        <!-- Card Content - Collapse -->
+                                        <div class="collapse" id="menu-custom-link">
+                                            <ul class="list-group mb-3">
+                                                <li class="list-group-item custom-link-add-new">
+                                                    <input type="text" class="form-control mb-1" placeholder="http://">
+                                                    <input type="text" class="form-control mb-1" placeholder="{{__('alder::generic.title')}}">
+
+                                                    <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
+                                                                        <span class="icon text-white-50">
+                                                                            <i class="fas fa-plus-circle"></i>
+                                                                        </span>
+                                                        <span class="text">{{ __('alder::generic.add_new_custom_link') }}</span>
                                                     </a>
-                                                    <!-- Card Content - Collapse -->
-                                                    <div class="collapse" id="menu-custom-link">
-                                                            <ul class="list-group mb-3">
-                                                                <li class="list-group-item custom-link-add-new">
-                                                                    <input type="text" class="form-control mb-1" placeholder="http://">
-                                                                    <input type="text" class="form-control mb-1" placeholder="{{__('alder::generic.title')}}">
-
-                                                                    <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
-                                                                        <span class="icon text-white-50">
-                                                                            <i class="fas fa-plus-circle"></i>
-                                                                        </span>
-                                                                        <span class="text">{{ __('alder::generic.add_new_custom_link') }}</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                    </div>
-                                                </div>
-
-
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="col-12 col-lg-8">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <div class="card mb-3 block2">
-                                                        <div class="card-header block2"><h5 class="float-left">Menu</h5>
 
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <ul id="myEditor" class="sortableLists list-group">
 
-                                                            </ul>
-                                                        </div>
+                                </div>
+                                <div class="col-12 col-lg-8">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="card mb-3 block2">
+                                                    <div class="card-header block2"><h5 class="float-left">Menu</h5>
+
                                                     </div>
+                                                    <div class="card-body">
+                                                        <ul id="myEditor" class="sortableLists list-group">
 
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="card border-primary mb-3">
-                                                        <div class="card-header bg-primary text-white">Edit item</div>
-                                                        <div class="card-body">
-                                                            <form id="frmEdit" class="form-horizontal"  class="col-12 col-lg-12">
 
-                                                                <div class="form-group">
-                                                                    <label for="text">Text</label>
-                                                                    <div class="input-group">
-                                                                        <input type="text" class="form-control item-menu " name="text" id="text" placeholder="Text">
-                                                                        <div class="input-group-append">
-                                                                            <button type="button" id="myEditor_icon" class="btn btn-outline-secondary"></button>
-                                                                        </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card border-primary mb-3">
+                                                    <div class="card-header bg-primary text-white">Edit item</div>
+                                                    <div class="card-body">
+                                                        <form id="frmEdit" class="form-horizontal"  class="col-12 col-lg-12">
+
+                                                            <div class="form-group">
+                                                                <label for="text">Text</label>
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control item-menu " name="text" id="text" placeholder="Text">
+                                                                    <div class="input-group-append">
+                                                                        <button type="button" id="myEditor_icon" class="btn btn-outline-secondary"></button>
                                                                     </div>
-                                                                    <input type="hidden" name="icon" class="item-menu">
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <label for="href">URL</label>
-                                                                    <input type="text" class="form-control item-menu" id="href" name="href" placeholder="URL">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="target">Target</label>
-                                                                    <select name="target" id="target" class="form-control item-menu">
-                                                                        <option value="_self">Self</option>
-                                                                        <option value="_blank">Blank</option>
-                                                                        <option value="_top">Top</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="title">Tooltip</label>
-                                                                    <input type="text" name="title" class="form-control item-menu" id="title" placeholder="Tooltip">
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="card-footer">
-                                                            <button type="button" id="btnUpdate" class="btn btn-primary" disabled><i class="fas fa-sync-alt"></i> Update</button>
-                                                            <button type="button" id="btnAdd" class="btn btn-success"><i class="fas fa-plus"></i> Add</button>
-                                                        </div>
+                                                                <input type="hidden" name="icon" class="item-menu">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="href">URL</label>
+                                                                <input type="text" class="form-control item-menu" id="href" name="href" placeholder="URL">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="target">Target</label>
+                                                                <select name="target" id="target" class="form-control item-menu">
+                                                                    <option value="_self">Self</option>
+                                                                    <option value="_blank">Blank</option>
+                                                                    <option value="_top">Top</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="title">Tooltip</label>
+                                                                <input type="text" name="title" class="form-control item-menu" id="title" placeholder="Tooltip">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <button type="button" id="btnUpdate" class="btn btn-primary" disabled><i class="fas fa-sync-alt"></i> Update</button>
+                                                        <button type="button" id="btnAdd" class="btn btn-success"><i class="fas fa-plus"></i> Add</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- *** END MAIN TAB *** -->
-
-
         </div>
+        <!-- *** END MAIN TAB *** -->
+
+
+    </div>
 
 
 
