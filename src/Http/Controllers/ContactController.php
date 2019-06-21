@@ -295,8 +295,8 @@ class ContactController extends BaseController {
             //$mail->addAttachment('/');
 
             $mail->send();
-            echo 'Message has been sent';
-            return redirect()->back()->with(['success'=>'Message is send']);
+
+            return redirect(route('alder.contact-forms.index'));
 //            }
 //            elseif(count($array_of_addresses) > 1){
 //                foreach ($array_of_addresses as $key=>$sigle_address_to_send):
