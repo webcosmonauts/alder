@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Webcosmonauts\Alder\Exceptions\IndexPageNotSetException;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Facades\LeafHelper;
 use Webcosmonauts\Alder\Http\Controllers\LeafController;
@@ -18,7 +19,24 @@ use Webcosmonauts\Alder\Models\RootType;
 
 class TemplateController extends Controller
 {
-
+    /**
+     * Returns index page.
+     *
+     * If there is no index page set in roots, exception will be thrown.
+     *
+     * @throws IndexPageNotSetException
+     * @return View
+     */
+    public function getIndexPage() {
+        $index_page_id = Root::where('slug', 'index-page')->value('value');
+        if (!$index_page_id)
+            throw new IndexPageNotSetException();
+        $leaf = Leaf::find($index_page_id);
+        return view($this->getViewForLeaf($leaf))->with([
+            'leaf' => $leaf,
+        ]);
+    }
+    
     /**
      * Show view with templates data
      *
