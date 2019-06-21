@@ -40,6 +40,8 @@ class LeafController extends Controller
             $leaf = LeafEntityController::getLeafBySlag($slug);
         }
         
+        $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type);
+        
         $leaf_view_renderer = TemplateController::getViewForLeaf($leaf);
 
         return view($leaf_view_renderer, compact('leaf'));
