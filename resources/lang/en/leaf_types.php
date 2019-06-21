@@ -35,4 +35,8 @@ return [
         'singular' => 'Profile',
         'avatar' => 'Avatar',
     ],
+    'menus' => [
+        'singular' => 'Menu',
+        'plural' => 'Menus',
+    ],
 ];

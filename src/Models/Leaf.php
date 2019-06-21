@@ -45,4 +45,5 @@ class Leaf extends BaseModel
     public function status() {
         return $this->belongsTo(LeafStatus::class);
     }
+
 }

@@ -33,7 +33,7 @@
                             <td>{{ $LCM->group_title }}</td>
                             <td>{{ $LCM->created_at }}</td>
                             <td class="text-right">
-                                @include('alder::components.actions', ['route' => 'LCMs', 'param' => $LCM->id])
+                                @include('alder::components.actions', ['route' => 'LCMs', 'leaf' => $LCM, 'preview' => false])
                             </td>
                         </tr>
                     @endforeach
