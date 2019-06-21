@@ -87,16 +87,11 @@ class MenuController extends BaseController
 
         $content = json_decode($menu->content);
 
-        foreach ($content as $val) {
-            $new_content[] = (array) $val;
-        }
-
         return view('alder::bread.menus.read')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
             'menu' => $menu,
             'content' => $content,
-            'new_content' =>$new_content
         ]);
     }
 
