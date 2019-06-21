@@ -33,7 +33,7 @@ class ContactController extends BaseController {
             'leaf_type_id',
             LeafType::where('slug', 'contact-forms')->value('id')
         )->get();
-        
+
         return view('alder::bread.contact-forms.browse')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'leaves' => $forms,
@@ -42,7 +42,7 @@ class ContactController extends BaseController {
 
     public function create() {
         $root_type = RootType::with('roots')
-            ->where('title', 'Mailing')->first();
+            ->where('slug', 'mailing')->first();
 
         $roots = Alder::getRootsValues($root_type->roots);
 
@@ -57,7 +57,8 @@ class ContactController extends BaseController {
             'edit' => false,
             'mailer' => $mailer,
             'read' => $read,
-            'id' => false
+            'id' => false,
+            'arr_total' => ''
         ]);
     }
     public function edit(Request $request, $id)
@@ -79,7 +80,8 @@ class ContactController extends BaseController {
             'edit' => true,
             'mailer' => $mailer,
             'read' => $read,
-            'id' => $id
+            'id' => $id,
+            'arr_total' => ''
         ]);
     }
     public function edit_mailer(Request $request, $id)
@@ -135,7 +137,7 @@ class ContactController extends BaseController {
         /* Get leaf type with custom modifiers */
         $leaf_type = \Webcosmonauts\Alder\Facades\Alder::getLeafType($branchType);
         /* Get combined parameters of all LCMs */
-        $params = Alder::prepareLCMs($leaf_type);
+        $params = Alder::combineLCMs($leaf_type);
 
         return $this->createForm($edit, $request, $leaf_type,$params, $id);
     }
@@ -149,13 +151,14 @@ class ContactController extends BaseController {
         $leaf_type = Alder::getLeafType($branchType);
 
         /* Get combined parameters of all LCMs */
-        $params = Alder::prepareLCMs($leaf_type);
+
+        $params = Alder::combineLCMs($leaf_type);
         $edit = false;
         return $this->createForm($edit, $request, $leaf_type, $params);
     }
 
 
-    public function read(Request $request, $id){
+    public function show(Request $request, $id){
 
 //        $cont_id = Leaf::where()
         $cont_id = LeafType::where('slug', 'contact-forms')->value('id');
@@ -258,10 +261,12 @@ class ContactController extends BaseController {
 //            }
 //
 ////          Settings SMTP
+
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
             $mail->Host = $total['smtp-host'];
             $mail->SMTPAuth = TRUE;
+
 
 
             $mail->Username = $total['login'];
@@ -275,17 +280,20 @@ class ContactController extends BaseController {
 
 
 
+
 //            if(count($array_of_addresses) == 0){
 //                return redirect()->back()->with(['error_email'=>'Sorry, fix emails(1)']);
 //            }
 //            elseif(count($array_of_addresses) == 1){
             $mail->addAddress($total['recipient'], "");
-
             $mail->isHTML(true);
+
+
             $mail->Subject = $total['theme'];
             $mail->Body    = $total['message_content'];
             $mail->AltBody = $total['message_content'];
             //$mail->addAttachment('/');
+
             $mail->send();
             echo 'Message has been sent';
             return redirect()->back()->with(['success'=>'Message is send']);
@@ -360,7 +368,6 @@ class ContactController extends BaseController {
 
 
                 $LCMV->values = $this->addValue($request, $params->lcm);
-
 
                 $LCMV->save();
 
