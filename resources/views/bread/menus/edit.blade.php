@@ -122,7 +122,7 @@
                                            value="{{ $edit ? $menu->$field : '' }}">
                                 </div>
                             @endforeach
-                            <div class="card">
+                            <div class="card" style="display: none">
                                 <div class="card-header">JSON Output
                                 </div>
                                 <div class="card-body">
