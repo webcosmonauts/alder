@@ -23,7 +23,7 @@ class CreateLeavesTable extends Migration
             $table->integer('revision')->default(0);
             $table->timestamps();
     
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('leaf_type_id')->references('id')->on('leaf_types');
             $table->foreign('status_id')->references('id')->on('leaf_statuses');
             $table->foreign('LCMV_id')->references('id')->on('lcmvs');
