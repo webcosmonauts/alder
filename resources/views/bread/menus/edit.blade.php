@@ -107,7 +107,7 @@
                         {{$edit ? method_field('PUT') : method_field('POST')}}
 
                         <div style="padding: 10px 15px">
-                            @foreach(['title', 'slug', 'user_id'] as $field)
+                            @foreach(['title', 'slug'] as $field)
                                 <label for="{{ $field }}">{{ $field }}</label>
                                 <div class="input-group mb-2">
                                     <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
@@ -117,7 +117,7 @@
                                            value="{{ $edit ? $menu->$field : '' }}">
                                 </div>
                             @endforeach
-                            <div class="card">
+                            <div class="card" style="display: none">
                                 <div class="card-header">JSON Output
                                 </div>
                                 <div class="card-body">
