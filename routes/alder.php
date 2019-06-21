@@ -96,11 +96,15 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             /*//Capabilities
             Route::get('capabilities', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@index')->name('capabilities.index');
             Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@update')->name('capabilities.update');*/
-
         });
     });
     
     Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@getIndexPage');
+    
+    // Search
+    Route::get('search', '\Webcosmonauts\Alder\Http\Controllers\SearchController@search');
+    Route::get('poszuk', '\Webcosmonauts\Alder\Http\Controllers\SearchController@search');
+    
     Route::get("/{slug}", "\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 
     //Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");

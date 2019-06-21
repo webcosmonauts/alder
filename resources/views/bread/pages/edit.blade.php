@@ -20,6 +20,7 @@
             {{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
             {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}
         </h1>
+        @include('alder::components.locale-switcher')
     </div>
 
     <form id="edit-form"
