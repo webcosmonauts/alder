@@ -47,6 +47,7 @@ return [
     'last_modified' => 'Ostatnio zmodyfikowany',
     'length' => 'Długość',
     'login' => 'Zaloguj',
+    'logout' => 'Wyloguj',
     'media' => 'Media',
     'menu_builder' => 'Zarządzanie menu',
     'move' => 'Przenieś',
@@ -63,6 +64,7 @@ return [
     'public_url' => 'Link publiczny',
     'read' => 'Czytaj',
     'rename' => 'Zmień nazwę',
+    'remember_me' => 'Zapamiętaj mnie',
     'required' => 'Wymagany',
     'return_to_list' => 'Wróć do listy',
     'route' => 'Ścieżka',
@@ -119,4 +121,5 @@ return [
     'animation' => 'Animacja',
     'animation_type' => 'Typ animacji',
     'animation_duration' => 'Czas trwania animacji',
+    'preview' => 'Zobacz',
 ];

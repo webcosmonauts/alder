@@ -139,5 +139,6 @@ return [
     'animation' => 'Animation',
     'animation_type' => 'Animation type',
     'animation_duration' => 'Animation duration',
+    'preview' => 'Preview',
 
 ];

@@ -8,7 +8,18 @@ Route::get('setlocale/{locale}', function ($locale) {
 });
 
 Route::group(['middleware' => 'locale-switcher'], function () {
-
+    Route::get('alder/login', '\Webcosmonauts\Alder\Http\Controllers\Auth\LoginController@showLoginForm')->name('alder.login');
+    Route::post('alder/login', '\Webcosmonauts\Alder\Http\Controllers\Auth\LoginController@login')->name('alder.login');
+    Route::post('alder/logout', '\Webcosmonauts\Alder\Http\Controllers\Auth\LoginController@logout')->name('alder.logout');
+    Route::get('alder/password/reset', '\Webcosmonauts\Alder\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm')->name('alder.password.request');
+    Route::post('alder/password/email', '\Webcosmonauts\Alder\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail')->name('alder.password.email');
+    
+    //App\Http\Controllers
+    Route::get('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@index')->name('register.index');
+    Route::get('activation', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@activation')->name('register.activation');
+    Route::post('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@save')->name('register.save');
+    Route::get('/verificated', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@verificated')->name('register.verificated');
+    
     Route::group(['prefix' => 'alder', 'middleware' => 'AlderGuard'], function () {
         Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('dashboard.index');
 
@@ -88,13 +99,7 @@ Route::group(['middleware' => 'locale-switcher'], function () {
 
         });
     });
-
-    //App\Http\Controllers
-    Route::get('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@index')->name('register.index');
-    Route::get('activation', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@activation')->name('register.activation');
-    Route::post('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@save')->name('register.save');
-    Route::get('/verificated', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@verificated')->name('register.verificated');
-
+    
     Route::get("/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 
     //Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");
