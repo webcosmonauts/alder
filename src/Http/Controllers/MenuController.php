@@ -68,7 +68,7 @@ class MenuController extends BaseController
     }
 
 
-    public function update(Request $request){
+    public function update(Request $request, $id){
 
 
 
@@ -78,12 +78,12 @@ class MenuController extends BaseController
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf_type);
 
-        return $this->createMenu(true, $request, $leaf_type, $params , $request->slug);
+        return $this->createMenu(true, $request, $leaf_type, $params , $id);
     }
-    public function show(Request $request, $slug) {
+    public function show(Request $request, $id) {
 
 
-        $menu = Leaf::where('slug',$slug)->get()->first();
+        $menu = Leaf::where('id',$id)->get()->first();
 
         $content = json_decode($menu->content);
 
@@ -115,7 +115,7 @@ class MenuController extends BaseController
     }
 
 
-    public function editMenu(Request $request, $slug){
+    public function editMenu(Request $request, $id){
         $leaf_types = LeafType::with('leaves')->where('is_accessible',true)->get();
 
         $branchType = $this->getBranchType($request);
@@ -132,7 +132,7 @@ class MenuController extends BaseController
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 
-        $menu = Leaf::where('slug',$slug)->get()->first();
+        $menu = Leaf::where('id',$id)->get()->first();
 
         $comtent = $menu->content;
 
@@ -150,19 +150,18 @@ class MenuController extends BaseController
     }
 
 
-    private function createMenu ($edit, Request $request, LeafType $leaf_type, $params, $slug = null) {
-        return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $slug) {
+    private function createMenu ($edit, Request $request, LeafType $leaf_type, $params, $id = null) {
+        return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $id) {
             try {
-
 
                 $cont_id = LeafType::where('slug', 'menus')->value('id');
 
-                $menu = $edit ? Leaf::where('slug',$slug)->get()->first() : new Leaf();
+                $menu = $edit ? Leaf::where('id',$id)->get()->first() : new Leaf();
+
                 $LCMV = $edit ? $menu->LCMV : new LeafCustomModifierValue();
 
-
                 $menu->title = $request->title;
-                $menu->slug = $request->slug;
+//                $menu->slug = $request->slug;
                 $menu->content = $request['content'];
                 $menu->is_accessible = 1;
                 $edit ? : $menu->status_id = 5;
