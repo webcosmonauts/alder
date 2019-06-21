@@ -111,10 +111,11 @@ class UsersController extends BaseController
         return $this->editUser($edit, $request, $id);
     }
 
-    public function destroy(Request $request, $id) {
+    public function destroy(Request $request, int $id) {
 
         return
-            User::where('id', $id)->delete()
+            User::where('id',$id)->delete()
+
                 ? Alder::returnResponse(
                 $request->ajax(),
                 __('alder::messages.delete_successfully'),
@@ -123,7 +124,7 @@ class UsersController extends BaseController
             )
                 : Alder::returnResponse(
                 $request->ajax(),
-                __('user::messages.processing_error'),
+                __('alder::messages.processing_error'),
                 false,
                 'danger'
             );

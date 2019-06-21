@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeafTypesTable extends Migration
+class CreateLeavesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,20 @@ class CreateLeafTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('leaf_types', function (Blueprint $table) {
+        Schema::create('leaves', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('slug')->unique();
-            $table->boolean('is_accessible')->default(false);
-            $table->boolean('is_singular')->default(true);
+            $table->boolean('is_accessible')->default(true);
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('leaf_type_id')->unsigned();
+            $table->integer('status_id')->unsigned()->default(1);
+            $table->integer('LCMV_id')->unsigned()->nullable();
+            $table->integer('revision')->default(0);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('leaf_type_id')->references('id')->on('leaf_types');
+            $table->foreign('status_id')->references('id')->on('leaf_statuses');
+            $table->foreign('LCMV_id')->references('id')->on('lcmvs');
         });
     }
 
@@ -29,6 +37,6 @@ class CreateLeafTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leaf_types');
+        Schema::dropIfExists('leafs');
     }
 }
