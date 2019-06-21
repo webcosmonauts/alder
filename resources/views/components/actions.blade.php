@@ -38,7 +38,10 @@
 </a>
 
 <!-- TODO if can delete -->
-<a href="{{ route("alder.$route.destroy", $leaf->id) }}" class="btn btn-sm btn-danger btn-icon-split ml-3">
+<a href="{{ route("alder.$route.destroy", $leaf->id) }}"
+   data-toggle="modal"
+   data-target="#confirm-delete"
+   class="btn btn-sm btn-danger btn-icon-split ml-3">
     <span class="icon text-white-50">
         <i class="fas fa-trash-alt"></i>
     </span>
