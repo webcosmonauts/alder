@@ -121,7 +121,12 @@
                     @endif
                     @foreach($relations->$field_name as $relation)
                         <option value="{{ $relation->id }}"
-                                {{ ($edit && $relation->id == ($leaf->$field_name->id ?? null)) ? 'selected' : '' }}>
+                        @if(isset($tab) && $tab)
+                            {{ ($edit && $relation->id == ($leaf[$tab]->$field_name->id ?? null)) ? 'selected' : '' }}>
+                                @else
+                            {{ ($edit && $relation->id == ($leaf->$field_name->id ?? null)) ? 'selected' : '' }}>
+                            @endif
+
                             {{ $relation->title }}
                         </option>
                     @endforeach
