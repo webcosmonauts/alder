@@ -60,6 +60,7 @@ return [
     'media' => 'Media',
     'menu_builder' => 'Menu builder',
     'mimetype_not_allowed' => 'This mimetype is not allowed',
+    'more' => 'More',
     'move' => 'Move',
     'name' => 'Name',
     'new' => 'New',

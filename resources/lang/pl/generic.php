@@ -50,6 +50,7 @@ return [
     'logout' => 'Wyloguj',
     'media' => 'Media',
     'menu_builder' => 'Zarządzanie menu',
+    'more' => 'Więcej',
     'move' => 'Przenieś',
     'name' => 'Nazwa',
     'new' => 'Nowy',
