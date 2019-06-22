@@ -12,7 +12,7 @@
 
             <div class="row">
 
-                <div class="col-12 col-lg-3">
+               {{-- <div class="col-12 col-lg-3">
                     @php
                         function recursiveArrayToList(Array $array = array())
                         {
@@ -34,8 +34,8 @@
 
                         recursiveArrayToList($views_hierarchy);
                     @endphp
-                </div>
-                <div class="col-12 col-lg-9">
+                </div>--}}
+                <div class="col-12 col-lg-12">
                     <form action="{{route('alder.saveRoots')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         @foreach($roots as $root_val)

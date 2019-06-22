@@ -35,7 +35,7 @@ $(document).ready(function () {
 				// OTHER TABS
 			} else {
 
-				var tabName = $('.nav-link[href="#' + $(this).attr('id') + '"]').text().trim().toLowerCase().replace(/\s+/g, "_");
+				var tabName = $('.nav-link[href="#' + $(this).attr('id') + '"]').attr("data-tab-name");
 				lcm[tabName] = {};
 
 				object = lcm[tabName];

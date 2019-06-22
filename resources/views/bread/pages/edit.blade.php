@@ -69,13 +69,15 @@
                 @endphp
 
 
-                @foreach($lcm as $lcm_item)
-                    @if(isset($lcm_item->fields))
+                @foreach($lcm as $lcm_item_k => $lcm_item_v)
+
+                    @if(isset($lcm_item_v->fields))
                         @php $tabsCounter++; @endphp
 
                         <li class="nav-item" data-condition="{{$conditions_str}}" hidden>
                             <a class="nav-link" id="section-{{$tabsCounter}}-tab" data-toggle="tab"
-                               href="#section-{{$tabsCounter}}" role="tab">{{$lcm_item->display_name}}</a>
+                               data-tab-name="{{$lcm_item_k}}"
+                               href="#section-{{$tabsCounter}}" role="tab">{{$lcm_item_v->display_name}}</a>
                         </li>
                     @endif
                 @endforeach
