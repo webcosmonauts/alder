@@ -488,7 +488,7 @@
                                 <h5 class="text-primary font-weight-bold"> {{__('alder::generic.item')}} </h5></div>
                             <div class="card-body">
                                 [input:number:percent:{{__('alder::generic.percent')}}]
-                                [input:color:percent_bg:{{__('alder::generic.percent_bg')}}]
+                                [input:file:percent_bg:{{__('alder::generic.percent_bg')}}]
                                 [input:text:text:{{__('alder::generic.text')}}]
                                 [input:number:amount:{{__('alder::generic.amount')}}]
 

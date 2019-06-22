@@ -106,7 +106,7 @@
                         ['type' => 'number', 'name' => 'percent', 'label' => __('alder::generic.percent'), 'value'=> $row->percent])
 
                         @include("alder::components.page_builder_input",
-                        ['type' => 'color', 'name' => 'percent_bg', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_bg])
+                        ['type' => 'file', 'name' => 'percent_bg', 'label' => __('alder::generic.percent_bg'), 'value'=> $row->percent_bg])
 
                         @include("alder::components.page_builder_input",
                         ['type' => 'text', 'name' => 'text', 'label' => __('alder::generic.text'), 'value'=> $row->text])
