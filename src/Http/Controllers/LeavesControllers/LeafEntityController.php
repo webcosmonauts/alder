@@ -65,7 +65,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeafTitle($id)
     {
-        $leaf = self::getLeaf($id);
+        $leaf = Leaf::find($id);
         if(empty($leaf)){
             return false;
         }
@@ -83,7 +83,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeafSlug($id)
     {
-        $leaf = self::getLeaf($id);
+        $leaf = Leaf::find($id);
         if(empty($leaf)){
             return false;
         }
@@ -101,7 +101,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeafContent($id)
     {
-        $leaf = self::getLeaf($id);
+        $leaf = Leaf::find($id);
         if(empty($leaf)){
             return false;
         }
@@ -166,7 +166,7 @@ class LeafEntityController extends Controller
 
     public static function getLeafCustomModifiersValues($id)
     {
-        $leaf = self::getLeaf($id);
+        $leaf = Leaf::find($id);
         $lcmv = LeafCustomModifierValue::where('id', '=', $leaf->LCMV_id)->firstOrFail();
         if(empty($lcmv)){
             return false;
@@ -186,7 +186,7 @@ class LeafEntityController extends Controller
 
     public static function getLeafTags($id)
     {
-        $leaf = self::getLeaf($id);
+        $leaf = Leaf::find($id);
         $lcmv = LeafCustomModifierValue::where('id', '=', $leaf->LCMV_id)->firstOrFail();
         $tags_raw = $lcmv->values->tags;
         $tags = Leaf::whereIn('id',$tags_raw)->get();
@@ -207,7 +207,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeafCategories($id)
     {
-        $leaf = self::getLeaf($id);
+        $leaf = Leaf::find($id);
         $lcmv = LeafCustomModifierValue::where('id', '=', $leaf->LCMV_id)->firstOrFail();
         $categories_raw = $lcmv->values->categories;
         $categories = Leaf::whereIn('id',$categories_raw)->get();
@@ -228,7 +228,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeafTemplate($id)
     {
-        $leaf = self::getLeaf($id);
+        $leaf = Leaf::find($id);
 
         $leaf_type_object = Alder::getLeafType($leaf->leaf_type_id);
         //Get leaf type
