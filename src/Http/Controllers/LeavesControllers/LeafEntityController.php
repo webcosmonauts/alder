@@ -8,6 +8,7 @@ use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifier;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
+use Webcosmonauts\Alder\Models\LeafStatus;
 use Webcosmonauts\Alder\Models\LeafType;
 
 class LeafEntityController extends Controller
@@ -15,13 +16,16 @@ class LeafEntityController extends Controller
     /**
      * Get Leaf
      *
-     * @param Integer $id
+     * @param Integer $id, int|string $leaf_type
      * @return Object
      * @throws EmptyId
      */
-    public static function getLeaf($id)
+    public static function getLeaf($id, $leaf_type = 'pages')
     {
-        $leaf = Leaf::where('id', '=', $id)->where('is_accessible',true)->first();
+        $leaf = Leaf::whereStatusId(LeafStatus::whereSlug('published')->value('id'))
+            ->where('leaf_type_id', (is_int($leaf_type) ? $leaf_type : LeafType::whereSlug($leaf_type)->value('id')))
+            ->where('is_accessible', true)
+            ->find($id);
         if(empty($leaf)){
             return false;
         }
@@ -33,13 +37,17 @@ class LeafEntityController extends Controller
     /**
      * Get Leaf by Slag
      *
-     * @param String $slug
+     * @param String $slug, int|string $leaf_types
      * @return Object
      * @throws EmptyId
      */
-    public static function getLeafBySlag($slug)
+    public static function getLeafBySlag($slug, $leaf_type = 'pages')
     {
-        $leaf = Leaf::whereTranslation('slug', $slug)->where('is_accessible',true)->first();
+        $leaf = Leaf::whereTranslation('slug', $slug)
+            ->whereStatusId(LeafStatus::whereSlug('published')->value('id'))
+            ->whereLeafTypeId((is_int($leaf_type) ? $leaf_type : LeafType::whereSlug($leaf_type)->value('id')))
+            ->where('is_accessible',true)
+            ->first();
         if(empty($leaf)){
             return false;
         }
