@@ -21,7 +21,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeaf($id)
     {
-        $leaf = Leaf::where('id', '=', $id)->where('is_accessible',true)->firstOrFail();
+        $leaf = Leaf::where('id', '=', $id)->where('is_accessible',true)->first();
         if(empty($leaf)){
             return false;
         }
@@ -39,7 +39,7 @@ class LeafEntityController extends Controller
      */
     public static function getLeafBySlag($slug)
     {
-        $leaf = Leaf::whereTranslation('slug', $slug)->where('is_accessible',true)->firstOrFail();
+        $leaf = Leaf::whereTranslation('slug', $slug)->where('is_accessible',true)->first();
         if(empty($leaf)){
             return false;
         }
