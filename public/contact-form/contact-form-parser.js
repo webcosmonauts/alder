@@ -137,7 +137,7 @@ $(document).ready(function () {
 					case "submit":
 
 						label = item.match(/\"[^\"]+\"/i)[0].replace(/\"/g, "");
-						html = '<input type="submit" value="' + label + '">';
+						html = '<button type="submit" class="link-button">' + label + '</button>';
 						break;
 				}
 
@@ -150,13 +150,16 @@ $(document).ready(function () {
 						content = content.replace(item, '');
 				}
 
-				//console.log('item - ', item, ' type = ', type, ' required = ', reqiuired);
-				//console.log(item, html, content);
-				//console.log('*************** **************** **************');
 			});
 
 
 			$form.html(content);
+			$form.removeAttr("hidden");
+
+			$form.find("input[type=checkbox]").iCheck({
+				checkboxClass: 'icheckbox_flat-red',
+				radioClass: 'iradio_flat-red'
+			});
 		}
 
 
@@ -164,5 +167,9 @@ $(document).ready(function () {
 	}
 
 
-	getContactFormWithParsedHTML($('.form'));
+	if ($('.form-with-shortcode').length) {
+		$('.form-with-shortcode').each(function () {
+			getContactFormWithParsedHTML($(this));
+		});
+	}
 });
