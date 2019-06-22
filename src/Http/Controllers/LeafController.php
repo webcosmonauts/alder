@@ -33,13 +33,18 @@ class LeafController extends Controller
      */
     public function index(Request $request, $slug)
     {
+        $uri = explode('/', $request->path())[0];
+        if ($uri == 'posts' || $uri == 'posty')
+            $uri = 'posts';
+        else
+            $uri = 'pages';
+        
         if(is_int((int)$slug) && (int)$slug > 0){
-            $leaf = LeafEntityController::getLeaf($slug);
+            $leaf = LeafEntityController::getLeaf($slug, $uri);
         }
         elseif(is_string($slug)){
-            $leaf = LeafEntityController::getLeafBySlag($slug);
+            $leaf = LeafEntityController::getLeafBySlag($slug, $uri);
         }
-        
         if (!$leaf)
             return response()->view('templates.nimoz.404');
         
@@ -54,16 +59,20 @@ class LeafController extends Controller
      * Get leaf type
      *
      * @param Request $request
-     * @param String $slug
-     * @param LeafController $theme
      * @return View
      * @throws AssigningNullToNotNullableException
      */
-    public function leafTypeShow(Request $request,$leaf_type, $slug)
+    public function leafTypeShow(Request $request)
     {
-        $leaves = LeafEntityController::getLeavesByType($leaf_type);
+        $uri = explode('/', $request->path())[0];
+        if ($uri = 'posty')
+            $uri = 'posts';
+        $leaves = LeafEntityController::getLeavesByType($uri);
         dd($leaves);
-        if(!empty($leaf_type) && !empty($slug)){
+        
+        
+        
+        if(!empty($uri) && !empty($slug)){
             if(is_int((int)$slug) && (int)$slug > 0){
                 $leaf = LeafEntityController::getLeaf($slug);
             }

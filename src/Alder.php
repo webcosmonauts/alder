@@ -521,8 +521,8 @@ class Alder
                     : (isset($model->LCMV) ? $model->LCMV->values->$field_name : $model->$field_name);
 
                 // Get leaf instance
-                $leaf = Leaf::with(['LCMV', 'status', 'user', 'leaf_type'])->findOrFail($id);
-                $leaf = $this->populateWithLCMV($leaf, $leaf->leaf_type);
+                $leaf = Leaf::with(['LCMV', 'status', 'user', 'leaf_type'])->find($id);
+                $leaf = $leaf ? $this->populateWithLCMV($leaf, $leaf->leaf_type) : null;
 
                 // Push relation leaf to model
                 $model->$field_name = $leaf;
