@@ -54,8 +54,6 @@
 @endsection
 
 @section('content')
-
-
     @csrf
 
     <!-- Page Heading -->
@@ -74,8 +72,19 @@
             <div class="collapse show" id="collapseCard{{ Str::camel($root_type->slug) }}" style="">
                 <div class="card-body">
                     @foreach($root_type->roots as $root)
-                        @if($root->slug == 'ico')
-                            <div>ICO - urmomgae</div>
+                        @if($root->slug == 'index-page')
+							<label for="index-page">{{ $root->title }}</label>
+							<div class="input-group mb-4">
+								<select class="custom-select" name="{{ $root->slug }}" id="index-page"
+										placeholder="{{ $root->title }}" aria-label="{{ $root->title }}" aria-describedby="{{ $root->title }}">
+									@foreach($index_pages as $page)
+										<option value="{{ $page->id }}
+										{{ $root->value == $page->id ? 'selected' : '' }}">
+											{{ $page->title }}
+										</option>
+									@endforeach
+								</select>
+							</div>
                         @else
                             @include('alder::components.root_input', $root)
                         @endif
