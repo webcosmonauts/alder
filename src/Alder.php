@@ -506,19 +506,19 @@ class Alder
      * @throws UnknownConditionParameterException
      * @throws UnknownRelationException
      *
-     * @param BaseModel &$model
+     * @param &$model
      * @param $field_name
      * @param $field_modifiers
      * @param bool $useDefault
      */
-    public function getSingleRelation(BaseModel &$model, $field_name, $field_modifiers, bool $useDefault = false)
+    public function getSingleRelation(&$model, $field_name, $field_modifiers, bool $useDefault = false)
     {
         switch ($field_modifiers->relation_type) {
             case 'belongsTo':
                 // Get leaf id
                 $id = $useDefault
                     ? $field_modifiers->default
-                    : $model->LCMV->values->$field_name;
+                    : (isset($model->LCMV) ? $model->LCMV->values->$field_name : $model->$field_name);
 
                 // Get leaf instance
                 $leaf = Leaf::with(['LCMV', 'status', 'user', 'leaf_type'])->findOrFail($id);
