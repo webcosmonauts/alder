@@ -77,7 +77,15 @@
     </div>
     @break
     @case('file')
-    @php
+    <div>{{$root->title}}</div>
+    <div class="input-group mb-4">
+        <input type="text" class="image_label form-control" name="{{$root->slug}}"
+               aria-describedby="button-image" value="{{$root->value}}">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary button-image" type="button">{{ __('alder::generic.choose_file') }}</button>
+        </div>
+    </div>
+    {{--@php
         $extensions = '';
         if (isset($root->options)) {
             foreach ($root->options as $option)
@@ -92,7 +100,7 @@
                     {{ !empty($extensions) ? 'accept='.$extensions : '' }}>
             <label class="custom-file-label" for="{{ $root->slug }}"></label>
         </div>
-    </div>
+    </div>--}}
     @break
     @case('file-multiple')
     @php

@@ -17,6 +17,8 @@ return [
     'bulk_delete_confirm' => 'Tak, usuń wybrane',
     'bulk_delete_nothing' => 'Nie wybrano niczego do usunięcia',
     'cancel' => 'Anuluj',
+    'choose_file' => 'Wybierz plik',
+    'choose_files' => 'Wybierz pliki',
     'choose_type' => 'Wybierz rodzaj',
     'click_here' => 'Kliknij tutaj',
     'close' => 'Zamknij',
