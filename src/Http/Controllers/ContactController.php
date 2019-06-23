@@ -130,6 +130,25 @@ class ContactController extends BaseController {
         ]);
     }
 
+    public function destroy(Request $request, int $id) {
+
+        return
+            Leaf::where('id',$id)->delete()
+
+                ? Alder::returnResponse(
+                $request->ajax(),
+                __('alder::messages.delete_successfully'),
+                true,
+                'success'
+            )
+                : Alder::returnResponse(
+                $request->ajax(),
+                __('alder::messages.processing_error'),
+                false,
+                'danger'
+            );
+    }
+
     public function update(Request $request, $id)
     {
         $edit = true;
