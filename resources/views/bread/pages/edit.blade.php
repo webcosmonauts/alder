@@ -3,6 +3,10 @@
 
 @section('scripts-body')
 
+    <!-- QUILL -->
+    <link rel="stylesheet" href="{{asset('js/themes/snow.css')}}">
+    <script src="{{asset('js/quill.min.js')}}"></script>
+
     <!-- LCM picker -->
     <script src="{{asset('vendor/LCM-picker/LCM-picker.js')}}"></script>
     <!-- LCM switcher -->
@@ -319,6 +323,9 @@
 
                         <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
                            data-component="center_image">{{__('alder::generic.center_image')}}</a>
+
+
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="html"> HTML </a>
                     </div>
 
 
@@ -345,9 +352,12 @@
 
                                         <div class="page-builder-content-item__delete delete-icon">×</div>
 
-                                        <div hidden>
+                                        <div @if($component->component !== 'html') hidden @endif>
                                             @include("alder::components.page_builder")
-                                            @include("alder::components.page_builder_animation", ['editing' => true])
+
+                                            @if($component->component !== 'html')
+                                                @include("alder::components.page_builder_animation", ['editing' => true])
+                                            @endif
                                         </div>
                                     </div>
                                 @endforeach
@@ -565,6 +575,17 @@
 
                 @include("alder::components.page_builder_animation", ['editing' => false])
             </div>
+
+
+            <!-- HTML -->
+            <div data-component="html" data-thumbnail="">
+                <div class="card-body" style="padding: 35px 24px 10px 47px">
+                    <div class="quill" id=""
+                         style="width: 100%; height: 400px"></div>
+                    <textarea name="html_content" hidden></textarea>
+                </div>
+            </div>
+
         </div>
 
 

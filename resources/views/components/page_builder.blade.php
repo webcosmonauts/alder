@@ -237,4 +237,14 @@
     </div>
     @break
 
+
+    @case("html")
+    <div class="card-body" style="padding: 35px 24px 10px 47px">
+        <div class="quill" id=""
+             style="width: 100%; height: 400px">{!! $component->fields->html_content !!}
+        </div>
+        <textarea name="html_content" hidden></textarea>
+    </div>
+    @break
+
 @endswitch
