@@ -105,6 +105,16 @@ Route::group(['middleware' => 'locale-switcher'], function () {
     Route::get('search', '\Webcosmonauts\Alder\Http\Controllers\SearchController@search');
     Route::get('poszuk', '\Webcosmonauts\Alder\Http\Controllers\SearchController@search');
     
+    // Posts
+    Route::get('posts/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
+    Route::get('posty/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
+    Route::get('posts', function () {
+        return view('templates.nimoz.posts');
+    });
+    Route::get('posty', function () {
+        return view('templates.nimoz.posts');
+    });
+    
     Route::get("/{slug}", "\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 
     //Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");

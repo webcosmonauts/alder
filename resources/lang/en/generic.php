@@ -56,6 +56,7 @@ return [
     'length' => 'Length',
     'locale' => 'Locale',
     'login' => 'Login',
+    'login_full' => 'Log in',
     'logout' => 'Logout',
     'media' => 'Media',
     'menu_builder' => 'Menu builder',

@@ -47,6 +47,7 @@ return [
     'last_modified' => 'Ostatnio zmodyfikowany',
     'length' => 'Długość',
     'login' => 'Zaloguj',
+    'login_full' => 'Zaloguj się',
     'logout' => 'Wyloguj',
     'media' => 'Media',
     'menu_builder' => 'Zarządzanie menu',
