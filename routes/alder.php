@@ -13,13 +13,13 @@ Route::group(['middleware' => 'locale-switcher'], function () {
     Route::post('alder/logout', '\Webcosmonauts\Alder\Http\Controllers\Auth\LoginController@logout')->name('alder.logout');
     Route::get('alder/password/reset', '\Webcosmonauts\Alder\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm')->name('alder.password.request');
     Route::post('alder/password/email', '\Webcosmonauts\Alder\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail')->name('alder.password.email');
-    
+
     //App\Http\Controllers
     Route::get('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@index')->name('register.index');
     Route::get('activation', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@activation')->name('register.activation');
     Route::post('/register', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@save')->name('register.save');
     Route::get('/verificated', '\Webcosmonauts\Alder\Http\Controllers\RegisterController@verificated')->name('register.verificated');
-    
+
     Route::group(['prefix' => 'alder', 'middleware' => 'AlderGuard'], function () {
         Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\DashboardController@index')->name('dashboard.index');
 
@@ -39,6 +39,7 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             // contact form params
             Route::resource('contact-forms', '\Webcosmonauts\Alder\Http\Controllers\ContactController');
             Route::post('contact-forms/save', '\Webcosmonauts\Alder\Http\Controllers\ContactController@save_form')->name('contact-forms.save_form');
+            Route::post('contact-forms/save_mailer', '\Webcosmonauts\Alder\Http\Controllers\ContactController@save_mailer')->name('contact-forms.save_mailer');
             Route::get('contact-forms/read/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@read')->name('contact-forms.read');
             Route::get('contact-forms/edit/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@edit_mailer')->name('contact-forms.edit_mailer');
             Route::post('contact-forms/pars_mailer/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@pars_mailer')->name('contact-forms.pars_mailer');
@@ -98,13 +99,13 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@update')->name('capabilities.update');*/
         });
     });
-    
+
     Route::get('/', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@getIndexPage');
-    
+
     // Search
     Route::get('search', '\Webcosmonauts\Alder\Http\Controllers\SearchController@search');
     Route::get('poszuk', '\Webcosmonauts\Alder\Http\Controllers\SearchController@search');
-    
+
     // Posts
     Route::get('posts/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
     Route::get('posty/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
@@ -114,7 +115,7 @@ Route::group(['middleware' => 'locale-switcher'], function () {
     Route::get('posty', function () {
         return view('templates.nimoz.posts');
     });
-    
+
     Route::get("/{slug}", "\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 
     //Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");

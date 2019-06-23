@@ -5,4 +5,5 @@ return [
     'delete_successfully' => 'Deleted successfully',
     'delete_successfully_named' => 'Successfully deleted :name',
     'field_empty' => 'Field :name cannot be empty',
+    'mail_sent_success' => 'Message sent',
 ];

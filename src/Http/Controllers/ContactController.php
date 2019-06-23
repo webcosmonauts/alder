@@ -25,6 +25,7 @@ use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
 use Webcosmonauts\Alder\Models\LeafType;
 use Webcosmonauts\Alder\Models\RootType;
 use Webcosmonauts\Alder\Models\Root;
+use Webcosmonauts\Alder\Models\Translations\LeafTranslation;
 use Webcosmonauts\Alder\Models\User;
 
 class ContactController extends BaseController {
@@ -61,73 +62,126 @@ class ContactController extends BaseController {
             'arr_total' => ''
         ]);
     }
+
     public function edit(Request $request, $id)
     {
 
-        $form = Leaf::where('id',$id)->get();
-        $form = $form[0];
+        $form = LeafTranslation::where('leaf_id',$id)->get()->first();
+        $content = json_decode($form['content']);
 
+        $template = (array) $content;
 
-        $mailer_type = RootType::where('slug','mailing')->value('id');
-        $mailer = Root::where('root_type_id', $mailer_type)->get();
+        $lines = preg_split('/([\[:\]\s])/', $template['template-content']);
 
-        $read = false;
+        $lin = array();
+        foreach ($lines as $val){
+            if (!empty($val))
+                $lin[] = $val;
+        }
+        $array_key = array();
+        foreach ($lin as $key=>$value) {
+            if ($value == 'name') {
+                $array_key[] = $lin[$key + 1];
+            }
+        }
+        foreach ($array_key as $key => $value) {
+            $array_key[$key] = '[' . $value . ']';
+        }
+
+        $arrau_mailer = ['use-smtp', 'smtp-host', 'smtp-port', 'encryption', 'login', 'password', 'from', 'recipient',
+            'sender', 'theme', 'additional_headers', 'message_content'];
+
+        $array_mailer = array();
+        foreach ($template as $key => $value) {
+            foreach ($arrau_mailer as $val) {
+                if ($key == $val) {
+                    $array_mailer[$key] = $template[$key];
+                }
+            }
+        }
+        $read = true;
 
         return view('alder::bread.contact-forms.edit')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
             'form' => $form,
             'edit' => true,
-            'mailer' => $mailer,
-            'read' => $read,
             'id' => $id,
-            'arr_total' => ''
+            'arr_total' => '',
+            'content' => $content,
+            'template' => $template,
+            'read' => $read,
+            'array_mailer' => $array_mailer,
+            'array_key' => $array_key
         ]);
     }
     public function edit_mailer(Request $request, $id)
     {
 
-        $form = Leaf::where('id',$id)->get();
-        $form = $form[0];
+        $form = LeafTranslation::where('leaf_id',$id)->get()->first();
+        $content = json_decode($form['content']);
+
 
         $array_names = $request->all();
 
-        $arr_keys = array();
-        $arr_vals = array();
-        foreach ($array_names as $key => $val){
-            if ($key != '_token'){
-                $array_names[$key] = '['. $key . ']';
-                $arr_keys[] = $key;
-                $arr_vals[] = $val;
+        $template = (array) $content;
+        $arrau_mailer = ['use-smtp', 'smtp-host', 'smtp-port', 'encryption', 'login', 'password', 'from', 'recipient',
+            'sender', 'theme', 'additional_headers', 'message_content'];
+
+        $array_mailer = array();
+        foreach ($template as $key => $value) {
+            foreach ($arrau_mailer as $val) {
+                if ($key == $val) {
+                    $array_mailer[$key] = $template[$key];
+                }
             }
         }
 
-        $arr_keys = implode('*', $arr_keys);
-        $arr_vals = implode('*', $arr_vals);
-
-        $arr_total = $arr_keys . '|' . $arr_vals;
 
 
-        $read = true;
+        $total_key = array();
+        foreach ($array_names as $key => $value){
+            $total_key['[' . $key . ']'] = $value;
+        }
 
-        $mailer_type = RootType::where('slug','mailing')->value('id');
-        $mailer = Root::where('root_type_id', $mailer_type)->get();
 
-        request()->validate([
-            'g-recaptcha-response' => 'required|captcha',
-        ]);
 
-        return view('alder::bread.contact-forms.edit')->with([
-            'admin_menu_items' => Alder::getMenuItems(),
-            'request' => $request,
-            'form' => $form,
-            'edit' => true,
-            'mailer' => $mailer,
-            'array_names' => $array_names,
-            'id' => $id,
-            'arr_total' => $arr_total,
-            'read' => $read
-        ]);
+//dd($total_key);
+//        dd($content, $array_names, $array_mailer, $total_key);
+
+
+        $total = array();
+        foreach ($array_mailer as $key => $value) {
+            $temp = $value;
+            foreach ($total_key as $keys => $val) {
+//                dump($value);
+                $temp = str_replace($keys, $val, $temp);
+            }
+//            dump($temp);
+
+            $total[$key] = $temp;
+        }
+
+        $this->store($total);
+        return Alder::returnResponse(
+            $request->ajax(),
+            __('alder::messages.mail_sent_success'),
+            true,
+            'success');
+
+
+//
+//        return view('alder::bread.contact-forms.edit')->with([
+//            'admin_menu_items' => Alder::getMenuItems(),
+//            'request' => $request,
+//            'form' => $form,
+//            'edit' => true,
+//            'mailer' => $mailer,
+//            'array_names' => $array_names,
+//            'id' => $id,
+//            'arr_total' => $arr_total,
+//            'read' => $read
+//        ]);
     }
 
     public function destroy(Request $request, int $id) {
@@ -157,8 +211,9 @@ class ContactController extends BaseController {
         $leaf_type = \Webcosmonauts\Alder\Facades\Alder::getLeafType($branchType);
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf_type);
+        $content = json_encode($request->all());
 
-        return $this->createForm($edit, $request, $leaf_type,$params, $id);
+        return $this->createForm($edit, $request, $leaf_type,$params,$content, $id);
     }
 
     public function save_form(Request $request)
@@ -173,8 +228,11 @@ class ContactController extends BaseController {
 
         $params = Alder::combineLCMs($leaf_type);
         $edit = false;
-        return $this->createForm($edit, $request, $leaf_type, $params);
+
+        $content = json_encode($request->all());
+        return $this->createForm($edit, $request, $leaf_type, $params, $content);
     }
+
 
 
     public function show(Request $request, $id){
@@ -209,29 +267,29 @@ class ContactController extends BaseController {
     }
 
     public function pars_mailer (Request $request) {
-
-        echo 'Parser Mailer';
-
-        $array_mass = explode('|', $request->array_mail);
-        $array_keys = explode('*', $array_mass[0]);
-        $array_vals = explode('*', $array_mass[1]);
-
-        $total_key = array();
-        foreach ($array_keys as $keyk => $valk){
-            $total_key['[' . $valk . ']'] =  $array_vals[$keyk];
-        }
-
-        $total = array();
-        foreach ($request->all() as $request_key => $request_value){
-            $temp = $request_value;
-            foreach ($total_key as $keys => $vals) {
-                $temp = str_replace($keys, $vals, $temp);
-            }
-            $total[$request_key] = $temp;
-        }
-
-
-        return $this->store($total);
+//
+//        echo 'Parser Mailer';
+//
+//        $array_mass = explode('|', $request->array_mail);
+//        $array_keys = explode('*', $array_mass[0]);
+//        $array_vals = explode('*', $array_mass[1]);
+//
+//        $total_key = array();
+//        foreach ($array_keys as $keyk => $valk){
+//            $total_key['[' . $valk . ']'] =  $array_vals[$keyk];
+//        }
+//
+//        $total = array();
+//        foreach ($request->all() as $request_key => $request_value){
+//            $temp = $request_value;
+//            foreach ($total_key as $keys => $vals) {
+//                $temp = str_replace($keys, $vals, $temp);
+//            }
+//            $total[$request_key] = $temp;
+//        }
+//
+//
+//        return $this->store($total);
     }
 
     public function store($total)
@@ -315,7 +373,7 @@ class ContactController extends BaseController {
 
             $mail->send();
 
-            return redirect(route('alder.contact-forms.index'));
+            return redirect()->back();
 //            }
 //            elseif(count($array_of_addresses) > 1){
 //                foreach ($array_of_addresses as $key=>$sigle_address_to_send):
@@ -363,9 +421,10 @@ class ContactController extends BaseController {
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
 
-    private function createForm ($edit, Request $request, LeafType $leaf_type, $params, $id = null) {
-        return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $id) {
+    private function createForm ($edit, Request $request, LeafType $leaf_type, $params, $content, $id = null) {
+        return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $content, $id) {
             try {
+
 
                 $cont_id = LeafType::where('slug', 'contact-forms')->value('id');
 
@@ -374,7 +433,7 @@ class ContactController extends BaseController {
 
                 $form->title = $request->title;
                 $form->slug = $request->slug;
-                $form->content = $request['template-content'];
+                $form->content = $content;
                 $form->is_accessible = $request->is_accessible == 'on' ? 1 : 0;
                 $edit ? : $form->status_id = 5;
                 $edit ? : $form->leaf_type_id = $cont_id;
@@ -399,14 +458,14 @@ class ContactController extends BaseController {
                 return \Webcosmonauts\Alder\Facades\Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_'
-                        . ('created')) . " $form->title",
-                    route("alder.contact-forms.edit", $id),
+                        . ($edit ? 'updated' : 'created')) . " $form->title",
+                    route("alder.contact-forms.store"),
                     true,
                     'success'
                 );
             } catch (\Exception $e) {
                 DB::rollBack();
-                return Alder::returnResponse(
+                return \Webcosmonauts\Alder\Facades\Alder::returnResponse(
                     $request->ajax(),
                     __('alder::messages.processing_error'),
                     false,

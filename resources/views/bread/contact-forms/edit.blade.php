@@ -31,24 +31,24 @@
                 </li>
             </ul>
 
+            <form action="{{ $edit ? route("alder.contact-forms.update",  $id) : route("alder.contact-forms.save_form")}}"
+                  method="post">
+                @csrf
+                {{$edit ? method_field('PUT') : method_field('POST')}}
+                <div class="tab-content">
+                    <div id="parcer" class="container tab-pane active"><br>
 
-            <div class="tab-content">
-                <div id="parcer" class="container tab-pane active"><br>
 
-                    <form action="{{ $edit ? route("alder.contact-forms.update",  $form->id) : route("alder.contact-forms.save_form")}}"
-                          method="post">
-                    @csrf
-                    {{$edit ? method_field('PUT') : method_field('POST')}}
-                    <!-- Template builder -->
+                        <!-- Template builder -->
                         <div class="form-group mb-5">
                             <label for="contact-form-title"> Title </label>
                             <input type="text" name="title" id="contact-form-title" class="form-control"
-                                   value="{{ $edit ? $form->title : '' }}"
+                                   value="{{ $edit ? $content->title : '' }}"
                                    required>
                             <br>
                             <label for="contact-form-title"> Slug </label>
                             <input type="text" name="slug" id="contact-form-slug" class="form-control"
-                                   value="{{ $edit ? $form->slug : '' }}"
+                                   value="{{ $edit ? $content->slug : '' }}"
                                    required>
                             <br>
                             <label for="is_accessible">Visibility</label>
@@ -75,66 +75,103 @@
 
                             <label for="contact-form-content" hidden></label>
                             <textarea name="template-content" rows="10" id="contact-form-content"
-                                      class="form-control">{{ $edit ? $form->content : '' }}</textarea>
+                                      class="form-control">{{ $edit ? $template['template-content'] : '' }}</textarea>
                         </div>
                         <div>
 
                         </div>
                         <!--  -->
 
-                        <input type="submit" class="btn btn-primary btn-success mt-4" value="Submit">
-                    </form>
 
-                </div>
-                <div id="mailer" class="container tab-pane fade"><br>
 
-                    <form action="{{route('alder.contact-forms.pars_mailer', $id)}}" method="post">
+                    </div>
+                    <div id="mailer" class="container tab-pane fade"><br>
+
                         @csrf
                         <p>
                             @if($read == true)
-                                @foreach($array_names as $key => $val)
-                                    [{{$key}}],
+                                @foreach($array_key as $key => $val)
+                                    {{$val}},
                                 @endforeach
                             @endif
                         </p>
 
                         <input type="hidden" name="array_mail" value="{{$arr_total}}">
-                        @foreach($mailer as $key => $value)
-                            @if ( $value->input_type == 'text')
-                                @if ($value->title != 'message_content')
+
+                        @if ($read)
+                            @foreach($array_mailer as $key => $value)
+                                {{--                            @if ( $value->input_type == 'text')--}}
+                                {{--                                @if ($value->title != 'message_content')--}}
+                                {{--                                    <label for="{{$value->slug}}">{{$value->title}}</label>--}}
+                                {{--                                    <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}"  ><br>--}}
+                                {{--                                @else--}}
+                                {{--                                    <label  for="{{$value->slug}}" required>{{$value->title}}</label>--}}
+                                {{--                                    <textarea name="{{$value->slug}}" class="form-control"--}}
+                                {{--                                              id="{{$value->slug}}">{{$value->value}}</textarea><br>--}}
+                                {{--                                @endif--}}
+                                {{--                            @elseif($value->input_type == 'password')--}}
+                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
+                                {{--                                <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}" ><br>--}}
+                                {{--                            @elseif($value->input_type == 'number')--}}
+                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
+                                {{--                                <input  name="{{$value->slug}}" class="form-control" type="number" id="{{$value->slug}}" value="{{$value->value}}"  ><br>--}}
+                                {{--                            @elseif($value->input_type == 'checkbox')--}}
+                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
+                                {{--                                <input  name="{{$value->slug}}" class="" type="checkbox" id="{{$value->slug}}" {{$value->value ? 'checked' : ''}} ><br>--}}
+                                {{--                            @elseif($value->input_type == 'select')--}}
+                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
+                                {{--                                <select  name="{{$value->slug}}" class="browser-default custom-select" >--}}
+                                {{--                                    <option value="tls">TLS</option>--}}
+                                {{--                                    <option value="ssl">SSL</option>--}}
+                                {{--                                </select><br><br>--}}
+                                {{--                            @endif--}}
+                                <label for="{{$key}}">{{$key}}</label>
+                                <input  name="{{$key}}" class="form-control" type="text" id="{{$key}}" value="{{$value}}" ><br>
+
+                            @endforeach
+                        @else
+                            @foreach($mailer as $key => $value)
+                                @if ( $value->input_type == 'text')
+                                    @if ($value->title != 'message_content')
+                                        <label for="{{$value->slug}}">{{$value->title}}</label>
+                                        <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}"  ><br>
+                                    @else
+                                        <label  for="{{$value->slug}}" required>{{$value->title}}</label>
+                                        <textarea name="{{$value->slug}}" class="form-control"
+                                                  id="{{$value->slug}}">{{$value->value}}</textarea><br>
+                                    @endif
+                                @elseif($value->input_type == 'password')
                                     <label for="{{$value->slug}}">{{$value->title}}</label>
-                                    <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}" required ><br>
-                                @else
-                                    <label  for="{{$value->slug}}" required>{{$value->title}}</label>
-                                    <textarea name="{{$value->slug}}" class="form-control"
-                                              id="{{$value->slug}}">{{$value->value}}</textarea><br>
+                                    <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}" ><br>
+                                @elseif($value->input_type == 'number')
+                                    <label for="{{$value->slug}}">{{$value->title}}</label>
+                                    <input  name="{{$value->slug}}" class="form-control" type="number" id="{{$value->slug}}" value="{{$value->value}}"  ><br>
+                                @elseif($value->input_type == 'checkbox')
+                                    <label for="{{$value->slug}}">{{$value->title}}</label>
+                                    <input  name="{{$value->slug}}" class="" type="checkbox" id="{{$value->slug}}" {{$value->value ? 'checked' : ''}} ><br>
+                                @elseif($value->input_type == 'select')
+                                    <label for="{{$value->slug}}">{{$value->title}}</label>
+                                    <select  name="{{$value->slug}}" class="browser-default custom-select" >
+                                        <option value="tls">TLS</option>
+                                        <option value="ssl">SSL</option>
+                                    </select><br><br>
                                 @endif
-                            @elseif($value->input_type == 'password')
-                                <label for="{{$value->slug}}">{{$value->title}}</label>
-                                <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}" required><br>
-                            @elseif($value->input_type == 'number')
-                                <label for="{{$value->slug}}">{{$value->title}}</label>
-                                <input  name="{{$value->slug}}" class="form-control" type="number" id="{{$value->slug}}" value="{{$value->value}}" required ><br>
-                            @elseif($value->input_type == 'checkbox')
-                                <label for="{{$value->slug}}">{{$value->title}}</label>
-                                <input  name="{{$value->slug}}" class="" type="checkbox" id="{{$value->slug}}" {{$value->value ? 'checked' : ''}} required><br>
-                            @elseif($value->input_type == 'select')
-                                <label for="{{$value->slug}}">{{$value->title}}</label>
-                                <select  name="{{$value->slug}}" class="browser-default custom-select" required>
-                                    <option value="tls">TLS</option>
-                                    <option value="ssl">SSL</option>
-                                </select><br><br>
-                            @endif
-                        @endforeach
+                                {{--                            <label for="{{$key}}">{{$key}}</label>--}}
+                                {{--                            <input  name="{{$key}}" class="form-control" type="text" id="{{$key}}" value="{{$value}}" ><br>--}}
+
+                            @endforeach
+                        @endif
                         <button class="btn btn-success">Send</button>
-                    </form>
+
+                    </div>
+
+
+
+
                 </div>
-
-
-
-
-            </div>
+            </form>
         </div>
+
     </div>
 
     <!-- MODAL -->

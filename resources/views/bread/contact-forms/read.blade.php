@@ -9,12 +9,13 @@
         <h1 class="h3 mb-0 text-gray-800">{{ __('alder::leaf_types.contact-forms.singular') . " $forms->title" }}</h1>
     </div>
 
-
     <div class="card shadow">
         <div class="card-body">
+
             <div class="container">
 
                 <form action="{{route('alder.contact-forms.edit_mailer', $id)}}">
+
                     @csrf
                     @foreach ($lin as $key => $value)
                         @switch($value)
@@ -337,7 +338,6 @@
         </div>
 
 
-    </div>
     </div>
 
 
