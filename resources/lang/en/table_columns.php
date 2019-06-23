@@ -9,4 +9,10 @@ return [
     'created_at' => 'Created',
     'updated_at' => 'Updated',
     'icon' => 'Icon',
+    'surname' => 'Surname',
+    'email' => 'Email',
+    'active' => 'Active',
+    'is_accessible' => 'Is accessible',
+    'status' => 'Status',
+
 ];

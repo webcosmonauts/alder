@@ -20,9 +20,9 @@
                 <table class="table" id="browse-table">
                     <thead>
                     <tr>
-                        @foreach(['Title','Surname','Email','Created at', 'Active'] as $field)
+                        @foreach(['title','surname','email','created_at', 'active'] as $field)
                             <th>
-                                {{ $field }}
+                                {{ __("alder::table_columns.$field") }}
                             </th>
                         @endforeach
                         <td class="text-right">
@@ -48,6 +48,31 @@
             @else
                 <h3>{{ __('alder::datatable.sZeroRecords') }}</h3>
             @endif
+        </div>
+    </div>
+
+    <!-- CONFIRM DELETE -->
+    <div class="modal fade in" id="confirm-delete" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="exampleModalLabel">{{__('alder::generic.are_you_sure')}}?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form action="" method="POST">
+                        @method("DELETE")
+                        @csrf
+                        <button class="btn btn-primary"> {{__('alder::lcm.yes')}} </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

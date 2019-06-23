@@ -9,4 +9,9 @@ return [
     'created_at' => 'Utworzono',
     'updated_at' => 'Zaktualizowano',
     'icon' => 'Ikona',
+    'surname' => 'Nazwisko',
+    'email' => 'Email',
+    'active' => 'Aktywny',
+    'is_accessible' => 'Jest dostępny',
+    'status' => 'Status',
 ];
