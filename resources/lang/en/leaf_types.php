@@ -55,4 +55,7 @@ return [
         'singular' => 'Tag',
         'plural' => 'Tags',
     ],
+    'dashboard'=> [
+        'singular' => 'Dashboard',
+    ],
 ];
