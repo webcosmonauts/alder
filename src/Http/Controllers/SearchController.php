@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafStatus;
+use Webcosmonauts\Alder\Models\LeafType;
 
 class SearchController extends BaseController
 {
@@ -14,6 +15,7 @@ class SearchController extends BaseController
             ? Leaf::whereTranslationLike('content', "%$request->search%")
                 ->orWhereTranslationLike('title', "%$request->search%")
                 ->whereStatusId(LeafStatus::whereSlug('published')->value('id'))
+                ->whereIn('leaf_type_id', LeafType::whereIn('slug', ['posts', 'pages'])->pluck('id'))
                 ->get()
             : [];
         
