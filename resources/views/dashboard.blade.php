@@ -9,7 +9,14 @@
 
         <div class="tab-pane" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab"></div>
 
-        <h1>Dashboard</h1>
+
+        <div class="d-sm-flex align-items-center mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ __("alder::leaf_types.dashboard.singular") }}</h1>
+            <!-- TODO: if can add new -->
+            <a href="{{ route("alder.users.create") }}" class="btn btn-success btn-icon-split ml-3">
+            @include('alder::components.locale-switcher')
+        </div>
+
 
         <div class="tab-content">
             <div>
@@ -18,7 +25,7 @@
             <div class="row">
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Кол-во созданных постов {{$posts}}</h5>
+                        <h5>Total number of posts: {{$posts}}</h5>
                     </div>
                 </div>
 
@@ -53,7 +60,7 @@
             <div class="row">
                 <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Кол-во созданных страниц {{$pages}}</h5>
+                        <h5>Total number of pages: {{$pages}}</h5>
                     </div>
                 </div>
 
