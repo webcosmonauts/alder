@@ -311,7 +311,7 @@ class Alder
                         if (!$edit)
                             continue 2; // go to next condition
                         else {
-                            if (!$this->isNotCheck($condition->value, $condition->operator, $leaf->LCMV->values->template))
+                            if (!$this->isNotCheck($condition->value, $condition->operator, $leaf->LCMV->values->template ?? null))
                                 continue 3; // go to next LCM
                         }
                         break;

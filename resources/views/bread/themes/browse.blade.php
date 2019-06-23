@@ -22,7 +22,7 @@
                             @endif
                         </div>
                         <div style="height: 200px; overflow: hidden; width: auto;">
-                            <img class="card-img-top" src="{{asset($theme['screenshot'])}}" alt="Card image cap">
+                            <img class="card-img-top" src="{{asset(str_replace(public_path().'/themes/', '', $theme['screenshot']))}}" alt="Card image cap">
                         </div>
 
                         <div class="card-body">

@@ -138,7 +138,9 @@ class LeafEntityController extends Controller
     public static function getLeavesByType($leaf_type)
     {
         $leaves_per_page = Alder::getRootValue('leaves_per_page');
-        return Leaf::where('leaf_type_id', LeafType::where('slug',$leaf_type)->value('id'))->paginate($leaves_per_page);
+        return Leaf::where('leaf_type_id', LeafType::where('slug',$leaf_type)->value('id'))
+            ->where('status_id', LeafStatus::where('slug', 'published')->value('id'))
+            ->paginate($leaves_per_page);
     }
 
     /**

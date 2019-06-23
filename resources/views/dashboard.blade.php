@@ -5,105 +5,61 @@
 
 @section('content')
     <div class="tab-content mb-5">
-
-
         <div class="tab-pane" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab"></div>
-
-
         <div class="d-sm-flex align-items-center mb-4">
-            <h1 class="h3 mb-0 text-gray-800">{{ __("alder::leaf_types.dashboard.singular") }}</h1>
-            <!-- TODO: if can add new -->
-            <a href="{{ route("alder.users.create") }}" class="btn btn-success btn-icon-split ml-3">
+            <h1 class="h3 mb-0 text-gray-800">{{ __("alder::dashboard.singular") }}</h1>
             @include('alder::components.locale-switcher')
         </div>
 
-
-        <div class="tab-content">
-            <div>
-                <h3>Posts</h3>
-            </div>
-            <div class="row">
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
-                    <div class="card-body">
-                        <h5>Total number of posts: {{$posts}}</h5>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card shadow mb-4 ">
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold text-primary">{{ __('alder::leaf_types.pages.plural') }}</h5>
                     </div>
-                </div>
-
-
-                {{--                @dd($lastpost)--}}
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Lasted post updated in {{$posts > 0 ? $lastpost->updated_at : 0}}</h5>
-                    </div>
-                </div>
-                @if ($posts > 0)
-                    <div class="card col-lg border-left-success" style="margin-left: 10px">
-
-                        <div class="card-body">
-                            <a href="posts/{{$lastpost->slug}}">
-                                <button class="btn btn-primary btn-success">Lasted updated post</button>
+                        <h3>{{ __('alder::dashboard.total') }}: {{ $pages }}</h3>
+                        @if($pages > 0)
+                            <h4>{{ __('alder::dashboard.last_updated') }}: {{ $lastpage->updated_at }}</h4>
+                            <a href="/{{$lastpage->slug}}" class="btn btn-primary btn-success">
+                                {{ __('alder::dashboard.last_updated') }} {{ lcfirst(__('alder::leaf_types.pages.singular')) }}
                             </a>
-                            <a href="posts/create">
-                                <button class="btn btn-primary btn-success">Create new post</button>
+                        @endif
+                        <a href="{{ route('alder.pages.create') }}" class="btn btn-primary btn-success">
+                            {{ __('alder::dashboard.add_new_page') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow mb-4 ">
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold text-primary">{{ __('alder::leaf_types.posts.plural') }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3>{{ __('alder::dashboard.total') }}: {{ $posts }}</h3>
+                        @if($posts > 0)
+                            <h4>{{ __('alder::dashboard.last_updated') }}: {{ $lastpost->updated_at }}</h4>
+                            <a href="/{{ lcfirst(__('alder::leaf_types.posts.plural')) }}/{{$lastpost->slug}}" class="btn btn-primary btn-success">
+                                {{ __('alder::dashboard.last_updated') }} {{ lcfirst(__('alder::leaf_types.posts.singular')) }}
                             </a>
-                        </div>
-
-                    </div>
-                @endif
-            </div>
-        </div>
-
-        <div class="tab-content">
-            <div>
-                <h3>Pages</h3>
-            </div>
-            <div class="row">
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
-                    <div class="card-body">
-                        <h5>Total number of pages: {{$pages}}</h5>
+                        @endif
+                        <a href="{{ route('alder.posts.create') }}" class="btn btn-primary btn-success">
+                            {{ __('alder::dashboard.add_new_post') }}
+                        </a>
                     </div>
                 </div>
-
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
-                    <div class="card-body">
-                        <h5>Lasted page updated in {{$pages > 0 ? $lastpage->updated_at : 0}}</h5>
-                    </div>
-                </div>
-                @if ($pages > 0)
-                    <div class="card col-lg border-left-success" style="margin-left: 10px">
-                        <div class="card-body">
-                            <a href="pages/{{$lastpage->slug}}">
-                                <button class="btn btn-primary btn-success">Lasted updated page</button>
-                            </a>
-                            <a href="pages/create">
-                                <button class="btn btn-primary btn-success">Create new page</button>
-                            </a>
-                        </div>
-                    </div>
-                @endif
             </div>
-        </div>
-
-        <div class="tab-content">
-            <div>
-                <h3>Users</h3>
-            </div>
-            <div class="row">
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
-                    <div class="card-body">
-                        <h5>Total number of users: {{$users_all}}</h5>
+            <div class="col-lg-4">
+                <div class="card shadow mb-4 ">
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold text-primary">{{ __('alder::leaf_types.users.plural') }}</h5>
                     </div>
-                </div>
-
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
                     <div class="card-body">
-                        <h5>Total number of active users {{$users}}</h5>
-                    </div>
-                </div>
-                <div class="card col-lg border-left-success" style="margin-left: 10px">
-                    <div class="card-body">
-                        <a href="alder/users/create">
-                            <button class="btn btn-primary btn-success">Create new user</button>
+                        <h3>{{ __('alder::dashboard.users_total_active') }}: {{ $users }}</h3>
+                        <h4>{{ __('alder::dashboard.users_total') }}: {{ $users_all }}</h4>
+                        <a href="{{ route('alder.users.create') }}" class="btn btn-primary btn-success">
+                            {{ __('alder::dashboard.add_new_user') }}
                         </a>
                     </div>
                 </div>
