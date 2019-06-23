@@ -155,5 +155,6 @@ $(document).ready(function () {
 function fmSetLink($url) {
 	$url = $url.replace(/^.*\/\/[^\/]+\//, '');
 	$('.image_label[data-current-file]').val($url).attr("value", $url);
+	$("[data-current-file]").change();
 	$("[data-current-file]").removeAttr("data-current-file");
 }
