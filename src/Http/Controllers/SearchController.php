@@ -14,10 +14,14 @@ class SearchController extends BaseController
         $leaves = $request->search
             ? Leaf::whereTranslationLike('content', "%$request->search%")
                 ->orWhereTranslationLike('title', "%$request->search%")
-                ->whereStatusId(LeafStatus::whereSlug('published')->value('id'))
                 ->whereIn('leaf_type_id', LeafType::whereIn('slug', ['posts', 'pages'])->pluck('id'))
                 ->get()
             : [];
+        
+        $published = LeafStatus::whereSlug('published')->value('id');
+        $leaves = $leaves->filter(function ($leaf) use ($published) {
+            return $leaf->status_id == $published;
+        });
         
         foreach ($leaves as $leaf)
             $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type);
