@@ -1,5 +1,47 @@
 $(document).ready(function () {
 
+	var toolbarOptions = [
+		['bold', 'italic', 'underline'],        // toggled buttons
+		[{'list': 'ordered'}, {'list': 'bullet'}],
+		['blockquote', 'code-block'],
+
+		//[{'header': 1}, {'header': 2}, {'header': 3}, {'header': 4}],               // custom button values
+
+		[{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+		[{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+		[{'direction': 'rtl'}],                         // text direction
+
+		[{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+		[{'color': []}, {'background': []}],          // dropdown with defaults from theme
+		[{'font': []}],
+		[{'align': []}],
+
+
+		['image', 'video'],  // Embeds
+
+		['clean']                                         // remove formatting button
+	];
+
+
+	function initQuill(quillSelector) {
+		new Quill(quillSelector, {
+			theme: 'snow',
+			modules: {
+				toolbar: toolbarOptions
+			}
+		});
+
+		$('.ql-toolbar').css('width', '100%');
+	}
+
+	/*INIT FOR QUILL*/
+	if ($(".page-builder-content-item[data-component=html]").length) {
+		$('.page-builder-content-item[data-component=html]').each(function () {
+			initQuill($(this).find('.quill')[0]);
+		});
+	}
+
 
 	$('#page-builder-components').on('click', '.btn', function (e) {
 		e.preventDefault();
@@ -24,13 +66,23 @@ $(document).ready(function () {
 			"<div class=\"circle-icon\" data-action=\"down\"><em class='fa fa-angle-down'></em></div>" +
 			"</div>";
 
+		var hidden;
+		($(this).attr('data-component') === "html") ? hidden = "" : hidden = "hidden";
+
 		componentHTML =
 			"<div class=\"page-builder-content-item\" data-component=\"" + $(this).attr('data-component') + "\" style=\"background-image: url(" + thumbnail + ")\">" +
 			"<div class=\"page-builder-content-item__delete delete-icon\">&times;</div>" + actions +
-			"<div hidden>" + componentHTML + "</div>" +
+			"<div " + hidden + ">" + componentHTML + "</div>" +
 			"</div>";
 
 		$('#page-builder-content').append(componentHTML);
+
+
+		if ($(this).attr('data-component') === "html") {
+			var htmlComponents = $('.page-builder-content-item[data-component=html]');
+			var lastHTMLComponent = htmlComponents.eq(htmlComponents.length - 1);
+			initQuill(lastHTMLComponent.find(".quill")[0]);
+		}
 	});
 
 
@@ -128,6 +180,8 @@ $(document).ready(function () {
 	// Page builder start edit
 	$('#page-builder-content').on("click", ".page-builder-content-item", function (e) {
 
+		if ($(this).attr("data-component") === "html") return;
+
 		var content = $(this).find("[hidden]").eq(0);
 
 		$("[data-editing]").removeAttr("data-editing");
@@ -216,31 +270,35 @@ $(document).ready(function () {
 					fields: {}
 				};
 
+			if (componentType === 'html') {
+				componentObj.fields.html_content = $(this).find(".quill").find(".ql-editor").html();
+			} else {
 
-			/*Repeaters */
-			if ($repeaters.length) {
-				var counter = 1;
-				$repeaters.each(function () {
-					componentObj.fields["repeater_" + counter] = [];
+				/*Repeaters */
+				if ($repeaters.length) {
+					var counter = 1;
+					$repeaters.each(function () {
+						componentObj.fields["repeater_" + counter] = [];
 
-					$(this).find('.rptr-field').each(function () {
-						var obj = {};
+						$(this).find('.rptr-field').each(function () {
+							var obj = {};
 
-						$(this).find("input, select, textarea").each(function () {
-							obj[$(this).attr("name")] = $(this).val();
-							$(this).attr("disabled", true);
+							$(this).find("input, select, textarea").each(function () {
+								obj[$(this).attr("name")] = $(this).val();
+								$(this).attr("disabled", true);
+							});
+
+							componentObj.fields["repeater_" + counter].push(obj);
 						});
-
-						componentObj.fields["repeater_" + counter].push(obj);
 					});
+				}
+
+				/**/
+				$fields.each(function () {
+					componentObj.fields[$(this).attr("name")] = $(this).val();
+					$(this).attr("disabled", true);
 				});
 			}
-
-			/**/
-			$fields.each(function () {
-				componentObj.fields[$(this).attr("name")] = $(this).val();
-				$(this).attr("disabled", true);
-			});
 
 			//
 			contentHTMLJSON.push(componentObj);
