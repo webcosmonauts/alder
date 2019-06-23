@@ -166,9 +166,10 @@ class BranchBREADController extends BaseController
     public function store(Request $request) {
         foreach (['title', 'slug'] as $field) {
             if (!isset($request->$field) || empty($request->$field)) {
+                $field_name = lcfirst(__("alder::table_columns.$field"));
                 return Alder::returnResponse(
                     $request->ajax(),
-                    __('alder::messages.field_empty', ['name' => lcfirst(__("alder::table_columns.$field"))]),
+                    __('alder::messages.field_empty', ['name' => $field_name]),
                     false,
                     'danger',
                 );
@@ -245,9 +246,10 @@ class BranchBREADController extends BaseController
     public function update(Request $request, int $id) {
         foreach (['title', 'slug'] as $field) {
             if (!isset($request->$field) || empty($request->$field)) {
+                $field_name = lcfirst(__("alder::table_columns.$field"));
                 return Alder::returnResponse(
                     $request->ajax(),
-                    __('alder::messages.field_empty', ['name' => lcfirst(__("alder::table_columns.$field"))]),
+                    __('alder::messages.field_empty', ['name' => $field_name]),
                     false,
                     'danger',
                 );
