@@ -10,7 +10,7 @@
         <div class="card-body row">
             <div class="col-12 col-lg-3">
                 {{--                @dd($theme)--}}
-                <img src="{{asset($theme->screenshot)}}" alt="" class="img-fluid">
+                <img src="{{asset(str_replace(public_path(), '', $theme->screenshot))}}" alt="" class="img-fluid">
             </div>
             <div class="col-12 col-lg-9">
 
