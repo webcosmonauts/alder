@@ -164,6 +164,17 @@ class BranchBREADController extends BaseController
      * @return mixed
      */
     public function store(Request $request) {
+        foreach (['title', 'slug'] as $field) {
+            if (!isset($request->$field) || empty($request->$field)) {
+                return Alder::returnResponse(
+                    $request->ajax(),
+                    __('alder::messages.field_empty', ['name' => lcfirst(__("alder::table_columns.$field"))]),
+                    false,
+                    'danger',
+                );
+            }
+        }
+        
         $branchType = $this->getBranchType($request);
         
         /* Get leaf type with custom modifiers */
@@ -232,6 +243,17 @@ class BranchBREADController extends BaseController
      * @return mixed
      */
     public function update(Request $request, int $id) {
+        foreach (['title', 'slug'] as $field) {
+            if (!isset($request->$field) || empty($request->$field)) {
+                return Alder::returnResponse(
+                    $request->ajax(),
+                    __('alder::messages.field_empty', ['name' => lcfirst(__("alder::table_columns.$field"))]),
+                    false,
+                    'danger',
+                );
+            }
+        }
+        
         /* Get leaf */
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
         
