@@ -3,7 +3,7 @@
 return [
     'singular' => 'Typ korzenia',
     'plural' => 'Rodzaje korzeni',
-    'general' => 'Generał',
+    'general' => 'Ogólne',
     'appearance' => 'Wygląd',
     'mailing' => 'Mailing',
     'widgets' => 'Widgety',
