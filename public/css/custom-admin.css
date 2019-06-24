@@ -1,5 +1,12 @@
 
-.select2{
+.bg-login-image {
+    background-image: url(https://img4.goodfon.ru/original/1280x960/1/3c/winter-on-the-wye-reka-derevo-olkha.jpg?d=1) !important;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.select2 {
     width: 100% !important;
 }
 
