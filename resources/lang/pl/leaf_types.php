@@ -68,4 +68,9 @@ return [
         'plural' => 'Tagi',
         'add_new' => 'Dodaj nowy tag'
     ],
+    'reports'=> [
+        'singular' => 'Raport',
+        'plural' => 'Raporty',
+        'add_new' => 'Dodaj nowy raport'
+    ],
 ];
