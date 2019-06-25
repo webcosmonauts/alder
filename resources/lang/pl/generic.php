@@ -57,6 +57,8 @@ return [
     'more' => 'Więcej',
     'move' => 'Przenieś',
     'name' => 'Nazwa',
+    'surname' => 'Nazwisko',
+    'is_active' => 'Jest aktywny',
     'new' => 'Nowy',
     'no' => 'Nie',
     'no_thanks' => 'Nie dzięki',

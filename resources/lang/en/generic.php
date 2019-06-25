@@ -65,6 +65,8 @@ return [
     'more' => 'More',
     'move' => 'Move',
     'name' => 'Name',
+    'surname' => 'Surname',
+    'is_active' => 'Is active',
     'new' => 'New',
     'no' => 'No',
     'no_thanks' => 'No Thanks',
