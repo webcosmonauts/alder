@@ -207,7 +207,12 @@
         </div>
         <div class="card-body">
             @include("alder::components.page_builder_input",
+            ['type' => 'number', 'name' => 'left_column_size', 'label' => __('alder::generic.left_column_size') . " (%)", 'value'=> $component->fields->left_column_size])
+            @include("alder::components.page_builder_input",
             ['type' => 'file', 'name' => 'image', 'label' => __('alder::generic.image'), 'value'=> $component->fields->image])
+
+            @include("alder::components.page_builder_input",
+            ['type' => 'number', 'name' => 'right_column_size', 'label' => __('alder::generic.right_column_size') . " (%)", 'value'=>$component->fields->right_column_size])
 
             @include("alder::components.page_builder_input",
             ['type' => 'text', 'name' => 'title', 'label' => __('alder::generic.title'), 'value'=> $component->fields->title])

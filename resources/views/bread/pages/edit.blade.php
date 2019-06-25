@@ -448,7 +448,10 @@
                         <h5 class="text-primary font-weight-bold">{{__('alder::generic.img_left_text_right')}}</h5>
                     </div>
                     <div class="card-body">
+                        [input:number:left_column_size:{{__('alder::generic.left_column_size')}} (%)]
                         [input:file:image:{{__('alder::generic.image')}}]
+
+                        [input:number:right_column_size:{{__('alder::generic.right_column_size')}} (%)]
                         [input:text:title:{{__('alder::generic.title')}}]
                         [textarea:text:{{__('alder::generic.text')}}]
                         [input:text:link_text:{{__('alder::generic.link_text')}}]

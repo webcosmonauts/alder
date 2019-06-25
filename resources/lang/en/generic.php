@@ -146,5 +146,6 @@ return [
     'animation_type' => 'Animation type',
     'animation_duration' => 'Animation duration',
     'preview' => 'Preview',
-
+    'left_column_size' => 'Left column size',
+    'right_column_size' => 'Right column size'
 ];

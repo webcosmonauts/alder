@@ -130,4 +130,6 @@ return [
     'animation_type' => 'Typ animacji',
     'animation_duration' => 'Czas trwania animacji',
     'preview' => 'Zobacz',
+    'left_column_size' => 'Rozmiar lewej kolumny',
+    'right_column_size' => 'Prawy rozmiar kolumny'
 ];
