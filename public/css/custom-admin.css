@@ -2,7 +2,7 @@
 .bg-login-image {
     background-image: url(https://nimoz.pl/css/images/logo.svg) !important;
     background-position: 50% 50%;
-    background-size: cover;
+    background-size: 60%;
     background-repeat: no-repeat;
 }
 
