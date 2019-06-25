@@ -26,7 +26,7 @@ class SearchController extends BaseController
         foreach ($leaves as &$leaf)
             $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type);
         
-        return view('templates.nimoz.search')->with([
+        return view('themes.nimoz.search')->with([
             'leaves' => $leaves,
         ]);
     }
