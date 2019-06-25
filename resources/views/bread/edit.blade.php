@@ -104,8 +104,13 @@
                                 <select name="status_id" id="status_id" class="form-control"
                                         aria-label="{{ __('alder::leaf_statuses.singular') }}"
                                         aria-describedby="{{ __('alder::leaf_statuses.singular') }}">
+                                    @php
+                                        $current_status = ($edit && (isset($leaf->status_id)))
+                                            ? $leaf->status_id
+                                            : \Webcosmonauts\Alder\Models\LeafStatus::where('slug', 'published')->value('id');
+                                    @endphp
                                     @foreach($relations->statuses as $status)
-                                        <option {{ $edit && ($status->id == $leaf->status_id) ? 'selected' : '' }}
+                                        <option {{ $status->id == $current_status ? 'selected' : '' }}
                                                 value="{{ $status->id }}">
                                             {{ __("alder::leaf_statuses.$status->slug") }}
                                         </option>
