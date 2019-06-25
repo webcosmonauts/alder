@@ -256,7 +256,7 @@
                    aria-label="Image"
                    aria-describedby="button-image" @if($edit) value="{{$field_value}}" @endif>
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary button-image" type="button">{{ __('alder::generic.choose_file') }}</button>
+                <button class="btn btn-outline-secondary button-image" type="button">{{ __('alder::generic.choose') }}</button>
             </div>
         </div>
     </div>

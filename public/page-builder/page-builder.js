@@ -100,7 +100,7 @@ $(document).ready(function () {
 					"        <input type=\"text\" class=\"image_label form-control\" name=\"" + name + "\"\n" +
 					"               aria-label=\"Image\" aria-describedby=\"button-image\">\n" +
 					"        <div class=\"input-group-append\">\n" +
-					"            <button class=\"btn btn-outline-secondary button-image\"  type=\"button\">Select</button>\n" +
+					"            <button class=\"btn btn-outline-secondary button-image\"  type=\"button\">Wybierz</button>\n" +
 					"        </div>\n" +
 					"    </div>" +
 					"    </div>";
