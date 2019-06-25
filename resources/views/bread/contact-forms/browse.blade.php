@@ -9,7 +9,7 @@
             <span class="icon text-white-50">
                 <i class="fas fa-plus-circle"></i>
             </span>
-            <span class="text">{{ __('alder::generic.add_new') . ' ' .  lcfirst(__("alder::leaf_types.contact-forms.singular"))}}</span>
+            <span class="text">{{ __('alder::leaf_types.contact-forms.add_new')}}</span>
         </a>
         @include('alder::components.locale-switcher')
     </div>
