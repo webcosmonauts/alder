@@ -1,5 +1,45 @@
 $(document).ready(function () {
 
+	var toolbarOptions = [
+		['bold', 'italic', 'underline'],        // toggled buttons
+		[{'list': 'ordered'}, {'list': 'bullet'}],
+		['blockquote', 'code-block'],
+
+		//[{'header': 1}, {'header': 2}, {'header': 3}, {'header': 4}],               // custom button values
+
+		[{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+		[{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+		[{'direction': 'rtl'}],                         // text direction
+
+		[{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+		[{'color': []}, {'background': []}],          // dropdown with defaults from theme
+		[{'font': []}],
+		[{'align': []}],
+
+
+		['image', 'video'],  // Embeds
+
+		['clean']                                         // remove formatting button
+	];
+
+
+	function initQuill(quillSelector, content) {
+		var quill = new Quill(quillSelector, {
+			theme: 'snow',
+			modules: {
+				toolbar: toolbarOptions
+			}
+		});
+
+		if (content) {
+			var delta = quill.clipboard.convert(content);
+			quill.setContents(delta, 'silent');
+		}
+
+		$('.ql-toolbar').css('width', '100%');
+	}
+
 	if ($('.datepicker').length) $('.datepicker').datetimepicker({
 		format: "DD/MM/YYYY"
 	});
@@ -121,6 +161,18 @@ $(document).ready(function () {
 			}
 
 			if ($(this).prop("type") === "textarea") $(this).html("");
+		});
+
+
+		/* for Quill */
+		clone.find(".quill").each(function () {
+			$(this).prev(".ql-toolbar").remove();
+			$(this).remove();
+		});
+
+		clone.find("textarea[hidden]").each(function () {
+			$(this).after("<div class=\"quill\" style=\"height: 300px; width: 100%\"></div>");
+			initQuill($(this).next()[0], $(this).text());
 		});
 
 		clone.find('input[type=checkbox], input[type=radio]').prop('checked', false);
