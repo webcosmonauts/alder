@@ -149,6 +149,7 @@ class MenuController extends BaseController
         return DB::transaction(function () use ($edit, $request, $leaf_type, $params, $id) {
             try {
 
+
                 $cont_id = LeafType::where('slug', 'menus')->value('id');
 
                 $menu = $edit ? Leaf::where('id',$id)->get()->first() : new Leaf();
@@ -166,15 +167,6 @@ class MenuController extends BaseController
                 $menu->updated_at = date("Y-m-d H:i:s");
                 $menu->revision = 0;
 
-//                dd($menu);
-
-
-                $LCMV->values = $this->addValue($request, $params->lcm);
-
-
-                $LCMV->save();
-
-                $menu->LCMV_id = $LCMV->id;
 
                 $menu->save();
 
