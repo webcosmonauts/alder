@@ -9,6 +9,8 @@
 
     <title>Alder</title>
 
+    <link rel="icon" href="/alder.ico">
+
     <!-- Scripts -->
 
 
