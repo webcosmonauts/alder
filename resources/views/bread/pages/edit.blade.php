@@ -352,12 +352,9 @@
 
                                         <div class="page-builder-content-item__delete delete-icon">×</div>
 
-                                        <div @if($component->component !== 'html') hidden @endif>
+                                        <div hidden>
                                             @include("alder::components.page_builder")
-
-                                            @if($component->component !== 'html')
-                                                @include("alder::components.page_builder_animation", ['editing' => true])
-                                            @endif
+                                            @include("alder::components.page_builder_animation", ['editing' => true])
                                         </div>
                                     </div>
                                 @endforeach
@@ -578,14 +575,18 @@
 
 
             <!-- HTML -->
-            <div data-component="html" data-thumbnail="">
-                <div class="card-body" style="padding: 35px 24px 10px 47px">
-                    <div class="quill" id=""
-                         style="width: 100%; height: 400px"></div>
-                    <textarea name="html_content" hidden></textarea>
+            <div data-component="html" data-thumbnail="{{asset('vendor/page-builder/img/html.jpg')}}">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.content')}}</h5>
+                    </div>
+                    <div class="card-body">
+                        [textarea:html_content]
+                    </div>
                 </div>
-            </div>
 
+                @include("alder::components.page_builder_animation", ['editing' => false])
+            </div>
         </div>
 
 

@@ -108,7 +108,7 @@ return [
     'partners' => 'Partnerzy',
     'center_image' => 'Centralny obraz',
     'slide' => 'Slajd',
-    'text' => 'Teks',
+    'text' => 'Tekst',
     'image' => 'Obraz',
     'tile' => 'Kolumna',
     'number' => 'numer',

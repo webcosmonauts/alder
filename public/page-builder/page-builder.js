@@ -24,22 +24,20 @@ $(document).ready(function () {
 	];
 
 
-	function initQuill(quillSelector) {
-		new Quill(quillSelector, {
+	function initQuill(quillSelector, content) {
+		var quill = new Quill(quillSelector, {
 			theme: 'snow',
 			modules: {
 				toolbar: toolbarOptions
 			}
 		});
 
-		$('.ql-toolbar').css('width', '100%');
-	}
+		if (content) {
+			var delta = quill.clipboard.convert(content);
+			quill.setContents(delta, 'silent');
+		}
 
-	/*INIT FOR QUILL*/
-	if ($(".page-builder-content-item[data-component=html]").length) {
-		$('.page-builder-content-item[data-component=html]').each(function () {
-			initQuill($(this).find('.quill')[0]);
-		});
+		$('.ql-toolbar').css('width', '100%');
 	}
 
 
@@ -66,23 +64,14 @@ $(document).ready(function () {
 			"<div class=\"circle-icon\" data-action=\"down\"><em class='fa fa-angle-down'></em></div>" +
 			"</div>";
 
-		var hidden;
-		($(this).attr('data-component') === "html") ? hidden = "" : hidden = "hidden";
 
 		componentHTML =
 			"<div class=\"page-builder-content-item\" data-component=\"" + $(this).attr('data-component') + "\" style=\"background-image: url(" + thumbnail + ")\">" +
 			"<div class=\"page-builder-content-item__delete delete-icon\">&times;</div>" + actions +
-			"<div " + hidden + ">" + componentHTML + "</div>" +
+			"<div hidden>" + componentHTML + "</div>" +
 			"</div>";
 
 		$('#page-builder-content').append(componentHTML);
-
-
-		if ($(this).attr('data-component') === "html") {
-			var htmlComponents = $('.page-builder-content-item[data-component=html]');
-			var lastHTMLComponent = htmlComponents.eq(htmlComponents.length - 1);
-			initQuill(lastHTMLComponent.find(".quill")[0]);
-		}
 	});
 
 
@@ -97,7 +86,7 @@ $(document).ready(function () {
 
 			type = shortcode[1];
 			name = shortcode[2];
-			label = shortcode[3];
+			label = shortcode[3] || "";
 
 			if (type !== "file") {
 				return "<div class=\"mb-2\">" +
@@ -120,7 +109,7 @@ $(document).ready(function () {
 		} else if (shortcode[0] === "textarea") {
 
 			name = shortcode[1];
-			label = shortcode[2];
+			label = shortcode[2] || "";
 
 			return "<div class=\"mb-2\"><label>" + label + "</label><textarea class=\"form-control\" name=\"" + name + "\"></textarea></div>"
 		}
@@ -179,9 +168,6 @@ $(document).ready(function () {
 
 	// Page builder start edit
 	$('#page-builder-content').on("click", ".page-builder-content-item", function (e) {
-
-		if ($(this).attr("data-component") === "html") return;
-
 		var content = $(this).find("[hidden]").eq(0);
 
 		$("[data-editing]").removeAttr("data-editing");
@@ -201,6 +187,14 @@ $(document).ready(function () {
 			}
 		});
 
+
+		/* init Quill */
+		$('#page-builder-modal').find("textarea").each(function () {
+			$(this).attr("hidden", true);
+			$(this).after("<div class=\"quill\" style=\"height: 300px; width: 100%\"></div>");
+			initQuill($(this).next()[0], $(this).text());
+		});
+
 		// Show modal
 		$("#page-builder-modal").addClass("visible");
 	});
@@ -209,6 +203,18 @@ $(document).ready(function () {
 	$("#page-builder-modal-save").on("click", function (e) {
 		e.preventDefault();
 		e.stopPropagation();
+
+
+		/*store content form QUILL*/
+		$("#page-builder-modal").find(".ql-editor").each(function () {
+
+			var content = $(this).html();
+
+			$(this).parent().prev().prev('textarea').html(content).removeAttr("hidden");
+			$(this).parent().prev(".ql-toolbar").remove();
+			$(this).parent().remove();
+		});
+
 
 		$("[data-editing]").html($("#page-builder-modal .content").html());
 
@@ -270,35 +276,32 @@ $(document).ready(function () {
 					fields: {}
 				};
 
-			if (componentType === 'html') {
-				componentObj.fields.html_content = $(this).find(".quill").find(".ql-editor").html();
-			} else {
 
-				/*Repeaters */
-				if ($repeaters.length) {
-					var counter = 1;
-					$repeaters.each(function () {
-						componentObj.fields["repeater_" + counter] = [];
+			/*Repeaters */
+			if ($repeaters.length) {
+				var counter = 1;
+				$repeaters.each(function () {
+					componentObj.fields["repeater_" + counter] = [];
 
-						$(this).find('.rptr-field').each(function () {
-							var obj = {};
+					$(this).find('.rptr-field').each(function () {
+						var obj = {};
 
-							$(this).find("input, select, textarea").each(function () {
-								obj[$(this).attr("name")] = $(this).val();
-								$(this).attr("disabled", true);
-							});
-
-							componentObj.fields["repeater_" + counter].push(obj);
+						$(this).find("input, select, textarea").each(function () {
+							obj[$(this).attr("name")] = $(this).val();
+							$(this).attr("disabled", true);
 						});
-					});
-				}
 
-				/**/
-				$fields.each(function () {
-					componentObj.fields[$(this).attr("name")] = $(this).val();
-					$(this).attr("disabled", true);
+						componentObj.fields["repeater_" + counter].push(obj);
+					});
 				});
 			}
+
+			/**/
+			$fields.each(function () {
+				componentObj.fields[$(this).attr("name")] = $(this).val();
+				$(this).attr("disabled", true);
+			});
+
 
 			//
 			contentHTMLJSON.push(componentObj);

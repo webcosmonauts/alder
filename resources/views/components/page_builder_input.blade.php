@@ -9,7 +9,7 @@
         @break
 
         @case("textarea")
-        <textarea class="form-control" name="{{$name}}">{{$value}}</textarea>
+        <textarea class="form-control" name="{{$name}}">{!! $value !!}</textarea>
         @break
 
         @case("file")

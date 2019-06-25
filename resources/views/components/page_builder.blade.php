@@ -239,12 +239,17 @@
 
 
     @case("html")
-    <div class="card-body" style="padding: 35px 24px 10px 47px">
-        <div class="quill" id=""
-             style="width: 100%; height: 400px">{!! $component->fields->html_content !!}
+
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h5 class="text-primary font-weight-bold">{{__('alder::generic.content')}}</h5>
         </div>
-        <textarea name="html_content" hidden></textarea>
+        <div class="card-body">
+            @include("alder::components.page_builder_input",
+                ['type' => 'textarea', 'name' => 'html_content', 'label' => __('alder::generic.content'), 'value'=> $component->fields->html_content])
+        </div>
     </div>
+
     @break
 
 @endswitch
