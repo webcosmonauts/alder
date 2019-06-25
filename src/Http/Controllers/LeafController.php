@@ -25,27 +25,33 @@ class LeafController extends Controller
     /**
      * Get single leaf view
      *
+     * @throws \Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionOperatorException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionParameterException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownRelationException
+     *
      * @param Request $request
      * @param String $slug
-     * @param LeafController $theme
+     *
      * @return View
-     * @throws AssigningNullToNotNullableException
      */
     public function index(Request $request, $slug)
     {
         $uri = explode('/', $request->path())[0];
         if ($uri == 'posts' || $uri == 'posty')
             $uri = 'posts';
+        else if ($uri == 'reports' || $uri == 'raporty')
+            $uri = 'reports';
         else
             $uri = 'pages';
         
-        if(is_int((int)$slug) && (int)$slug > 0){
+        if (is_int((int)$slug) && (int)$slug > 0){
             $leaf = LeafEntityController::getLeaf($slug, $uri);
         }
-        elseif(is_string($slug)){
+        elseif (is_string($slug)){
             $leaf = LeafEntityController::getLeafBySlag($slug, $uri);
         }
-        if (!$leaf)
+        if (!isset($leaf) || !$leaf)
             return response()->view('themes.nimoz.404');
         
         $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type);
