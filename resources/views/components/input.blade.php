@@ -29,7 +29,10 @@
 
                 @if($edit && $field_value)
 
+                    @php $parent_field = $field; @endphp
+
                     @foreach($field_value as $values)
+
                         <div class="rptr-field card shadow">
                             <div class="rptr-field__delete delete-icon">&times;</div>
 
@@ -39,30 +42,31 @@
 
                             <div class="card-body">
 
+                                @if(isset($parent_field->fields))
+                                    @foreach($parent_field->fields as $lcm_subitem1 => $k1)
 
-                                @foreach($k->fields as $lcm_subitem1 => $k1)
-                                    @php
-                                        $field_name = $lcm_subitem1;
-                                        $label = $k1->display_name;
-                                        $field = $k1;
+                                        @php
+                                            $field_name = $lcm_subitem1;
+                                            $label = $k1->display_name;
+                                            $field = $k1;
 
+                                            if(isset($values->$field_name))
+                                                $field_value = $values->$field_name;
 
+                                            if($k1->type === 'checkbox' || $k1->type === 'radio'){
+                                                $field_name = Alder::chooseNameFormRptr($field_name, $values);
+                                                $field_value = $values->$field_name;
+                                            }
 
-                                        if($edit) :
+                                        @endphp
 
-                                            $field_name = Alder::chooseNameFormRptr($field_name, $values);
-                                            $field_value = $values->$field_name;
+                                        @if(isset($k1->type))
+                                            @php $type = $k1->type; @endphp
+                                        @endif
 
-                                         endif;
-
-
-
-                                    @endphp
-
-                                    @if(isset($k1->type)) @php $type = $k1->type; @endphp @endif
-
-                                    @include('alder::components.input')
-                                @endforeach
+                                        @include('alder::components.input')
+                                    @endforeach
+                                @endif
 
 
                                 <div class="rptr-field__add btn btn-sm btn-primary btn-icon-split">
@@ -83,7 +87,7 @@
                         </div>
 
                         <div class="card-body">
-                            @foreach($k->fields as $lcm_subitem1 => $k1)
+                            @foreach($field->fields as $lcm_subitem1 => $k1)
                                 @php
                                     $field_name = $lcm_subitem1;
                                     $label = $k1->display_name;
@@ -123,8 +127,8 @@
                         <option value="{{ $relation->id }}"
                         @if(isset($tab) && $tab)
                             {{ ($edit && $relation->id == ($leaf[$tab]->$field_name->id ?? null)) ? 'selected' : '' }}>
-                                @else
-                            {{ ($edit && $relation->id == ($leaf->$field_name->id ?? null)) ? 'selected' : '' }}>
+                            @else
+                                {{ ($edit && $relation->id == ($leaf->$field_name->id ?? null)) ? 'selected' : '' }}>
                             @endif
 
                             {{ $relation->title }}
@@ -256,7 +260,8 @@
                    aria-label="Image"
                    aria-describedby="button-image" @if($edit) value="{{$field_value}}" @endif>
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary button-image" type="button">{{ __('alder::generic.choose') }}</button>
+                <button class="btn btn-outline-secondary button-image"
+                        type="button">{{ __('alder::generic.choose') }}</button>
             </div>
         </div>
     </div>

@@ -39,7 +39,6 @@
     {{$edit ? method_field('PUT') : method_field('POST')}}
 
     @php
-
         $mainRightPanelCounter = 0;
 
            foreach($params as $lcm_group) :
