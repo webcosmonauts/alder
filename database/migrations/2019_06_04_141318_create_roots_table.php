@@ -21,6 +21,7 @@ class CreateRootsTable extends Migration
             $table->string('input_type')->default('text');
             $table->integer('order')->nullable();
             $table->string('capabilities')->nullable();
+            $table->boolean('is_visible')->default(true);
             $table->boolean('is_active')->default(true);
             $table->integer('root_type_id')->unsigned();
             $table->timestamps();
