@@ -294,7 +294,7 @@ class TemplateController extends Controller
         //Empty variable for further work
         $view = "";
         //Template prefix
-        $template_prefix = "templates.";
+        $template_prefix = "themes.";
         //Template hierarchy builder
 
         //dd($leaf_type);
@@ -375,7 +375,7 @@ class TemplateController extends Controller
     public static function getTemplatesNames($theme)
     {
         $theme = Alder::getRootValue('active-theme');
-        $files = File::allFiles(resource_path('views/templates/' . $theme . '/templates'));
+        $files = File::allFiles(resource_path('views/themes/' . $theme . '/templates'));
         $all_files = array();
         foreach ($files as $file) {
             if (!preg_match('|Template Name:(.*)$|mi', file_get_contents($file), $header))
@@ -396,7 +396,7 @@ class TemplateController extends Controller
     public static function getTemplatesObject($theme)
     {
         $theme = Alder::getRootValue('active-theme');
-        $files = File::allFiles(resource_path('views/templates/' . $theme . '/templates'));
+        $files = File::allFiles(resource_path('views/themes/' . $theme . '/templates'));
         $all_files = array();
         foreach ($files as $file) {
             if (!preg_match('|Template Name:(.*)$|mi', file_get_contents($file), $header))

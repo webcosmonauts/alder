@@ -46,7 +46,7 @@ class LeafController extends Controller
             $leaf = LeafEntityController::getLeafBySlag($slug, $uri);
         }
         if (!$leaf)
-            return response()->view('templates.nimoz.404');
+            return response()->view('themes.nimoz.404');
         
         $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type);
         
