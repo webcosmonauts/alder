@@ -20,36 +20,20 @@
                                 <div class="card-block px-3">
                                     <h4 class="card-title">{{$user->name}} {{$user->surname}}</h4>
                                     <p class="card-text">
-                                    @if(isset($user))
-                                        @foreach($user->getAttributes() as $key => $value)
-                                            @switch($key)
-                                                @case('name')
-                                                    {{$key}} : {{$value}}<br>
-                                                    @break
-                                                @case('surname')
-                                                    {{$key}} : {{$value}}<br>
-                                                    @break
-                                                @case('email')
-                                                    {{$key}} : {{$value}}<br>
-                                                    @break
-                                                @case('email_verified_at')
-                                                    {{$key}} : {{$value}}<br>
-                                                    @break
-                                                @case('created_at')
-                                                    {{$key}} : {{$value}}<br>
-                                                    @break
-                                                @case('updated_at')
-                                                    {{$key}} : {{$value}}<br>
-                                                    @break
-                                                @case('is_active')
-                                                    {{$value ? 'Activation : Yes' : 'Activation : No'}}<br>
-                                                    @break
-                                            @endswitch
-
-                                        @endforeach
-                                    @endif
+                                        @if(isset($user))
+                                            {{ __('alder::leaf_types.profile.name') }}: {{ $user->name }}<br>
+                                            {{ __('alder::leaf_types.profile.surname') }}: {{ $user->surname }}<br>
+                                            {{ __('alder::leaf_types.profile.email') }}: {{ $user->email }}<br>
+                                            {{ __('alder::leaf_types.profile.verified_at') }}: {{ $user->verified_at }}
+                                            <br>
+                                            {{ __('alder::leaf_types.profile.created_at') }}: {{ $user->created_at }}
+                                            <br>
+                                            {{ __('alder::leaf_types.profile.updated_at') }}: {{ $user->updated_at }}
+                                            <br>
+                                            {{ __('alder::leaf_types.profile.is_active') }} {{ $user->is_active ? __('alder::generic.yes') : __('alder::generic.no') }}<br>
+                                        @endif
                                     </p>
-{{--                                    <p class="card-text"></p>--}}
+                                    {{--<p class="card-text"></p>--}}
                                     <a href="{{ route("alder.users.edit", $user->id)}}"
                                        class="btn btn-warning btn-icon-split ml-3">
                                         <span class="icon text-white-50">
