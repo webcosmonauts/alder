@@ -115,6 +115,16 @@ Route::group(['middleware' => 'locale-switcher'], function () {
     Route::get('posty', function () {
         return view('themes.nimoz.posts');
     });
+    
+    // Reports
+    Route::get('reports/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
+    Route::get('raporty/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
+    Route::get('reports', function () {
+        return view('themes.nimoz.reports');
+    });
+    Route::get('raporty', function () {
+        return view('themes.nimoz.reports');
+    });
 
     Route::get("/{slug}", "\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 

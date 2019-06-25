@@ -14,7 +14,7 @@ class SearchController extends BaseController
         $leaves = $request->search
             ? Leaf::whereTranslationLike('content', "%$request->search%")
                 ->orWhereTranslationLike('title', "%$request->search%")
-                ->whereIn('leaf_type_id', LeafType::whereIn('slug', ['posts', 'pages'])->pluck('id'))
+                ->whereIn('leaf_type_id', LeafType::whereIn('slug', ['posts', 'pages', 'reports'])->pluck('id'))
                 ->get()
             : [];
         

@@ -8,8 +8,7 @@
 
 
 
-    <form action="{{ $user ? route("alder.users.update",  $user->id) : route("alder.users.store") }}" method="POST"
-          enctype="multipart/form-data">
+    <form action="{{ $user ? route("alder.users.update",  $user->id) : route("alder.users.store") }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         {{$user ? method_field('PUT') : method_field('POST')}}
@@ -18,8 +17,8 @@
             <div class="col-lg-12">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        @foreach(['name', 'surname', 'email', 'password', 'is_active'] as $field)
-                            <label for="{{ $field }}">{{ __("alder::generic.$field") }}</label>
+                        @foreach(['name', 'surname', 'email', 'password'] as $field)
+                            <label for="{{ $field }}">{{ $field }}</label>
                             <div class="input-group mb-4">
                                 <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
                                        placeholder="{{ $field}}"
@@ -28,20 +27,14 @@
 
                             </div>
                         @endforeach
+                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                            <input {{$user ? ($user->is_active != 1 ? : 'checked') : ''}} type="checkbox" name="is_active" class="custom-control-input" id="is_active">
+                            <label class="custom-control-label" for="is_active">is_active</label>
+                        </div>
+                        <br>
 
                         <label for="userfile">{{ __("alder::leaf_types.profile.avatar") }}</label>
-
-                        <div class="input-group">
-                            <input type="text" class="image_label form-control" name="userfile"
-                                   aria-label="Image"
-                                   aria-describedby="button-image" @if($user) value="{{$user->userfile}}" @endif>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary button-image"
-                                        type="button">{{ __('alder::generic.choose') }}</button>
-                            </div>
-                        </div>
-
-
+                        <input class="form-control-file" name="userfile" type="file" />
                         <br>
                         <br>
 
