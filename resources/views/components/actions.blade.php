@@ -18,16 +18,24 @@
         </a>
         @break
 
+        @case("contact-forms")
+        @case("menus")
+        <a href="{{ route("alder.$route.show", $leaf->id) }}" class="btn btn-sm btn-primary btn-icon-split ml-3">
+            <span class="icon text-white-50">
+                <i class="fas fa-book-open"></i>
+            </span>
+            <span class="text">{{ __('alder::generic.read') }}</span>
+        </a>
         @default
 
     @endswitch
 @endif
-<a href="{{ route("alder.$route.show", $leaf->id) }}" class="btn btn-sm btn-primary btn-icon-split ml-3">
+{{--<a href="{{ route("alder.$route.show", $leaf->id) }}" class="btn btn-sm btn-primary btn-icon-split ml-3">
     <span class="icon text-white-50">
         <i class="fas fa-book-open"></i>
     </span>
     <span class="text">{{ __('alder::generic.read') }}</span>
-</a>
+</a>--}}
 
 <!-- TODO if can edit -->
 <a href="{{ route("alder.$route.edit", $leaf->id) }}" class="btn btn-sm btn-warning btn-icon-split ml-3">
