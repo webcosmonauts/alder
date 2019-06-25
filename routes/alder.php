@@ -110,10 +110,10 @@ Route::group(['middleware' => 'locale-switcher'], function () {
     Route::get('posts/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
     Route::get('posty/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
     Route::get('posts', function () {
-        return view('templates.nimoz.posts');
+        return view('themes.nimoz.posts');
     });
     Route::get('posty', function () {
-        return view('templates.nimoz.posts');
+        return view('themes.nimoz.posts');
     });
 
     Route::get("/{slug}", "\Webcosmonauts\Alder\Http\Controllers\LeafController@index");

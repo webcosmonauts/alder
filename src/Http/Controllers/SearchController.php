@@ -23,7 +23,7 @@ class SearchController extends BaseController
             return $leaf->status_id == $published;
         });
         
-        foreach ($leaves as $leaf)
+        foreach ($leaves as &$leaf)
             $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type);
         
         return view('templates.nimoz.search')->with([
