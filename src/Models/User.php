@@ -2,6 +2,7 @@
 
 namespace Webcosmonauts\Alder\Models;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,5 +44,18 @@ class User extends Authenticatable
     public function leaf_type() {
         return $this->belongsTo(LeafType::class);
     }
-
+    
+    public function getCreatedAtAttribute($value) {
+        $date = Root::whereSlug('date-format')->value('value');
+        $time = Root::whereSlug('time-format')->value('value');
+        $format_string = ($date ?? 'Y-m-d') . ' ' . ($time ?? 'H:i:s');
+        return Carbon::parse($value)->format($format_string);
+    }
+    
+    public function getUpdatedAtAttribute($value) {
+        $date = Root::whereSlug('date-format')->value('value');
+        $time = Root::whereSlug('time-format')->value('value');
+        $format_string = ($date ?? 'Y-m-d') . ' ' . ($time ?? 'H:i:s');
+        return Carbon::parse($value)->format($format_string);
+    }
 }

@@ -108,12 +108,11 @@
                 </div>
             </li>
 
-            {{--<!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell fa-fw"></i>
-                    <!-- Counter - Alerts -->
                     <span class="badge badge-danger badge-counter">3+</span>
                 </a>
                 <!-- Dropdown - Alerts -->
@@ -155,11 +154,11 @@
                             Spending Alert: We've noticed unusually high spending for your account.
                         </div>
                     </a>
-                    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                    {{--<a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>--}}
                 </div>
             </li>
 
-            <div class="topbar-divider d-none d-sm-block"></div>--}}
+            <div class="topbar-divider d-none d-sm-block"></div>
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
@@ -168,7 +167,9 @@
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                         {{ Auth::user()->fullname }}
                     </span>
-                    {{--<img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">--}}
+                    @if(!empty(Auth::user()->avatar))
+                        <img class="img-profile rounded-circle" src="{{ asset('storage/'.Auth::user()->avatar) }}">
+                    @endif
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

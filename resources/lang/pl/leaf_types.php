@@ -6,42 +6,58 @@ return [
     'admin-menu-items' => [
         'singular' => 'Element menu administratora',
         'plural' => 'Elementy menu administratora',
-        'add_new' => 'Dodaj nową pozycję menu'
+        'add_new' => 'Dodaj nową pozycję menu',
+        'added_new' => 'Dodano nowy element menu',
+        'user_added_new' => 'Dodał nową pozycję menu',
     ],
     'users' => [
         'singular' => 'Użytkownik',
         'plural' => 'Użytkownicy',
-        'add_new' => 'Dodaj nowego użytkownika'
+        'add_new' => 'Dodaj nowego użytkownika',
+        'added_new' => 'Nowy użytkownik został dodany',
+        'user_added_new' => 'Dodał nowego <a href=":href">użytkownika</a>',
     ],
     'pages' => [
         'singular' => 'Strona',
         'plural' => 'Strony',
-        'add_new' => 'Dodaj nową stronę'
+        'add_new' => 'Dodaj nową stronę',
+        'added_new' => 'Nowa strona została dodana',
+        'user_added_new' => 'Dodał nową <a href=":href">stronę</a>',
     ],
     'posts' => [
         'singular' => 'Post',
         'plural' => 'Posty',
-        'add_new' => 'Dodaj nowy post'
+        'add_new' => 'Dodaj nowy post',
+        'added_new' => 'Dodano nowy post',
+        'user_added_new' => 'Dodał nowy <a href=":href">post</a>',
     ],
     'post-categories' => [
         'singular' => 'Kategoria postu',
         'plural' => 'Kategorie postów',
-        'add_new' => 'Dodaj nową kategorię postów'
+        'add_new' => 'Dodaj nową kategorię postów',
+        'added_new' => 'Dodano nową kategorię postów',
+        'user_added_new' => 'Dodał nową kategorię postów',
     ],
     'post-tags' => [
         'singular' => 'Tag postu',
         'plural' => 'Tagi posta',
-        'add_new' => 'Dodaj nowy tag postu'
+        'add_new' => 'Dodaj nowy tag postu',
+        'added_new' => 'Dodano nowy tag postu',
+        'user_added_new' => 'Dodał nowy tag postu',
     ],
     'contact-forms' => [
         'singular' => 'Formularz kontaktowy',
         'plural' => 'Formularze kontaktowe',
-        'add_new' => 'Dodaj nowy formularz kontaktowy'
+        'add_new' => 'Dodaj nowy formularz kontaktowy',
+        'added_new' => 'Dodano nowy formularz kontaktowy',
+        'user_added_new' => 'Dodał nowy formularz kontaktowy',
     ],
     'profile' => [
         'singular' => 'Profil',
         'avatar' => 'Awatara',
         'add_new' => 'Dodaj nowy profil',
+        'added_new' => 'Dodano nowy profil',
+        'user_added_new' => 'Dodał nowy profil',
         'name' => 'Imię',
         'surname' => 'Nazwisko',
         'email' => 'E-mail',
@@ -53,31 +69,43 @@ return [
     'menus' => [
         'singular' => 'Menu',
         'plural' => 'Menus',
-        'add_new' => 'Dodaj nowe menu'
+        'add_new' => 'Dodaj nowe menu',
+        'added_new' => 'Dodano nowe menu',
+        'user_added_new' => 'Dodał nowe menu',
     ],
     'capabilities' => [
         'singular' => 'Zdolność',
         'plural' => 'Możliwości',
-        'add_new' => 'Dodaj nowe możliwości'
+        'add_new' => 'Dodaj nowe możliwości',
+        'added_new' => 'Dodano nową możliwośc',
+        'user_added_new' => 'Dodał nowe możliwości',
     ],
     'categories'=> [
         'singular' => 'Kategoria',
         'plural' => 'Kategorie',
-        'add_new' => 'Dodaj nową kategorię'
+        'add_new' => 'Dodaj nową kategorię',
+        'added_new' => 'Dodano nową kategorię',
+        'user_added_new' => 'Dodał nową kategorię',
     ],
     'roles'=> [
         'singular' => 'Rola',
         'plural' => 'Role',
-        'add_new' => 'Dodaj nową rolę'
+        'add_new' => 'Dodaj nową rolę',
+        'added_new' => 'Dodano nową rolę',
+        'user_added_new' => 'Dodał nową rolę',
     ],
     'tags'=> [
         'singular' => 'Tag',
         'plural' => 'Tagi',
-        'add_new' => 'Dodaj nowy tag'
+        'add_new' => 'Dodaj nowy tag',
+        'added_new' => 'Dodano nowy tag',
+        'user_added_new' => 'Dodał nowy tag',
     ],
     'reports'=> [
         'singular' => 'Raport',
         'plural' => 'Raporty',
-        'add_new' => 'Dodaj nowy raport'
+        'add_new' => 'Dodaj nowy raport',
+        'added_new' => 'Dodano nowy raport',
+        'user_added_new' => 'Dodał nowy raport',
     ],
 ];

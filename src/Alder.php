@@ -667,16 +667,13 @@ class Alder
                 'exception' => $exception,
             ]);
     }
-
-
+    
     public function chooseNameFormRptr($field_name, $values)
     {
-
         if (isset($values->$field_name))
             return $field_name;
         else {
             preg_match("/\d$/", $field_name, $match);
-
             if (count($match) > 0) :
                 $field_name = str_replace($match[0], ++$match[0], $field_name);
                 return $this->chooseNameFormRptr($field_name, $values);
@@ -685,6 +682,32 @@ class Alder
                 return $this->chooseNameFormRptr($field_name, $values);
             endif;
         }
+    }
+    
+    /**
+     * Generates URL for passed leaf or user model
+     *
+     * @param Leaf|User $leaf
+     *
+     * @return string|false
+     */
+    public function getLeafUrl($leaf) {
+        $url = '';
+        if ($leaf instanceof Leaf) {
+            $slug = $leaf->leaf_type->slug;
+            switch ($slug) {
+                case 'posts':
+                case 'reports':
+                    $url = "/" . __("alder::leaf_types.$slug.plural") . "/$leaf->slug";
+                    break;
+                default:
+                    $url = "/$leaf->slug";
+            }
+        }
+        else if ($leaf instanceof User)
+            $url = '#'; // todo add legit url for front user profile
+        
+        return empty($url) ? false : $url;
     }
 }
 
