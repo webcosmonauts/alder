@@ -23,6 +23,7 @@ input::placeholder, select::placeholder, textarea::placeholder {
     line-height: 30px;
     margin-left: 8px;
     cursor: pointer;
+    z-index: 20;
 }
 
 .circle-icon {
@@ -93,9 +94,14 @@ input::placeholder, select::placeholder, textarea::placeholder {
     margin-top: -12px;
 }
 
-.nav-item.has-dropdown > .nav-link {
-    display: inline-block !important;
-    width: calc(100% - 46px) !important;
+.nav-item.has-dropdown {
+    position: relative;
+}
+
+.nav-item.has-dropdown .toggle-collapse  {
+    position: absolute;
+    right: 5px;
+    background: none !important;
 }
 
 .rptr-field {
@@ -120,10 +126,6 @@ input::placeholder, select::placeholder, textarea::placeholder {
     float: right;
     position: static;
     margin-top: 15px;
-}
-
-.card-body .rptr-field:first-child .rptr-field__delete {
-    display: none;
 }
 
 @media (min-width: 768px) {

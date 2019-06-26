@@ -82,7 +82,7 @@
         <input type="text" class="image_label form-control" name="{{$root->slug}}"
                aria-describedby="button-image" value="{{$root->value}}">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary button-image" type="button">{{ __('alder::generic.choose') }}</button>
+            <button class="btn btn-sm btn-outline-secondary button-image" type="button">{{ __('alder::generic.choose') }}</button>
         </div>
     </div>
     {{--@php

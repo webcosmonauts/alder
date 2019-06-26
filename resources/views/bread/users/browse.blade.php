@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ __("alder::leaf_types.users.plural") }}</h1>
+        <h1 class="h3 mt-1 text-gray-800">{{ __("alder::leaf_types.users.plural") }}</h1>
         <!-- TODO: if can add new -->
         <a href="{{ route("alder.users.create") }}" class="btn btn-success btn-icon-split ml-3">
             <span class="icon text-white-50">
