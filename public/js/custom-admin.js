@@ -196,8 +196,17 @@ $(document).ready(function () {
 	// REMOVE PRTR
 	$('body').on('click', '.rptr-field__delete', function (e) {
 		e.preventDefault();
+		e.stopPropagation();
 
-		if ($(this).parents('.card-body').eq(0).find('.rptr-field').length > 1)
+		$(this).parents('.card-body').eq(0).attr("current", "true");
+
+		var fields = $(this).parents('.card-body').eq(0).find(".rptr-field").filter(function () {
+			if ($(this).parents('.card-body').eq(0).attr("current") === "true") return true;
+		});
+
+		$(this).parents('.card-body').eq(0).removeAttr("current");
+
+		if (fields.length > 1)
 			$(this).parent().remove();
 	});
 });

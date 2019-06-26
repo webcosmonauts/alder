@@ -37,6 +37,7 @@ class LeafController extends Controller
      */
     public function index(Request $request, $slug)
     {
+        $active_theme = Alder::getRootValue('active-theme');
         $uri = explode('/', $request->path())[0];
         if ($uri == 'posts' || $uri == 'posty')
             $uri = 'posts';
@@ -44,18 +45,19 @@ class LeafController extends Controller
             $uri = 'reports';
         else
             $uri = 'pages';
-        
+
         if (is_int((int)$slug) && (int)$slug > 0){
             $leaf = LeafEntityController::getLeaf($slug, $uri);
         }
         elseif (is_string($slug)){
             $leaf = LeafEntityController::getLeafBySlag($slug, $uri);
         }
+
         if (!isset($leaf) || !$leaf)
-            return response()->view('themes.nimoz.404');
+            return response()->view('themes.'.$active_theme.'.404');
         
         $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type);
-        
+
         $leaf_view_renderer = TemplateController::getViewForLeaf($leaf);
 
         return view($leaf_view_renderer, compact('leaf'));

@@ -1,87 +1,93 @@
 @extends('alder::master')
 
 @section('sidebar')
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <div class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" data-color="rose"
+         data-background-color="black"
+         id="accordionSidebar">
 
-        <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/alder">
-            <div class="sidebar-brand-icon">
-                <i class="fas fa-fw fa-leaf"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Alder</div>
-        </a>
+        <div class="logo">
+            <!-- Sidebar - Brand -->
+            <a class="simple-text logo-mini" href="/alder">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-fw fa-leaf"></i>
+                </div>
+            </a>
+            <a href="/alder" class="simple-text logo-normal">Alder</a>
+        </div>
 
-        @foreach($admin_menu_items as $section)
-            <hr class="sidebar-divider my-0">
-            @if(count($section->children) > 0)
-                <li class="nav-item {{ $section->is_current ? 'active' : '' }} has-dropdown">
-                    <a class="nav-link"
-                       href="/alder/{{$section->slug}}">
-                        @if(!empty($section->icon))
-                            <i class="fas fa-fw fa-{{$section->icon}}"></i>
-                        @endif
-                        <span>{{ $section->title }}</span>
-                    </a>
+        <div class="sidebar-wrapper ps-container ps-theme-default ps-active-y">
+            @foreach($admin_menu_items as $section)
+                <hr class="sidebar-divider my-0">
+                <ul class="nav">
+                    @if(count($section->children) > 0)
+                        <li class="nav-item {{ $section->is_current ? 'active' : '' }} has-dropdown">
+                            <a class="nav-link"
+                               href="/alder/{{$section->slug}}">
+                                @if(!empty($section->icon))
+                                    <i class="fas fa-fw fa-{{$section->icon}}"></i>
+                                @endif
+                                <p>{{ $section->title }}</p>
+                            </a>
 
-                    <span class="toggle-collapse {{ $section->is_current ? '' : 'collapsed' }}" data-toggle="collapse"
-                          data-target="#collapse{{$section->id}}"
-                          aria-expanded="true" aria-controls="collapse{{$section->id}}"></span>
+                            <span class="toggle-collapse {{ $section->is_current ? '' : 'collapsed' }}"
+                                  data-toggle="collapse"
+                                  data-target="#collapse{{$section->id}}"
+                                  aria-expanded="true" aria-controls="collapse{{$section->id}}"></span>
 
-                    <div id="collapse{{$section->id}}" data-parent="#accordionSidebar"
-                         class="collapse  {{ $section->is_current ? 'show' : '' }}">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            @foreach($section->children as $menu_item)
-                                <a class="collapse-item {{ $menu_item->is_current ? 'active' : '' }}"
-                                   href="/alder/{{ $menu_item->slug }}">
-                                    @if(!empty($menu_item->icon))
-                                        <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
-                                    @endif
-                                    {{ $menu_item->title }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                </li>
-            @else
-                <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
-                    <a class="nav-link {{ $section->is_current ? 'active' : '' }}" href="/alder/{{ $section->slug }}">
-                        @if(!empty($section->icon))
-                            <i class="fas fa-fw fa-{{$section->icon}}"></i>
-                        @endif
-                        <span>{{ $section->title }}</span></a>
-                </li>
-        @endif
-    @endforeach
+                            <div id="collapse{{$section->id}}" data-parent="#accordionSidebar"
+                                 class="collapse  {{ $section->is_current ? 'show' : '' }}">
+                                <ul class="nav">
+                                    @foreach($section->children as $menu_item)
+                                        <li class="nav-item">
+                                            <a class="nav-link {{ $menu_item->is_current ? 'active' : '' }}"
+                                               href="/alder/{{ $menu_item->slug }}">
+                                                @if(!empty($menu_item->icon))
+                                                    <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
+                                                @endif
+                                                <p>{{ $menu_item->title }}</p>
+                                            </a>
+                                        </li>
 
-    <!-- Sidebar Toggler (Sidebar) -->
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                    @else
+                        <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
+                            <a class="nav-link {{ $section->is_current ? 'active' : '' }}"
+                               href="/alder/{{ $section->slug }}">
+                                @if(!empty($section->icon))
+                                    <i class="fas fa-fw fa-{{$section->icon}}"></i>
+                                @endif
+                                <p>{{ $section->title }}</p>
+                            </a>
+                        </li>
+                    @endif
+                </ul>
+            @endforeach
+        </div>
+
+        <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
-    </ul>
+    </div>
 @endsection
 
 @section('topbar')
-    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 
-        <!-- Sidebar Toggle (Topbar) -->
-        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-        </button>
-
-        <!-- Topbar Search -->
-    {{--<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                   aria-label="Search" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search fa-sm"></i>
+        <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+                <button id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round">
+                    <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                    <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
                 </button>
             </div>
         </div>
-    </form>--}}
 
-    <!-- Topbar Navbar -->
+
+        <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -188,9 +194,15 @@
                     </form>
                 </div>
             </li>
-
         </ul>
 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
     </nav>
 @endsection
 

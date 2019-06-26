@@ -15,7 +15,7 @@
             <div class="col-lg-4">
                 <div class="card shadow mb-4 ">
                     <div class="card-header py-3">
-                        <h5 class="m-0 font-weight-bold text-primary">{{ __('alder::leaf_types.pages.plural') }}</h5>
+                        <h5 class="m-0 font-weight-bold ">{{ __('alder::leaf_types.pages.plural') }}</h5>
                     </div>
                     <div class="card-body">
                         <h3>{{ __('alder::dashboard.total') }}: {{ $pages }}</h3>
@@ -34,7 +34,7 @@
             <div class="col-lg-4">
                 <div class="card shadow mb-4 ">
                     <div class="card-header py-3">
-                        <h5 class="m-0 font-weight-bold text-primary">{{ __('alder::leaf_types.posts.plural') }}</h5>
+                        <h5 class="m-0 font-weight-bold ">{{ __('alder::leaf_types.posts.plural') }}</h5>
                     </div>
                     <div class="card-body">
                         <h3>{{ __('alder::dashboard.total') }}: {{ $posts }}</h3>
@@ -53,7 +53,7 @@
             <div class="col-lg-4">
                 <div class="card shadow mb-4 ">
                     <div class="card-header py-3">
-                        <h5 class="m-0 font-weight-bold text-primary">{{ __('alder::leaf_types.users.plural') }}</h5>
+                        <h5 class="m-0 font-weight-bold ">{{ __('alder::leaf_types.users.plural') }}</h5>
                     </div>
                     <div class="card-body">
                         <h3>{{ __('alder::dashboard.users_total_active') }}: {{ $users }}</h3>

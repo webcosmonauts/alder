@@ -9,4 +9,8 @@ return [
     'add_new_user' => 'Dodaj nowego użytkownika',
     'users_total' => 'Wszystkich użytkowników',
     'users_total_active' => 'Łącznie aktywnych użytkowników',
+    'admin' => 'Admin',
+    'appearance' => 'Wygląd',
+    'add_leaf' => 'Dodaj liść',
+    'user' => 'Użytkownik',
 ];
