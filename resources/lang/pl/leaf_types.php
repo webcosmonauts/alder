@@ -41,7 +41,14 @@ return [
     'profile' => [
         'singular' => 'Profil',
         'avatar' => 'Awatara',
-        'add_new' => 'Dodaj nowy profil'
+        'add_new' => 'Dodaj nowy profil',
+        'name' => 'Imię',
+        'surname' => 'Nazwisko',
+        'email' => 'E-mail',
+        'verified_at' => 'Zweryfikowano w',
+        'created_at' => 'Utworzono w',
+        'updated_at' => 'Zaktualizowano w',
+        'is_active' => 'Jest aktywny?',
     ],
     'menus' => [
         'singular' => 'Menu',

@@ -42,6 +42,13 @@ return [
         'singular' => 'Profile',
         'avatar' => 'Avatar',
         'add_new' => 'Add new profile',
+        'name' => 'Name',
+        'surname' => 'Surname',
+        'email' => 'E-mail',
+        'verified_at' => 'Verified at',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+        'is_active' => 'Is active?',
     ],
     'menus' => [
         'singular' => 'Menu',

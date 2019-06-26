@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1>{{ __("alder::leaf_types.profile.singular") }}: {{$user->name}}
+        <h1>{{ __("alder::leaf_types.profile.singular") }}: {{ $user->full_name }}
         </h1>
     </div>
 
@@ -14,39 +14,23 @@
                 <div class="container py-3">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="{{$img}}" class="w-100">
+                            @if(isset($img) && !empty($img))
+                                <img src="{{ $img }}" class="w-100">
+                            @endif
                         </div>
                         <div class="col-md-8 px-3">
                             <div class="card-block px-3">
-                                <h4 class="card-title">{{$user->name}} {{$user->surname}}</h4>
+                                <h4 class="card-title">{{ $user->full_name }}</h4>
                                 <p class="card-text">
                                     @if(isset($user))
-                                        @foreach($user->getAttributes() as $key => $value)
-                                            @switch($key)
-                                                @case('name')
-                                                First name: {{$value}}<br>
-                                                @break
-                                                @case('surname')
-                                                Last name: {{$value}}<br>
-                                                @break
-                                                @case('email')
-                                                E-mail: {{$value}}<br>
-                                                @break
-                                                @case('email_verified_at')
-                                                E-mail verificated: {{$value}}<br>
-                                                @break
-                                                @case('created_at')
-                                                Created at: {{$value}}<br>
-                                                @break
-                                                @case('updated_at')
-                                                Last updated: {{$value}}<br>
-                                                @break
-                                                @case('is_active')
-                                                {{$value ? 'Activation : Yes' : 'Activation : No'}}<br>
-                                                @break
-                                            @endswitch
+                                        {{ __('alder::leaf_types.profile.name') }}: {{ $user->name }}<br>
+                                        {{ __('alder::leaf_types.profile.surname') }}: {{ $user->surname }}<br>
+                                        {{ __('alder::leaf_types.profile.email') }}: {{ $user->email }}<br>
+                                        {{ __('alder::leaf_types.profile.verified_at') }}: {{ $user->verified_at }}<br>
+                                        {{ __('alder::leaf_types.profile.created_at') }}: {{ $user->created_at }}<br>
+                                        {{ __('alder::leaf_types.profile.updated_at') }}: {{ $user->updated_at }}<br>
+                                        {{ __('alder::leaf_types.profile.is_active') }}: {{ $user->is_active }}<br>
 
-                                        @endforeach
                                     @endif
                                 </p>
                                 {{--                                    <p class="card-text"></p>--}}

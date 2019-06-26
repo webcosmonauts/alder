@@ -111,7 +111,7 @@ $(document).ready(function () {
 	$('body').on('click', '.rptr-field__add', function (e) {
 		e.preventDefault();
 
-		var clone = $(this).parents('.rptr-field').clone(true);
+		var clone = $(this).parents('.rptr-field').eq(0).clone(true);
 
 		clone.find('input, textarea, select').each(function () {
 			var id = $(this).attr('id'), matchID;

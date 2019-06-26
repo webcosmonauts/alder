@@ -76,14 +76,27 @@ $(document).ready(function () {
 				var obj = {},
 					fields = $(this).find('input, textarea, select').filter(function () {
 						if ($(this).parents('.rptr-field').eq(0).attr('current') === "true") return true;
+					}),
+
+					subRepeaters = $(this).find('.repeater').filter(function () {
+						if ($(this).parents('.rptr-field').eq(0).attr('current') === "true") return true;
 					});
+
+				$(this).removeAttr('current');
 
 				fields.each(function () {
 					addFieldToObject($(this), obj);
 				});
 
+				if(subRepeaters.length > 0 ){
+					subRepeaters.each(function () {
+						addRepeaterToObject($(this), obj);
+					});
+				}
+
 				object[repeaterName].push(obj);
 			});
+
 		}
 
 		function addFieldToObject($field, object) {
@@ -105,8 +118,6 @@ $(document).ready(function () {
 			}
 		}
 
-
 		$('[name=lcm]').val(JSON.stringify(lcm));
 	});
-})
-;
+});
