@@ -140,10 +140,10 @@ class UsersController extends BaseController
                 $User->email = $request->email;
                 if ($request->password)
                     $User->password = bcrypt($request->password);
-                $User->is_active = $edit ? ($request->is_active != 'on' ? 0 : 1) : 0;
+                $User->is_active = $request->is_active != 'on' ? 0 : 1;
                 $User->LCM_id = $request->LCM_id;
                 $User->LCMV_id = $request->LCMV_id;
-                
+
                 if ($request->userfile) {
                     $file_name = ($request->userfile->getClientOriginalName());
                     $file_name_db = '_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
