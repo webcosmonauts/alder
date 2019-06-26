@@ -1,4 +1,15 @@
 
+#profile-avatar{
+    width: 65px;
+    height: 65px;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
 .bg-login-image {
     background-image: url(https://nimoz.pl/css/images/logo.svg) !important;
     background-position: 50% 50%;

@@ -166,6 +166,12 @@
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
+            @if(!empty(Auth::user()->avatar))
+                <div id="profile-avatar"
+                     style="background-image: url({{asset('storage/'.Auth::user()->avatar) }})">
+                </div>
+        @endif
+
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -173,9 +179,6 @@
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                         {{ Auth::user()->fullname }}
                     </span>
-                    @if(!empty(Auth::user()->avatar))
-                        <img class="img-profile rounded-circle" src="{{ asset('storage/'.Auth::user()->avatar) }}">
-                    @endif
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
