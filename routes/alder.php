@@ -96,9 +96,11 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             Route::post('roles-add', '\Webcosmonauts\Alder\Http\Controllers\AlderRolesController@addNewRole')->name('roles.add_new');
             Route::post('roles-delete', '\Webcosmonauts\Alder\Http\Controllers\AlderRolesController@deleteRole')->name('roles.delete');
 
-            /*//Capabilities
-            Route::get('capabilities', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@index')->name('capabilities.index');
-            Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\WidgetsController@update')->name('capabilities.update');*/
+            //Capabilities
+            Route::get('capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@index')->name('capabilities.index');
+            Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@initDefaultCapabilities')->name('capabilities.init_default_capabilities');
+            Route::post('capabilities-default-capabilities-for-roles', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@assignDefaultCapabilitiesToRoles')->name('capabilities.init_default_capabilities_for_roles');
+            //Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@update')->name('capabilities.update');
         });
     });
 
