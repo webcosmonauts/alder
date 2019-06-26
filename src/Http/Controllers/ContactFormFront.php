@@ -30,14 +30,30 @@ class ContactFormFront extends BaseController
 
         $params = Alder::combineLCMs($leaf_type);
 
-        $content = json_encode($request->all());
+        $array_names = $request->all();
+        $time_array = array();
+        foreach ($array_names as $key => $value) {
+            if ($key != '_token') {
+                $time_array[$key] = $value;
+            }
+        }
+        $array_names = $time_array;
+        $time_array = array();
+        foreach ($array_names as $key => $value) {
+            if ($key != 'antispam') {
+                $time_array[$key] = $value;
+            }
+        }
+        $array_names = $time_array;
+
+
+        $content = json_encode($array_names);
 
         $this->createForm($request, $leaf_type, $params, $content);
 
         $form = Leaf::find($id);
         $content = json_decode($form->content);
 
-        $array_names = $request->all();
 
         $template = (array) $content;
 
