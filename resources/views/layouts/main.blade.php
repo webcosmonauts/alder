@@ -168,7 +168,7 @@
 
             @if(!empty(Auth::user()->avatar))
                 <div id="profile-avatar"
-                     style="background-image: url({{asset('storage/'.Auth::user()->avatar) }})">
+                     style="background-image: url('{{asset('storage/'.Auth::user()->avatar) }}')">
                 </div>
         @endif
 
