@@ -56,7 +56,9 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             //profile
             Route::get('profile', '\Webcosmonauts\Alder\Http\Controllers\ProfileController@index')->name('profile.index');
 
-            //Register
+            //Answers
+            Route::get('answers', '\Webcosmonauts\Alder\Http\Controllers\ContactAnswers@index')->name('answers.index');
+
 
             //Appearance
             Route::get('appearance', '\Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController@appearance')->name('appearance.index');

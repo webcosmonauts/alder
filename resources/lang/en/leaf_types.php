@@ -158,4 +158,7 @@ return [
         'deleted' => 'Report :leaf has been deleted',
         'user_deleted' => 'Deleted report :leaf',
     ],
+    'answers'=> [
+        'singular' => 'Answers',
+    ],
 ];

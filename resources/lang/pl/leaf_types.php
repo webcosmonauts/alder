@@ -158,4 +158,7 @@ return [
         'deleted' => 'Raport :leaf został usunięty',
         'user_deleted' => 'Usunął raport :leaf',
     ],
+    'answers'=> [
+        'singular' => 'Odpowiedzi',
+    ],
 ];

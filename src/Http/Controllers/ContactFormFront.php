@@ -45,6 +45,7 @@ class ContactFormFront extends BaseController
             }
         }
         $array_names = $time_array;
+        $array_names['id_form'] = $id;
 
 
         $content = json_encode($array_names);
@@ -233,6 +234,7 @@ class ContactFormFront extends BaseController
                 $form->content = $content;
                 $form->is_accessible = 1;
                 $form->status_id = 5;
+                $form->translate()->locale = 'en';
                 $form->leaf_type_id = $cont_id;
                 $form->created_at = date("Y-m-d H:i:s");
                 $form->updated_at = date("Y-m-d H:i:s");
