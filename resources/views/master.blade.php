@@ -23,7 +23,11 @@
     <link href="{{ asset('css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <!-- Material icons -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+
+    <link href="{{ asset('material-dashboard/css/material-dashboard.min.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('css/icheck.css')}}">
     <link href="{{ asset('css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
@@ -36,20 +40,20 @@
 </head>
 <body>
 <!-- Page Wrapper -->
-<div id="wrapper">
+<div class="wrapper">
     <!-- Sidebar -->
 @yield('sidebar')
 <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="main-panel ps-container ps-theme-default">
+
+        <!-- Topbar -->
+    @yield('topbar')
+    <!-- End of Topbar -->
 
         <!-- Main Content -->
-        <div id="content">
-
-            <!-- Topbar -->
-        @yield('topbar')
-        <!-- End of Topbar -->
+        <div class="content">
 
             <!-- Begin Page Content -->
         @yield('main')
@@ -78,10 +82,12 @@
 
 
 @yield('scripts-body')
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"
-        integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k="
-        crossorigin="anonymous"></script>--}}
-<script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+<!-- Bootstrap material design js -->
+<script src="{{ asset('material-dashboard/js/core/bootstrap-material-design.min.js') }}"></script>
+<script src="{{asset('material-dashboard/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+
+<script src="{{ asset('material-dashboard/js/material-dashboard.min.js') }}"></script>
 
 <!-- DataTables -->
 <script src="{{asset('js/dataTables.min.js')}}"></script>
@@ -97,8 +103,7 @@
 <!-- Select 2 -->
 <script src="{{asset('js/select2.min.js')}}"></script>
 
-<!-- admin main js -->
+<!-- custom admin js / MAIN JS -->
 <script src="{{asset('js/custom-admin.js')}}"></script>
-
 </body>
 </html>

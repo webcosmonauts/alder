@@ -53,39 +53,48 @@
 
 
     <!-- tabs -->
-        <ul class="nav nav-tabs position-relative border-bottom-0" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="main-section-tab" data-toggle="tab" href="#main-section"
-                   role="tab">{{__('alder::lcm.main')}}</a>
-            </li>
+        <div class="card card-nav-tabs card-plain">
+            <div class="card-header card-header-danger">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="main-section-tab" data-toggle="tab" href="#main-section"
+                                   role="tab">{{__('alder::lcm.main')}}</a>
+                            </li>
 
-            @php $tabsCounter = 0; @endphp
-            @foreach($params as $lcm_group)
-                @php
-                    $lcm = $lcm_group->lcm;
-                    $conditions = $lcm_group->conditions;
-                    $conditions_str = "";
+                            @php $tabsCounter = 0; @endphp
+                            @foreach($params as $lcm_group)
+                                @php
+                                    $lcm = $lcm_group->lcm;
+                                    $conditions = $lcm_group->conditions;
+                                    $conditions_str = "";
 
-                    foreach($conditions as $cond_item):
-                        $conditions_str .= $cond_item->parameter . ":" . $cond_item->operator . ":" . $cond_item->value . " ";
-                    endforeach;
-                @endphp
+                                    foreach($conditions as $cond_item):
+                                        $conditions_str .= $cond_item->parameter . ":" . $cond_item->operator . ":" . $cond_item->value . " ";
+                                    endforeach;
+                                @endphp
 
 
-                @foreach($lcm as $lcm_item_k => $lcm_item_v)
+                                @foreach($lcm as $lcm_item_k => $lcm_item_v)
 
-                    @if(isset($lcm_item_v->fields))
-                        @php $tabsCounter++; @endphp
+                                    @if(isset($lcm_item_v->fields))
+                                        @php $tabsCounter++; @endphp
 
-                        <li class="nav-item" data-condition="{{$conditions_str}}" hidden>
-                            <a class="nav-link" id="section-{{$tabsCounter}}-tab" data-toggle="tab"
-                               data-tab-name="{{$lcm_item_k}}"
-                               href="#section-{{$tabsCounter}}" role="tab">{{$lcm_item_v->display_name}}</a>
-                        </li>
-                    @endif
-                @endforeach
-            @endforeach
-        </ul>
+                                        <li class="nav-item" data-condition="{{$conditions_str}}" hidden>
+                                            <a class="nav-link" id="section-{{$tabsCounter}}-tab" data-toggle="tab"
+                                               data-tab-name="{{$lcm_item_k}}"
+                                               href="#section-{{$tabsCounter}}"
+                                               role="tab">{{$lcm_item_v->display_name}}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- tabs content -->
         <div class="tab-content mb-5" id="myTabContent">
