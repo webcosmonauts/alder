@@ -14,11 +14,11 @@
                 <div class="container py-3">
                         <div class="row">
                             <div class="col-md-4">
-                                <img src="{{$img}}" class="w-100">
+                                <img src="{{ asset('storage/'.$user->avatar) }}" class="w-100">
                             </div>
                             <div class="col-md-8 px-3">
                                 <div class="card-block px-3">
-                                    <h4 class="card-title">{{$user->name}} {{$user->surname}}</h4>
+                                    <h4 class="card-title">{{ $user->full_name }}</h4>
                                     <p class="card-text">
                                         @if(isset($user))
                                             {{ __('alder::leaf_types.profile.name') }}: {{ $user->name }}<br>

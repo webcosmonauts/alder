@@ -17,6 +17,10 @@ class ProfileController extends BaseController
      * Get [B]READ view of roots
      *
      * @throws AssigningNullToNotNullableException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionOperatorException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionParameterException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownRelationException
+     *
      * @return View
      */
     public function index()
@@ -24,17 +28,11 @@ class ProfileController extends BaseController
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 
-        $id = Auth::user()->id;
-
-        $user = User::where('id', $id)->first();
-
-        $img = asset('img/users/'.$user->avatar);
-
-
+        $user = Auth::user();
+        
         return view('alder::bread.profile.profile')->with([
             'admin_menu_items' => $admin_menu_items,
             'user' => $user,
-            'img' => $img
         ]);
     }
 }

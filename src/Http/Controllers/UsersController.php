@@ -133,24 +133,6 @@ class UsersController extends BaseController
     private function editUser(bool $edit, Request $request, $id) {
         return DB::transaction(function () use ($edit, $request, $id) {
             try {
-
-                $file_div = '';
-                $file_name_db = '';
-                if ($request->userfile) {
-                    $file_name = ($request->userfile->getClientOriginalName());
-                    $file_div = public_path() . '\img\users\_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
-                    $file_name_db = '_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
-
-
-                    if (move_uploaded_file($request->userfile, $file_div)) {
-                        echo 'good';
-
-                    } else {
-                        echo 'error';
-                    }
-                }
-
-
                 $User = $edit ? User::where('id',$id)->get()->first() : new User();
 
                 $User->name = $request->name;
@@ -161,8 +143,12 @@ class UsersController extends BaseController
                 $User->is_active = $edit ? ($request->is_active != 'on' ? 0 : 1) : 0;
                 $User->LCM_id = $request->LCM_id;
                 $User->LCMV_id = $request->LCMV_id;
-                if ($file_name_db)
-                    $User->avatar = $file_name_db;
+                
+                if ($request->userfile) {
+                    $file_name = ($request->userfile->getClientOriginalName());
+                    $file_name_db = '_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
+                    $User->avatar = $request->file('userfile')->storeAs('users', $file_name_db, 'public');
+                }
 
                 if (!$edit)
                     $User->created_at = date("Y-m-d H:i:s");
