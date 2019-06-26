@@ -696,12 +696,11 @@ class Alder
         if ($leaf instanceof Leaf) {
             $slug = $leaf->leaf_type->slug;
             switch ($slug) {
-                case 'posts':
-                case 'reports':
-                    $url = "/" . __("alder::leaf_types.$slug.plural") . "/$leaf->slug";
+                case 'pages':
+                    $url = "/$leaf->slug";
                     break;
                 default:
-                    $url = "/$leaf->slug";
+                    $url = "/" . __("alder::leaf_types.$slug.plural") . "/$leaf->slug";
             }
         }
         else if ($leaf instanceof User)
