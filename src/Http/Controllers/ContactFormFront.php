@@ -34,17 +34,8 @@ class ContactFormFront extends BaseController
 
         $this->createForm($request, $leaf_type, $params, $content);
 
-        $form = LeafTranslation::where('leaf_id',$id)->get();
-//        dd($form);
-        $locale = $request->getLocale();
-        $loc_form = array();
-        foreach ($form as $value) {
-            if ($value->locale == $locale) {
-                $loc_form = $value;
-            }
-        }
-        $content = json_decode($loc_form['content']);
-
+        $form = Leaf::find($id);
+        $content = json_decode($form->content);
 
         $array_names = $request->all();
 
@@ -81,7 +72,7 @@ class ContactFormFront extends BaseController
 
         $this->store($total);
 
-        return redirect()->back();
+        return redirect()->back()->with(['success'=>'Message sent']);
 
 //        return Alder::returnResponse(
 //            $request->ajax(),
