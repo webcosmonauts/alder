@@ -66,8 +66,15 @@ class ContactController extends BaseController {
     public function edit(Request $request, $id)
     {
 
-        $form = LeafTranslation::where('leaf_id',$id)->get()->first();
-        $content = json_decode($form['content']);
+        $form = LeafTranslation::where('leaf_id',$id)->get();
+        $locale = $request->getLocale();
+        $loc_form = array();
+        foreach ($form as $value) {
+            if ($value->locale == $locale) {
+                $loc_form = $value;
+            }
+        }
+        $content = json_decode($loc_form['content']);
 
         $template = (array) $content;
 
@@ -205,6 +212,7 @@ class ContactController extends BaseController {
 
     public function update(Request $request, $id)
     {
+//        dd($request);
         $edit = true;
         $branchType = $this->getBranchType($request);
         /* Get leaf type with custom modifiers */

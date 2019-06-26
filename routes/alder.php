@@ -41,8 +41,8 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             Route::post('contact-forms/save', '\Webcosmonauts\Alder\Http\Controllers\ContactController@save_form')->name('contact-forms.save_form');
             Route::post('contact-forms/save_mailer', '\Webcosmonauts\Alder\Http\Controllers\ContactController@save_mailer')->name('contact-forms.save_mailer');
             Route::get('contact-forms/read/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@read')->name('contact-forms.read');
-            Route::get('contact-forms/edit/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@edit_mailer')->name('contact-forms.edit_mailer');
             Route::post('contact-forms/pars_mailer/{slug}', '\Webcosmonauts\Alder\Http\Controllers\ContactController@pars_mailer')->name('contact-forms.pars_mailer');
+
 
             //users
             Route::get('users', '\Webcosmonauts\Alder\Http\Controllers\UsersController@index')->name('users.index');
@@ -115,7 +115,12 @@ Route::group(['middleware' => 'locale-switcher'], function () {
     Route::get('posty', function () {
         return view('themes.nimoz.posts');
     });
-    
+
+
+
+    Route::post('saveForm/{id}', '\Webcosmonauts\Alder\Http\Controllers\ContactFormFront@saveForm')->name('contact-form.saveForm');
+
+
     // Reports
     Route::get('reports/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
     Route::get('raporty/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
