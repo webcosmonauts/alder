@@ -48,10 +48,16 @@ class LeafNotification extends BaseNotification
         $message = [];
         
         foreach (config('translatable.locales') as $locale) {
-            $title[$locale] = $options['title'][$locale] ?? __("alder::leaf_types.".$leaf->leaf_type->slug.".$translation_key", [], $locale);
+            $title[$locale] = $options['title'][$locale] ?? __("alder::leaf_types.".$leaf->leaf_type->slug.".$translation_key", [
+                    'href' => Alder::getLeafUrl($leaf),
+                    'leaf' => $leaf->title,
+                ], $locale);
             $message[$locale] = $options['message'][$locale] ?? (
                 __("alder::leaf_types.users.singular", [], $locale) . " <a href=\"#\">$user->full_name</a> "
-                . lcfirst(__("alder::leaf_types.".$leaf->leaf_type->slug.".user_$translation_key", ['href' => Alder::getLeafUrl($leaf)], $locale))
+                . lcfirst(__("alder::leaf_types.".$leaf->leaf_type->slug.".user_$translation_key", [
+                    'href' => Alder::getLeafUrl($leaf),
+                    'leaf' => $leaf->title,
+                ], $locale))
             );
         }
     
