@@ -147,10 +147,11 @@ return [
     'animation_duration' => 'Animation duration',
     'preview' => 'Preview',
     'left_column_size' => 'Left column size',
-    'right_column_size' => 'Right column size',
     'text_with_map' => 'Text with map',
     'lat' => 'Latitude',
     'lng' => 'Longitude',
     'zoom' => 'Zoom',
-    'updated_at' => 'Updated at'
+    'updated_at' => 'Updated at',
+    'send' => 'Send',
+    'right_column_size' => 'Right column size'
 ];

@@ -85,7 +85,7 @@
                             dragged_object = '';
                         }else if(dragged_object.attr('id') == 'post-categories') {
                             $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/post-categories/' + dragged_object.attr('name'));
+                            $('#href').attr('value', '/posts/categories/' + dragged_object.attr('name'));
                             editor.add();
                             dragged_object = '';
                         }
