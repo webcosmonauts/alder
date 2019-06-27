@@ -40,21 +40,28 @@
 
 
                         <!-- Template builder -->
-                        <div class="form-group mb-5">
+                        <div class="mb-5">
                             <label for="contact-form-title"> Title </label>
-                            <input type="text" name="title" id="contact-form-title" class="form-control"
-                                   value="{{ $edit ? $content->title : '' }}"
-                                   required>
-                            <br>
+                            <div class="input-group mb-2">
+                                <input type="text" name="title" id="contact-form-title" class="form-control"
+                                       value="{{ $edit ? $content->title : '' }}"
+                                       required>
+                            </div>
+
                             <label for="contact-form-title"> Slug </label>
-                            <input type="text" name="slug" id="contact-form-slug" class="form-control"
-                                   value="{{ $edit ? $content->slug : '' }}"
-                                   required>
-                            <br>
+                            <div class="input-group mb-2">
+                                <input type="text" name="slug" id="contact-form-slug" class="form-control"
+                                       value="{{ $edit ? $content->slug : '' }}"
+                                       required>
+                            </div>
+
                             <label for="is_accessible">Visibility</label>
-                            <input type="checkbox" class="icheck"
-                                   name="is_accessable" {{ $edit && $form->is_accessible == '1' ? 'checked' : ''}}>
+                            <div class="input-group mb-2">
+                                <input type="checkbox" class="icheck"
+                                       name="is_accessable" {{ $edit && $form->is_accessible == '1' ? 'checked' : ''}}>
+                            </div>
                         </div>
+
                         <div id="contact-form-template-builder">
 
                             <div class="d-flex flex-wrap components">
@@ -126,7 +133,8 @@
                                 {{--                                </select><br><br>--}}
                                 {{--                            @endif--}}
                                 <label for="{{$key}}">{{$key}}</label>
-                                <input  name="{{$key}}" class="form-control" type="text" id="{{$key}}" value="{{$value}}" ><br>
+                                <input name="{{$key}}" class="form-control" type="text" id="{{$key}}"
+                                       value="{{$value}}"><br>
 
                             @endforeach
                         @else
@@ -134,24 +142,28 @@
                                 @if ( $value->input_type == 'text')
                                     @if ($value->title != 'message_content')
                                         <label for="{{$value->slug}}">{{$value->title}}</label>
-                                        <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}"  ><br>
+                                        <input name="{{$value->slug}}" class="form-control" type="text"
+                                               id="{{$value->slug}}" value="{{$value->value}}"><br>
                                     @else
-                                        <label  for="{{$value->slug}}" required>{{$value->title}}</label>
+                                        <label for="{{$value->slug}}" required>{{$value->title}}</label>
                                         <textarea name="{{$value->slug}}" class="form-control"
                                                   id="{{$value->slug}}">{{$value->value}}</textarea><br>
                                     @endif
                                 @elseif($value->input_type == 'password')
                                     <label for="{{$value->slug}}">{{$value->title}}</label>
-                                    <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}" ><br>
+                                    <input name="{{$value->slug}}" class="form-control" type="text"
+                                           id="{{$value->slug}}" value="{{$value->value}}"><br>
                                 @elseif($value->input_type == 'number')
                                     <label for="{{$value->slug}}">{{$value->title}}</label>
-                                    <input  name="{{$value->slug}}" class="form-control" type="number" id="{{$value->slug}}" value="{{$value->value}}"  ><br>
+                                    <input name="{{$value->slug}}" class="form-control" type="number"
+                                           id="{{$value->slug}}" value="{{$value->value}}"><br>
                                 @elseif($value->input_type == 'checkbox')
                                     <label for="{{$value->slug}}">{{$value->title}}</label>
-                                    <input  name="{{$value->slug}}" class="" type="checkbox" id="{{$value->slug}}" {{$value->value ? 'checked' : ''}} ><br>
+                                    <input name="{{$value->slug}}" class="" type="checkbox"
+                                           id="{{$value->slug}}" {{$value->value ? 'checked' : ''}} ><br>
                                 @elseif($value->input_type == 'select')
                                     <label for="{{$value->slug}}">{{$value->title}}</label>
-                                    <select  name="{{$value->slug}}" class="browser-default custom-select" >
+                                    <select name="{{$value->slug}}" class="browser-default custom-select">
                                         <option value="tls">TLS</option>
                                         <option value="ssl">SSL</option>
                                     </select><br><br>
@@ -164,8 +176,6 @@
 
 
                     </div>
-
-
 
 
                 </div>
