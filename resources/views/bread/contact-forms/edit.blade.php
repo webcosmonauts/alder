@@ -82,7 +82,7 @@
                         </div>
                         <!--  -->
 
-
+                        <button class="btn btn-success">{{ __('alder::generic.submit') }}</button>
 
                     </div>
                     <div id="mailer" class="container tab-pane fade"><br>
@@ -161,7 +161,7 @@
 
                             @endforeach
                         @endif
-                        <button class="btn btn-success">Send</button>
+
 
                     </div>
 
