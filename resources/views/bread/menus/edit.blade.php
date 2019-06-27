@@ -55,7 +55,7 @@
 
                     start: function() {
                         dragged_object = $(this)
-                        console.log($(this))
+                        // console.log(dragged_object.attr('id'))
                     },
                     helper:'clone'
                 });
@@ -63,11 +63,32 @@
                     hoverClass: 'dropHere'
                     ,drop: function() {
 
-
-                        $('#text').attr('value', dragged_object.text().trim());
-                        $('#href').attr('value', '/' + dragged_object.attr('name'));
-                        editor.add();
-                        dragged_object = '';
+                        if (dragged_object.attr('id') == 'pages') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        }else if(dragged_object.attr('id') == 'posts') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/posty/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        }else if(dragged_object.attr('id') == 'reports') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/reports/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        }else if(dragged_object.attr('id') == 'post-tags') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/post-tags/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        }else if(dragged_object.attr('id') == 'post-categories') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/post-categories/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        }
                     },
 
                 });
@@ -155,8 +176,8 @@
                                                         @if(!empty($single_leaf->leaves))
                                                             <ul class="list-group mb-3 ">
                                                                 @foreach($single_leaf->leaves as $singular)
-                                                                    <li class="list-group-item textBlock" draggable="true" name="{{$singular->slug}}">
-                                                                        {{$singular->slug}}
+                                                                    <li class="list-group-item textBlock" draggable="true" id="{{$single_leaf->slug}}" name="{{$singular->slug}}">
+                                                                        {{$singular->title}}
                                                                     </li>
 
                                                                 @endforeach
