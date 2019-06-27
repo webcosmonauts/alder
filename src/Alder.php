@@ -6,6 +6,8 @@ use Exception;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -494,7 +496,7 @@ class Alder
                 }
             }
         }
-
+        $model->is_populated_with_lcmv = true;
         return $model;
     }
 
@@ -707,6 +709,76 @@ class Alder
             $url = '#'; // todo add legit url for front user profile
         
         return empty($url) ? false : $url;
+    }
+    
+    /**
+     * Parse translated slug to LeafType slug
+     *
+     * @param string $leaf_type
+     * @param bool $returnString
+     *
+     * @return LeafType|string|null
+     */
+    public function getLeafTypeFromTranslation(string $leaf_type, $returnString = false) {
+        foreach (config('translatable.locales') as $locale) {
+            foreach (['pages', 'posts', 'reports'] as $type) {
+                if (lcfirst(__("alder::leaf_types.$type.plural", [], $locale)) == $leaf_type)
+                    return $returnString ? $type : LeafType::where('slug', $type)->first();
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Filter collection of leaves with specified conditions.
+     *
+     * @deprecated Need to somehow check on relations and nested arrays (e.g. tabs in LCM)
+     *
+     * @param Collection $leaves
+     * @param array $conditions
+     *
+     * @return Collection
+     */
+    public function filterLeaves(Collection $leaves, array $conditions) {
+        return $leaves->filter(function ($leaf) use ($conditions) {
+            $result = true;
+            foreach ($conditions as $field => $value) {
+                if (!isset($leaf->$field))
+                    return false;
+                
+                if (is_array($leaf->$field)) {
+                    if (is_array($value))
+                        $result = !empty(array_intersect($leaf->$field, $value));
+                    else
+                        $result = in_array($value, $leaf->$field);
+                }
+                else {
+                    if (is_array($value))
+                        $result = in_array($leaf->$field, $value);
+                    else if ($leaf->$field != $value)
+                        $result = false;
+                }
+            }
+            return $result;
+        });
+    }
+    
+    /**
+     * Generate paginator for array or collection
+     *
+     * @param array|Collection      $items
+     * @param int   $perPage
+     * @param int  $page
+     * @param array $options
+     *
+     * @return LengthAwarePaginator
+     */
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }
 

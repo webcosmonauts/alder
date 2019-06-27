@@ -244,7 +244,6 @@
 
 
     @case("html")
-
     <div class="card shadow mb-4">
         <div class="card-header">
             <h5 class="text-primary font-weight-bold">{{__('alder::generic.content')}}</h5>
@@ -254,7 +253,35 @@
                 ['type' => 'textarea', 'name' => 'html_content', 'label' => __('alder::generic.content'), 'value'=> $component->fields->html_content])
         </div>
     </div>
+    @break
 
+
+    @case("text_with_map")
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h5 class="text-primary font-weight-bold">{{__('alder::generic.text_with_map')}}</h5>
+        </div>
+
+        <div class="card-body">
+            @include("alder::components.page_builder_input",
+                ['type' => 'number', 'name' => 'left_column_size', 'label' => __('alder::generic.left_column_size') . "(%)", 'value'=> $component->fields->left_column_size])
+
+            @include("alder::components.page_builder_input",
+                ['type' => 'textarea', 'name' => 'text', 'label' => __('alder::generic.text'), 'value'=> $component->fields->text])
+
+            @include("alder::components.page_builder_input",
+                ['type' => 'number', 'name' => 'right_column_size', 'label' => __('alder::generic.right_column_size') . "(%)", 'value'=> $component->fields->left_column_size])
+
+            @include("alder::components.page_builder_input",
+                ['type' => 'number', 'name' => 'lat', 'label' => __('alder::generic.lat'), 'value'=> $component->fields->lat])
+
+            @include("alder::components.page_builder_input",
+                ['type' => 'number', 'name' => 'lng', 'label' => __('alder::generic.lng'), 'value'=> $component->fields->lng])
+
+            @include("alder::components.page_builder_input",
+                ['type' => 'number', 'name' => 'zoom', 'label' => __('alder::generic.zoom'), 'value'=> $component->fields->zoom])
+        </div>
+    </div>
     @break
 
 @endswitch
