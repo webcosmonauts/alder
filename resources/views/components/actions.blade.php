@@ -18,6 +18,15 @@
         </a>
         @break
 
+        @case("reports")
+        <a href="{{ "/".lcfirst(__('alder::leaf_types.reports.plural'))."/$leaf->id"}}" class="btn btn-sm btn-success btn-icon-split ml-3">
+        <span class="icon text-white-50">
+            <i class="fas fa-location-arrow"></i>
+        </span>
+            <span class="text">{{ __('alder::generic.preview') }}</span>
+        </a>
+        @break
+
         @case("contact-forms")
         @case("menus")
         <a href="{{ route("alder.$route.show", $leaf->id) }}" class="btn btn-sm btn-primary btn-icon-split ml-3">
