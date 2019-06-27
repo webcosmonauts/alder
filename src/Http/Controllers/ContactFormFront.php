@@ -148,7 +148,8 @@ class ContactFormFront extends BaseController
 //            }
 //
 ////          Settings SMTP
-            $mail->SMTPDebug = 2;
+
+            $mail->CharSet = "UTF-8";
             $mail->isSMTP();
             $mail->Host = $total['smtp-host'];
             $mail->SMTPAuth = TRUE;

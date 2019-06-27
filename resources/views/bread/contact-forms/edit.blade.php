@@ -41,18 +41,22 @@
 
                         <!-- Template builder -->
                         <div class="mb-5">
-                            <label for="contact-form-title"> Title </label>
+                            <label for="title">title</label>
                             <div class="input-group mb-2">
-                                <input type="text" name="title" id="contact-form-title" class="form-control"
-                                       value="{{ $edit ? $content->title : '' }}"
-                                       required>
+                                <input type="text" name="title" id="title" class="form-control"
+                                       placeholder="title"
+                                       data-title="1"
+                                       aria-label="title" aria-describedby="title"
+                                       value="{{ $edit ? $content->title : '' }}">
                             </div>
 
-                            <label for="contact-form-title"> Slug </label>
+                            <label for="slug">slug</label>
                             <div class="input-group mb-2">
-                                <input type="text" name="slug" id="contact-form-slug" class="form-control"
-                                       value="{{ $edit ? $content->slug : '' }}"
-                                       required>
+                                <input type="text" name="slug" id="slug" class="form-control"
+                                       placeholder="slug"
+                                       data-title="1"
+                                       aria-label="slug" aria-describedby="slug"
+                                       value="{{ $edit ? $content->slug : '' }}">
                             </div>
 
                             <label for="is_accessible">Visibility</label>
