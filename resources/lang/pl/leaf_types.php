@@ -150,6 +150,10 @@ return [
     'reports'=> [
         'singular' => 'Raport',
         'plural' => 'Raporty',
+        'static_reports' => [
+            'singular' => 'Statyczny raport',
+            'plural' => 'Statyczne raporty',
+        ],
         'add_new' => 'Dodaj nowy raport',
         'added_new' => 'Dodano nowy raport',
         'user_added_new' => 'Dodał nowy raport',
