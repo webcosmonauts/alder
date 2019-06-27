@@ -85,6 +85,7 @@ return [
         'avatar' => 'Avatar',
         'user_added_new' => 'Added new profile',
         'name' => 'Name',
+        'password' => 'Password',
         'surname' => 'Surname',
         'email' => 'E-mail',
         'verified_at' => 'Verified at',

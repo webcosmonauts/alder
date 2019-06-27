@@ -82,9 +82,10 @@ return [
     ],
     'profile' => [
         'singular' => 'Profil',
-        'avatar' => 'Awatara',
+        'avatar' => 'Awatar',
         'user_added_new' => 'Dodał nowy profil',
         'name' => 'Imię',
+        'password' => 'Hasło',
         'surname' => 'Nazwisko',
         'email' => 'E-mail',
         'verified_at' => 'Zweryfikowano w',
