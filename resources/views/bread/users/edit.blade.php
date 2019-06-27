@@ -18,7 +18,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         @foreach(['name', 'surname', 'email', 'password'] as $field)
-                            <label for="{{ $field }}">{{ $field }}</label>
+                            <label for="{{ $field }}">{{__('alder::generic.' . $field) }}</label>
                             <div class="input-group mb-4">
                                 <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
                                        placeholder="{{ $field}}"
@@ -28,9 +28,11 @@
                             </div>
                         @endforeach
                         <div class="custom-control custom-checkbox my-1 mr-sm-2">
+
                             <input {{$user ? ($user->is_active != 1 ? : 'checked') : ''}} type="checkbox" name="is_active" class="custom-control-input" id="is_active">
-                            <label class="custom-control-label" for="is_active">is_active</label>
+                            <label class="custom-control-label" for="is_active"> {{__('alder::generic.is_active') }}</label>
                         </div>
+
                         <br>
 
                         <label for="userfile">{{ __("alder::leaf_types.profile.avatar") }}</label>
