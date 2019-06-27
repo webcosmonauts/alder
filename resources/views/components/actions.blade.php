@@ -2,27 +2,27 @@
     @switch($leaf->leaf_type->slug)
         @case("posts")
         <a href="{{ "/posty/".$leaf->id}}" class="btn btn-sm btn-success btn-icon-split ml-3">
-        <span class="icon text-white-50">
-            <i class="fas fa-location-arrow"></i>
-        </span>
+            <span class="icon text-white-50">
+                <i class="fas fa-location-arrow"></i>
+            </span>
             <span class="text">{{ __('alder::generic.preview') }}</span>
         </a>
         @break
 
         @case("pages")
         <a href="{{ "/".$leaf->id}}" class="btn btn-sm btn-success btn-icon-split ml-3">
-        <span class="icon text-white-50">
-            <i class="fas fa-location-arrow"></i>
-        </span>
+            <span class="icon text-white-50">
+                <i class="fas fa-location-arrow"></i>
+            </span>
             <span class="text">{{ __('alder::generic.preview') }}</span>
         </a>
         @break
 
         @case("reports")
         <a href="{{ "/".lcfirst(__('alder::leaf_types.reports.plural'))."/$leaf->id"}}" class="btn btn-sm btn-success btn-icon-split ml-3">
-        <span class="icon text-white-50">
-            <i class="fas fa-location-arrow"></i>
-        </span>
+            <span class="icon text-white-50">
+                <i class="fas fa-location-arrow"></i>
+            </span>
             <span class="text">{{ __('alder::generic.preview') }}</span>
         </a>
         @break
