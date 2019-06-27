@@ -89,7 +89,7 @@ class ContactFormFront extends BaseController
 
         $this->store($total);
 
-        return redirect()->back()->with(['success'=>'Message sent']);
+        return redirect()->back()->with(['success'=> __('alder::messages.mail_sent_success')]);
 
 //        return Alder::returnResponse(
 //            $request->ajax(),
