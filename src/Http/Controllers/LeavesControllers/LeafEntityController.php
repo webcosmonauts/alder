@@ -237,11 +237,10 @@ class LeafEntityController extends Controller
         $leaf_type = $leaf_type_object->slug;
         //Check if leaf is singular
         $is_singular = $leaf_type_object->is_singular;
-
-        $lcmv = self::getLeafCustomModifiersValues($id);
+        
         if($leaf_type == 'pages'){
-            if(!empty($lcmv)){
-                return $lcmv->values->template;
+            if(!empty($leaf->lcmv)){
+                return $leaf->lcmv->values->template;
             }
             else{
                 return "";

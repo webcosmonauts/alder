@@ -126,15 +126,16 @@ Route::group(['middleware' => 'locale-switcher'], function () {
 
 
     // Reports
-    Route::get('reports/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
-    Route::get('raporty/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
-    Route::get('reports', function () {
-        return view('themes.nimoz.reports');
-    });
-    Route::get('raporty', function () {
-        return view('themes.nimoz.reports');
-    });
-
+    foreach (config('translatable.locales') as $locale) {
+        Route::get(lcfirst(__('alder::leaf_types.reports.plural', [], $locale)).'/{slug}', '\Webcosmonauts\Alder\Http\Controllers\LeafController@index');
+        Route::get(lcfirst(__('alder::leaf_types.reports.plural', [], $locale)), function () {
+            return view('themes.nimoz.reports');
+        });
+        
+        Route::get('{leaf_type}/'.lcfirst(__('alder::leaf_types.categories.plural', [], $locale)).'/{category}',
+            '\Webcosmonauts\Alder\Http\Controllers\LeafController@getCategoryLeafs');
+    }
+    
     Route::get("/{slug}", "\Webcosmonauts\Alder\Http\Controllers\LeafController@index");
 
     //Route::get("/{leaf_type}/{slug}","\Webcosmonauts\Alder\Http\Controllers\LeafController@leafTypeShow");

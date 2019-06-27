@@ -3,6 +3,7 @@
 namespace Webcosmonauts\Alder\Http\Controllers;
 
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Webcosmonauts\Alder\Facades\Alder;
@@ -61,6 +62,42 @@ class LeafController extends Controller
         $leaf_view_renderer = TemplateController::getViewForLeaf($leaf);
 
         return view($leaf_view_renderer, compact('leaf'));
+    }
+    
+    /**
+     * Get category page
+     *
+     * @throws \Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionOperatorException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionParameterException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownRelationException
+     *
+     * @param Request $request
+     * @param $leaf_type
+     * @param $category
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getCategoryLeafs(Request $request, $leaf_type, $category) {
+        $leaf_type = Alder::getLeafTypeFromTranslation($leaf_type);
+        $category = Leaf::whereTranslation('slug', $category)->first();
+        $leaves = Leaf::where('leaf_type_id', $leaf_type->id)->get();
+        $combined = Alder::combineLCMs($leaf_type)->lcm;
+        
+        $filtered = new Collection();
+        foreach ($leaves as &$leaf) {
+            $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type, $combined);
+            if (in_array($category->id, $leaf->categories->pluck('id')->toArray()))
+                $filtered->push($leaf);
+        }
+        
+        $leaf_view_renderer = TemplateController::getViewForLeaf($category);
+        $leaves_per_page = Alder::getRootValue('leaves_per_page');
+        
+        return view($leaf_view_renderer)->with([
+            'leaves' => Alder::paginate($filtered, $leaves_per_page),
+            'category' => $category,
+        ]);
     }
 
     /**
