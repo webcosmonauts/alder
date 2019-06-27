@@ -98,8 +98,11 @@ Route::group(['middleware' => 'locale-switcher'], function () {
 
             //Capabilities
             Route::get('capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@index')->name('capabilities.index');
-            Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@initDefaultCapabilities')->name('capabilities.init_default_capabilities');
+            Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@initDefaultCapabilitiesAndRedirect')->name('capabilities.init_default_capabilities');
             Route::post('capabilities-default-capabilities-for-roles', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@assignDefaultCapabilitiesToRoles')->name('capabilities.init_default_capabilities_for_roles');
+            Route::post('capabilities-add-new', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@addNewCapability')->name('capabilities.add_new_capability');
+            Route::post('capabilities-delete', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@deleteCapability')->name('capabilities.delete_capability');
+            Route::post('capabilities-update-roles-capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@updateRolesCapabilities')->name('capabilities.update_roles_capability');
             //Route::post('capabilities', '\Webcosmonauts\Alder\Http\Controllers\CapabilityController@update')->name('capabilities.update');
         });
     });

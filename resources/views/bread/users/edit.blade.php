@@ -40,20 +40,37 @@
                         </div>
 
                         <div class="mb-2">
+
                             <label for="userfile">{{ __("alder::leaf_types.profile.avatar") }}</label>
                             <input class="form-control-file" name="userfile" type="file"/>
-                        </div>
-
-
-                        <button type="submit" class="btn btn-success btn-icon-split">
+                            <br>
+                            @if($roles)
+                                <h3>{{__('alder::roles.title')}}</h3>
+                                @foreach($roles as $single_role)
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="role-{{$single_role->id}}">
+                                            <input
+                                                {{in_array($single_role->name,$user->roles->pluck('name')->toArray()) ? "checked" : ""}}
+                                                id="role-{{$single_role->id}}" class="form-check-input" name="roles[]"
+                                                type="checkbox" value="{{$single_role->name}}">
+                                            {{ucfirst($single_role->name)}}
+                                            <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            @endif
+                            <br>
+                            <button type="submit" class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                               <i class="fas fa-save"></i>
                             </span>
-                            <span class="text">{{ __('alder::generic.save') }}</span>
-                        </button>
+                                <span class="text">{{ __('alder::generic.save') }}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </form>
 @endsection

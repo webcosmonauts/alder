@@ -151,5 +151,6 @@ return [
     'text_with_map' => 'Text with map',
     'lat' => 'Latitude',
     'lng' => 'Longitude',
-    'zoom' => 'Zoom'
+    'zoom' => 'Zoom',
+    'updated_at' => 'Updated at'
 ];

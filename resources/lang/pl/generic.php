@@ -135,5 +135,6 @@ return [
     'text_with_map' => 'Tekst z mapą',
     'lat' => 'Szerokość geograficzna',
     'lng' => 'Długość geograficzna',
-    'zoom' => 'Zoom'
+    'zoom' => 'Zoom',
+    'updated_at' => 'Zaktualizowano'
 ];
