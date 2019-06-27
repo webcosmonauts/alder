@@ -243,10 +243,12 @@ class ContactController extends BaseController {
     public function show(Request $request, $id){
 
 //        $cont_id = Leaf::where()
-        $cont_id = LeafType::where('slug', 'contact-forms')->value('id');
-        $forms = Leaf::where('leaf_type_id', $cont_id)->where('id', $id)->get()->first();
 
-        $lines = preg_split('/([\[:\]\s])/', $forms['content']);
+        $forms = Leaf::find($id);
+        $contact = json_decode($forms->content);
+        $contact = (array) $contact;
+//        dd($contact['template-content']);
+        $lines = preg_split('/([\[:\]\s])/', $contact['template-content']);
         $linevs = explode("\n", str_replace(array("\r\n", "\r", "[", "]"), "\n", $forms['content']));
 
         $lin = array();
@@ -260,6 +262,17 @@ class ContactController extends BaseController {
                 $lincs[] = $val;
         }
 
+//        $strings_free = array();
+//        $strings = explode(']', $contact['template-content']);
+//        foreach ($strings as $value) {
+//            $strings_free[] = explode('[', $value);
+//        }
+//        $strings = array();
+//        foreach ($strings_free as $value) {
+//            if ($value[0])
+//                $strings[] = $value[1];
+//        }
+//        dd($strings);
 
         return view('alder::bread.contact-forms.read')->with([
             'admin_menu_items' => Alder::getMenuItems(),
@@ -267,7 +280,8 @@ class ContactController extends BaseController {
             'forms' => $forms,
             'lin' => $lin,
             'lincs' => $lincs,
-            'id' => $id
+            'id' => $id,
+            'contact' => $contact
         ]);
     }
 
