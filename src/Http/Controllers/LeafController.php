@@ -12,6 +12,7 @@ use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifier;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
+use Webcosmonauts\Alder\Models\LeafStatus;
 
 class LeafController extends Controller
 {
@@ -81,7 +82,9 @@ class LeafController extends Controller
     public function getCategoryLeafs(Request $request, $leaf_type, $category) {
         $leaf_type = Alder::getLeafTypeFromTranslation($leaf_type);
         $category = Leaf::whereTranslation('slug', $category)->first();
-        $leaves = Leaf::where('leaf_type_id', $leaf_type->id)->get();
+        $leaves = Leaf::where('leaf_type_id', $leaf_type->id)
+            ->where('status_id', LeafStatus::where('slug', 'published')->value('id'))
+            ->get();
         $combined = Alder::combineLCMs($leaf_type)->lcm;
         
         $filtered = new Collection();
