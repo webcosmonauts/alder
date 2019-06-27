@@ -337,6 +337,8 @@
                         <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
                            data-component="center_image">{{__('alder::generic.center_image')}}</a>
 
+                        <a href="#" class="btn btn-sm btn-success mb-2 mr-2"
+                           data-component="text_with_map">{{__('alder::generic.text_with_map')}}</a>
 
                         <a href="#" class="btn btn-sm btn-success mb-2 mr-2" data-component="html"> HTML </a>
                     </div>
@@ -598,6 +600,29 @@
                     </div>
                     <div class="card-body">
                         [textarea:html_content]
+                    </div>
+                </div>
+
+                @include("alder::components.page_builder_animation", ['editing' => false])
+            </div>
+
+
+            <!-- TEXT WITH MAP -->
+            <div data-component="text_with_map" data-thumbnail="{{asset('vendor/page-builder/text_with_map.jpg')}}">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h5 class="text-primary font-weight-bold">{{__('alder::generic.text_with_map')}}</h5>
+                    </div>
+
+                    <div class="card-body">
+                        [input:number:left_column_size:{{__('alder::generic.left_column_size')}} (%)]
+                        [textarea:text:{{__('alder::generic.text')}}]
+
+                        [input:number:right_column_size:{{__('alder::generic.right_column_size')}} (%)]
+
+                        [input:number:lat:{{__('alder::generic.lat')}}]
+                        [input:number:lng:{{__('alder::generic.lng')}}]
+                        [input:number:zoom:{{__('alder::generic.zoom')}}]
                     </div>
                 </div>
 
