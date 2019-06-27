@@ -71,27 +71,34 @@
             </a>
             <div class="collapse show" id="collapseCard{{ Str::camel($root_type->slug) }}" style="">
                 <div class="card-body">
-                    @foreach($root_type->roots as $root)
-						@if ($root->is_visible)
-							@if($root->slug == 'index-page')
-								<label for="index-page">{{ $root->title }}</label>
-								<div class="input-group mb-4">
-									<select class="custom-select" name="{{ $root->slug }}" id="index-page"
-											placeholder="{{ $root->title }}" aria-label="{{ $root->title }}"
-											aria-describedby="{{ $root->title }}">
-										@foreach($index_pages as $page)
-											<option value="{{ $page->id }}
-											{{ $root->value == $page->id ? 'selected' : '' }}">
-												{{ $page->title }}
-											</option>
-										@endforeach
-									</select>
-								</div>
-							@else
-								@include('alder::components.root_input', $root)
-							@endif
-						@endif
-                    @endforeach
+                    <div class="row">
+                        @foreach($root_type->roots as $root)
+                            @if ($root->is_visible)
+                                @if($root->slug == 'index-page')
+                                    <div class="col-xl-4 col-lg-6">
+                                        <label for="index-page">{{ $root->title }}</label>
+                                        <div class="input-group mb-4">
+                                            <select class="custom-select" name="{{ $root->slug }}" id="index-page"
+                                                    placeholder="{{ $root->title }}" aria-label="{{ $root->title }}"
+                                                    aria-describedby="{{ $root->title }}">
+                                                @foreach($index_pages as $page)
+                                                    <option value="{{ $page->id }}
+                                                    {{ $root->value == $page->id ? 'selected' : '' }}">
+                                                        {{ $page->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="col-xl-4 col-lg-6 d-flex align-items-center">
+                                        @include('alder::components.root_input', $root)
+                                    </div>
+                                @endif
+                            @endif
+                        @endforeach
+                    </div>
+
                 </div>
             </div>
         </div>
