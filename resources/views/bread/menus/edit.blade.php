@@ -30,6 +30,7 @@
             var editor = new MenuEditor('myEditor', {listOptions: sortableListOptions, iconPicker: iconPickerOptions});
             editor.setForm($('#frmEdit'));
             editor.setUpdateButton($('#btnUpdate'));
+
             $('#btnReload').ready(function () {
                 editor.setData(arrayjson);
             });
@@ -40,12 +41,33 @@
             });
 
             $("#btnUpdate").click(function(){
-                editor.update();
+                if ($('#text').val() != '' && $('#href').val() != '') {
+                    editor.update();
+                    $('.edit_menu').css('display','none')
+                }
+
             });
 
             $('#btnAdd').click(function(){
                 editor.add();
             });
+
+            $(document).on('click', '.btnEdit', function () {
+                $('.edit_menu').css('display','block')
+            });
+
+            $('.save_menu').click(function(){
+                $('.save_form_btn').submit();
+            });
+
+            $('.add_custom_link').click(function(){
+                if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
+                    $('#text').attr('value', $('.custom_link_text').val());
+                    $('#href').attr('value', $('.custom_link_url').val());
+                    editor.add();
+                }
+            });
+
 
 
 
@@ -122,7 +144,7 @@
         <div class="tab-pane fade card shadow show active" id="main-section" role="tabpanel">
             <div class="row">
                 <div class="col-lg-12">
-                    <form action="{{ $edit ? route("alder.$leaf_type->slug.update", $menu->id) : route("alder.$leaf_type->slug.store") }}"
+                    <form class="save_form_btn" action="{{ $edit ? route("alder.$leaf_type->slug.update", $menu->id) : route("alder.$leaf_type->slug.store") }}"
                           method="POST">
                         @csrf
                         {{$edit ? method_field('PUT') : method_field('POST')}}
@@ -147,12 +169,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success btn-icon-split mb-1">
-                                        <span class="icon text-white-50">
-                                          <i class="fas fa-save"></i>
-                                        </span>
-                            <span class="text">{{ __('alder::generic.save') }}</span>
-                        </button>
+
                     </form>
                     <div class=" mb-4 border-top-0">
                         <div class="card-body">
@@ -209,15 +226,16 @@
                                         <div class="collapse" id="menu-custom-link">
                                             <ul class="list-group mb-3">
                                                 <li class="list-group-item custom-link-add-new">
-                                                    <input type="text" class="form-control mb-1" placeholder="http://">
-                                                    <input type="text" class="form-control mb-1" placeholder="{{__('alder::generic.title')}}">
+                                                    <input type="text" class="form-control mb-1 custom_link_url" placeholder="http://" required>
+                                                    <input type="text" class="form-control mb-1 custom_link_text" required placeholder="{{__('alder::generic.title')}}">
 
-                                                    <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
-                                                                        <span class="icon text-white-50">
-                                                                            <i class="fas fa-plus-circle"></i>
-                                                                        </span>
-                                                        <span class="text">{{ __('alder::generic.add_new_custom_link') }}</span>
-                                                    </a>
+                                                    {{--                                                    <a href="" class="btn btn-success btn-icon-split">--}}
+                                                    {{--                                                                        <span class="icon text-white-50">--}}
+                                                    {{--                                                                            <i class="fas fa-plus-circle"></i>--}}
+                                                    {{--                                                                        </span>--}}
+                                                    {{--                                                        <span ></span>--}}
+                                                    {{--                                                    </a>--}}
+                                                    <button class="btn btn-success btn-icon-split add_custom_link">{{ __('alder::generic.add_new_custom_link') }}</button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -225,7 +243,7 @@
 
 
                                 </div>
-                                <div class="col-12 col-lg-8">
+                                <div class="col-12 col-lg-8" >
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-md-8">
@@ -241,7 +259,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 edit_menu" style="display: none">
                                                 <div class="card border-primary mb-3">
                                                     <div class="card-header bg-primary text-white">Edit item</div>
                                                     <div class="card-body">
@@ -250,34 +268,17 @@
                                                             <div class="form-group">
                                                                 <label for="text">Text</label>
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control item-menu " name="text" id="text" placeholder="Text">
-                                                                    <div class="input-group-append">
-                                                                        <button type="button" id="myEditor_icon" class="btn btn-outline-secondary"></button>
-                                                                    </div>
+                                                                    <input type="text" class="form-control item-menu " name="text" id="text" required placeholder="Text">
                                                                 </div>
-                                                                <input type="hidden" name="icon" class="item-menu">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="href">URL</label>
-                                                                <input type="text" class="form-control item-menu" id="href" name="href" placeholder="URL">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="target">Target</label>
-                                                                <select name="target" id="target" class="form-control item-menu">
-                                                                    <option value="_self">Self</option>
-                                                                    <option value="_blank">Blank</option>
-                                                                    <option value="_top">Top</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="title">Tooltip</label>
-                                                                <input type="text" name="title" class="form-control item-menu" id="title" placeholder="Tooltip">
+                                                                <input type="text" class="form-control item-menu" id="href" name="href" required placeholder="URL">
                                                             </div>
                                                         </form>
                                                     </div>
                                                     <div class="card-footer">
                                                         <button type="button" id="btnUpdate" class="btn btn-primary" disabled><i class="fas fa-sync-alt"></i> Update</button>
-                                                        <button type="button" id="btnAdd" class="btn btn-success"><i class="fas fa-plus"></i> Add</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -285,6 +286,12 @@
                                     </div>
                                 </div>
 
+                                <button type="submit" class="btn btn-success btn-icon-split mb-1 save_menu">
+                                        <span class="icon text-white-50">
+                                          <i class="fas fa-save"></i>
+                                        </span>
+                                    <span class="text">{{ __('alder::generic.save') }}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
