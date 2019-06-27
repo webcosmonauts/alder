@@ -82,6 +82,9 @@ class LeafController extends Controller
     public function getCategoryLeafs(Request $request, $leaf_type, $category) {
         $leaf_type = Alder::getLeafTypeFromTranslation($leaf_type);
         $category = Leaf::whereTranslation('slug', $category)->first();
+        if (!$category)
+            return view('themes.nimoz.404');
+        
         $leaves = Leaf::where('leaf_type_id', $leaf_type->id)
             ->where('status_id', LeafStatus::where('slug', 'published')->value('id'))
             ->get();
@@ -90,7 +93,7 @@ class LeafController extends Controller
         $filtered = new Collection();
         foreach ($leaves as &$leaf) {
             $leaf = Alder::populateWithLCMV($leaf, $leaf->leaf_type, $combined);
-            if (in_array($category->id, $leaf->categories->pluck('id')->toArray()))
+            if (isset($leaf->categories) && !empty($leaf->categories) && in_array($category->id, $leaf->categories->pluck('id')->toArray()))
                 $filtered->push($leaf);
         }
         
