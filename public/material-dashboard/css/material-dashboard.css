@@ -18288,8 +18288,7 @@ a .material-icons {
   margin-bottom: 10px;
 }
 
-.perfect-scrollbar-on .sidebar,
-.perfect-scrollbar-on .main-panel {
+.perfect-scrollbar-on .sidebar {
   height: 100%;
   max-height: 100%;
 }

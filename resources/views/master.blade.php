@@ -84,10 +84,10 @@
 @yield('scripts-body')
 
 <!-- Bootstrap material design js -->
+<script src="{{asset('js/popper.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('material-dashboard/js/core/bootstrap-material-design.min.js') }}"></script>
 <script src="{{asset('material-dashboard/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
-
-<script src="{{ asset('material-dashboard/js/material-dashboard.min.js') }}"></script>
+<script src="{{ asset('material-dashboard/js/material-dashboard.js') }}"></script>
 
 <!-- DataTables -->
 <script src="{{asset('js/dataTables.min.js')}}"></script>
