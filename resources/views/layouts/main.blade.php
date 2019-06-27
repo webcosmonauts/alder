@@ -211,6 +211,7 @@
 
 @section('main')
     <div class="container-fluid">
+
         @include('alder::components.messages')
         @yield('content')
     </div>

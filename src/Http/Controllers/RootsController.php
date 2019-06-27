@@ -6,6 +6,7 @@ namespace Webcosmonauts\Alder\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Exceptions\UnknownRelationException;
@@ -27,6 +28,10 @@ class RootsController extends BaseController
      */
     public function index()
     {
+        $check_permission_redirect = Alder::checkPermission('manage options');
+        if($check_permission_redirect !== true) {
+            return $check_permission_redirect;
+        }
         /* Get leaf type with custom modifiers */
         $root_types = RootType::with('roots')->get();
         

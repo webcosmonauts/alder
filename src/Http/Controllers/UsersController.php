@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
@@ -32,11 +33,12 @@ class UsersController extends BaseController
         $admin_menu_items = Alder::getMenuItems();
 
         $users = User::all();
-
+        $roles = Role::all();
 
         return view('alder::bread.users.browse')->with([
             'admin_menu_items' => Alder::getMenuItems(),
-            'users' => $users
+            'users' => $users,
+            'roles'=>$roles
         ]);
     }
 
@@ -97,11 +99,13 @@ class UsersController extends BaseController
 
         $user = User::where('id',$id)->get();
         $user = $user[0];
+        $roles = Role::all();
 
         return view('alder::bread.users.edit')->with([
             'admin_menu_items' => Alder::getMenuItems(),
             'request' => $request,
-            'user' => $user
+            'user' => $user,
+            'roles'=>$roles
         ]);
     }
 
@@ -155,7 +159,7 @@ class UsersController extends BaseController
                 $User->updated_at = date("Y-m-d H:i:s");
 
                 $User->save();
-
+                $User->syncRoles($request->roles);
                 return Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_'

@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -710,6 +711,7 @@ class Alder
         
         return empty($url) ? false : $url;
     }
+
     
     /**
      * Parse translated slug to LeafType slug
@@ -779,6 +781,26 @@ class Alder
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+    /**
+     * @param $permission
+     * @param null $message
+     * @return bool|JsonResponse|RedirectResponse
+     */
+
+    public function checkPermission($permission, $message = null){
+
+        if(!Auth::user()->can($permission)) {
+            return \Webcosmonauts\Alder\Facades\Alder::returnResponse(
+                request()->ajax(),
+                $message ?: __('alder::permissions.not_allowed'),
+                true,
+                'danger'
+            );
+        }
+        else {
+            return true;
+        }
     }
 }
 

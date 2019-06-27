@@ -11,7 +11,11 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use Notifiable, HasRoles;
-    
+
+    /**
+     * @var string
+     */
+    protected $guard_name = 'AlderGuard';
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -4,11 +4,10 @@
 namespace Webcosmonauts\Alder\Http\Controllers;
 
 
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Webcosmonauts\Alder\Facades\Alder;
-use Webcosmonauts\Alder\Models\Permissions;
-use Webcosmonauts\Alder\Models\Roles;
 
 class CapabilityController
 {
@@ -88,7 +87,15 @@ class CapabilityController
      * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionParameterException
      * @throws \Webcosmonauts\Alder\Exceptions\UnknownRelationException
      */
-    public function index(){
+    public function index(Request $request){
+
+        $role = null;
+        $selected_role = null;
+        if(isset($request->role)){
+            $role=(int)$request->role;
+            $selected_role = Role::where('id',$role)->firstOrFail();
+        }
+
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 
@@ -96,8 +103,8 @@ class CapabilityController
         $active_theme = Alder::getRootValue('active-theme');
 
         //Roles
-        $roles = Roles::all();
-        $permissions = Permissions::all();
+        $roles = Role::all();
+        $permissions = Permission::all();
 
         /* Return view with prefilled data */
         return view('alder::bread.permissions.browse')->with([
@@ -105,39 +112,225 @@ class CapabilityController
             'admin_menu_items' => $admin_menu_items,
             'roles'=>$roles,
             'permissions'=>$permissions,
+            'role_editor_enabler'=>$role,
+            'selected_role'=>$selected_role
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function deleteCapability(Request $request){
+        return Permission::where('id',$request->id)->delete() ? Alder::returnResponse(
+            false,
+            __('alder::permissions.capability_deleted'),
+            true,
+            'success'
+        ) : Alder::returnResponse(
+            false,
+            __('alder::permissions.something_went_wrong'),
+            true,
+            'danger'
+        );
     }
 
     public function update(){
 
     }
 
+
+
     /**
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function initDefaultCapabilities(){
-        $existing_permissions = Permissions::all()->pluck('name')->toArray();
+    public function initDefaultCapabilitiesAndRedirect(){
+        $existing_permissions = Permission::all()->pluck('name')->toArray();
         //dd($existing_permissions);
 
         $capabilities = $this->capabilities;
 
         foreach ($capabilities as $single_role_capabilities){
-            foreach ($single_role_capabilities as $single_capability){
-                if(!in_array($single_capability,$existing_permissions)):
-                    $permission = Permission::create(['name' => $single_capability, 'guard_name'=>'AlderGuard']);
-                endif;
+
+            foreach ($single_role_capabilities as $single_capability) {
+
+                //dd($single_role_capabilities, $single_capability, $capabilities);
+                if (!in_array($single_capability, $existing_permissions)){
+                    $temp = new Permission();
+                    $temp->name = $single_capability;
+                    $temp->guard_name = 'AlderGuard';
+                    $temp->save();
+                    //$permission = Permission::new(['name' => $single_capability, 'guard_name'=>'AlderGuard']);
+                }
             }
 
         }
-        return redirect()->back()->with('Default capabilities init');
+        return Alder::returnResponse(
+            false,
+            __('alder::permissions.default_capabilities_init'),
+            true,
+            'success'
+        );
     }
 
+    /**
+     *
+     */
+    public function initDefaultCapabilities(){
+        $existing_permissions = Permission::all()->pluck('name')->toArray();
+        //dd($existing_permissions);
+
+        $capabilities = $this->capabilities;
+
+        foreach ($capabilities as $single_role_capabilities){
+
+            foreach ($single_role_capabilities as $single_capability) {
+
+                //dd($single_role_capabilities, $single_capability, $capabilities);
+                if (!in_array($single_capability, $existing_permissions)){
+                    $temp = new Permission();
+                    $temp->name = $single_capability;
+                    $temp->guard_name = 'AlderGuard';
+                    $temp->save();
+
+                }
+            }
+
+        }
+
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function assignDefaultCapabilitiesToRoles(){
-        $roles_raw = Role::all('name')->toArray();
-        
-        dd($roles_raw);
-        return redirect()->back()->with('Default capabilities for roles init');
+        $this->initDefaultCapabilities();
+        $roles_raw = Role::all();
+        /*foreach ($roles_raw as $role){
+          $role->syncPermissions($this->capabilities[$role->name.'_capabilities']);
+        }*/
+        //Contributor capabilities
+        $subscriber_roles = $roles_raw->where('name','subscriber')->first();
+        $subscriber_roles->syncPermissions([
+            $this->capabilities['subscriber_capabilities'],
+        ]);
+
+        //Contributor capabilities
+        $contributor_roles = $roles_raw->where('name','contributor')->first();
+        $contributor_roles->syncPermissions([
+            $this->capabilities['subscriber_capabilities'],
+            $this->capabilities['contributor_capabilities']
+        ]);
+
+        //Author capabilities
+        $author_roles = $roles_raw->where('name','author')->first();
+        $author_roles->syncPermissions([
+            $this->capabilities['subscriber_capabilities'],
+            $this->capabilities['contributor_capabilities'],
+            $this->capabilities['author_capabilities'],
+        ]);
+
+        //Editor capabilities
+        $editor_roles = $roles_raw->where('name','editor')->first();
+        $editor_roles->syncPermissions([
+            $this->capabilities['subscriber_capabilities'],
+            $this->capabilities['contributor_capabilities'],
+            $this->capabilities['author_capabilities'],
+            $this->capabilities['editor_capabilities'],
+        ]);
+
+        //Administrator capabilities
+        $administrator_roles = $roles_raw->where('name','administrator')->first();
+        $administrator_roles->syncPermissions([
+            $this->capabilities['subscriber_capabilities'],
+            $this->capabilities['contributor_capabilities'],
+            $this->capabilities['author_capabilities'],
+            $this->capabilities['editor_capabilities'],
+            $this->capabilities['administrator_capabilities'],
+        ]);
+
+        //
+
+        return Alder::returnResponse(
+            false,
+            __('alder::permissions.default_capabilities_for_roles_init'),
+            true,
+            'success'
+        );
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function addNewCapability(Request $request){
+        $existing_permissions = Permission::all()->pluck('name')->toArray();
 
+        if(isset($request->new_capability)){
+            $new_capability = $request->new_capability;
+            if(!in_array($new_capability, $existing_permissions)){
+                $temp = new Permission();
+                $temp->name = $new_capability;
+                $temp->guard_name = 'AlderGuard';
+                $temp->save();
+                return Alder::returnResponse(
+                    $request->ajax(),
+                    __('alder::permissions.new_capability_created'),
+                    true,
+                    'success'
+                );
+
+            }
+            else{
+                return Alder::returnResponse(
+                    $request->ajax(),
+                    __('alder::permissions.capability_already_exist'),
+                    true,
+                    'danger'
+                );
+            }
+
+        }
+        else{
+            return Alder::returnResponse(
+                $request->ajax(),
+                __('alder::permissions.no_capability_specified'),
+                true,
+                'danger'
+            );
+
+        }
+    }
+
+    public function updateRolesCapabilities(Request $request){
+        if(isset($request->selected_role)){
+            $role_raw = Role::where('id',$request->selected_role)->firstOrFail();
+            if(isset($request->permissions)){
+                //dd($request->permissions);
+                $role_raw->syncPermissions($request->permissions);
+                return Alder::returnResponse(
+                    $request->ajax(),
+                    __('alder::permissions.saved'),
+                    true,
+                    'success'
+                );
+            }
+            else{
+                return Alder::returnResponse(
+                    $request->ajax(),
+                    __('alder::permissions.saved'),
+                    true,
+                    'success'
+                );
+            }
+        }
+        else{
+            return Alder::returnResponse(
+                $request->ajax(),
+                __('alder::permissions.no_role_specified'),
+                true,
+                'danger'
+            );
+        }
+    }
 }
