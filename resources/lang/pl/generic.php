@@ -131,10 +131,11 @@ return [
     'animation_duration' => 'Czas trwania animacji',
     'preview' => 'Zobacz',
     'left_column_size' => 'Rozmiar lewej kolumny',
-    'right_column_size' => 'Prawy rozmiar kolumny',
     'text_with_map' => 'Tekst z mapą',
     'lat' => 'Szerokość geograficzna',
     'lng' => 'Długość geograficzna',
     'zoom' => 'Zoom',
-    'updated_at' => 'Zaktualizowano'
+    'updated_at' => 'Zaktualizowano',
+    'send' => 'Wyślij',
+    'right_column_size' => 'Prawy rozmiar kolumny'
 ];
