@@ -608,7 +608,7 @@
 
 
             <!-- TEXT WITH MAP -->
-            <div data-component="text_with_map" data-thumbnail="{{asset('vendor/page-builder/text_with_map.jpg')}}">
+            <div data-component="text_with_map" data-thumbnail="{{asset('vendor/page-builder/img/text_with_map.jpg')}}">
                 <div class="card shadow mb-4">
                     <div class="card-header">
                         <h5 class="text-primary font-weight-bold">{{__('alder::generic.text_with_map')}}</h5>
