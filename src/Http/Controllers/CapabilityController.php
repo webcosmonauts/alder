@@ -22,6 +22,8 @@ class CapabilityController
         'contributor_capabilities' => [
             'delete posts',
             'edit posts',
+            'browse leaves',
+            'edit leaves',
         ],
         'author_capabilities' => [
             'delete published posts',
