@@ -23,15 +23,17 @@ class RootsController extends BaseController
      *
      * @throws AssigningNullToNotNullableException
      * @throws UnknownRelationException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionOperatorException
+     * @throws \Webcosmonauts\Alder\Exceptions\UnknownConditionParameterException
      *
-     * @return View
+     * @return bool|JsonResponse|RedirectResponse|View
      */
     public function index()
     {
-        $check_permission_redirect = Alder::checkPermission('manage options');
-        if($check_permission_redirect !== true) {
-            return $check_permission_redirect;
-        }
+        $check_permission = Alder::checkPermission('manage options');
+        if ($check_permission !== true)
+            return $check_permission;
+        
         /* Get leaf type with custom modifiers */
         $root_types = RootType::with('roots')->get();
         
