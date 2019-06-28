@@ -36,11 +36,11 @@ class LoginController extends Controller
         );
 
         if (!Auth::attempt($user_data)) {
-            return redirect('/');
+            return redirect('/alder');
         }
 
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('/alder');
         }
     }
 }

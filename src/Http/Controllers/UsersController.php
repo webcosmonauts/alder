@@ -5,6 +5,7 @@ namespace Webcosmonauts\Alder\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
@@ -177,9 +178,22 @@ class UsersController extends BaseController
                 $User->updated_at = date("Y-m-d H:i:s");
                 if(!empty($request->roles) && !in_array("subscriber",$request->roles)){
                     $User->type = 'administrator';
-                }
+                } else
+                    $User->type = 'user';
                 $User->save();
                 $User->syncRoles($request->roles);
+                
+                if ($User->id == Auth::user()->id) {
+                    return Alder::returnRedirect(
+                        $request->ajax(),
+                        __('alder::generic.successfully_'
+                            . ($edit ? 'updated' : 'created')) . " $User->name",
+                        '/alder',
+                        true,
+                        'success'
+                    );
+                }
+                
                 return Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_'

@@ -782,21 +782,33 @@ class Alder
         $items = $items instanceof Collection ? $items : Collection::make($items);
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
+    
     /**
+     * Check permission and return response if user cannot perform action.
+     * If can, return true.
+     *
      * @param $permission
-     * @param null $message
+     * @param string|null $redirect
+     * @param string|null $message
+     *
      * @return bool|JsonResponse|RedirectResponse
      */
 
-    public function checkPermission($permission, $message = null){
-
-        if(!Auth::user()->can($permission)) {
-            return \Webcosmonauts\Alder\Facades\Alder::returnResponse(
-                request()->ajax(),
-                $message ?: __('alder::permissions.not_allowed'),
-                true,
-                'danger'
-            );
+    public function checkPermission($permission, $redirect = null, $message = null){
+        if (!Auth::user()->can($permission)) {
+            return $redirect == null
+                ? $this->returnResponse(
+                    request()->ajax(),
+                    $message ?: __('alder::permissions.not_allowed'),
+                    true,
+                    'danger')
+                : $this->returnRedirect(
+                    request()->ajax(),
+                    $message ?: __('alder::permissions.not_allowed'),
+                    $redirect,
+                    true,
+                    'danger'
+                );
         }
         else {
             return true;
