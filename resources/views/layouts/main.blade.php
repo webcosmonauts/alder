@@ -15,55 +15,72 @@
             <a href="/alder" class="simple-text logo-normal">Alder</a>
         </div>
 
+        @php
+            $auth_user = Auth::user();
+        @endphp
+
         <div class="sidebar-wrapper ps-container ps-theme-default ps-active-y">
             @foreach($admin_menu_items as $section)
-                <hr class="sidebar-divider my-0">
-                <ul class="nav">
-                    @if(count($section->children) > 0)
-                        <li class="nav-item {{ $section->is_current ? 'active' : '' }} has-dropdown">
-                            <a class="nav-link"
-                               href="/alder/{{$section->slug}}">
-                                @if(!empty($section->icon))
-                                    <i class="fas fa-fw fa-{{$section->icon}}"></i>
-                                @endif
-                                <p>{{ $section->title }}</p>
-                            </a>
+                @if(is_null($section->urc) || $auth_user->can($section->urc))
+                    <ul class="nav">
+                        @php
+                            $can_access_children = count($section->children) > 0;
+                            if ($can_access_children) {
+                                $can_access_children = false;
+                                foreach ($section->children as $menu_item) {
+                                    if (isset($menu_item->urc) && $auth_user->can($menu_item->urc))
+                                        $can_access_children = true;
+                                }
+                            }
+                        @endphp
+                        @if($can_access_children)
+                            <li class="nav-item {{ $section->is_current ? 'active' : '' }} has-dropdown">
+                                <a class="nav-link" href="/alder/{{$section->slug}}">
+                                    @if(!empty($section->icon))
+                                        <i class="fas fa-fw fa-{{$section->icon}}"></i>
+                                    @endif
+                                    <p>{{ $section->title }}</p>
+                                </a>
 
-                            <span class="toggle-collapse {{ $section->is_current ? '' : 'collapsed' }}"
-                                  data-toggle="collapse"
-                                  data-target="#collapse{{$section->id}}"
-                                  aria-expanded="true" aria-controls="collapse{{$section->id}}"></span>
+                                <span class="toggle-collapse {{ $section->is_current ? '' : 'collapsed' }}"
+                                      data-toggle="collapse"
+                                      data-target="#collapse{{$section->id}}"
+                                      aria-expanded="true" aria-controls="collapse{{$section->id}}"></span>
 
-                            <div id="collapse{{$section->id}}" data-parent="#accordionSidebar"
-                                 class="collapse  {{ $section->is_current ? 'show' : '' }}">
-                                <ul class="nav">
-                                    @foreach($section->children as $menu_item)
-                                        <li class="nav-item">
-                                            <a class="nav-link {{ $menu_item->is_current ? 'active' : '' }}"
-                                               href="/alder/{{ $menu_item->slug }}">
-                                                @if(!empty($menu_item->icon))
-                                                    <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
-                                                @endif
-                                                <p>{{ $menu_item->title }}</p>
-                                            </a>
-                                        </li>
-
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </li>
-                    @else
-                        <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
-                            <a class="nav-link {{ $section->is_current ? 'active' : '' }}"
-                               href="/alder/{{ $section->slug }}">
-                                @if(!empty($section->icon))
-                                    <i class="fas fa-fw fa-{{$section->icon}}"></i>
-                                @endif
-                                <p>{{ $section->title }}</p>
-                            </a>
-                        </li>
-                    @endif
-                </ul>
+                                <div id="collapse{{$section->id}}" data-parent="#accordionSidebar"
+                                     class="collapse  {{ $section->is_current ? 'show' : '' }}">
+                                    <ul class="nav">
+                                        @foreach($section->children as $menu_item)
+                                            @if(is_null($menu_item->urc) || $auth_user->can($menu_item->urc))
+                                                <li class="nav-item">
+                                                    <a class="nav-link {{ $menu_item->is_current ? 'active' : '' }}"
+                                                       href="/alder/{{ $menu_item->slug }}">
+                                                        @if(!empty($menu_item->icon))
+                                                            <i class="fas fa-fw fa-{{$menu_item->icon}}"></i>
+                                                        @endif
+                                                        <p>{{ $menu_item->title }}</p>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </li>
+                        @else
+                            @if(is_null($section->urc) || $auth_user->can($section->urc))
+                                <li class="nav-item {{ $section->is_current ? 'active' : '' }}">
+                                    <a class="nav-link {{ $section->is_current ? 'active' : '' }}"
+                                       href="/alder/{{ $section->slug }}">
+                                        @if(!empty($section->icon))
+                                            <i class="fas fa-fw fa-{{$section->icon}}"></i>
+                                        @endif
+                                        <p>{{ $section->title }}</p>
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                    </ul>
+                @endif
             @endforeach
         </div>
 
