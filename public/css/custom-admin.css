@@ -52,12 +52,15 @@ input::placeholder, select::placeholder, textarea::placeholder {
 }
 
 .nav-item.has-dropdown .toggle-collapse {
-    padding: 10px;
+    padding: 22px 10px;
     color: #fff;
     cursor: pointer;
-    position: relative;
     display: inline-block;
     top: 0;
+
+    position: absolute;
+    right: 15px;
+    background: none !important;
 }
 
 .nav-item.has-dropdown .toggle-collapse.collapsed {
@@ -130,9 +133,7 @@ input::placeholder, select::placeholder, textarea::placeholder {
 }
 
 .nav-item.has-dropdown .toggle-collapse {
-    position: absolute;
-    right: 15px;
-    background: none !important;
+
 }
 
 .rptr-field {
