@@ -21,7 +21,7 @@
                         <div class="card-header card-header-icon card-header-warning">
                             <div class="card-icon" style="width: 150px">
                                 @if ($user->avatar)
-                                    <img src="{{ asset('storage/'.$user->avatar) }}" class="w-40">
+                                    <img src="{{ asset('storage/'.$user->avatar) }}" class="w-40" style="display: block; width: 100%">
                                 @else
                                     {{--                                <img src="{{ asset('storage/'.$user->avatar) }}" class="w-50">--}}
                                     <i class="material-icons"> account_circle </i>
