@@ -358,10 +358,10 @@
                                          style="background-image: url({{asset('vendor/page-builder/img/'. $component->component .'.jpg')}})">
 
                                         <div class="page-builder-content-item__actions">
-                                            <div class="circle-icon" data-action="up">
+                                            <div class="circle-icon" title="W górę" data-action="up">
                                                 <em class="fa fa-angle-up"></em>
                                             </div>
-                                            <div class="circle-icon" data-action="down">
+                                            <div class="circle-icon" title="Na dół" data-action="down">
                                                 <em class="fa fa-angle-down"></em></div>
                                         </div>
 

@@ -1,5 +1,13 @@
 @extends('alder::layouts.main')
 
+<style>
+    #myEditor .list-group-item {
+        padding: 5px !important;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        border-radius: 3px;
+    }
+</style>
 
 @section('scripts-body')
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
@@ -11,120 +19,120 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
     <script type="text/javascript" src="{{asset("vendor/menus/jquery-menu-editor.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("vendor/menus/bootstrap-iconpicker/js/iconset/fontawesome5-3-1.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("vendor/menus/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js")}}"></script>
+    <script type="text/javascript"
+            src="{{asset("vendor/menus/bootstrap-iconpicker/js/iconset/fontawesome5-3-1.min.js")}}"></script>
+    <script type="text/javascript"
+            src="{{asset("vendor/menus/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js")}}"></script>
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        jQuery(document).ready(function () {
-            /* =============== DEMO =============== */
-            // menu items
-            var arrayjson = '<?php echo $comtent ?>';
-            // icon picker options
-            var iconPickerOptions = {searchText: "Buscar...", labelHeader: "{0}/{1}"};
-            // sortable list options
-            var sortableListOptions = {
-                placeholderCss: {'background-color': "#cccccc"}
-            };
+		 jQuery(document).ready(function () {
+			 /* =============== DEMO =============== */
+			 // menu items
+			 var arrayjson = '<?php echo $comtent ?>';
+			 // icon picker options
+			 var iconPickerOptions = {searchText: "Buscar...", labelHeader: "{0}/{1}"};
+			 // sortable list options
+			 var sortableListOptions = {
+				 placeholderCss: {'background-color': "#cccccc"}
+			 };
 
-            var editor = new MenuEditor('myEditor', {listOptions: sortableListOptions, iconPicker: iconPickerOptions});
-            editor.setForm($('#frmEdit'));
-            editor.setUpdateButton($('#btnUpdate'));
+			 var editor = new MenuEditor('myEditor', {listOptions: sortableListOptions, iconPicker: iconPickerOptions});
+			 editor.setForm($('#frmEdit'));
+			 editor.setUpdateButton($('#btnUpdate'));
 
-            $('#btnReload').ready(function () {
-                editor.setData(arrayjson);
-            });
+			 $('#btnReload').ready(function () {
+				 editor.setData(arrayjson);
+			 });
 
-            $('#myEditor').on('DOMSubtreeModified', function () {
-                var str = editor.getString();
-                $("#out").text(str);
-            });
+			 $('#myEditor').on('DOMSubtreeModified', function () {
+				 var str = editor.getString();
+				 $("#out").text(str);
+			 });
 
-            $("#btnUpdate").click(function(){
-                if ($('#text').val() != '' && $('#href').val() != '') {
-                    editor.update();
-                    $('.edit_menu').css('display','none')
-                }
+			 $("#btnUpdate").click(function () {
+				 if ($('#text').val() != '' && $('#href').val() != '') {
+					 editor.update();
+					 $('.edit_menu').css('display', 'none')
+				 }
 
-            });
+			 });
 
-            $('#btnAdd').click(function(){
-                editor.add();
-            });
+			 $('#btnAdd').click(function () {
+				 editor.add();
+			 });
 
-            $(document).on('click', '.btnEdit', function () {
-                $('.edit_menu').css('display','block')
-            });
+			 $(document).on('click', '.btnEdit', function () {
+				 $('.edit_menu').css('display', 'block')
+			 });
 
-            $('.save_menu').click(function(){
-                $('.save_form_btn').submit();
-            });
+			 $('.save_menu').click(function () {
+				 $('.save_form_btn').submit();
+			 });
 
-            $('.add_custom_link').click(function(){
-                if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
-                    $('#text').attr('value', $('.custom_link_text').val());
-                    $('#href').attr('value', 'http://' + $('.custom_link_url').val());
-                    editor.add();
-                }
-            });
-
-
+			 $('.add_custom_link').click(function () {
+				 if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
+					 $('#text').attr('value', $('.custom_link_text').val());
+					 $('#href').attr('value', 'http://' + $('.custom_link_url').val());
+					 editor.add();
+				 }
+			 });
 
 
-            $(function() {
-                var dragged_object = '';
-                $('.textBlock').draggable({
+			 $(function () {
+				 var dragged_object = '';
+				 $('.textBlock').draggable({
 
-                    start: function() {
-                        dragged_object = $(this)
-                        // console.log(dragged_object.attr('id'))
-                    },
-                    helper:'clone'
-                });
-                $('.block2').droppable({
-                    hoverClass: 'dropHere'
-                    ,drop: function() {
+					 start: function () {
+						 dragged_object = $(this)
+						 // console.log(dragged_object.attr('id'))
+					 },
+					 helper: 'clone'
+				 });
+				 $('.block2').droppable({
+					 hoverClass: 'dropHere'
+					 , drop: function () {
 
-                        if (dragged_object.attr('id') == 'pages') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        }else if(dragged_object.attr('id') == 'posts') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/posty/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        }else if(dragged_object.attr('id') == 'reports') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/reports/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        }else if(dragged_object.attr('id') == 'post-tags') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/post-tags/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        }else if(dragged_object.attr('id') == 'post-categories') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/posts/categories/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        }
-                    },
+						 if (dragged_object.attr('id') == 'pages') {
+							 $('#text').attr('value', dragged_object.text().trim());
+							 $('#href').attr('value', '/' + dragged_object.attr('name'));
+							 editor.add();
+							 dragged_object = '';
+						 } else if (dragged_object.attr('id') == 'posts') {
+							 $('#text').attr('value', dragged_object.text().trim());
+							 $('#href').attr('value', '/posty/' + dragged_object.attr('name'));
+							 editor.add();
+							 dragged_object = '';
+						 } else if (dragged_object.attr('id') == 'reports') {
+							 $('#text').attr('value', dragged_object.text().trim());
+							 $('#href').attr('value', '/reports/' + dragged_object.attr('name'));
+							 editor.add();
+							 dragged_object = '';
+						 } else if (dragged_object.attr('id') == 'post-tags') {
+							 $('#text').attr('value', dragged_object.text().trim());
+							 $('#href').attr('value', '/post-tags/' + dragged_object.attr('name'));
+							 editor.add();
+							 dragged_object = '';
+						 } else if (dragged_object.attr('id') == 'post-categories') {
+							 $('#text').attr('value', dragged_object.text().trim());
+							 $('#href').attr('value', '/posts/categories/' + dragged_object.attr('name'));
+							 editor.add();
+							 dragged_object = '';
+						 }
+					 },
 
-                });
-            });
+				 });
+			 });
 
-            /* ====================================== */
+			 /* ====================================== */
 
-            /** PAGE ELEMENTS **/
-            $('[data-toggle="tooltip"]').tooltip();
-            $.getJSON( "https://api.github.com/repos/davicotico/jQuery-Menu-Editor", function( data ) {
-                $('#btnStars').html(data.stargazers_count);
-                $('#btnForks').html(data.forks_count);
-            });
-        });
+			 /** PAGE ELEMENTS **/
+			 $('[data-toggle="tooltip"]').tooltip();
+			 $.getJSON("https://api.github.com/repos/davicotico/jQuery-Menu-Editor", function (data) {
+				 $('#btnStars').html(data.stargazers_count);
+				 $('#btnForks').html(data.forks_count);
+			 });
+		 });
     </script>
 
 
@@ -144,7 +152,8 @@
         <div class="tab-pane fade card shadow show active" id="main-section" role="tabpanel">
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="save_form_btn" action="{{ $edit ? route("alder.$leaf_type->slug.update", $menu->id) : route("alder.$leaf_type->slug.store") }}"
+                    <form class="save_form_btn"
+                          action="{{ $edit ? route("alder.$leaf_type->slug.update", $menu->id) : route("alder.$leaf_type->slug.store") }}"
                           method="POST">
                         @csrf
                         {{$edit ? method_field('PUT') : method_field('POST')}}
@@ -164,7 +173,9 @@
                                 <div class="card-header">JSON Output
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-group"><textarea name="content" id="out" class="form-control" cols="50" rows="10">{{!$edit ?  : $menu->content}}</textarea>
+                                    <div class="form-group"><textarea name="content" id="out" class="form-control"
+                                                                      cols="50"
+                                                                      rows="10">{{!$edit ?  : $menu->content}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -183,9 +194,12 @@
                                             @elseif($single_leaf->slug == 'post-tags')
                                             @elseif($single_leaf->slug == 'contact-form-message')
                                             @else
-                                                <div class="card shadow mb-0 ">
+                                                <div class="card shadow mb-0 mt-2">
                                                     <!-- Card Header - Accordion -->
-                                                    <a href="#menu-{{$single_leaf->slug}}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
+                                                    <a href="#menu-{{$single_leaf->slug}}"
+                                                       class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                                                       role="button" aria-expanded="false"
+                                                       aria-controls="collapsemenu-{{$single_leaf->slug}}">
                                                         <h6 class="m-0 font-weight-bold text-primary">{{$single_leaf->slug}}
                                                             ({{count($single_leaf->leaves)}})
                                                         </h6>
@@ -197,19 +211,22 @@
                                                             @if(!empty($single_leaf->leaves))
                                                                 <ul class="list-group mb-3 ">
                                                                     @foreach($single_leaf->leaves as $singular)
-                                                                        <li class="list-group-item textBlock" draggable="true" id="{{$single_leaf->slug}}" name="{{$singular->slug}}">
+                                                                        <li class="list-group-item textBlock"
+                                                                            draggable="true" id="{{$single_leaf->slug}}"
+                                                                            name="{{$singular->slug}}"
+                                                                            style="border-bottom: 1px solid #ddd; margin-bottom: 10px;">
                                                                             {{$singular->title}}
                                                                         </li>
 
                                                                     @endforeach
                                                                 </ul>
-                                                                <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
+                                                                <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}"
+                                                                   class="btn btn-success btn-icon-split">
                                                                         <span class="icon text-white-50">
                                                                             <i class="fas fa-plus-circle"></i>
                                                                         </span>
                                                                     <span class="text">{{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
                                                                         {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}</span>
-
 
 
                                                                 </a>
@@ -222,7 +239,9 @@
                                     @endforeach
                                     <div class="card shadow mb-0">
                                         <!-- Card Header - Accordion -->
-                                        <a href="#menu-custom-link" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
+                                        <a href="#menu-custom-link" class="d-block card-header py-3 collapsed"
+                                           data-toggle="collapse" role="button" aria-expanded="false"
+                                           aria-controls="collapsemenu-{{$single_leaf->slug}}">
                                             <h6 class="m-0 font-weight-bold text-primary">
                                                 {{__('alder::generic.add_new_custom_link')}}
                                             </h6>
@@ -231,8 +250,10 @@
                                         <div class="collapse" id="menu-custom-link">
                                             <ul class="list-group mb-3">
                                                 <li class="list-group-item custom-link-add-new">
-                                                    <input type="text" class="form-control mb-1 custom_link_url" placeholder="http://" required>
-                                                    <input type="text" class="form-control mb-1 custom_link_text" required placeholder="{{__('alder::generic.title')}}">
+                                                    <input type="text" class="form-control mb-1 custom_link_url"
+                                                           placeholder="http://" required>
+                                                    <input type="text" class="form-control mb-1 custom_link_text"
+                                                           required placeholder="{{__('alder::generic.title')}}">
 
                                                     {{--                                                    <a href="" class="btn btn-success btn-icon-split">--}}
                                                     {{--                                                                        <span class="icon text-white-50">--}}
@@ -247,14 +268,15 @@
 
                                     </div>
 
-                                    <button type="submit" style=" margin-top: 30px" class="btn btn-success btn-icon-split mb-1 save_menu">
+                                    <button type="submit" style=" margin-top: 30px"
+                                            class="btn btn-success btn-icon-split mb-1 save_menu">
                                         <span class="icon text-white-50">
                                           <i class="fas fa-save"></i>
                                         </span>
                                         <span class="text">{{ __('alder::generic.save') }}</span>
                                     </button>
                                 </div>
-                                <div class="col-12 col-lg-8" >
+                                <div class="col-12 col-lg-8">
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-md-8">
@@ -274,22 +296,28 @@
                                                 <div class="card border-primary mb-3">
                                                     <div class="card-header bg-primary text-white">Edit item</div>
                                                     <div class="card-body">
-                                                        <form id="frmEdit" class="form-horizontal"  class="col-12 col-lg-12">
+                                                        <form id="frmEdit" class="form-horizontal"
+                                                              class="col-12 col-lg-12">
 
                                                             <div class="form-group">
                                                                 <label for="text">Text</label>
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control item-menu " name="text" id="text" required placeholder="Text">
+                                                                    <input type="text" class="form-control item-menu "
+                                                                           name="text" id="text" required
+                                                                           placeholder="Text">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="href">URL</label>
-                                                                <input type="text" class="form-control item-menu" id="href" name="href" required placeholder="URL">
+                                                                <input type="text" class="form-control item-menu"
+                                                                       id="href" name="href" required placeholder="URL">
                                                             </div>
                                                         </form>
                                                     </div>
                                                     <div class="card-footer">
-                                                        <button type="button" id="btnUpdate" class="btn btn-primary" disabled><i class="fas fa-sync-alt"></i> Update</button>
+                                                        <button type="button" id="btnUpdate" class="btn btn-primary"
+                                                                disabled><i class="fas fa-sync-alt"></i> Update
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

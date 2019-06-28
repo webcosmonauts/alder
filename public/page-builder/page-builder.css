@@ -1,12 +1,12 @@
 
 .page-builder-content-item {
-    min-height: 250px;
+    min-height: 150px;
     border: 1px solid #ddd;
     border-radius: 4px;
     position: relative;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     -webkit-background-size: contain;
     background-size: contain;
     cursor: pointer;
@@ -19,6 +19,15 @@
 
     background-color: #fff;
     opacity: 1;
+}
+
+#page-builder-content .page-builder-content-item:first-child [data-action=up] {
+    display: none;
+}
+
+
+#page-builder-content .page-builder-content-item:last-child [data-action=down] {
+    display: none;
 }
 
 .page-builder-content-item__delete {

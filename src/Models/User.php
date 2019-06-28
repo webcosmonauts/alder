@@ -34,7 +34,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    const ADMIN_TYPE = 'admin';
+    const ADMIN_TYPE = 'administrator';
     const DEFAULT_TYPE = 'user';
     
     public function isAdmin(){

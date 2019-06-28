@@ -55,9 +55,12 @@ input::placeholder, select::placeholder, textarea::placeholder {
     padding: 10px;
     color: #fff;
     cursor: pointer;
-    position: relative;
     display: inline-block;
     top: 0;
+
+    position: absolute;
+    right: 15px;
+    background: none !important;
 }
 
 .nav-item.has-dropdown .toggle-collapse.collapsed {
@@ -89,7 +92,7 @@ input::placeholder, select::placeholder, textarea::placeholder {
     content: 'keyboard_arrow_down';
     display: block;
     float: right;
-    top: 4px;
+    top: -1px;
     position: relative;
 
     transform: rotate(180deg);
@@ -130,9 +133,7 @@ input::placeholder, select::placeholder, textarea::placeholder {
 }
 
 .nav-item.has-dropdown .toggle-collapse {
-    position: absolute;
-    right: 15px;
-    background: none !important;
+
 }
 
 .rptr-field {

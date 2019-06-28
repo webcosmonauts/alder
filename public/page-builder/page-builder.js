@@ -60,8 +60,8 @@ $(document).ready(function () {
 
 		var actions =
 			"<div class=\"page-builder-content-item__actions\">" +
-			"<div class=\"circle-icon\" data-action=\"up\"><em class='fa fa-angle-up'></em></div>" +
-			"<div class=\"circle-icon\" data-action=\"down\"><em class='fa fa-angle-down'></em></div>" +
+			"<div class=\"circle-icon\" title=\"W górę\" data-action=\"up\"><em class='fa fa-angle-up'></em></div>" +
+			"<div class=\"circle-icon\" title=\"Na dół\" data-action=\"down\"><em class='fa fa-angle-down'></em></div>" +
 			"</div>";
 
 
@@ -100,7 +100,7 @@ $(document).ready(function () {
 					"        <input type=\"text\" class=\"image_label form-control\" name=\"" + name + "\"\n" +
 					"               aria-label=\"Image\" aria-describedby=\"button-image\">\n" +
 					"        <div class=\"input-group-append\">\n" +
-					"            <button class=\"btn btn-sm btn-outline-secondary button-image\"  type=\"button\">Wybierz</button>\n" +
+					"            <button class=\"btn btn-sm mb-0 mt-0 btn-outline-secondary button-image\" style=\"height: 35px;\"  type=\"button\">Wybierz</button>\n" +
 					"        </div>\n" +
 					"    </div>" +
 					"    </div>";

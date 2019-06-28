@@ -5,6 +5,7 @@
 		 $(document).ready(function () {
 
 			 $('input, select, textarea').on("change", function () {
+				 $("#message").attr("hidden", true);
 				 var name = $(this).attr("name");
 
 				 if ($(this).prop("type") === "checkbox") {
@@ -32,6 +33,9 @@
 
 
 			 function rootsUpdateQuery(name, value) {
+
+				 var message = $("#message");
+
 				 $.ajax({
 					 url: "{{ route("alder.roots.update")}}",
 					 data: {
@@ -41,7 +45,24 @@
 					 },
 					 method: "PUT",
 
-					 success: function (msg) {
+					 success: function (response) {
+
+						 if (message.length) {
+							 message.find("span").html(response.message);
+							 message.addClass("alert-" + response["alert-type"]).removeAttr("hidden");
+						 } else {
+
+
+							 var html = "<div id=\"message\" class=\"alert position-absolute alert-" + response["alert-type"] + " mb-4\"  style=\"top:30px; right: 30px;\">\n" +
+								 "        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
+								 "            <i class=\"material-icons\">close</i>\n" +
+								 "        </button>\n" +
+								 "\n" +
+								 "        <span>" + response.message + "</span>\n" +
+								 "    </div>";
+
+							 $("#page-heading").after(html);
+						 }
 					 },
 
 					 error: function (msg) {
@@ -57,9 +78,18 @@
     @csrf
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div id="page-heading" class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Roots</h1>
         @include('alder::components.locale-switcher')
+    </div>
+
+
+    <div id="message" class="alert mb-4 position-absolute" style="top:30px; right: 30px;" hidden>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <i class="material-icons">close</i>
+        </button>
+
+        <span></span>
     </div>
 
     @foreach($root_types as $root_type)
