@@ -63,7 +63,7 @@
             $('.add_custom_link').click(function(){
                 if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
                     $('#text').attr('value', $('.custom_link_text').val());
-                    $('#href').attr('value', $('.custom_link_url').val());
+                    $('#href').attr('value', 'http://' + $('.custom_link_url').val());
                     editor.add();
                 }
             });
@@ -179,40 +179,45 @@
                                 <div class="col-12 col-lg-4">
                                     @foreach($leaf_types as $single_leaf)
                                         @if(!empty($single_leaf))
-                                            <div class="card shadow mb-0 ">
-                                                <!-- Card Header - Accordion -->
-                                                <a href="#menu-{{$single_leaf->slug}}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
-                                                    <h6 class="m-0 font-weight-bold text-primary">{{$single_leaf->slug}}
-                                                        ({{count($single_leaf->leaves)}})
-                                                    </h6>
-                                                </a>
+                                            @if ($single_leaf->slug == 'menus')
+                                            @elseif($single_leaf->slug == 'post-tags')
+                                            @elseif($single_leaf->slug == 'contact-form-message')
+                                            @else
+                                                <div class="card shadow mb-0 ">
+                                                    <!-- Card Header - Accordion -->
+                                                    <a href="#menu-{{$single_leaf->slug}}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsemenu-{{$single_leaf->slug}}">
+                                                        <h6 class="m-0 font-weight-bold text-primary">{{$single_leaf->slug}}
+                                                            ({{count($single_leaf->leaves)}})
+                                                        </h6>
+                                                    </a>
 
-                                                <!-- Card Content - Collapse -->
-                                                <div class="collapse " id="menu-{{$single_leaf->slug}}">
-                                                    <div class="card-body ">
-                                                        @if(!empty($single_leaf->leaves))
-                                                            <ul class="list-group mb-3 ">
-                                                                @foreach($single_leaf->leaves as $singular)
-                                                                    <li class="list-group-item textBlock" draggable="true" id="{{$single_leaf->slug}}" name="{{$singular->slug}}">
-                                                                        {{$singular->title}}
-                                                                    </li>
+                                                    <!-- Card Content - Collapse -->
+                                                    <div class="collapse " id="menu-{{$single_leaf->slug}}">
+                                                        <div class="card-body ">
+                                                            @if(!empty($single_leaf->leaves))
+                                                                <ul class="list-group mb-3 ">
+                                                                    @foreach($single_leaf->leaves as $singular)
+                                                                        <li class="list-group-item textBlock" draggable="true" id="{{$single_leaf->slug}}" name="{{$singular->slug}}">
+                                                                            {{$singular->title}}
+                                                                        </li>
 
-                                                                @endforeach
-                                                            </ul>
-                                                            <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
+                                                                    @endforeach
+                                                                </ul>
+                                                                <a href="{{url('/alder/'.$single_leaf->slug.'/create')}}" class="btn btn-success btn-icon-split">
                                                                         <span class="icon text-white-50">
                                                                             <i class="fas fa-plus-circle"></i>
                                                                         </span>
-                                                                <span class="text">{{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
-                                                                    {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}</span>
+                                                                    <span class="text">{{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
+                                                                        {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}</span>
 
 
 
-                                                            </a>
-                                                        @endif
+                                                                </a>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endif
                                     @endforeach
                                     <div class="card shadow mb-0">
@@ -239,9 +244,15 @@
                                                 </li>
                                             </ul>
                                         </div>
+
                                     </div>
 
-
+                                    <button type="submit" style=" margin-top: 30px" class="btn btn-success btn-icon-split mb-1 save_menu">
+                                        <span class="icon text-white-50">
+                                          <i class="fas fa-save"></i>
+                                        </span>
+                                        <span class="text">{{ __('alder::generic.save') }}</span>
+                                    </button>
                                 </div>
                                 <div class="col-12 col-lg-8" >
                                     <div class="container">
@@ -283,15 +294,12 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
+
                                 </div>
 
-                                <button type="submit" class="btn btn-success btn-icon-split mb-1 save_menu">
-                                        <span class="icon text-white-50">
-                                          <i class="fas fa-save"></i>
-                                        </span>
-                                    <span class="text">{{ __('alder::generic.save') }}</span>
-                                </button>
+
                             </div>
                         </div>
                     </div>
