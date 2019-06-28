@@ -15,13 +15,15 @@
     <form action="{{$edit ? route('alder.LCMs.update', $LCM->slug) : route('alder.LCMs.store')}}" id="LCMs-form"
           method="POST"
           novalidate>
-    @csrf
+        @csrf
 
     @php
         if($edit) {
             $lcm = $LCM->modifiers->lcm;
             $conditions = $LCM->modifiers->conditions;
             $browse = $LCM->modifiers->bread->browse->table_columns;
+
+            //dd($lcm);
         }
     @endphp
 
@@ -32,7 +34,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!-- LCM TITLE -->
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label for="lcm_title">{{__('alder::lcm.lcm_title')}} *</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_title" id="lcm_title"
@@ -44,7 +46,7 @@
 
                     <div class="col-md-6">
                         <!-- LCM SlUG -->
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label for="lcm_slug">LCM slug *</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_slug" id="lcm_slug"
@@ -57,7 +59,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!-- LCM GROUP TITLE -->
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label for="lcm_group_title">{{__('alder::lcm.group_title')}}</label>
                             <div class="input-group">
                                 <input type="text" name="lcm_group_title" id="lcm_group_title"
@@ -69,7 +71,7 @@
 
                     <div class="col-md-6">
                         <!-- LCM SlUG -->
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label for="lcm_group_slug">{{__('alder::lcm.group_slug')}} </label>
                             <div class="input-group">
                                 <input type="text" name="lcm_group_slug" id="lcm_group_slug"
@@ -82,10 +84,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- LCM GROUP TITLE -->
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label for="leaf_type_id">{{__('alder::leaf_types.singular')}}</label>
                             <div class="input-group">
-                                <select class="form-control" name="leaf_type_id" id="leaf_type_id">
+                                <select class="custom-select" name="leaf_type_id" id="leaf_type_id">
                                     @foreach($leaf_types as $leaf_type)
                                         <option {{ $edit && ($leaf_type->id == $LCM->leaf_type_id) ? 'selected' : '' }}
                                                 value="{{ $leaf_type->id }}">
@@ -162,7 +164,7 @@
             <div class="col-lg-12">
                 <div class="card shadow mb-4">
                     <div class="card-header font-weight-bold text-primary"> {{__('alder::lcm.conditions')}} </div>
-                        <div class="card-body">
+                    <div class="card-body">
                         @if($edit && count($conditions) > 0)
 
                             @foreach($conditions as $condition)
@@ -186,7 +188,7 @@
                                 <div class="condition-field d-flex flex-wrap">
                                     <div class="form-group">
                                         <label for="parameter"> </label>
-                                        <select name="parameter" id="parameter" class="form-control">
+                                        <select name="parameter" id="parameter" class="custom-select">
                                             @foreach($parameters as $parameter_k => $parameter_v)
                                                 <option value="{{$parameter_k }}" @php if($parameter_k === $current_parameter) echo "selected"; @endphp> {{$parameter_v}} </option>
                                             @endforeach
@@ -197,7 +199,7 @@
                                     <div class="form-group form-group-small">
                                         <label for="operator"> </label>
 
-                                        <select name="operator" id="operator" class="form-control">
+                                        <select name="operator" id="operator" class="custom-select">
                                             @foreach($operators as $operator_k => $operator_v)
                                                 <option value="{{$operator_k }}" @php if($operator_k === $current_operator) echo "selected"; @endphp> {{$operator_v}} </option>
                                             @endforeach
@@ -236,7 +238,7 @@
                             <div class="condition-field d-flex flex-wrap">
                                 <div class="form-group">
                                     <label for="parameter"> </label>
-                                    <select name="parameter" id="parameter" class="form-control">
+                                    <select name="parameter" id="parameter" class="custom-select">
                                         <option value="page-template"> {{__('alder::lcm.page_template')}} </option>
                                         <option value="leaf-type">LeafType</option>
                                     </select>
@@ -245,7 +247,7 @@
                                 <div class="form-group form-group-small">
                                     <label for="operator"> </label>
 
-                                    <select name="operator" id="operator" class="form-control">
+                                    <select name="operator" id="operator" class="custom-select">
                                         <option value="is">{{__('alder::lcm.is')}}</option>
                                         <option value="not">{{__('alder::lcm.not')}}</option>
                                     </select>
@@ -355,35 +357,39 @@
 
             <div class="card-body row m-0">
                 <!-- FIELD NAME -->
-                <div class="form-group">
-                    <label for="field_name">{{__('alder::inputs.field_name')}} *</label>
-                    <div class="input-group">
-                        <input type="text" name="field_name" id="field_name"
-                               class="form-control" disabled required>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="mb-2">
+                        <label for="field_name">{{__('alder::inputs.field_name')}} *</label>
+                        <div class="input-group">
+                            <input type="text" name="field_name" id="field_name"
+                                   class="form-control" disabled required>
+                        </div>
                     </div>
                 </div>
 
                 <!-- TYPE -->
-                <div class="form-group">
-                    <label for="type"> {{__('alder::inputs.type')}} *</label>
-                    <select name="type" id="type" class="form-control" disabled required>
-                        <option value="text"> {{__('alder::inputs.text')}} </option>
-                        <option value="relation"> {{__('alder::inputs.relation')}}</option>
-                        <option value="number"> {{__('alder::inputs.number')}}</option>
-                        <option value="repeater"> {{__('alder::inputs.repeater')}} </option>
-                        <option value="select"> {{__('alder::inputs.select')}} </option>
-                        <option value="select-multiple">{{__('alder::inputs.select_multiple')}}</option>
-                        <option value="checkbox">{{__('alder::inputs.checkbox')}}</option>
-                        <option value="radio">{{__('alder::inputs.radio')}}</option>
-                        <option value="password">{{__('alder::inputs.password')}}</option>
-                        <option value="file">{{__('alder::inputs.file')}}</option>
-                        <option value="file-multiple">{{__('alder::inputs.file_multiple')}}</option>
-                        <option value="date">{{__('alder::inputs.date')}}</option>
-                        <option value="datetime-local">{{__('alder::inputs.datetime_local')}}</option>
-                        <option value="time">{{__('alder::inputs.time')}}</option>
-                        <option value="month">{{__('alder::inputs.month')}}</option>
-                        <option value="color">{{__('alder::inputs.color')}}</option>
-                    </select>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="mb-2">
+                        <label for="type"> {{__('alder::inputs.type')}} *</label>
+                        <select name="type" id="type" class="custom-select" disabled required>
+                            <option value="text"> {{__('alder::inputs.text')}} </option>
+                            <option value="relation"> {{__('alder::inputs.relation')}}</option>
+                            <option value="number"> {{__('alder::inputs.number')}}</option>
+                            <option value="repeater"> {{__('alder::inputs.repeater')}} </option>
+                            <option value="select"> {{__('alder::inputs.select')}} </option>
+                            <option value="select-multiple">{{__('alder::inputs.select_multiple')}}</option>
+                            <option value="checkbox">{{__('alder::inputs.checkbox')}}</option>
+                            <option value="radio">{{__('alder::inputs.radio')}}</option>
+                            <option value="password">{{__('alder::inputs.password')}}</option>
+                            <option value="file">{{__('alder::inputs.file')}}</option>
+                            <option value="file-multiple">{{__('alder::inputs.file_multiple')}}</option>
+                            <option value="date">{{__('alder::inputs.date')}}</option>
+                            <option value="datetime-local">{{__('alder::inputs.datetime_local')}}</option>
+                            <option value="time">{{__('alder::inputs.time')}}</option>
+                            <option value="month">{{__('alder::inputs.month')}}</option>
+                            <option value="color">{{__('alder::inputs.color')}}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- REPEATER -->
@@ -398,60 +404,76 @@
                 </div>
 
                 <!-- RELATION TYPE -->
-                <div class="form-group" data-dependence="type:relation" hidden>
-                    <label for="relation_type">{{__('alder::inputs.relation_type')}}</label>
-                    <select name="relation_type" id="relation_type" class="form-control"
-                            disabled>
-                        <option value="belongsTo">belongsTo</option>
-                        <option value="belongsToMany">belongsToMany</option>
-                    </select>
+                <div class="col-xl-4 col-lg-6" data-dependence="type:relation" hidden>
+                    <div class="mb-2">
+
+                        <label for="relation_type">{{__('alder::inputs.relation_type')}}</label>
+                        <select name="relation_type" id="relation_type" class="custom-select"
+                                disabled>
+                            <option value="belongsTo">belongsTo</option>
+                            <option value="belongsToMany">belongsToMany</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- *** LEAF TYPE *** -->
-                <div class="form-group" data-dependence="type:relation" hidden>
-                    <label for="leaf_type">{{__('alder::lcm.leaf_type')}}</label>
-                    <input type="text" name="leaf_type" id="leaf_type" class="form-control"
-                           disabled>
+                <div class="col-xl-4 col-lg-6" data-dependence="type:relation" hidden>
+                    <div class="mb-2">
+                        <label for="leaf_type">{{__('alder::lcm.leaf_type')}}</label>
+                        <input type="text" name="leaf_type" id="leaf_type" class="form-control"
+                               disabled>
+                    </div>
                 </div>
 
                 <!-- *** OPTIONS *** -->
-                <div class="form-group"
+                <div class="col-xl-4 col-lg-6"
                      data-dependence="type:select select-multiple radio checkbox" hidden>
-                    <label for="options" class="mb-0">{{__('alder::inputs.options')}}</label>
-                    <div><em>"key : value" ({{__('alder::lcm.each_opt_separate_line')}})</em></div>
-                    <textarea name="options" id="options" rows="4" disabled
-                              class="form-control"></textarea>
+                    <div class="mb-2">
+                        <label for="options" class="mb-0">{{__('alder::inputs.options')}}</label>
+                        <div><em>"key : value" ({{__('alder::lcm.each_opt_separate_line')}})</em></div>
+                        <textarea name="options" id="options" rows="4" disabled
+                                  class="form-control"></textarea>
+                    </div>
                 </div>
 
                 <!-- *** PANEL *** -->
-                <div class="form-group">
-                    <label for="panel">{{__('alder::lcm.panel')}}</label>
-                    <select name="panel" id="panel" class="form-control" disabled>
-                        <option value="left">{{__('alder::lcm.left')}}</option>
-                        <option value="right">{{__('alder::lcm.right')}}</option>
-                    </select>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="mb-2">
+                        <label for="panel">{{__('alder::lcm.panel')}}</label>
+                        <select name="panel" id="panel" class="custom-select" disabled>
+                            <option value="left">{{__('alder::lcm.left')}}</option>
+                            <option value="right">{{__('alder::lcm.right')}}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- *** DEFAULT *** -->
-                <div class="form-group">
-                    <label for="default">{{__('alder::lcm.default')}}</label>
-                    <input name="default" id="default" class="form-control" disabled>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="mb-2">
+                        <label for="default">{{__('alder::lcm.default')}}</label>
+                        <input name="default" id="default" class="form-control" disabled>
+                    </div>
                 </div>
 
                 <!-- *** NULLABLE *** -->
-                <div class="form-group">
-                    <label for="nullable">{{__('alder::lcm.nullable')}}</label>
-                    <select name="nullable" id="nullable" class="form-control" disabled>
-                        <option value="true">{{__('alder::lcm.true')}}</option>
-                        <option value="false">{{__('alder::lcm.false')}}</option>
-                    </select>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="mb-2">
+                        <label for="nullable">{{__('alder::lcm.nullable')}}</label>
+                        <select name="nullable" id="nullable" class="custom-select" disabled>
+                            <option value="true">{{__('alder::lcm.true')}}</option>
+                            <option value="false">{{__('alder::lcm.false')}}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- *** BROWSE *** -->
-                <div class="form-group d-flex align-items-center">
-                    <label for="browse">{{__('alder::lcm.browse')}}</label>
-                    <input type="checkbox" name="browse" id="browse" disabled>
+                <div class="col-xl-4 col-lg-6 d-flex align-items-center">
+                    <div class="mb-2">
+                        <label for="browse">{{__('alder::lcm.browse')}}</label>
+                        <input type="checkbox" name="browse" id="browse" disabled>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
