@@ -105,7 +105,7 @@
             <input type="text" class="image_label form-control" name="{{$root->slug}}"
                    aria-describedby="button-image" value="{{$root->value}}">
             <div class="input-group-append">
-                <button class="btn btn-sm btn-outline-secondary button-image"
+                <button class="btn btn-sm mb-0 mt-0 btn-outline-secondary button-image" style="height: 35px;"
                         type="button">{{ __('alder::generic.choose') }}</button>
             </div>
         </div>
