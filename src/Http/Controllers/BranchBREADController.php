@@ -33,15 +33,15 @@ class BranchBREADController extends BaseController
      * @return View
      */
     public function index(Request $request) {
-        $check_permission = Alder::checkPermission('edit users');
-        if ($check_permission !== true)
-            return $check_permission;
-        
         $branchType = $this->getBranchType($request);
         
         /* Get leaf type with custom modifiers */
         $leaf_type = Alder::getLeafType($branchType);
-        
+    
+        $check_permission = Alder::checkPermission(Alder::getLeafTypePermission($leaf_type->slug));
+        if ($check_permission !== true)
+            return $check_permission;
+    
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf_type);
         
@@ -93,6 +93,10 @@ class BranchBREADController extends BaseController
     public function show(Request $request, int $id) {
         /* Get leaf */
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
+    
+        $check_permission = Alder::checkPermission(Alder::getLeafTypePermission($leaf->leaf_type->slug));
+        if ($check_permission !== true)
+            return $check_permission;
         
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf->leaf_type);
@@ -132,6 +136,10 @@ class BranchBREADController extends BaseController
         
         /* Get leaf type with custom modifiers */
         $leaf_type = Alder::getLeafType($branchType);
+    
+        $check_permission = Alder::checkPermission(Alder::getLeafTypePermission($leaf_type->slug));
+        if ($check_permission !== true)
+            return $check_permission;
         
         /* Get combined parameters of all LCMs */
         $params = Alder::prepareLCMs($leaf_type->LCMs);
@@ -168,6 +176,15 @@ class BranchBREADController extends BaseController
      * @return mixed
      */
     public function store(Request $request) {
+        $branchType = $this->getBranchType($request);
+    
+        /* Get leaf type with custom modifiers */
+        $leaf_type = Alder::getLeafType($branchType);
+    
+        $check_permission = Alder::checkPermission(Alder::getLeafTypePermission($leaf_type->slug));
+        if ($check_permission !== true)
+            return $check_permission;
+        
         foreach (['title', 'slug'] as $field) {
             if (!isset($request->$field) || empty($request->$field)) {
                 return Alder::returnResponse(
@@ -178,11 +195,6 @@ class BranchBREADController extends BaseController
                 );
             }
         }
-        
-        $branchType = $this->getBranchType($request);
-        
-        /* Get leaf type with custom modifiers */
-        $leaf_type = Alder::getLeafType($branchType);
         
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf_type);
@@ -206,6 +218,10 @@ class BranchBREADController extends BaseController
     public function edit(Request $request, int $id) {
         /* Get leaf */
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
+    
+        $check_permission = Alder::checkPermission(Alder::getLeafTypePermission($leaf->leaf_type->slug));
+        if ($check_permission !== true)
+            return $check_permission;
         
         /* Get combined parameters of all LCMs */
         $params = Alder::prepareLCMs($leaf->leaf_type->LCMs);
@@ -261,6 +277,10 @@ class BranchBREADController extends BaseController
         /* Get leaf */
         $leaf = Leaf::with(['leaf_type', 'LCMV'])->findOrFail($id);
         
+        $check_permission = Alder::checkPermission(Alder::getLeafTypePermission($leaf->leaf_type->slug));
+        if ($check_permission !== true)
+            return $check_permission;
+        
         /* Get combined parameters of all LCMs */
         $params = Alder::combineLCMs($leaf->leaf_type);
         
@@ -276,9 +296,11 @@ class BranchBREADController extends BaseController
      * @return JsonResponse|RedirectResponse
      */
     public function destroy(Request $request, int $id) {
-
         $branchType = $this->getBranchType($request);
         $leaf_type = Alder::getLeafType($branchType);
+        $check_permission = Alder::checkPermission(Alder::getLeafTypePermission($leaf_type->slug));
+        if ($check_permission !== true)
+            return $check_permission;
 
         return
             Leaf::where('leaf_type_id', $leaf_type->id)->find($id)->delete()
