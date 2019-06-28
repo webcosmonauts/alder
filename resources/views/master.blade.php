@@ -53,7 +53,7 @@
     <!-- End of Topbar -->
 
         <!-- Main Content -->
-        <div class="content">
+        <div class="content" style="margin-top: 40px; padding: 10px 30px 30px">
 
             <!-- Begin Page Content -->
         @yield('main')

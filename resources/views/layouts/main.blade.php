@@ -75,7 +75,7 @@
 @endsection
 
 @section('topbar')
-    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top" style="height: 50px;">
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -156,16 +156,16 @@
 
             <div class="topbar-divider d-none d-sm-block"></div>--}}
 
-            @if(!empty(Auth::user()->avatar))
+            {{--@if(!empty(Auth::user()->avatar))
                 <div id="profile-avatar"
                      style="background-image: url('{{asset('storage/'.Auth::user()->avatar) }}')">
                 </div>
-        @endif
+            @endif--}}
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 6px;">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                         {{ Auth::user()->fullname }}
                     </span>
