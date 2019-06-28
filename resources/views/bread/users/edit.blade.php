@@ -19,7 +19,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="card-header card-header-icon card-header-warning">
-                            <div class="card-icon">
+                            <div class="card-icon" style="width: 150px">
                                 @if ($user->avatar)
                                     <img src="{{ asset('storage/'.$user->avatar) }}" class="w-40">
                                 @else
