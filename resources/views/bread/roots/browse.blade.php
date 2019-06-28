@@ -5,6 +5,7 @@
 		 $(document).ready(function () {
 
 			 $('input, select, textarea').on("change", function () {
+				 $("#message").attr("hidden", true);
 				 var name = $(this).attr("name");
 
 				 if ($(this).prop("type") === "checkbox") {
@@ -32,6 +33,9 @@
 
 
 			 function rootsUpdateQuery(name, value) {
+
+				 var message = $("#message");
+
 				 $.ajax({
 					 url: "{{ route("alder.roots.update")}}",
 					 data: {
@@ -41,7 +45,12 @@
 					 },
 					 method: "PUT",
 
-					 success: function (msg) {
+					 success: function (response) {
+						 message.addClass("alert-" + response["alert-type"]).html(response.message).removeAttr("hidden");
+
+						 setTimeout(function () {
+							 message.attr("hidden", true);
+						 }, 2000);
 					 },
 
 					 error: function (msg) {
@@ -61,6 +70,9 @@
         <h1 class="h3 mb-0 text-gray-800">Roots</h1>
         @include('alder::components.locale-switcher')
     </div>
+
+
+    <div id="message" class="alert mb-4" hidden></div>
 
     @foreach($root_types as $root_type)
         <div class="card shadow mb-4">
