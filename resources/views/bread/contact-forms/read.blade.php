@@ -28,8 +28,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <button class="btn btn-primary">{{ __('alder::generic.save')}}</button>
                 </form>
             </div>
         </div>

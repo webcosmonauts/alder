@@ -20,7 +20,7 @@
                 <table class="table" id="browse-table">
                     <thead>
                     <tr>
-                        @foreach(['title','slug','is_accessible', 'status','created_at', 'updated_at'] as $field)
+                        @foreach(['title','slug','created_at', 'updated_at'] as $field)
                             <th>
                                 {{ __("alder::table_columns.$field") }}
                             </th>
@@ -33,7 +33,7 @@
                     <tbody>
                     @foreach($leaves as $leaf)
                         <tr>
-                            @foreach(['title','slug','is_accessible', 'status_id','created_at', 'updated_at'] as $field)
+                            @foreach(['title','slug','created_at', 'updated_at'] as $field)
                                 <td>
                                     {{ $leaf->$field }}
                                 </td>

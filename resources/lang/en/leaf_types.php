@@ -166,4 +166,7 @@ return [
     'answers'=> [
         'singular' => 'Answers',
     ],
+    'contact-form-message'=> [
+        'singular' => 'Contact form message'
+    ],
 ];

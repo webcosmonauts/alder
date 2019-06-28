@@ -166,4 +166,7 @@ return [
     'answers'=> [
         'singular' => 'Odpowiedzi',
     ],
+    'contact-form-message'=> [
+        'singular' => 'Wiadomość z formularza kontaktowego'
+    ],
 ];
