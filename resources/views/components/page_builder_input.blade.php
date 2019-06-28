@@ -18,7 +18,7 @@
                    aria-label="Image"
                    aria-describedby="button-image" value="{{$value}}">
             <div class="input-group-append">
-                <button class="btn btn-sm btn-outline-secondary button-image" type="button">{{ __('alder::generic.choose') }}
+                <button class="btn btn-sm mb-0 mt-0 btn-outline-secondary button-image" style="height: 35px;" type="button">{{ __('alder::generic.choose') }}
                 </button>
             </div>
         </div>
