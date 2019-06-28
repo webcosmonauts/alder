@@ -5,6 +5,7 @@
         padding: 5px !important;
         border: 1px solid #ddd;
         margin-bottom: 10px;
+        border-radius: 3px;
     }
 </style>
 
@@ -193,7 +194,7 @@
                                             @elseif($single_leaf->slug == 'post-tags')
                                             @elseif($single_leaf->slug == 'contact-form-message')
                                             @else
-                                                <div class="card shadow mb-0 ">
+                                                <div class="card shadow mb-0 mt-2">
                                                     <!-- Card Header - Accordion -->
                                                     <a href="#menu-{{$single_leaf->slug}}"
                                                        class="d-block card-header py-3 collapsed" data-toggle="collapse"

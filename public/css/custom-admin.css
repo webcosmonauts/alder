@@ -52,7 +52,7 @@ input::placeholder, select::placeholder, textarea::placeholder {
 }
 
 .nav-item.has-dropdown .toggle-collapse {
-    padding: 22px 10px;
+    padding: 10px;
     color: #fff;
     cursor: pointer;
     display: inline-block;
@@ -92,7 +92,7 @@ input::placeholder, select::placeholder, textarea::placeholder {
     content: 'keyboard_arrow_down';
     display: block;
     float: right;
-    top: 4px;
+    top: -1px;
     position: relative;
 
     transform: rotate(180deg);
