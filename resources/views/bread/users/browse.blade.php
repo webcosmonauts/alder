@@ -25,9 +25,12 @@
                                 {{ __("alder::table_columns.$field") }}
                             </th>
                         @endforeach
-                        <td class="text-right">
+                        <th>
+                            {{ __('alder::leaf_types.roles.plural') }}
+                        </th>
+                        <th class="text-right">
                             {{ __('alder::generic.actions') }}
-                        </td>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,6 +41,9 @@
                                     {{ $leaf->$field }}
                                 </td>
                             @endforeach
+                            <td>
+                                {{ ucwords(implode(', ', $leaf->roles->pluck('name')->toArray())) }}
+                            </td>
                             <td class="text-right">
                                 @include('alder::components.actions', ['route' => 'users', 'leaf' => $leaf, 'preview' => true])
                             </td>
