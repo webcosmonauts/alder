@@ -1,5 +1,5 @@
 
-#profile-avatar{
+#profile-avatar {
     width: 45px;
     height: 45px;
     -webkit-background-size: cover;
@@ -77,6 +77,39 @@ input::placeholder, select::placeholder, textarea::placeholder {
 .nav-item.has-dropdown .toggle-collapse:before {
 }
 
+.card-header[data-toggle] {
+    position: relative;
+}
+
+.card-header.collapsed[data-toggle]:before {
+    transform: rotate(0deg);
+}
+
+.card-header[data-toggle]:before {
+    content: 'keyboard_arrow_down';
+    display: block;
+    float: right;
+    top: 4px;
+    position: relative;
+
+    transform: rotate(180deg);
+    transition: all .15s ease 0s;
+
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
 .nav-item.has-dropdown .toggle-collapse:after {
     content: '';
     display: inline-block;
@@ -96,7 +129,7 @@ input::placeholder, select::placeholder, textarea::placeholder {
     position: relative;
 }
 
-.nav-item.has-dropdown .toggle-collapse  {
+.nav-item.has-dropdown .toggle-collapse {
     position: absolute;
     right: 15px;
     background: none !important;

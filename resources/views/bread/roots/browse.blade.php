@@ -64,12 +64,12 @@
 
     @foreach($root_types as $root_type)
         <div class="card shadow mb-4">
-            <a href="#collapseCard{{ Str::camel($root_type->slug) }}" class="d-block card-header py-3"
+            <a href="#collapseCard{{ Str::camel($root_type->slug) }}" class="d-block card-header collapsed 	 py-3"
                data-toggle="collapse" role="button" aria-expanded="true"
                aria-controls="collapseCard{{ Str::camel($root_type->name) }}">
                 <h6 class="m-0 font-weight-bold text-primary">{{ __("alder::root_types.$root_type->slug") }}</h6>
             </a>
-            <div class="collapse show" id="collapseCard{{ Str::camel($root_type->slug) }}" style="">
+            <div class="collapse" id="collapseCard{{ Str::camel($root_type->slug) }}" style="">
                 <div class="card-body">
                     <div class="row">
                         @foreach($root_type->roots as $root)
