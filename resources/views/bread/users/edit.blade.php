@@ -18,19 +18,23 @@
             <div class="col-lg-8">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div class="card-header card-header-icon card-header-warning">
-                            <div class="card-icon" style="width: 150px">
-                                @if ($user->avatar)
-                                    <img src="{{ asset('storage/'.$user->avatar) }}" class="w-40" style="display: block; width: 100%">
-                                @else
-                                    {{--                                <img src="{{ asset('storage/'.$user->avatar) }}" class="w-50">--}}
-                                    <i class="material-icons"> account_circle </i>
-                                @endif
+                        @if ($user)
+                            <div class="card-header card-header-icon card-header-warning">
+                                <div class="card-icon" style="width: 150px">
+
+                                    @if ($user->avatar)
+                                        <img src="{{ asset('storage/'.$user->avatar) }}" class="w-40" style="display: block; width: 100%">
+                                    @else
+                                        {{--                                <img src="{{ asset('storage/'.$user->avatar) }}" class="w-50">--}}
+                                        <i class="material-icons"> account_circle </i>
+                                    @endif
+
+                                </div>
+                                <h4 class="card-title">Edit Profile -
+                                    <small class="category">Complete your profile</small>
+                                </h4>
                             </div>
-                            <h4 class="card-title">Edit Profile -
-                                <small class="category">Complete your profile</small>
-                            </h4>
-                        </div>
+                        @endif
                         {{--                            <div class="">--}}
                         {{--                                <label for="userfile"></label>--}}
                         {{--                                <input class="form-control-file col-md-4" name="userfile" type="file" value="{{ __("alder::leaf_types.profile.avatar") }}">--}}
@@ -45,21 +49,21 @@
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
                                         <label class="bmd-label-floating">{{ __('alder::leaf_types.profile.name') }}:</label>
-                                        <input name="name" type="text" class="form-control" value="{{ $user->name }}">
+                                        <input name="name" type="text" class="form-control" value="{{$user ? $user->name : "" }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
                                         <div class="form-group bmd-form-group">
                                             <label class="bmd-label-floating">{{ __('alder::leaf_types.profile.surname') }}:</label>
-                                            <input name="surname" type="text" class="form-control" value="{{ $user->surname }}">
+                                            <input name="surname" type="text" class="form-control" value="{{$user ? $user->surname : ''}}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
                                         <label class="bmd-label-floating">{{ __('alder::leaf_types.profile.email') }}:</label>
-                                        <input name="email" type="email" class="form-control" value="{{ $user->email }}">
+                                        <input name="email" type="email" class="form-control" value="{{$user ? $user->email : ''}}">
                                     </div>
                                 </div>
                             </div>
@@ -115,32 +119,35 @@
 
 
             </div>
-            <div class="col-lg-4">
-                <div class="card shadow mb-4">
-                    <div class="card-body">
-                        @if($roles)
-                            <h3>{{__('alder::roles.title')}}</h3>
-                            @foreach($roles as $single_role)
-                                <div class="form-check">
-                                    <label class="form-check-label" for="role-{{$single_role->id}}">
-                                        <input
-                                                {{in_array($single_role->name,$user->roles->pluck('name')->toArray()) ? "checked" : ""}}
-                                                id="role-{{$single_role->id}}" class="form-check-input" name="roles[]"
-                                                type="checkbox" value="{{$single_role->name}}">
-                                        {{ucfirst($single_role->name)}}
-                                        <span class="form-check-sign">
-                                        <span class="check"></span>
-                                    </span>
-                                    </label>
-                                </div>
-                            @endforeach
-                        @endif
-                        <br>
+            @if($user)
+                <div class="col-lg-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
 
+                            @if($roles)
+                                <h3>{{__('alder::roles.title')}}</h3>
+                                @foreach($roles as $single_role)
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="role-{{$single_role->id}}">
+                                            <input
+                                                    {{in_array($single_role->name,$user->roles->pluck('name')->toArray()) ? "checked" : ""}}
+                                                    id="role-{{$single_role->id}}" class="form-check-input" name="roles[]"
+                                                    type="checkbox" value="{{$single_role->name}}">
+                                            {{ucfirst($single_role->name)}}
+                                            <span class="form-check-sign">
+                                            <span class="check"></span>
+                                        </span>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            @endif
+
+                            <br>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            @endif
         </div>
     </form>
 @endsection
