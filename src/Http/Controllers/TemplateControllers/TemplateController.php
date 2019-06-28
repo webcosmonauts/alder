@@ -44,6 +44,10 @@ class TemplateController extends Controller
      */
     public function appearance()
     {
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
+
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 
@@ -76,6 +80,9 @@ class TemplateController extends Controller
      */
     public function showThemes()
     {
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
         $active_theme = Alder::getRootValue('active-theme');

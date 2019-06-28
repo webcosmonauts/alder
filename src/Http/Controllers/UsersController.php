@@ -175,7 +175,9 @@ class UsersController extends BaseController
                 if (!$edit)
                     $User->created_at = date("Y-m-d H:i:s");
                 $User->updated_at = date("Y-m-d H:i:s");
-
+                if(!empty($request->roles) && !in_array("subscriber",$request->roles)){
+                    $User->type = 'administrator';
+                }
                 $User->save();
                 $User->syncRoles($request->roles);
                 return Alder::returnRedirect(
