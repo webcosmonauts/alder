@@ -15,6 +15,9 @@ use Webcosmonauts\Alder\Models\Root;
 class AlderRolesController extends Controller
 {
     public function index(){
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 
@@ -58,6 +61,9 @@ class AlderRolesController extends Controller
     }
 
     public function deleteRole(Request $request){
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         return Role::where('id',$request->id)->delete() ? redirect()->back() : redirect()->back();
     }
 }

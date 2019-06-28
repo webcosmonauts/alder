@@ -88,6 +88,9 @@ class RootsController extends BaseController
      */
     public function update(Request $request)
     {
+        $check_permission = Alder::checkPermission('manage options');
+        if ($check_permission !== true)
+            return $check_permission;
         $root = Alder::setRootValue($request->param, $request->value);
         return
             $root

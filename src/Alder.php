@@ -802,6 +802,33 @@ class Alder
             return true;
         }
     }
+    
+    /**
+     * Get correct permission based on leaf type slug
+     *
+     * @param string $leaf_type
+     *
+     * @return string|null
+     */
+    public function getLeafTypePermission(string $leaf_type) {
+        switch ($leaf_type) {
+            case 'pages':
+                return 'publish pages';
+                break;
+            case 'posts':
+                return 'publish posts';
+                break;
+            case 'post-categories':
+            case 'post-tags':
+                return 'publish categories';
+                break;
+            case 'reports':
+                return 'publish reports';
+                break;
+            default:
+                return null;
+        }
+    }
 }
 
 

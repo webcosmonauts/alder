@@ -13,37 +13,37 @@ class LCMController extends BaseController
 {
     public function index(Request $request)
     {
-        $LCMs = LeafCustomModifier::all();
+        /*$LCMs = LeafCustomModifier::all();
         
         $admin_menu_items = Alder::getMenuItems();
         
         return view('alder::bread.LCMs.browse')->with(compact(
             'LCMs', 'admin_menu_items'
-        ));
+        ));*/
     }
     
     public function show(Request $request, int $id)
     {
-        return view('alder::bread.LCMs.read')->with([
+        /*return view('alder::bread.LCMs.read')->with([
             'LCM' => LeafCustomModifier::findOrFail($id),
             'admin_menu_items' => Alder::getMenuItems()
-        ]);
+        ]);*/
     }
     
     public function create(Request $request)
     {
-        $leaf_types = LeafType::all();
+        /*$leaf_types = LeafType::all();
         $admin_menu_items = Alder::getMenuItems();
         return view('alder::bread.LCMs.edit')->with([
             'edit' => false,
             'leaf_types' => $leaf_types,
             'admin_menu_items' => $admin_menu_items,
-        ]);
+        ]);*/
     }
     
     public function store(Request $request)
     {
-        return DB::transaction(function () use ($request) {
+        /*return DB::transaction(function () use ($request) {
             try {
                 $LCM = new LeafCustomModifier();
                 foreach (['title', 'slug', 'group_title', 'group_slug', 'leaf_type_id'] as $field)
@@ -68,12 +68,12 @@ class LCMController extends BaseController
                     $e->getMessage()
                 );
             }
-        });
+        });*/
     }
     
     public function edit(Request $request, int $id)
     {
-        $LCM = LeafCustomModifier::findOrFail($id);
+        /*$LCM = LeafCustomModifier::findOrFail($id);
         $leaf_types = LeafType::all();
         $admin_menu_items = Alder::getMenuItems();
         return view('alder::bread.LCMs.edit')->with([
@@ -81,12 +81,12 @@ class LCMController extends BaseController
             'LCM' => $LCM,
             'leaf_types' => $leaf_types,
             'admin_menu_items' => $admin_menu_items,
-        ]);
+        ]);*/
     }
     
     public function update(Request $request, int $id)
     {
-        return DB::transaction(function () use ($request, $param) {
+        /*return DB::transaction(function () use ($request, $param) {
             try {
                 $LCM = LeafCustomModifier::findOrFail($param);
                 
@@ -112,12 +112,12 @@ class LCMController extends BaseController
                     $e->getMessage()
                 );
             }
-        });
+        });*/
     }
     
     public function destroy(Request $request, $param)
     {
-        if (is_int($param))
+        /*if (is_int($param))
             $LCM = LeafCustomModifier::findOrFail($param);
         else
             $LCM = LeafCustomModifier::where('slug', $param)->firstOrFail();
@@ -135,6 +135,6 @@ class LCMController extends BaseController
                 __('alder::messages.processing_error'),
                 false,
                 'danger'
-            );
+            );*/
     }
 }

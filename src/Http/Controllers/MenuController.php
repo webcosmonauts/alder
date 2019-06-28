@@ -21,6 +21,9 @@ use Webcosmonauts\Alder\Models\RootType;
 class MenuController extends BaseController
 {
     public function menuCreate(Request $request){
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
         $leaf_types = LeafType::with('leaves')->where('is_accessible',true)->get();
 
         $branchType = $this->getBranchType($request);
@@ -57,7 +60,9 @@ class MenuController extends BaseController
 
 
     public function store(Request $request){
-
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
         $branchType = $this->getBranchType($request);
         /* Get leaf type with custom modifiers */
         $leaf_type = Alder::getLeafType($branchType);
@@ -69,7 +74,10 @@ class MenuController extends BaseController
 
 
     public function update(Request $request, $id){
-
+    
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
 
 
         $branchType = $this->getBranchType($request);
@@ -81,7 +89,9 @@ class MenuController extends BaseController
         return $this->createMenu(true, $request, $leaf_type, $params , $id);
     }
     public function show(Request $request, $id) {
-
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
 
         $menu = Leaf::where('id',$id)->get()->first();
 
@@ -98,7 +108,9 @@ class MenuController extends BaseController
 
 
     public function deleteMenu(Request $request){
-
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
 
 
         /* Get admin panel menu items */
@@ -111,6 +123,9 @@ class MenuController extends BaseController
 
 
     public function editMenu(Request $request, $id){
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
         $leaf_types = LeafType::with('leaves')->where('is_accessible',true)->get();
 
         $branchType = $this->getBranchType($request);

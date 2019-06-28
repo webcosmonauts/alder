@@ -33,6 +33,10 @@ class BranchBREADController extends BaseController
      * @return View
      */
     public function index(Request $request) {
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
+        
         $branchType = $this->getBranchType($request);
         
         /* Get leaf type with custom modifiers */

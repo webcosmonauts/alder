@@ -26,6 +26,9 @@ class UsersController extends BaseController
      */
     public function index()
     {
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         /* Get leaf type with custom modifiers */
         $root_types = RootType::with('roots')->get();
 
@@ -52,7 +55,9 @@ class UsersController extends BaseController
      *
      */
     public function show(Request $request, $id) {
-
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
 
         $user = User::where('id',$id)->get();
         $user = $user[0];
@@ -74,6 +79,9 @@ class UsersController extends BaseController
      */
     public function create(Request $request)
     {
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         $user = 0;
         return view('alder::bread.users.edit')->with([
             'admin_menu_items' => Alder::getMenuItems(),
@@ -89,6 +97,9 @@ class UsersController extends BaseController
      */
     public function store(Request $request)
     {
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         $edit = false;
         $id = 185448;
         return $this->editUser($edit, $request, $id);
@@ -96,7 +107,9 @@ class UsersController extends BaseController
 
     public function edit(Request $request, $id)
     {
-
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         $user = User::where('id',$id)->get();
         $user = $user[0];
         $roles = Role::all();
@@ -111,12 +124,17 @@ class UsersController extends BaseController
 
     public function update(Request $request, $id)
     {
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         $edit = true;
         return $this->editUser($edit, $request, $id);
     }
 
     public function destroy(Request $request, int $id) {
-
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         return
             User::where('id',$id)->delete()
 

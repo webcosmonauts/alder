@@ -26,6 +26,9 @@ class ProfileController extends BaseController
      */
     public function index()
     {
+        $check_permission = Alder::checkPermission('list users');
+        if ($check_permission !== true)
+            return $check_permission;
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 

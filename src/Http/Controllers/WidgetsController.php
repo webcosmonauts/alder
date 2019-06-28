@@ -14,6 +14,10 @@ use Webcosmonauts\Alder\Models\Root;
 class WidgetsController extends Controller
 {
     public function index(){
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
+        
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
 
@@ -31,6 +35,9 @@ class WidgetsController extends Controller
     }
     public function update(Request $request)
     {
+        $check_permission = Alder::checkPermission('update themes');
+        if ($check_permission !== true)
+            return $check_permission;
         foreach ($request->except(['_token']) as $key => $value) {
             Alder::setRootValue($key, $value);
             echo 'Updated' . $key . '<br>';

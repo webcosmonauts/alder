@@ -90,7 +90,9 @@ class CapabilityController
      * @throws \Webcosmonauts\Alder\Exceptions\UnknownRelationException
      */
     public function index(Request $request){
-
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         $role = null;
         $selected_role = null;
         if(isset($request->role)){
@@ -124,6 +126,9 @@ class CapabilityController
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function deleteCapability(Request $request){
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         return Permission::where('id',$request->id)->delete() ? Alder::returnResponse(
             false,
             __('alder::permissions.capability_deleted'),
@@ -266,6 +271,9 @@ class CapabilityController
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function addNewCapability(Request $request){
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         $existing_permissions = Permission::all()->pluck('name')->toArray();
 
         if(isset($request->new_capability)){
@@ -305,6 +313,9 @@ class CapabilityController
     }
 
     public function updateRolesCapabilities(Request $request){
+        $check_permission = Alder::checkPermission('edit users');
+        if ($check_permission !== true)
+            return $check_permission;
         if(isset($request->selected_role)){
             $role_raw = Role::where('id',$request->selected_role)->firstOrFail();
             if(isset($request->permissions)){
