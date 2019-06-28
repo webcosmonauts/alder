@@ -4,6 +4,7 @@
 namespace Webcosmonauts\Alder\Http\Controllers;
 
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\Models\LeafType;
@@ -29,10 +30,12 @@ class ProfileController extends BaseController
         $admin_menu_items = Alder::getMenuItems();
 
         $user = Auth::user();
-        
+        $roles = Role::all();
+
         return view('alder::bread.profile.profile')->with([
             'admin_menu_items' => $admin_menu_items,
             'user' => $user,
+            'roles' => $roles,
         ]);
     }
 }
