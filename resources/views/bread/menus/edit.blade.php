@@ -209,7 +209,7 @@
                                                     <div class="collapse " id="menu-{{$single_leaf->slug}}">
                                                         <div class="card-body ">
                                                             @if(!empty($single_leaf->leaves))
-                                                                <ul class="list-group mb-3 ">
+                                                                <ul class="list-group mb-3 mb-2">
                                                                     @foreach($single_leaf->leaves as $singular)
                                                                         <li class="list-group-item textBlock"
                                                                             draggable="true" id="{{$single_leaf->slug}}"
