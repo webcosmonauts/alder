@@ -14,5 +14,6 @@ return [
     'active' => 'Active',
     'is_accessible' => 'Is accessible',
     'status' => 'Status',
+    'id' => 'ID',
 
 ];

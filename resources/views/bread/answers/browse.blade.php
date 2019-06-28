@@ -24,20 +24,22 @@
                     <tbody>
                     @foreach($answers as $leaf)
                         <tr>
-                                <td>
-                                    {{$leaf->id}}
-                                </td>
-                                <td>
-                                    @php
-                                        $val = json_decode($leaf->content);
-                                    foreach ($val as $key => $value) {
+                            <td>
+                                {{$leaf->id}}
+                            </td>
+                            <td>
+                                @php
+                                    $val = json_decode($leaf->content);
+                                foreach ($val as $key => $value) {
+                                    if ($key == 'id_form'){
+                                    } else
                                         echo $key . ' : ' . $value . '<br>';
-                                    }
-                                    @endphp
-                                </td>
-{{--                            <td class="text-right">--}}
-{{--                                @include('alder::components.actions', ['route' => 'users', 'leaf' => $leaf, 'preview' => true])--}}
-{{--                            </td>--}}
+                                }
+                                @endphp
+                            </td>
+                            {{--                            <td class="text-right">--}}
+                            {{--                                @include('alder::components.actions', ['route' => 'users', 'leaf' => $leaf, 'preview' => true])--}}
+                            {{--                            </td>--}}
                         </tr>
                     @endforeach
                     </tbody>
