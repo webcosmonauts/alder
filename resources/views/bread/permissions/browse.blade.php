@@ -4,6 +4,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center mb-4">
         <h1 class="h3 mb-0 text-gray-800">{{__('alder::permissions.title')}}</h1>
+        @include('alder::components.locale-switcher')
     </div>
 
     <div class="card">
@@ -97,9 +98,9 @@
                                             <div class="form-check">
                                                 <label class="form-check-label">
                                                     <input
-                                                        {{in_array($single_permission->name, $selected_role->permissions->pluck('name')->toArray()) ? "checked" : ""}}
-                                                        class="form-check-input" type="checkbox" name="permissions[]"
-                                                        value="{{$single_permission->name}}">
+                                                            {{in_array($single_permission->name, $selected_role->permissions->pluck('name')->toArray()) ? "checked" : ""}}
+                                                            class="form-check-input" type="checkbox" name="permissions[]"
+                                                            value="{{$single_permission->name}}">
                                                     {{$single_permission->name}}
                                                     <span class="form-check-sign">
                                                 <span class="check"></span>
@@ -128,7 +129,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-4">
                                 <form action="{{route('alder.capabilities.add_new_capability')}}" method="post">
-                                    <h2>Add new capability</h2>
+                                    <h2>{{__('alder::permissions.add_new_cap')}}</h2>
                                     @csrf
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -144,17 +145,15 @@
                           <span class="btn-label">
                             <i class="material-icons">check</i>
                           </span>
-                                        Add new capability
+                                        {{__('alder::permissions.add_new_cap')}}
                                         <div class="ripple-container"></div>
                                     </button>
                                 </form>
                             </div>
                             <div class="col-12 col-lg-8">
-                                Adds a capability to a role or specific user. Changing the capabilities of a role or
-                                user is persistent, meaning the added capability will stay in effect until explicitly
-                                revoked.
+                                {{__('alder::permissions.content_cap')}}
                                 <br>
-                                <strong>N.B.: This setting is saved to the database</strong>
+                                <strong>{{__('alder::permissions.p_s_cap')}}</strong>
                             </div>
                         </div>
                     </div>
@@ -169,7 +168,7 @@
                                         <table class="table table-striped " id="browse-table">
                                             <thead>
                                             <tr>
-                                                <th>Name</th>
+                                                <th>{{__('alder::generic.name')}}</th>
                                                 <th>{{__('alder::generic.created_at')}}</th>
                                                 <th>{{__('alder::generic.updated_at')}}</th>
                                                 <th class="text-right">{{__('alder::generic.actions')}}</th>
