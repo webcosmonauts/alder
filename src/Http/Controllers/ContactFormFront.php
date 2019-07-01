@@ -189,8 +189,8 @@ class ContactFormFront extends BaseController
             }else {
                 $sender = $total['sender'];
             }
+
             $mail->addAddress($recipient, $sender);
-            $recipient = $sender = '';
 
             $mail->isHTML(true);
 
@@ -199,7 +199,7 @@ class ContactFormFront extends BaseController
             $mail->Body    = $total['message_content'];
             $mail->AltBody = $total['message_content'];
             //$mail->addAttachment('/');
-
+//            dd($sender);
             $mail->send($mail);
 
             return redirect()->back();
