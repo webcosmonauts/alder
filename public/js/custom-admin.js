@@ -73,9 +73,13 @@ $(document).ready(function () {
 
 	/* dataTable */
 	if ($('#browse-table').length) {
+		lang = $('html').attr('lang') == 'pl' ? 'Polish' : 'English';
 		var lastBrowseColumn = $('#browse-table th').length - 1;
 
 		$('#browse-table').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/"+lang+".json"
+			},
 			"columnDefs": [
 				{"orderable": false, "targets": lastBrowseColumn}
 			]
