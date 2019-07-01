@@ -13,6 +13,7 @@ use Webcosmonauts\Alder\Exceptions\AssigningNullToNotNullableException;
 use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\LeafCustomModifierValue;
 use Webcosmonauts\Alder\Models\LeafType;
+use Webcosmonauts\Alder\Models\RootType;
 use Webcosmonauts\Alder\Models\Translations\LeafTranslation;
 
 
@@ -154,6 +155,10 @@ class ContactFormFront extends BaseController
             $mail->Host = $total['smtp-host'];
             $mail->SMTPAuth = TRUE;
 
+            $root_type = RootType::with('roots')
+                ->where('slug', 'mailing')->first();
+
+            $roots = Alder::getRootsValues($root_type->roots);
 
 
             $mail->Username = $total['login'];
@@ -173,7 +178,20 @@ class ContactFormFront extends BaseController
 //            }
 //            elseif(count($array_of_addresses) == 1){
 
-            $mail->addAddress($total['recipient'], "");
+            if ($total['recipient'] == '') {
+                $recipient = $roots->recipient;
+            }else {
+                $recipient = $total['recipient'];
+            }
+
+            if ($total['sender'] == '') {
+                $sender = $roots->sender;
+            }else {
+                $sender = $total['sender'];
+            }
+            $mail->addAddress($recipient, $sender);
+            $recipient = $sender = '';
+
             $mail->isHTML(true);
 
 
