@@ -137,5 +137,8 @@ return [
     'zoom' => 'Zoom',
     'updated_at' => 'Zaktualizowano',
     'send' => 'Wyślij',
-    'right_column_size' => 'Prawy rozmiar kolumny'
+    'right_column_size' => 'Prawy rozmiar kolumny',
+    'next' => 'Następny',
+    'previous' => 'Poprzedni',
+    'edit_item' => 'Edytuj rzecz',
 ];
