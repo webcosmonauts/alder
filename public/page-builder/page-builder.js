@@ -44,6 +44,18 @@ $(document).ready(function () {
 	$('#page-builder-components').on('click', '.btn', function (e) {
 		e.preventDefault();
 
+		/* FOR ALLOWED COMPONENTS */
+		if (ALLOWED_COMPONENTS[$("[name=template]").val()]) {
+			var allowedComponentAmount = ALLOWED_COMPONENTS[$("[name=template]").val()][$(this).attr("data-component")];
+
+			console.log(allowedComponentAmount);
+			if (allowedComponentAmount) {
+				if (allowedComponentAmount <= $('.page-builder-content-item[data-component=' + $(this).attr("data-component") + ']').length) {
+					return false;
+				}
+			}
+		}
+
 		var
 			component = $('#page-builder-patterns').find('[data-component=' + $(this).attr('data-component') + ']'),
 			thumbnail = component.attr('data-thumbnail'),
@@ -313,6 +325,57 @@ $(document).ready(function () {
 
 		contentHTMLJSON = JSON.stringify(contentHTMLJSON);
 		$("[name=content]").val(contentHTMLJSON);
+	});
+
+
+	/* ALLOWED COMPONENTS FOR TEMPLATE */
+
+	var ALLOWED_COMPONENTS = {
+		"kontakt": {
+			"text_with_map": 1
+		},
+
+		"o-prokecie": {
+			"html": 1
+		}
+	};
+
+
+	function chooseAllowedComponents(template) {
+		if (ALLOWED_COMPONENTS[template]) {
+
+			$('#page-builder-components').find("[data-component]").attr("hidden", true);
+			for (var key in ALLOWED_COMPONENTS[template]) {
+				$('#page-builder-components').find("[data-component=" + key + "]").removeAttr('hidden');
+			}
+
+			// delete not allowed components
+			var unnecessaryItems = $("#page-builder-content").find(".page-builder-content-item").filter(function () {
+				if (!ALLOWED_COMPONENTS[template][$(this).attr("data-component")]) return true;
+			});
+			unnecessaryItems.remove();
+
+			// delete allowed components if they are more then need
+			for (var key in ALLOWED_COMPONENTS[template]) {
+				if ($(".page-builder-content-item[data-component=" + key + "]").length > ALLOWED_COMPONENTS[template][key]) {
+
+					var counter = 1;
+					$(".page-builder-content-item[data-component=" + key + "]").each(function () {
+						if (counter > ALLOWED_COMPONENTS[template][key]) $(this).remove();
+						counter++;
+					});
+				}
+			}
+
+		} else {
+			$('#page-builder-components').find("[data-component]").removeAttr("hidden");
+		}
+	}
+
+
+	chooseAllowedComponents($("[name=template]").val());
+	$("[name=template]").on("change", function () {
+		chooseAllowedComponents($(this).val());
 	});
 });
 
