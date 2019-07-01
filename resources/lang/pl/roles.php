@@ -1,6 +1,6 @@
 <?php
 return [
-    "title"=>"Roles",
+    "title"=>"Role",
     "init_roles"=>"Inicjalizuj role domyślne",
     "default"=>"Domyślne",
     "add_new_role"=>"Dodaj nową rolę",
