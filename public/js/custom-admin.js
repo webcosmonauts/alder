@@ -190,6 +190,45 @@ $(document).ready(function () {
 	/* RPTR TOGGLE BODY */
 	$('body').on('click', '.rptr-field .card-header', function (e) {
 		$(this).next().slideToggle();
+		$(this).parent().toggleClass('closed');
+	});
+
+
+	/* MOVE RPTR*/
+	$("body").on("click", ".rptr-field__actions div", function (e) {
+		e.preventDefault();
+
+		var
+			action = $(this).attr('data-action'),
+			currentItem = $(this).parents('.rptr-field').eq(0),
+			clone = currentItem.clone();
+
+
+		if (action === "up") {
+			if (currentItem.prev('.rptr-field').length) {
+				currentItem.prev().before(clone);
+				currentItem.remove();
+				animateAndScroll();
+			}
+
+		} else if (action === "down") {
+
+			if (currentItem.next('.rptr-field').length) {
+				currentItem.next().after(clone);
+				currentItem.remove();
+				animateAndScroll();
+			}
+		}
+
+
+		function animateAndScroll() {
+			clone.css({"background-color": "#ddd"});
+			$('body, html').animate({scrollTop: clone.offset().top - 15}, 800);
+			setTimeout(function () {
+				clone.css({"background-color": "#fff"});
+			}, 500);
+		}
+
 	});
 
 

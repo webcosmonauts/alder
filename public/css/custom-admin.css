@@ -160,6 +160,24 @@ input::placeholder, select::placeholder, textarea::placeholder {
     margin-top: 15px;
 }
 
+.closed .rptr-field__actions {
+    top: 11px;
+}
+
+.rptr-field__actions {
+    transition: top .5s;
+    display: flex;
+    position: absolute;
+    z-index: 10;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -33px;
+}
+
+.rptr-field__actions > div {
+    margin: 0 3px;
+}
+
 @media (min-width: 768px) {
     .sidebar.toggled .nav-item.has-dropdown .toggle-collapse {
         position: absolute;

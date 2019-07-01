@@ -36,6 +36,15 @@
                         <div class="rptr-field card shadow">
                             <div class="rptr-field__delete delete-icon">&times;</div>
 
+                            <!-- actions -->
+                            <div class="rptr-field__actions">
+                                <div class="circle-icon" title="W górę" data-action="up">
+                                    <em class="fa fa-angle-up"></em>
+                                </div>
+                                <div class="circle-icon" title="Na dół" data-action="down">
+                                    <em class="fa fa-angle-down"></em></div>
+                            </div>
+
                             <div class="card-header text-primary font-weight-bold">
                                 {{__('alder::generic.fields_row')}}
                             </div>
@@ -81,6 +90,15 @@
                 @else
                     <div class="rptr-field card shadow">
                         <div class="rptr-field__delete delete-icon">&times;</div>
+
+                        <!-- actions -->
+                        <div class="rptr-field__actions">
+                            <div class="circle-icon" title="W górę" data-action="up">
+                                <em class="fa fa-angle-up"></em>
+                            </div>
+                            <div class="circle-icon" title="Na dół" data-action="down">
+                                <em class="fa fa-angle-down"></em></div>
+                        </div>
 
                         <div class="card-header text-primary font-weight-bold">
                             {{__('alder::generic.fields_row')}}
