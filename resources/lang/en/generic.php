@@ -153,5 +153,8 @@ return [
     'zoom' => 'Zoom',
     'updated_at' => 'Updated at',
     'send' => 'Send',
-    'right_column_size' => 'Right column size'
+    'right_column_size' => 'Right column size',
+    'next' => 'Next',
+    'previous' => 'Previous',
+    'edit_item' => 'Edit item',
 ];
