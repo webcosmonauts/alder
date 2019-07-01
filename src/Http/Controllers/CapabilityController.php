@@ -51,7 +51,8 @@ class CapabilityController
             'manage links',
             'manage categories',
             'moderate comments',
-            'publish reports'
+            'publish reports',
+            'publish categories'
         ],
         'administrator_capabilities'=>[
             'delete site',
