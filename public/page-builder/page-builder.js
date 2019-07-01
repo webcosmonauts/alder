@@ -337,7 +337,13 @@ $(document).ready(function () {
 
 		"o-prokecie": {
 			"html": 1
-		}
+		},
+
+		"dynamic-raport": {},
+		"dynamic-raport1": {},
+		"dynamic-raport2": {},
+		"dynamic-raport3": {},
+		"to-download": {}
 	};
 
 
