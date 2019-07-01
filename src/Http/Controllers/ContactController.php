@@ -72,6 +72,8 @@ class ContactController extends BaseController {
 
         $form = Leaf::find($id);
         $content = json_decode($form->content);
+        $mailer_type = RootType::where('slug','mailing')->value('id');
+        $mailer = Root::where('root_type_id', $mailer_type)->get();
 
         $template = (array) $content;
 
@@ -116,7 +118,8 @@ class ContactController extends BaseController {
             'template' => $template,
             'read' => $read,
             'array_mailer' => $array_mailer,
-            'array_key' => $array_key
+            'array_key' => $array_key,
+            'mailer' => $mailer
         ]);
     }
     public function edit_mailer(Request $request, $id)
