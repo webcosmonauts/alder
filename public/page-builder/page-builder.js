@@ -197,6 +197,7 @@ $(document).ready(function () {
 
 		// Show modal
 		$("#page-builder-modal").addClass("visible");
+		$('body').css("overflow", "hidden");
 	});
 
 	// Save changes
@@ -233,11 +234,13 @@ $(document).ready(function () {
 
 		$("#page-builder-modal .content").html("");
 		$("#page-builder-modal").removeClass("visible");
+		$('body').css("overflow", "auto");
 	});
 
 	// Close modal
 	$("#page-builder-modal").on("click", ".close-modal", function (e) {
 		$("#page-builder-modal").removeClass("visible");
+		$('body').css("overflow", "auto");
 	});
 
 	/* Save value changes when we edit component */
