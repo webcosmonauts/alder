@@ -111,38 +111,42 @@
                         <input type="hidden" name="array_mail" value="{{$arr_total}}">
 
                         @if ($read)
-                            @foreach($array_mailer as $key => $value)
-                                {{--                            @if ( $value->input_type == 'text')--}}
-                                {{--                                @if ($value->title != 'message_content')--}}
-                                {{--                                    <label for="{{$value->slug}}">{{$value->title}}</label>--}}
-                                {{--                                    <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}"  ><br>--}}
-                                {{--                                @else--}}
-                                {{--                                    <label  for="{{$value->slug}}" required>{{$value->title}}</label>--}}
-                                {{--                                    <textarea name="{{$value->slug}}" class="form-control"--}}
-                                {{--                                              id="{{$value->slug}}">{{$value->value}}</textarea><br>--}}
-                                {{--                                @endif--}}
-                                {{--                            @elseif($value->input_type == 'password')--}}
-                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
-                                {{--                                <input  name="{{$value->slug}}" class="form-control" type="text" id="{{$value->slug}}" value="{{$value->value}}" ><br>--}}
-                                {{--                            @elseif($value->input_type == 'number')--}}
-                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
-                                {{--                                <input  name="{{$value->slug}}" class="form-control" type="number" id="{{$value->slug}}" value="{{$value->value}}"  ><br>--}}
-                                {{--                            @elseif($value->input_type == 'checkbox')--}}
-                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
-                                {{--                                <input  name="{{$value->slug}}" class="" type="checkbox" id="{{$value->slug}}" {{$value->value ? 'checked' : ''}} ><br>--}}
-                                {{--                            @elseif($value->input_type == 'select')--}}
-                                {{--                                <label for="{{$value->slug}}">{{$value->title}}</label>--}}
-                                {{--                                <select  name="{{$value->slug}}" class="browser-default custom-select" >--}}
-                                {{--                                    <option value="tls">TLS</option>--}}
-                                {{--                                    <option value="ssl">SSL</option>--}}
-                                {{--                                </select><br><br>--}}
-                                {{--                            @endif--}}
-                                <label for="{{$key}}">{{$key}}</label>
-                                <input name="{{$key}}" class="form-control" type="text" id="{{$key}}"
-                                       value="{{$value}}"><br>
+                            @foreach($mailer as $key => $value)
+                                @if ( $value->input_type == 'text')
+                                    @if ($value->title != 'message_content')
+                                        <label for="{{$value->slug}}">{{$value->title}}</label>
+                                        <input name="{{$value->slug}}" class="form-control" type="text"
+                                               id="{{$value->slug}}" value="{{$array_mailer[$value->slug]}}"><br>
+                                    @else
+                                        <label for="{{$value->slug}}" required>{{$value->title}}</label>
+                                        <textarea name="{{$value->slug}}" class="form-control"
+                                                  id="{{$value->slug}}">{{$array_mailer[$value->slug]}}</textarea><br>
+                                    @endif
+                                @elseif($value->input_type == 'password')
+                                    <label for="{{$value->slug}}">{{$value->title}}</label>
+                                    <input name="{{$value->slug}}" class="form-control" type="text"
+                                           id="{{$value->slug}}" value="{{$array_mailer[$value->slug]}}"><br>
+                                @elseif($value->input_type == 'number')
+                                    <label for="{{$value->slug}}">{{$value->title}}</label>
+                                    <input name="{{$value->slug}}" class="form-control" type="number"
+                                           id="{{$value->slug}}" value="{{$array_mailer[$value->slug]}}"><br>
+                                @elseif($value->input_type == 'checkbox')
+                                    <label for="{{$value->slug}}">{{$value->title}}</label>
+                                    <input name="{{$value->slug}}" class="" type="checkbox"
+                                           id="{{$value->slug}}" {{$value->value ? 'checked' : ''}} ><br>
+                                @elseif($value->input_type == 'select')
+                                    <label for="{{$value->slug}}">{{$value->title}}</label>
+                                    <select name="{{$value->slug}}" class="browser-default custom-select">
+                                        <option value="tls" {{ $array_mailer[$value->slug] == 'TLS' ? 'selected': ''}}>TLS</option>
+                                        <option value="ssl" {{ $array_mailer[$value->slug] == 'SSL' ? 'selected': ''}}>SSL</option>
+                                    </select><br><br>
+                                @endif
+                                {{--                            <label for="{{$key}}">{{$key}}</label>--}}
+                                {{--                            <input  name="{{$key}}" class="form-control" type="text" id="{{$key}}" value="{{$value}}" ><br>--}}
 
                             @endforeach
                         @else
+                            @dd($mailer)
                             @foreach($mailer as $key => $value)
                                 @if ( $value->input_type == 'text')
                                     @if ($value->title != 'message_content')

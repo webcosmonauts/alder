@@ -7,4 +7,5 @@ return [
     'appearance' => 'Wygląd',
     'mailing' => 'Mailing',
     'widgets' => 'Widgety',
+    'title' => 'Ustawienia',
 ];

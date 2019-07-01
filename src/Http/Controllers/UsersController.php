@@ -168,9 +168,19 @@ class UsersController extends BaseController
                 $User->LCMV_id = $request->LCMV_id;
 
                 if ($request->userfile) {
-                    $file_name = ($request->userfile->getClientOriginalName());
-                    $file_name_db = '_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
-                    $User->avatar = $request->file('userfile')->storeAs('users', $file_name_db, 'public');
+                    $type_file = $request->userfile->getClientOriginalExtension();
+                    $size_file = $request->userfile->getSize();
+                    if ($type_file == 'jpg' | $type_file == 'jpeg' | $type_file == 'png') {
+                        if ($size_file < 2000000) {
+                            $file_name = ($request->userfile->getClientOriginalName());
+                            $file_name_db = '_'. date('mdYHis'). '_' . $request->name . '_' . $file_name;
+                            $User->avatar = $request->file('userfile')->storeAs('users', $file_name_db, 'public');
+                        } else {
+                            return redirect("alder/users/edit/$id")->with(['error_image'=> __('alder::messages.error_avatar')]);
+                        }
+                    }else {
+                        return redirect("alder/users/edit/$id")->with(['error_image'=> __('alder::messages.error_avatar')]);
+                    }
                 }
 
                 if (!$edit)
@@ -182,7 +192,7 @@ class UsersController extends BaseController
                     $User->type = 'administrator';
                 $User->save();
                 $User->syncRoles($request->roles);
-                
+
                 if ($User->id == Auth::user()->id) {
                     return Alder::returnRedirect(
                         $request->ajax(),
@@ -193,7 +203,7 @@ class UsersController extends BaseController
                         'success'
                     );
                 }
-                
+
                 return Alder::returnRedirect(
                     $request->ajax(),
                     __('alder::generic.successfully_'

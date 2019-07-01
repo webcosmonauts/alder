@@ -26,113 +26,113 @@
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-		 jQuery(document).ready(function () {
-			 /* =============== DEMO =============== */
-			 // menu items
-			 var arrayjson = '<?php echo $comtent ?>';
-			 // icon picker options
-			 var iconPickerOptions = {searchText: "Buscar...", labelHeader: "{0}/{1}"};
-			 // sortable list options
-			 var sortableListOptions = {
-				 placeholderCss: {'background-color': "#cccccc"}
-			 };
+        jQuery(document).ready(function () {
+            /* =============== DEMO =============== */
+            // menu items
+            var arrayjson = '<?php echo $comtent ?>';
+            // icon picker options
+            var iconPickerOptions = {searchText: "Buscar...", labelHeader: "{0}/{1}"};
+            // sortable list options
+            var sortableListOptions = {
+                placeholderCss: {'background-color': "#cccccc"}
+            };
 
-			 var editor = new MenuEditor('myEditor', {listOptions: sortableListOptions, iconPicker: iconPickerOptions});
-			 editor.setForm($('#frmEdit'));
-			 editor.setUpdateButton($('#btnUpdate'));
+            var editor = new MenuEditor('myEditor', {listOptions: sortableListOptions, iconPicker: iconPickerOptions});
+            editor.setForm($('#frmEdit'));
+            editor.setUpdateButton($('#btnUpdate'));
 
-			 $('#btnReload').ready(function () {
-				 editor.setData(arrayjson);
-			 });
+            $('#btnReload').ready(function () {
+                editor.setData(arrayjson);
+            });
 
-			 $('#myEditor').on('DOMSubtreeModified', function () {
-				 var str = editor.getString();
-				 $("#out").text(str);
-			 });
+            $('#myEditor').on('DOMSubtreeModified', function () {
+                var str = editor.getString();
+                $("#out").text(str);
+            });
 
-			 $("#btnUpdate").click(function () {
-				 if ($('#text').val() != '' && $('#href').val() != '') {
-					 editor.update();
-					 $('.edit_menu').css('display', 'none')
-				 }
+            $("#btnUpdate").click(function () {
+                if ($('#text').val() != '' && $('#href').val() != '') {
+                    editor.update();
+                    $('.edit_menu').css('display', 'none')
+                }
 
-			 });
+            });
 
-			 $('#btnAdd').click(function () {
-				 editor.add();
-			 });
+            $('#btnAdd').click(function () {
+                editor.add();
+            });
 
-			 $(document).on('click', '.btnEdit', function () {
-				 $('.edit_menu').css('display', 'block')
-			 });
+            $(document).on('click', '.btnEdit', function () {
+                $('.edit_menu').css('display', 'block')
+            });
 
-			 $('.save_menu').click(function () {
-				 $('.save_form_btn').submit();
-			 });
+            $('.save_menu').click(function () {
+                $('.save_form_btn').submit();
+            });
 
-			 $('.add_custom_link').click(function () {
-				 if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
-					 $('#text').attr('value', $('.custom_link_text').val());
-					 $('#href').attr('value', 'http://' + $('.custom_link_url').val());
-					 editor.add();
-				 }
-			 });
+            $('.add_custom_link').click(function () {
+                if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
+                    $('#text').attr('value', $('.custom_link_text').val());
+                    $('#href').attr('value', 'http://' + $('.custom_link_url').val());
+                    editor.add();
+                }
+            });
 
 
-			 $(function () {
-				 var dragged_object = '';
-				 $('.textBlock').draggable({
+            $(function () {
+                var dragged_object = '';
+                $('.textBlock').draggable({
 
-					 start: function () {
-						 dragged_object = $(this)
-						 // console.log(dragged_object.attr('id'))
-					 },
-					 helper: 'clone'
-				 });
-				 $('.block2').droppable({
-					 hoverClass: 'dropHere'
-					 , drop: function () {
+                    start: function () {
+                        dragged_object = $(this)
+                        // console.log(dragged_object.attr('id'))
+                    },
+                    helper: 'clone'
+                });
+                $('.block2').droppable({
+                    hoverClass: 'dropHere'
+                    , drop: function () {
 
-						 if (dragged_object.attr('id') == 'pages') {
-							 $('#text').attr('value', dragged_object.text().trim());
-							 $('#href').attr('value', '/' + dragged_object.attr('name'));
-							 editor.add();
-							 dragged_object = '';
-						 } else if (dragged_object.attr('id') == 'posts') {
-							 $('#text').attr('value', dragged_object.text().trim());
-							 $('#href').attr('value', '/posty/' + dragged_object.attr('name'));
-							 editor.add();
-							 dragged_object = '';
-						 } else if (dragged_object.attr('id') == 'reports') {
-							 $('#text').attr('value', dragged_object.text().trim());
-							 $('#href').attr('value', '/reports/' + dragged_object.attr('name'));
-							 editor.add();
-							 dragged_object = '';
-						 } else if (dragged_object.attr('id') == 'post-tags') {
-							 $('#text').attr('value', dragged_object.text().trim());
-							 $('#href').attr('value', '/post-tags/' + dragged_object.attr('name'));
-							 editor.add();
-							 dragged_object = '';
-						 } else if (dragged_object.attr('id') == 'post-categories') {
-							 $('#text').attr('value', dragged_object.text().trim());
-							 $('#href').attr('value', '/posts/categories/' + dragged_object.attr('name'));
-							 editor.add();
-							 dragged_object = '';
-						 }
-					 },
+                        if (dragged_object.attr('id') == 'pages') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        } else if (dragged_object.attr('id') == 'posts') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/posty/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        } else if (dragged_object.attr('id') == 'reports') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/reports/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        } else if (dragged_object.attr('id') == 'post-tags') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/post-tags/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        } else if (dragged_object.attr('id') == 'post-categories') {
+                            $('#text').attr('value', dragged_object.text().trim());
+                            $('#href').attr('value', '/posts/categories/' + dragged_object.attr('name'));
+                            editor.add();
+                            dragged_object = '';
+                        }
+                    },
 
-				 });
-			 });
+                });
+            });
 
-			 /* ====================================== */
+            /* ====================================== */
 
-			 /** PAGE ELEMENTS **/
-			 $('[data-toggle="tooltip"]').tooltip();
-			 $.getJSON("https://api.github.com/repos/davicotico/jQuery-Menu-Editor", function (data) {
-				 $('#btnStars').html(data.stargazers_count);
-				 $('#btnForks').html(data.forks_count);
-			 });
-		 });
+            /** PAGE ELEMENTS **/
+            $('[data-toggle="tooltip"]').tooltip();
+            $.getJSON("https://api.github.com/repos/davicotico/jQuery-Menu-Editor", function (data) {
+                $('#btnStars').html(data.stargazers_count);
+                $('#btnForks').html(data.forks_count);
+            });
+        });
     </script>
 
 
@@ -144,6 +144,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">{{ $leaf_type->title }}</h1>
+        @include('alder::components.locale-switcher')
     </div>
     <!-- tabs content -->
     <div class="tab-content" id="myTabContent">
@@ -294,13 +295,13 @@
                                             </div>
                                             <div class="col-md-4 edit_menu" style="display: none">
                                                 <div class="card border-primary mb-3">
-                                                    <div class="card-header bg-primary text-white">Edit item</div>
+                                                    <div class="card-header bg-primary text-white">{{__('alder::generic.edit_item')}}</div>
                                                     <div class="card-body">
                                                         <form id="frmEdit" class="form-horizontal"
                                                               class="col-12 col-lg-12">
 
                                                             <div class="form-group">
-                                                                <label for="text">Text</label>
+                                                                <label for="text">{{__('alder::generic.text')}}</label>
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control item-menu "
                                                                            name="text" id="text" required
@@ -316,7 +317,7 @@
                                                     </div>
                                                     <div class="card-footer">
                                                         <button type="button" id="btnUpdate" class="btn btn-primary"
-                                                                disabled><i class="fas fa-sync-alt"></i> Update
+                                                                disabled><i class="fas fa-sync-alt"></i> {{__('alder::generic.update')}}
                                                         </button>
                                                     </div>
                                                 </div>
