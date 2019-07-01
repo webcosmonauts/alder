@@ -1,11 +1,16 @@
 <?php
 return [
-    'title' => 'Capabilities',
+    'title' => 'Możliwości',
     'default' => 'Domyślne',
     'init_capabilities' => 'Inicjowanie możliwości ',
     'init_capabilities_for_roles' => 'Inicjowanie początkowe możliwości ról',
     'capabilities_editor' => 'Edytor możliwości',
     'existing_capabilities' => 'Istniejące możliwości',
+    'add_new_cap' => 'Dodaj nowe możliwości',
+    'p_s_cap' => 'P.S. To ustawienie jest zapisywane w bazie danych',
+    'content_cap' => 'Dodaje możliwość roli lub konkretnego użytkownika. Zmiana możliwości 
+        roli lub użytkownika jest trwała, co oznacza, że dodana zdolność pozostanie w mocy, dopóki 
+        nie zostanie jawnie odwołana.',
 
     //Messages
     'default_capabilities_init'=>'Ustawione domyślne możliwości',

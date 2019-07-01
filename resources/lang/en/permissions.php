@@ -6,6 +6,10 @@ return [
     'init_capabilities_for_roles' => 'Init capabilities for roles',
     'capabilities_editor' => 'Capabilities editor',
     'existing_capabilities' => 'Existing capabilities',
+    'add_new_cap' => 'Add new capability',
+    'p_s_cap' => 'P.S.: This setting is saved to the database',
+    'content_cap' => 'Adds a capability to a role or specific user. Changing the capabilities of a role 
+        or user is persistent, meaning the added capability will stay in effect until explicitly revoked.',
 
     //Messages
     'default_capabilities_init'=>'Default capabilities init',

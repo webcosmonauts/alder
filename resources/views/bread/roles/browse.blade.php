@@ -4,6 +4,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center mb-4">
         <h1 class="h3 mb-0 text-gray-800">{{__('alder::roles.title')}}</h1>
+        @include('alder::components.locale-switcher')
     </div>
 
     <div class="card">
@@ -30,7 +31,7 @@
                                 <ul class="list-group">
                                     @foreach($roles as $role)
                                         <li class="list-group-item">
-                                            <b class="float-left">{{ucfirst($role['name'])}}</b>
+                                            <b class="float-left">{{ucfirst($role["name"])}}</b>
                                             <form action="{{route("alder.roles.delete")}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$role['id']}}">
