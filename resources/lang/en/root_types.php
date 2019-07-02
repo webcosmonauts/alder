@@ -56,7 +56,7 @@ return [
         'title' => 'Widgets',
     ],
     'reports' => [
-        'title' => 'Title',
+        'title' => 'Reports',
         'created_at' => 'Create date',
         'updated_at' => 'Update date',
         'desc' => 'DESC',

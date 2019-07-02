@@ -56,7 +56,7 @@ return [
         'title' => 'Widgety',
     ],
     'reports' => [
-        'title' => 'Tytuł',
+        'title' => 'Raporty',
         'created_at' => 'Data utworzenia',
         'updated_at' => 'Data aktualizacji',
         'desc' => 'Malęjąco',
