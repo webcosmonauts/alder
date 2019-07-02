@@ -94,7 +94,7 @@
                         </div>
                         <!--  -->
 
-                        <button class="btn btn-success">{{ __('alder::generic.submit') }}</button>
+
 
                     </div>
                     <div id="mailer" class="container tab-pane fade"><br>
@@ -188,6 +188,7 @@
 
 
                 </div>
+                <button style="margin-left: 15px; margin-top: 15px" class="btn btn-success">{{ __('alder::generic.submit') }}</button>
             </form>
         </div>
 
