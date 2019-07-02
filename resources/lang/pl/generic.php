@@ -140,5 +140,5 @@ return [
     'right_column_size' => 'Prawy rozmiar kolumny',
     'next' => 'Następny',
     'previous' => 'Poprzedni',
-    'edit_item' => 'Edytuj rzecz',
+    'edit_item' => 'Edytuj pozycje',
 ];

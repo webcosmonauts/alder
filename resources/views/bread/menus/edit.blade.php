@@ -160,7 +160,7 @@
                         {{$edit ? method_field('PUT') : method_field('POST')}}
 
                         <div style="padding: 10px 15px">
-                            @foreach(['title', 'slug'] as $field)
+                            @foreach([__('alder::generic.title'), 'slug'] as $field)
                                 <label for="{{ $field }}">{{ $field }}</label>
                                 <div class="input-group mb-2">
                                     <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
