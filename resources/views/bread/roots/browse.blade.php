@@ -79,7 +79,7 @@
 
 	<!-- Page Heading -->
 	<div id="page-heading" class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">{{__("alder::root_types.title")}}</h1>
+		<h1 class="h3 mb-0 text-gray-800">{{__("alder::generic.settings")}}</h1>
 		@include('alder::components.locale-switcher')
 	</div>
 
@@ -97,7 +97,7 @@
 			<a href="#collapseCard{{ Str::camel($root_type->slug) }}" class="d-block card-header collapsed 	 py-3"
 			   data-toggle="collapse" role="button" aria-expanded="true"
 			   aria-controls="collapseCard{{ Str::camel($root_type->name) }}">
-				<h6 class="m-0 font-weight-bold text-primary">{{ __("alder::root_types.$root_type->slug") }}</h6>
+				<h6 class="m-0 font-weight-bold text-primary">{{ __("alder::root_types.$root_type->slug.title") }}</h6>
 			</a>
 			<div class="collapse" id="collapseCard{{ Str::camel($root_type->slug) }}" style="">
 				<div class="card-body">
@@ -111,7 +111,7 @@
 											<select class="custom-select" name="{{ $root->slug }}" id="index-page"
 													placeholder="{{ $root->title }}" aria-label="{{ $root->title }}"
 													aria-describedby="{{ $root->title }}">
-												@foreach($index_pages as $page)
+												@foreach($pages as $page)
 													<option value="{{ $page->id }}
 													{{ $root->value == $page->id ? 'selected' : '' }}">
 														{{ $page->title }}

@@ -40,12 +40,6 @@ class RootsController extends BaseController
         $pages = Leaf::whereLeafTypeId(LeafType::whereSlug('pages')->value('id'))
             ->whereStatusId(LeafStatus::whereSlug('published')->value('id'))
             ->get();
-        $index_pages = [];
-        foreach ($pages as $page) {
-            $page = Alder::populateWithLCMV($page, $page->leaf_type);
-            if ($page->template == 'index')
-                $index_pages[] = $page;
-        }
 
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
@@ -53,7 +47,7 @@ class RootsController extends BaseController
         return view('alder::bread.roots.browse')->with([
             'root_types' => $root_types,
             'admin_menu_items' => $admin_menu_items,
-            'index_pages' => $index_pages,
+            'pages' => $pages,
         ]);
     }
 

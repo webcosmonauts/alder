@@ -2,6 +2,7 @@
 
 namespace Webcosmonauts\Alder\Http\Controllers;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -348,7 +349,16 @@ class BranchBREADController extends BaseController
                 $leaf->status_id = $request->status_id;
                 $leaf->leaf_type_id = $leaf_type->id;
                 $leaf->LCMV_id = $LCMV->id;
-                $leaf->save();
+    
+                $timestamps = true;
+                if (!empty($request->updated_at)) {
+                    $leaf->updated_at_for_input = $request->updated_at;
+                    $timestamps = false;
+                }
+                if (!$edit && !$timestamps)
+                    $leaf->created_at = now();
+                
+                $leaf->save(['timestamps' => $timestamps]);
                 
                 return Alder::returnRedirect(
                     $request->ajax(),

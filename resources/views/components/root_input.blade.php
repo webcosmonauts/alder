@@ -29,7 +29,7 @@
                     placeholder="{{ $root->title }}" aria-label="{{ $root->title }}"
                     aria-describedby="{{ $root->title }}">
                 @foreach($root->options as $value)
-                    <option value="{{ $value }}" {{ $root->value == $value ? 'selected' : '' }}>{{ $value }}</option>
+                    <option value="{{ $value }}" {{ $root->value == $value ? 'selected' : '' }}>{{ __("alder::root_types.{$root->root_type->slug}.$value") }}</option>
                 @endforeach
             </select>
         </div>
@@ -44,7 +44,7 @@
                     placeholder="{{ $root->title }}" aria-label="{{ $root->title }}"
                     aria-describedby="{{ $root->title }}">
                 @foreach($root->options as $value)
-                    <option value="{{ $value }}" {{ in_array($value, $root->value) ? 'selected' : '' }}>{{ $value }}</option>
+                    <option value="{{ $value }}" {{ in_array($value, $root->value) ? 'selected' : '' }}>{{ __("alder::root_types.{$root->root_type->slug}.$value") }}</option>
                 @endforeach
             </select>
         </div>

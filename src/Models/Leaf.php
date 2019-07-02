@@ -60,4 +60,12 @@ class Leaf extends BaseModel
         $format_string = ($date ?? 'Y-m-d') . ' ' . ($time ?? 'H:i:s');
         return Carbon::parse($value)->format($format_string);
     }
+    
+    public function getUpdatedAtForInputAttribute() {
+        return Carbon::parse($this->attributes['updated_at'])->format('Y-m-d\TH:i');
+    }
+    
+    public function setUpdatedAtForInputAttribute($value) {
+        $this->attributes['updated_at'] = Carbon::parse($value)->format('Y-m-d H:i:s');
+    }
 }

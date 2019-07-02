@@ -102,7 +102,7 @@
                                 <label for="{{ $field }}">{{ __("alder::table_columns.$field") }}</label>
                                 <div class="input-group mb-2">
                                     <input type="text" name="{{ $field}}" id="{{ $field }}" class="form-control"
-                                           placeholder="{{ $field }}"
+                                           placeholder="{{ __("alder::table_columns.$field") }}"
                                            data-{{$field}}="1"
                                            aria-label="{{ $field }}" aria-describedby="{{ $field }}"
                                            value="{{ $edit ? $leaf->$field : '' }}">
@@ -125,6 +125,13 @@
                                         </option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <label for="updated_at">{{ __("alder::table_columns.updated_at") }}</label>
+                            <div class="input-group mb-2">
+                                <input type="datetime-local" name="updated_at" id="updated_at" class="form-control"
+                                       placeholder="{{ __("alder::table_columns.updated_at") }}"
+                                       data-created_at="1"
+                                       value="{{ $edit ? $leaf->updated_at_for_input : '' }}">
                             </div>
 
                             <label for="#content">{{__('alder::generic.content')}}</label>

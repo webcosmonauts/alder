@@ -138,8 +138,22 @@ class LeafEntityController extends Controller
     public static function getLeavesByType($leaf_type)
     {
         $leaves_per_page = Alder::getRootValue('leaves_per_page');
+        $sort_by = Alder::getRootValue($leaf_type.'_sort_by') ?? 'created_at';
+        $sort_order = Alder::getRootValue($leaf_type.'_sort_order') ?? 'desc';
+        
+        /*if (in_array($sort_by, (new Leaf())->translatedAttributes))
+            return Leaf::where('leaf_type_id', LeafType::where('slug',$leaf_type)->value('id'))
+                ->where('status_id', LeafStatus::where('slug', 'published')->value('id'))
+                ->join('leaf_translations as t', 't.leaf_id', '=', 'leaves.id')
+                ->where('locale', session('locale'))
+                ->groupBy('leaves.id')
+                ->orderBy("t.$sort_by")
+                ->with('translations')
+                ->paginate($leaves_per_page);
+        else*/
         return Leaf::where('leaf_type_id', LeafType::where('slug',$leaf_type)->value('id'))
             ->where('status_id', LeafStatus::where('slug', 'published')->value('id'))
+            ->orderBy($sort_by, $sort_order)
             ->paginate($leaves_per_page);
     }
 
