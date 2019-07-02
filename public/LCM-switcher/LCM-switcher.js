@@ -57,5 +57,14 @@ $(document).ready(function () {
 	$('[name=template]').on('change', function () {
 		var condition = "page-template:is:" + $(this).val();
 		switchLCM([condition]);
+
+		/* HIDE THUMBNAIL */
+		if (!$(this).val()) {
+			$("[name=thumbnail]").parents('[data-condition]').eq(0).attr("hidden", true);
+		} else {
+			$("[name=thumbnail]").parents('[data-condition]').eq(0).removeAttr();
+		}
 	});
+
+	if(!$('[name=template]').val()) $("[name=thumbnail]").parents('[data-condition]').eq(0).attr("hidden", true);
 });
