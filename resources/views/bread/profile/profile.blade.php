@@ -5,6 +5,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1>{{ __("alder::leaf_types.profile.singular") }}: {{$user->name}}
         </h1>
+        @include('alder::components.locale-switcher')
     </div>
 
     <div class="row">
@@ -42,8 +43,8 @@
                                 <i class="material-icons"> account_circle </i>
                             @endif
                         </div>
-                        <h4 class="card-title">Edit Profile -
-                            <small class="category">Complete your profile</small>
+                        <h4 class="card-title">{{$user->name}} {{$user->surname}}
+                            <small class="category"></small>
                         </h4>
                     </div>
                     <div style="margin-top: 20px">
