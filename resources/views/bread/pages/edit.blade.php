@@ -21,8 +21,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-            {{ $edit ? __('alder::generic.edit') : __('alder::generic.add_new') }}
-            {{ lcfirst(__("alder::leaf_types.$leaf_type->slug.singular")) }}
+            {{ __("alder::leaf_types.$leaf_type->slug.add_new") }}
         </h1>
         @include('alder::components.locale-switcher')
     </div>
