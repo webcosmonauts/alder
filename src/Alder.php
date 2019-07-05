@@ -177,7 +177,7 @@ class Alder
 
             // fields that one is allowed to fill
             $fillables = ['title', 'slug', 'input_type',
-                'value', 'options', 'order', 'capabilities', 'is_active'];
+                'value', 'options', 'order', 'capabilities', 'is_active', 'is_visible'];
             foreach ($fillables as $field) {
                 if (isset($parameters[$field]))
                     $root->$field = $parameters[$field];

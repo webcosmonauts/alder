@@ -93,7 +93,8 @@
 	</div>
 
 	@foreach($root_types as $root_type)
-		<div class="card shadow mb-4">
+		@if(count($root_type->roots->where('is_visible', true)->all()) > 0)
+			<div class="card shadow mb-4">
 			<a href="#collapseCard{{ Str::camel($root_type->slug) }}" class="d-block card-header collapsed 	 py-3"
 			   data-toggle="collapse" role="button" aria-expanded="true"
 			   aria-controls="collapseCard{{ Str::camel($root_type->name) }}">
@@ -103,7 +104,7 @@
 				<div class="card-body">
 					<div class="row">
 						@foreach($root_type->roots as $root)
-							@if ($root->is_visible)
+							@if($root->is_visible)
 								@if($root->slug == 'index-page')
 									<div class="col-xl-4 col-lg-6">
 										<label for="index-page">{{ $root->title }}</label>
@@ -132,5 +133,6 @@
 				</div>
 			</div>
 		</div>
+		@endif
 	@endforeach
 @endsection
