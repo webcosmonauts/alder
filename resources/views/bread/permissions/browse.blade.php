@@ -57,6 +57,14 @@
                                                         <i class="material-icons">keyboard_arrow_down</i>
                                                     </a>
                                                 </h5>
+                                                <form action="{{route("alder.roles.delete")}}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$single_role->id}}">
+                                                    <button type="submit" class="btn btn-danger float-right"
+                                                            title="{{__("alder::roles.remove_role")}}">
+                                                        <em class="fa fa-trash"></em>
+                                                    </button>
+                                                </form>
                                             </div>
 
                                             <div id="collapse-{{$single_role->name}}" class="collapse" role="tabpanel"
@@ -133,18 +141,18 @@
                                     @csrf
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                              <span class="input-group-text">
-                               <i class="material-icons">plus_one</i>
-                              </span>
+                                            <span class="input-group-text">
+                                                <i class="material-icons">plus_one</i>
+                                            </span>
                                         </div>
                                         <input type="text" name="new_capability" required class="form-control"
                                                placeholder="Capability name">
                                     </div>
                                     <br>
                                     <button class="btn btn-success">
-                          <span class="btn-label">
-                            <i class="material-icons">check</i>
-                          </span>
+                                        <span class="btn-label">
+                                            <i class="material-icons">check</i>
+                                        </span>
                                         {{__('alder::permissions.add_new_cap')}}
                                         <div class="ripple-container"></div>
                                     </button>
@@ -219,6 +227,10 @@
                                 @csrf
                                 <button class="btn btn-success"
                                         type="submit">{{__("alder::permissions.init_capabilities_for_roles")}}</button>
+                            </form>
+                            <form action="{{route('alder.roles.init_default_roles')}}" method="post">
+                                @csrf
+                                <button class="btn btn-success" type="submit">{{__("alder::roles.init_roles")}}</button>
                             </form>
                         </div>
 
