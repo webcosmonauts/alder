@@ -29,7 +29,8 @@
     "php": "^7.1",
     "alexusmai/laravel-file-manager": "^2.3",
     "anhskohbo/no-captcha": "^3.0",
-    "astrotomic/laravel-translatable": "^10.0"
+    "astrotomic/laravel-translatable": "^10.0",
+    "doctrine/dbal": "^2.9"
   },
   "autoload": {
     "psr-4": {
