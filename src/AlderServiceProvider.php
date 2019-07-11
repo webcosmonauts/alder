@@ -4,13 +4,15 @@ namespace Webcosmonauts\Alder;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
-use Webcosmonauts\Alder\Commands\SynchronizeModifiersAndDatabaseCommand;
+use Webcosmonauts\Alder\Commands\UpgradeDatabaseStateCommand;
 use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 use Webcosmonauts\Alder\Http\Controllers\NotificationController;
 use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
 use Webcosmonauts\Alder\Http\Middleware\AlderGuard;
 use Webcosmonauts\Alder\Http\Middleware\isAdmin;
 use Webcosmonauts\Alder\Http\Middleware\LocaleSwitcher;
+use Webcosmonauts\Alder\Structure\AlderScheme;
+use Webcosmonauts\Alder\Facades\Alder as AlderFacade;
 
 class AlderServiceProvider extends ServiceProvider
 {
@@ -58,18 +60,18 @@ class AlderServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('locale-switcher', LocaleSwitcher::class);
         $this->app['router']->aliasMiddleware('AlderGuard', AlderGuard::class);
         
-        $alder = new Alder();
-        $this->app->singleton('alder', function () use ($alder) {
-            return $alder;
-        });
-        
-        $alder->addLcmModel(config('alder.modifiers'));
+//        $alder = new Alder();
+//        $this->app->singleton('alder', function () use ($alder) {
+//            return $alder;
+//        });
+
+        AlderFacade::addLcmModel(config('alder.modifiers'));
     
         if ($this->app->runningInConsole()) {
             $this->commands([
-                SynchronizeModifiersAndDatabaseCommand::class,
+                UpgradeDatabaseStateCommand::class,
             ]);
-        }
+    }
     }
 
     /**
@@ -82,6 +84,14 @@ class AlderServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/alder.php', 'alder');
 
         $loader = AliasLoader::getInstance();
+
+        $this->app->singleton('alder', function () {
+            return new Alder();
+        });
+
+        $this->app->bind('alderscheme', function () {
+            return new AlderScheme();
+        });
 
         $this->app->bind('leaf_helper', function () {
             return new LeafEntityController();
