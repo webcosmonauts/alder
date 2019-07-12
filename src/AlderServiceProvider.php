@@ -4,6 +4,7 @@ namespace Webcosmonauts\Alder;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Webcosmonauts\Alder\Commands\SynchronizeModifiersAndDatabaseCommand;
 use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 use Webcosmonauts\Alder\Http\Controllers\NotificationController;
 use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
@@ -56,6 +57,19 @@ class AlderServiceProvider extends ServiceProvider
         // locale switcher
         $this->app['router']->aliasMiddleware('locale-switcher', LocaleSwitcher::class);
         $this->app['router']->aliasMiddleware('AlderGuard', AlderGuard::class);
+        
+        $alder = new Alder();
+        $this->app->singleton('alder', function () use ($alder) {
+            return $alder;
+        });
+        
+        $alder->addLcmModel(config('alder.modifiers'));
+    
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                SynchronizeModifiersAndDatabaseCommand::class,
+            ]);
+        }
     }
 
     /**
@@ -68,10 +82,6 @@ class AlderServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/alder.php', 'alder');
 
         $loader = AliasLoader::getInstance();
-
-        $this->app->bind('alder', function () {
-            return new Alder();
-        });
 
         $this->app->bind('leaf_helper', function () {
             return new LeafEntityController();

@@ -30,6 +30,27 @@ use Webcosmonauts\Alder\Models\User;
 
 class Alder
 {
+    private $lcm_models = [];
+    
+    public function getLcmModels() {
+        // TODO: do we need this protection?
+        return app()->runningInConsole() ? $this->lcm_models : null;
+    }
+    
+    /**
+     * Add modifier model to list
+     *
+     * @param string|array $class_pathname
+     */
+    public function addLcmModel($class_pathname) {
+        if (is_array($class_pathname)) {
+            foreach ($class_pathname as $pathname)
+                $this->lcm_models[] = $pathname;
+        }
+        else
+            $this->lcm_models[] = $class_pathname;
+    }
+    
     /**
      * Get LeafType from database using $param as id or slug,
      * depending on its data type.
