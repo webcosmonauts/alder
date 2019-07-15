@@ -67,4 +67,18 @@ class StructureState
     public function getTranslatable() {
         return $this->fields->filter(function ($field) { return $field->translatable; });
     }
+
+    /**
+     * @return Collection
+     */
+    public function getBelongsTo() {
+        return $this->relations->filter(function ($rel) { return $rel->type == RelationState::belongsTo; });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getBelongsToMany() {
+        return $this->relations->filter(function ($rel) { return $rel->type == RelationState::belongsToMany; });
+    }
 }

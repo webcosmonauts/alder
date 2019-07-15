@@ -13,20 +13,34 @@ class AlderScheme
 {
     public const typeMapper = [
         'file' => 'string',
+        'file-multiple' => 'string',
+        'template' => 'text',
+        'repeater' => 'text',
+        'select' => 'string',
+        'select-multiple' => 'string',
+        'password' => 'string',
+        'datetime-local' => 'dateTimeTz',
+        'month' => 'string',
+        'color' => 'string',
+        'image' => 'string',
+        'number' => 'double',
+
+        'checkbox' => 'boolean',
     ];
 
     public function canUpgradeSafe($table, StructureState $up) {
         return $this->fromTable($table)->canUpgradeSafe($up);
     }
 
-    public function upgrade(string $modifier, StructureState $up) {
+    public function upgrade(string $modifier, StructureState $up = null) {
         /* @var $modifier BaseModifier */
+        if($up == null) $up = $this->fromModifier($modifier);
         $table_name = $modifier::getTableName();
         $table_name_trans = $modifier::getTableNameTranslatable();
         $prefix = $modifier::prefix;
         DB::transaction(function () use ($table_name, $table_name_trans, $prefix, $up) {
             $nonTranslatable = $up->getNonTranslatable();
-            if ($nonTranslatable->count() > 0 && !Schema::hasTable($table_name)) {
+            if ($nonTranslatable->count() + $up->getBelongsTo()->count() > 0 && !Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) {
                     $table->bigIncrements('id');
                     $table->foreign('id')->references('id')->on('leaves');
@@ -35,7 +49,7 @@ class AlderScheme
             Schema::table($table_name, function (Blueprint $table) use ($nonTranslatable, $table_name, $up) {
                 foreach ($nonTranslatable as $name => $field) {
                     /* @var string $type */
-                    $type = self::typeMapper[$field->type];
+                    $type = $this->convertType($field->type);
                     /* @var Fluent $schemaColumn */
                     $schemaColumn = $table->{$type}($name);
                     if($field->nullable ?? false) $schemaColumn->nullable();
@@ -69,7 +83,7 @@ class AlderScheme
             Schema::table($table_name_trans, function (Blueprint $table) use ($translatable, $table_name_trans, $up) {
                 foreach ($translatable as $name => $field) {
                     /* @var string $type */
-                    $type = self::typeMapper[$field->type];
+                    $type = $this->convertType($field->type);
                     /* @var Fluent $schemaColumn */
                     $schemaColumn = $table->{$type}($name);
                     if($field->nullable ?? false) $schemaColumn->nullable();
@@ -84,7 +98,7 @@ class AlderScheme
                     $table->removeColumn($name);
                 }
 
-                $pointers = $up->relations->filter(function ($rel) { return $rel->type == RelationState::belongsTo; });
+                $pointers = $up->getBelongsTo();
                 foreach ($pointers as $name => $relation) {
                     /* @var Fluent $schemaColumn */
                     $schemaColumn = $table->integer($name);
@@ -93,7 +107,7 @@ class AlderScheme
                 }
             });
 
-            $mtms = $up->relations->filter(function ($rel) { return $rel->type == RelationState::belongsToMany; });
+            $mtms = $up->getBelongsToMany();
             foreach ($mtms as $name => $relation) {
                 $mtm_table_name = $prefix .'__mtm__'. $name;
                 if (!Schema::hasTable($mtm_table_name)) {
@@ -124,6 +138,14 @@ class AlderScheme
         return new StructureState([
             'fields' => $columns
         ]);
+    }
+
+    public function convertType(string $type) {
+        return self::typeMapper[$type] ?? $type;
+    }
+
+    public function fromModifier(string $modifier) {
+        return new StructureState($modifier::structure);
     }
 
     public function isSystemSet() {
