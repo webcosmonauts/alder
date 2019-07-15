@@ -3,5 +3,5 @@ namespace Webcosmonauts\Alder\Models\Modifiers;
 
 class CategoryModifier extends BaseModifier
 {
-    public $leaf_type = 'category';
+    public const leaf_type = 'category';
 }
