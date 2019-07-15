@@ -2,32 +2,6 @@
   "name": "webcosmonauts_alder",
   "version": "1.0.0",
   "description": "package for webcosmonauts",
-  "main": "index.js",
-  "scripts": {
-    "test": "test"
-  },
   "keywords": [],
-  "license": "ISC",
-  "devDependencies": {
-    "clean-css": "^4.2.1",
-    "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-clean-css": "^4.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-concat-css": "^3.1.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-sass": "^3.2.1",
-    "gulp-sequence": "^1.0.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-uglifyjs": "^0.6.2"
-  },
-  "dependencies": {
-    "gulp-cached": "^1.1.1",
-    "gulp-filter": "^5.1.0"
-  },
-  "homepage": "",
-  "directories": {
-    "test": "tests"
-  },
-  "author": ""
+  "license": "ISC"
 }

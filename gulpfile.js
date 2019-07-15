@@ -5,7 +5,7 @@
  const concat     = require('gulp-concat');
  const cleanCss   = require('gulp-clean-css');
  const rename     = require('gulp-rename');
- const uglify     = require('gulp-uglifyjs');
+ const uglify     = require('gulp-uglify');
  const cached     = require('gulp-cached');
  const filter     = require('gulp-filter');
 

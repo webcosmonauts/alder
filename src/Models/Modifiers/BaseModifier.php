@@ -17,6 +17,11 @@ abstract class BaseModifier extends BaseModel
         'relations' => [],
         'indexes'   => [],
     ];
+
+    public static function getTableNameTranslatable() {
+        $class = get_called_class();
+        return (new $class)->getTable() ."__localized";
+    }
     
     // Fields to show in browse view
     public $bread_fields = [];

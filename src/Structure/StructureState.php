@@ -16,6 +16,10 @@ class StructureState
     public $fields;
     public $relations;
 
+    /**
+     * StructureState constructor.
+     * @param $struct
+     */
     public function __construct($struct) {
         $struct = self::normalizeArgs($struct);
         $this->fields = collect($struct['fields'] ?? [])->mapWithKeys(function ($field, $key) {
@@ -27,6 +31,10 @@ class StructureState
         });
     }
 
+    /**
+     * @param $struct
+     * @return array
+     */
     private static function normalizeArgs($struct) {
         if(!isset($struct['fields']))    $struct['fields']    = [];
         if(!isset($struct['relations'])) $struct['relations'] = [];
@@ -34,11 +42,29 @@ class StructureState
         return $struct;
     }
 
+    /**
+     * @param StructureState $up
+     * @return bool
+     */
     public function canUpgradeSafe(StructureState $up) {
         return
             $this->fields->diff($up)->count() == 0 &&
             $this->fields->every(function ($value, $key) use ($up) {
                 $value->canUpgradeSafe($up->fields[$key]);
             });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getNonTranslatable() {
+        return $this->fields->filter(function ($field) { return !$field->translatable; });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTranslatable() {
+        return $this->fields->filter(function ($field) { return $field->translatable; });
     }
 }

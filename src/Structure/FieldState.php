@@ -27,6 +27,7 @@ class FieldState
     public $default;
     public $indexed;
     public $unique;
+    public $translatable;
 
     public function __construct($column) {
         $column = (object)$column;
@@ -36,11 +37,14 @@ class FieldState
         $this->default  = $column->default  ?? null;
         $this->indexed  = $column->indexed  ?? false;
         $this->unique   = $column->unique   ?? false;
+
+        $this->translatable   = $column->translatable ?? false;
     }
 
     public function canUpgradeSafe(FieldState $up) {
         if(!self::canUpgradeTypeSafe($this->type, $up->type)) return false;
         if($this->nullable && !$up->nullable) return false;
+        if($this->translatable && !$up->translatable) return false;
         if(!$this->unique && $up->unique) return false;
         return true;
     }

@@ -20,17 +20,20 @@ class AlderScheme
     }
 
     public function upgrade(string $modifier, StructureState $up) {
+        /* @var $modifier BaseModifier */
         $table_name = $modifier::getTableName();
+        $table_name_trans = $modifier::getTableNameTranslatable();
         $prefix = $modifier::prefix;
-        DB::transaction(function () use ($table_name, $prefix, $up) {
-            if (!Schema::hasTable($table_name)) {
+        DB::transaction(function () use ($table_name, $table_name_trans, $prefix, $up) {
+            $nonTranslatable = $up->getNonTranslatable();
+            if ($nonTranslatable->count() > 0 && !Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) {
                     $table->bigIncrements('id');
                     $table->foreign('id')->references('id')->on('leaves');
                 });
             }
-            Schema::table($table_name, function (Blueprint $table) use ($up, $table_name) {
-                foreach ($up->fields as $name => $field) {
+            Schema::table($table_name, function (Blueprint $table) use ($nonTranslatable, $table_name, $up) {
+                foreach ($nonTranslatable as $name => $field) {
                     /* @var string $type */
                     $type = self::typeMapper[$field->type];
                     /* @var Fluent $schemaColumn */
@@ -40,9 +43,8 @@ class AlderScheme
                     if($field->unique ?? false) $schemaColumn->unique();
                     if(Schema::hasColumn($table_name, $name)) $schemaColumn->change();
                 }
-                // Collection of colum
-                //ns that not present in new StructureState
-                $toDelete = $this->fromTable($table_name)->fields->keys()->diff($up->fields->keys());
+                // Collection of columns that not present in new StructureState
+                $toDelete = $this->fromTable($table_name)->getNonTranslatable()->keys()->diff($up->fields->keys());
                 foreach ($toDelete as $name) {
 
                     $table->removeColumn($name);
@@ -56,9 +58,44 @@ class AlderScheme
                     $table->foreign($name)->references('id')->on('leaves');
                 }
             });
+
+            $translatable = $up->getTranslatable();
+            if ($translatable->count() > 0 && !Schema::hasTable($table_name_trans)) {
+                Schema::create($table_name_trans, function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    $table->foreign('id')->references('id')->on('leaves');
+                });
+            }
+            Schema::table($table_name_trans, function (Blueprint $table) use ($translatable, $table_name_trans, $up) {
+                foreach ($translatable as $name => $field) {
+                    /* @var string $type */
+                    $type = self::typeMapper[$field->type];
+                    /* @var Fluent $schemaColumn */
+                    $schemaColumn = $table->{$type}($name);
+                    if($field->nullable ?? false) $schemaColumn->nullable();
+                    if($field->default ?? false) $schemaColumn->default($field->default);
+                    if($field->unique ?? false) $schemaColumn->unique();
+                    if(Schema::hasColumn($table_name_trans, $name)) $schemaColumn->change();
+                }
+                // Collection of columns that not present in new StructureState
+                $toDelete = $this->fromTable($table_name_trans)->getTranslatable()->keys()->diff($up->fields->keys());
+                foreach ($toDelete as $name) {
+
+                    $table->removeColumn($name);
+                }
+
+                $pointers = $up->relations->filter(function ($rel) { return $rel->type == RelationState::belongsTo; });
+                foreach ($pointers as $name => $relation) {
+                    /* @var Fluent $schemaColumn */
+                    $schemaColumn = $table->integer($name);
+                    if(Schema::hasColumn($table_name_trans, $name)) $schemaColumn->change();
+                    $table->foreign($name)->references('id')->on('leaves');
+                }
+            });
+
             $mtms = $up->relations->filter(function ($rel) { return $rel->type == RelationState::belongsToMany; });
             foreach ($mtms as $name => $relation) {
-                $mtm_table_name = $prefix .'__mtm_'. $name;
+                $mtm_table_name = $prefix .'__mtm__'. $name;
                 if (!Schema::hasTable($mtm_table_name)) {
                     Schema::create($mtm_table_name, function (Blueprint $table) {
                         $table->integer('source_id');

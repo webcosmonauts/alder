@@ -10,6 +10,7 @@ class PostModifier extends BaseModifier
             'thumbnail' => [
                 'type' => 'file',
                 'nullable' => true,
+                'translatable' => true,
             ],
         ],
         'relations' => [
