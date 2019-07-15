@@ -19,7 +19,7 @@ class AlderScheme
         'file-multiple'   => 'string',
         'image'           => 'string',
         'month'           => 'string',
-        'number'          => 'double',
+        'number'          => 'float',
         'password'        => 'string',
         'repeater'        => 'text',
         'select'          => 'string',
