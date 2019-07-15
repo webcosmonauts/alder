@@ -19,7 +19,7 @@ return [
         Webcosmonauts\Alder\Models\Modifiers\PageModifier::class,
         Webcosmonauts\Alder\Models\Modifiers\PostCategoryModifier::class,
         Webcosmonauts\Alder\Models\Modifiers\PostModifier::class,
-        Webcosmonauts\Alder\Models\Modifiers\PostTagsModifier::class,
+        Webcosmonauts\Alder\Models\Modifiers\PostTagModifier::class,
         Webcosmonauts\Alder\Models\Modifiers\ReportModifier::class,
         Webcosmonauts\Alder\Models\Modifiers\RoleModifier::class,
         Webcosmonauts\Alder\Models\Modifiers\SeoModifier::class,

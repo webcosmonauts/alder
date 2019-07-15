@@ -5,21 +5,21 @@ use Webcosmonauts\Alder\Models\Modifiers\BaseModifier;
 use Illuminate\Console\Command;
 use Webcosmonauts\Alder\Facades\Alder;
 
-class SynchronizeModifiersAndDatabaseCommand extends Command
+class UpgradeDatabaseStateCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'alder:modifiers:synchronize';
+    protected $signature = 'alder:db:upgrade';
     
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Synchronize modifier fields with database structure';
+    protected $description = 'Upgrade database structure with modifier fields';
     
     /**
      * Create a new command instance.
