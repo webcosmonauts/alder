@@ -14,7 +14,7 @@ class CreateLeavesTable extends Migration
     public function up()
     {
         Schema::create('leaves', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->boolean('is_accessible')->default(true);
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('leaf_type_id')->unsigned();

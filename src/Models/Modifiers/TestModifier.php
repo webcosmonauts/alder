@@ -8,12 +8,11 @@ class TestModifier extends BaseModifier
     public const structure = [
         'fields' => [
             'icon' => [
-                'type' => 'text',
+                'type' => 'string',
                 'default' => 'ellipsis-h',
             ],
             'text_test' => [
                 'type' => 'text',
-                'default' => 'ellipsis-h',
             ],
             'file_test' => [
                 'type' => 'file',

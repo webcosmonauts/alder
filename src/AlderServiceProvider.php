@@ -59,11 +59,6 @@ class AlderServiceProvider extends ServiceProvider
         // locale switcher
         $this->app['router']->aliasMiddleware('locale-switcher', LocaleSwitcher::class);
         $this->app['router']->aliasMiddleware('AlderGuard', AlderGuard::class);
-        
-//        $alder = new Alder();
-//        $this->app->singleton('alder', function () use ($alder) {
-//            return $alder;
-//        });
 
         AlderFacade::addLcmModel(config('alder.modifiers'));
     

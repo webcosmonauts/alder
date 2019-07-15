@@ -15,7 +15,7 @@ class CreateLeafTranslationsTable extends Migration
     {
         Schema::create('leaf_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('leaf_id')->unsigned();
+            $table->bigInteger('leaf_id')->unsigned();
             $table->string('locale')->index();
             $table->text('title')->nullable();
             $table->string('slug', 255)->nullable();

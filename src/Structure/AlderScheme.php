@@ -4,7 +4,6 @@ namespace Webcosmonauts\Alder\Structure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Webcosmonauts\Alder\Models\Modifiers\BaseModifier;
 use Webcosmonauts\Alder\Models\SchemaColumn;
@@ -12,20 +11,19 @@ use Webcosmonauts\Alder\Models\SchemaColumn;
 class AlderScheme
 {
     public const typeMapper = [
-        'file' => 'string',
-        'file-multiple' => 'string',
-        'template' => 'text',
-        'repeater' => 'text',
-        'select' => 'string',
+        'checkbox'        => 'boolean',
+        'color'           => 'string',
+        'datetime-local'  => 'dateTimeTz',
+        'file'            => 'string',
+        'file-multiple'   => 'string',
+        'image'           => 'string',
+        'month'           => 'string',
+        'number'          => 'double',
+        'password'        => 'string',
+        'repeater'        => 'text',
+        'select'          => 'string',
         'select-multiple' => 'string',
-        'password' => 'string',
-        'datetime-local' => 'dateTimeTz',
-        'month' => 'string',
-        'color' => 'string',
-        'image' => 'string',
-        'number' => 'double',
-
-        'checkbox' => 'boolean',
+        'template'        => 'text',
     ];
 
     public function canUpgradeSafe($table, StructureState $up) {
@@ -34,7 +32,7 @@ class AlderScheme
 
     public function upgrade(string $modifier, StructureState $up = null) {
         /* @var $modifier BaseModifier */
-        if($up == null) $up = $this->fromModifier($modifier);
+        if ($up == null) $up = $this->fromModifier($modifier);
         $table_name = $modifier::getTableName();
         $table_name_trans = $modifier::getTableNameTranslatable();
         $prefix = $modifier::prefix;
@@ -52,10 +50,10 @@ class AlderScheme
                     $type = $this->convertType($field->type);
                     /* @var Fluent $schemaColumn */
                     $schemaColumn = $table->{$type}($name);
-                    if($field->nullable ?? false) $schemaColumn->nullable();
-                    if($field->default ?? false) $schemaColumn->default($field->default);
-                    if($field->unique ?? false) $schemaColumn->unique();
-                    if(Schema::hasColumn($table_name, $name)) $schemaColumn->change();
+                    if ($field->nullable ?? false) $schemaColumn->nullable();
+                    if ($field->default ?? false) $schemaColumn->default($field->default);
+                    if ($field->unique ?? false) $schemaColumn->unique();
+                    if (Schema::hasColumn($table_name, $name)) $schemaColumn->change();
                 }
                 // Collection of columns that not present in new StructureState
                 $toDelete = $this->fromTable($table_name)->getNonTranslatable()->keys()->diff($up->fields->keys());
@@ -68,7 +66,7 @@ class AlderScheme
                 foreach ($pointers as $name => $relation) {
                     /* @var Fluent $schemaColumn */
                     $schemaColumn = $table->integer($name);
-                    if(Schema::hasColumn($table_name, $name)) $schemaColumn->change();
+                    if (Schema::hasColumn($table_name, $name)) $schemaColumn->change();
                     $table->foreign($name)->references('id')->on('leaves');
                 }
             });
@@ -86,10 +84,10 @@ class AlderScheme
                     $type = $this->convertType($field->type);
                     /* @var Fluent $schemaColumn */
                     $schemaColumn = $table->{$type}($name);
-                    if($field->nullable ?? false) $schemaColumn->nullable();
-                    if($field->default ?? false) $schemaColumn->default($field->default);
-                    if($field->unique ?? false) $schemaColumn->unique();
-                    if(Schema::hasColumn($table_name_trans, $name)) $schemaColumn->change();
+                    if ($field->nullable ?? false) $schemaColumn->nullable();
+                    if ($field->default ?? false) $schemaColumn->default($field->default);
+                    if ($field->unique ?? false) $schemaColumn->unique();
+                    if (Schema::hasColumn($table_name_trans, $name)) $schemaColumn->change();
                 }
                 // Collection of columns that not present in new StructureState
                 $toDelete = $this->fromTable($table_name_trans)->getTranslatable()->keys()->diff($up->fields->keys());
@@ -102,7 +100,7 @@ class AlderScheme
                 foreach ($pointers as $name => $relation) {
                     /* @var Fluent $schemaColumn */
                     $schemaColumn = $table->integer($name);
-                    if(Schema::hasColumn($table_name_trans, $name)) $schemaColumn->change();
+                    if (Schema::hasColumn($table_name_trans, $name)) $schemaColumn->change();
                     $table->foreign($name)->references('id')->on('leaves');
                 }
             });
@@ -112,9 +110,9 @@ class AlderScheme
                 $mtm_table_name = $prefix .'__mtm__'. $name;
                 if (!Schema::hasTable($mtm_table_name)) {
                     Schema::create($mtm_table_name, function (Blueprint $table) {
-                        $table->integer('source_id');
+                        $table->bigInteger('source_id')->unsigned();
                         $table->foreign('source_id')->references('id')->on('leaves');
-                        $table->integer('target_id');
+                        $table->bigInteger('target_id')->unsigned();
                         $table->foreign('target_id')->references('id')->on('leaves');
                     });
                 }

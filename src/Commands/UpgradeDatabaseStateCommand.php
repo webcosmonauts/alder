@@ -1,9 +1,6 @@
 <?php
 namespace Webcosmonauts\Alder\Commands;
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
 use Webcosmonauts\Alder\Facades\AlderScheme;
 use Webcosmonauts\Alder\Models\Modifiers\BaseModifier;
 use Illuminate\Console\Command;
@@ -17,9 +14,9 @@ class UpgradeDatabaseStateCommand extends Command
      * @var string
      */
     protected $signature = 'alder:db:upgrade
-                            {--M|migrate : Run migrations before executing command}
-                            {--F|fresh : Run fresh migrations before executing command}
-                            {--S|seed : Run migrations with seeders before executing command}';
+                            {--m|migrate : Run migrations before executing command}
+                            {--f|fresh : Run fresh migrations before executing command}
+                            {--s|seed : Run migrations with seeders before executing command}';
     
     /**
      * The console command description.
@@ -45,16 +42,17 @@ class UpgradeDatabaseStateCommand extends Command
      */
     public function handle()
     {
-        $exitCode = 1;
+        $exitCode = 0;
         if ($this->option('migrate') || $this->option('fresh') || $this->option('seed')) {
             $command = 'migrate';
             if ($this->option('fresh'))
                 $command .= ':fresh';
             if ($this->option('seed'))
                 $command .= ' --seed';
-            $exitCode = Artisan::call($command);
+            $exitCode = $this->call($command);
+            echo PHP_EOL;
         }
-        if ($exitCode !== 1)
+        if ($exitCode !== 0)
             throw new \RuntimeException("Error while running migrations, exit code $exitCode");
         
         $modifiers = Alder::getLcmModels();
@@ -63,10 +61,12 @@ class UpgradeDatabaseStateCommand extends Command
         
         $this->line('Synchronizing modifier properties with database...');
         
-        foreach ($modifiers as $modifier) {
-            /** @var BaseModifier $model*/
+        AlderScheme::setupSystem();
+        
+        foreach ($modifiers as $modifier)
             AlderScheme::upgrade($modifier);
-        }
+    
+        $this->info('Database structure is up to date');
         
         return;
     }

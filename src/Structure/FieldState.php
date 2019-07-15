@@ -42,10 +42,10 @@ class FieldState
     }
 
     public function canUpgradeSafe(FieldState $up) {
-        if(!self::canUpgradeTypeSafe($this->type, $up->type)) return false;
-        if($this->nullable && !$up->nullable) return false;
-        if($this->translatable && !$up->translatable) return false;
-        if(!$this->unique && $up->unique) return false;
+        if (!self::canUpgradeTypeSafe($this->type, $up->type))  return false;
+        if ($this->nullable && !$up->nullable)                  return false;
+        if ($this->translatable && !$up->translatable)          return false;
+        if (!$this->unique && $up->unique)                      return false;
         return true;
     }
 }

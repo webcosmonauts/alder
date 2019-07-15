@@ -36,9 +36,9 @@ class StructureState
      * @return array
      */
     private static function normalizeArgs($struct) {
-        if(!isset($struct['fields']))    $struct['fields']    = [];
-        if(!isset($struct['relations'])) $struct['relations'] = [];
-        if(!isset($struct['indexes']))   $struct['indexes']   = [];
+        if (!isset($struct['fields']))    $struct['fields']    = [];
+        if (!isset($struct['relations'])) $struct['relations'] = [];
+        if (!isset($struct['indexes']))   $struct['indexes']   = [];
         return $struct;
     }
 
