@@ -9,12 +9,12 @@ class BaseModifier
     public $prefix = 'alder';
     
     // Modifier fields
-    public $fields = [
-        'browse' => 'title'
-    ];
+    public $fields = [];
     
     // Fields to show in browse view
-    public $bread_fields = [];
+    public $bread_fields = [
+        'browse' => 'title'
+    ];
     
     // Conditions on which to use modifier fields
     public $conditions = [];
