@@ -26,113 +26,100 @@
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        jQuery(document).ready(function () {
-            /* =============== DEMO =============== */
-            // menu items
-            var arrayjson = '<?php echo $comtent ?>';
-            // icon picker options
-            var iconPickerOptions = {searchText: "Buscar...", labelHeader: "{0}/{1}"};
-            // sortable list options
-            var sortableListOptions = {
-                placeholderCss: {'background-color': "#cccccc"}
-            };
+		 jQuery(document).ready(function () {
+			 /* =============== DEMO =============== */
+			 // menu items
+			 var arrayjson = '<?php echo $comtent ?>';
+			 // icon picker options
+			 var iconPickerOptions = {searchText: "Buscar...", labelHeader: "{0}/{1}"};
+			 // sortable list options
+			 var sortableListOptions = {
+				 placeholderCss: {'background-color': "#cccccc"}
+			 };
 
-            var editor = new MenuEditor('myEditor', {listOptions: sortableListOptions, iconPicker: iconPickerOptions});
-            editor.setForm($('#frmEdit'));
-            editor.setUpdateButton($('#btnUpdate'));
+			 var editor = new MenuEditor('myEditor', {listOptions: sortableListOptions, iconPicker: iconPickerOptions});
+			 editor.setForm($('#frmEdit'));
+			 editor.setUpdateButton($('#btnUpdate'));
 
-            $('#btnReload').ready(function () {
-                editor.setData(arrayjson);
-            });
+			 $('#btnReload').ready(function () {
+				 editor.setData(arrayjson);
+			 });
 
-            $('#myEditor').on('DOMSubtreeModified', function () {
-                var str = editor.getString();
-                $("#out").text(str);
-            });
+			 $('#myEditor').on('DOMSubtreeModified', function () {
+				 var str = editor.getString();
+				 $("#out").text(str);
+			 });
 
-            $("#btnUpdate").click(function () {
-                if ($('#text').val() != '' && $('#href').val() != '') {
-                    editor.update();
-                    $('.edit_menu').css('display', 'none')
-                }
+			 $("#btnUpdate").click(function () {
+				 if ($('#text').val() != '' && $('#href').val() != '') {
+					 editor.update();
+					 $('.edit_menu').css('display', 'none')
+				 }
 
-            });
+			 });
 
-            $('#btnAdd').click(function () {
-                editor.add();
-            });
+			 $('#btnAdd').click(function () {
+				 editor.add();
+			 });
 
-            $(document).on('click', '.btnEdit', function () {
-                $('.edit_menu').css('display', 'block')
-            });
+			 $(document).on('click', '.btnEdit', function () {
+				 $('.edit_menu').css('display', 'block')
+			 });
 
-            $('.save_menu').click(function () {
-                $('.save_form_btn').submit();
-            });
+			 $('.save_menu').click(function () {
+				 $('.save_form_btn').submit();
+			 });
 
-            $('.add_custom_link').click(function () {
-                if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
-                    $('#text').attr('value', $('.custom_link_text').val());
-                    $('#href').attr('value', 'http://' + $('.custom_link_url').val());
-                    editor.add();
-                }
-            });
+			 $('.add_custom_link').click(function () {
+				 if ($('.custom_link_text').val() != '' && $('.custom_link_url').val() != '') {
+					 $('#text').attr('value', $('.custom_link_text').val());
+					 $('#href').attr('value', 'http://' + $('.custom_link_url').val());
+					 editor.add();
+				 }
+			 });
 
 
-            $(function () {
-                var dragged_object = '';
-                $('.textBlock').draggable({
+			 $(function () {
+				 var dragged_object = '';
+				 $('.textBlock').draggable({
+					 start: function () {
+						 dragged_object = $(this);
+					 },
+					 helper: 'clone'
+				 });
+				 
+				 $('.block2').droppable({
+					 hoverClass: 'dropHere',
+					 drop: function () {
 
-                    start: function () {
-                        dragged_object = $(this)
-                        // console.log(dragged_object.attr('id'))
-                    },
-                    helper: 'clone'
-                });
-                $('.block2').droppable({
-                    hoverClass: 'dropHere'
-                    , drop: function () {
+						 var type = dragged_object.attr('data-type');
+						 $('#text').attr('value', dragged_object.text().trim());
 
-                        if (dragged_object.attr('id') == 'pages') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        } else if (dragged_object.attr('id') == 'posts') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/posty/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        } else if (dragged_object.attr('id') == 'reports') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/reports/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        } else if (dragged_object.attr('id') == 'post-tags') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/post-tags/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        } else if (dragged_object.attr('id') == 'post-categories') {
-                            $('#text').attr('value', dragged_object.text().trim());
-                            $('#href').attr('value', '/posts/categories/' + dragged_object.attr('name'));
-                            editor.add();
-                            dragged_object = '';
-                        }
-                    },
+						 var typesPrefix = {
+							 "pages": '/',
+							 "posts": '/posty/',
+							 "reports": '/reports/',
+							 "post-tags": "/post-tags/",
+							 "post-categories": "/posts/categories/"
+						 };
 
-                });
-            });
+						 $("#href").attr('value', typesPrefix[type] + dragged_object.attr('name'));
 
-            /* ====================================== */
+						 editor.add();
+						 dragged_object = '';
+					 }
+				 });
+			 });
 
-            /** PAGE ELEMENTS **/
-            $('[data-toggle="tooltip"]').tooltip();
-            $.getJSON("https://api.github.com/repos/davicotico/jQuery-Menu-Editor", function (data) {
-                $('#btnStars').html(data.stargazers_count);
-                $('#btnForks').html(data.forks_count);
-            });
-        });
+			 /* ====================================== */
+
+			 /** PAGE ELEMENTS **/
+			 $('[data-toggle="tooltip"]').tooltip();
+			 $.getJSON("https://api.github.com/repos/davicotico/jQuery-Menu-Editor", function (data) {
+				 $('#btnStars').html(data.stargazers_count);
+				 $('#btnForks').html(data.forks_count);
+			 });
+		 });
     </script>
 
 
@@ -213,7 +200,8 @@
                                                                 <ul class="list-group mb-3 mb-2">
                                                                     @foreach($single_leaf->leaves as $singular)
                                                                         <li class="list-group-item textBlock"
-                                                                            draggable="true" id="{{$single_leaf->slug}}"
+                                                                            draggable="true"
+                                                                            data-type="{{$single_leaf->slug}}"
                                                                             name="{{$singular->slug}}"
                                                                             style="border-bottom: 1px solid #ddd; margin-bottom: 10px;">
                                                                             {{$singular->title}}
@@ -317,7 +305,8 @@
                                                     </div>
                                                     <div class="card-footer">
                                                         <button type="button" id="btnUpdate" class="btn btn-primary"
-                                                                disabled><i class="fas fa-sync-alt"></i> {{__('alder::generic.update')}}
+                                                                disabled><i
+                                                                    class="fas fa-sync-alt"></i> {{__('alder::generic.update')}}
                                                         </button>
                                                     </div>
                                                 </div>
