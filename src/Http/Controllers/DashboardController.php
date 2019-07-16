@@ -22,23 +22,25 @@ class DashboardController extends BaseController
     {
         /* Get admin panel menu items */
         $admin_menu_items = Alder::getMenuItems();
-        
+
         $post_id = LeafType::where('slug', 'posts')->value('id');
         $posts = Leaf::where('leaf_type_id', $post_id)->count();
-        
+        $last_posts = Leaf::where('leaf_type_id', $post_id)->orderBy('updated_at', 'desc')->get();
+
         $lastpost = Leaf::where('leaf_type_id', $post_id)->orderBy('updated_at', 'desc')->first();
-        
+
         $page_id = LeafType::where('slug', 'pages')->value('id');
         $pages = Leaf::where('leaf_type_id', $page_id)->count();
-        
+
         $lastpage = Leaf::where('leaf_type_id', $page_id)->orderBy('updated_at', 'desc')->first();
-        
+
         $users = User::where('is_active', 1)->count();
         $users_all = User::all()->count();
-        
+
         return view('alder::dashboard')->with([
             'admin_menu_items' => $admin_menu_items,
             'posts' => $posts,
+            'last_posts' => $last_posts,
             'pages' => $pages,
             'users' => $users,
             'users_all' => $users_all,

@@ -157,4 +157,5 @@ return [
     'next' => 'Next',
     'previous' => 'Previous',
     'edit_item' => 'Edit item',
+    'last_posts' => 'Last posts'
 ];
