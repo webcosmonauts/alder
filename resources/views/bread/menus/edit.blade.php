@@ -87,7 +87,7 @@
 					 },
 					 helper: 'clone'
 				 });
-				 
+
 				 $('.block2').droppable({
 					 hoverClass: 'dropHere',
 					 drop: function () {
@@ -268,7 +268,7 @@
                                 <div class="col-12 col-lg-8">
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-xl-8 col-lg-12">
                                                 <div class="card mb-3 block2">
                                                     <div class="card-header block2"><h5 class="float-left">Menu</h5>
 
@@ -281,7 +281,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-4 edit_menu" style="display: none">
+                                            <div class="col-xl-4 col-lg-12 edit_menu" style="display: none">
                                                 <div class="card border-primary mb-3">
                                                     <div class="card-header bg-primary text-white">{{__('alder::generic.edit_item')}}</div>
                                                     <div class="card-body">
