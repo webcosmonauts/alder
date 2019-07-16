@@ -48,8 +48,11 @@ class UpgradeDatabaseStateCommand extends Command
             if ($this->option('fresh'))
                 $command .= ':fresh';
             if ($this->option('seed'))
-                $command .= ' --seed';
-            $exitCode = $this->call($command);
+                $exitCode = $this->call($command, [
+                    '--seed' => true
+                ]);
+            else
+                $exitCode = $this->call($command);
             echo PHP_EOL;
         }
         if ($exitCode !== 0)
