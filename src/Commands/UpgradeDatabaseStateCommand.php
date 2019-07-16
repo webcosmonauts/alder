@@ -2,6 +2,7 @@
 namespace Webcosmonauts\Alder\Commands;
 
 use Webcosmonauts\Alder\Facades\AlderScheme;
+use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\Modifiers\BaseModifier;
 use Illuminate\Console\Command;
 use Webcosmonauts\Alder\Facades\Alder;
