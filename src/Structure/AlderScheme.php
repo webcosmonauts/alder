@@ -43,6 +43,7 @@ class AlderScheme
                 $this->setTable($table_name, function (Blueprint $table) {
                     $table->bigIncrements('id');
                     $table->foreign('id')->references('id')->on('leaves');
+                    $table->timestamps();
                 });
                 Schema::table($table_name, function (Blueprint $table) use ($nonTranslatable, $table_name, $up) {
                     /**
@@ -89,6 +90,7 @@ class AlderScheme
                 $this->setTable($table_name_trans, function (Blueprint $table) {
                     $table->bigIncrements('id');
                     $table->foreign('id')->references('id')->on('leaves');
+                    $table->timestamps();
                 });
                 Schema::table($table_name_trans, function (Blueprint $table) use ($translatable, $table_name_trans, $up) {
                     /**

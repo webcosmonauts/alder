@@ -6,6 +6,7 @@ use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\Modifiers\BaseModifier;
 use Illuminate\Console\Command;
 use Webcosmonauts\Alder\Facades\Alder;
+use Webcosmonauts\Alder\Models\Modifiers\PageModifier;
 
 class UpgradeDatabaseStateCommand extends Command
 {

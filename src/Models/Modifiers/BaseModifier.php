@@ -22,6 +22,14 @@ abstract class BaseModifier extends BaseModel
         $class = get_called_class();
         return (new $class)->getTable() ."__localized";
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public static function leaf($id) {
+        return static::find($id);
+    }
     
     // Fields to show in browse view
     public $bread_fields = [];
@@ -30,6 +38,6 @@ abstract class BaseModifier extends BaseModel
     public $conditions = [];
 
     public function getTable() {
-        return static::prefix ."__". ($this->table ?? Str::snake(Str::pluralStudly(class_basename($this))));
+        return $this->table ?? (static::prefix ."__". Str::snake(Str::pluralStudly(class_basename($this))));
     }
 }

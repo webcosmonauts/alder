@@ -24,10 +24,15 @@ class PackageModifiersAccessor
     }
 
     public function __get($key) {
-        return $this->leaf->hasOne(
+        $relation = $this->package.'/'.$key;
+        $related = $this->leaf->getRelationValue($relation);
+        if($related) return $related;
+        $related = $this->leaf->hasOne(
             Alder::getPackageModifier($this->package, Str::studly($key)."Modifier"),
             'id',
             'id'
         )->getResults();
+        $this->leaf->setRelation($relation, $related);
+        return $related;
     }
 }

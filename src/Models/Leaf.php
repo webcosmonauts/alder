@@ -5,6 +5,7 @@ namespace Webcosmonauts\Alder\Models;
 use Carbon\Carbon;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Support\Str;
+use Webcosmonauts\Alder\Facades\Alder;
 use Webcosmonauts\Alder\PackageModifiersAccessor;
 
 /**
@@ -94,6 +95,8 @@ class Leaf extends BaseModel
         }
 
         // Object to access modifiers in package named $key
-        return new PackageModifiersAccessor($this, $key);
+        if (Alder::hasPackage($key)) {
+            return new PackageModifiersAccessor($this, $key);
+        }
     }
 }

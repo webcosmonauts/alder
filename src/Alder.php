@@ -55,6 +55,17 @@ class Alder
     public function getPackageModifier($package, $modifier) {
         return $this->packages[$package][$modifier];
     }
+
+    public function parseModifierName($modifierString) {
+        [$package, $modifier] = explode('/', $modifierString);
+        if(!isset($this->packages[$package][$modifier])) $modifier = ucfirst($modifier.'Modifier');
+        if(!isset($this->packages[$package][$modifier])) return null;
+        return [$package, $this->getPackageModifier($package, $modifier)];
+    }
+
+    public function hasPackage($package) {
+        return isset($this->packages[$package]);
+    }
     
     /**
      * Get LeafType from database using $param as id or slug,

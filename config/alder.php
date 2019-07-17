@@ -1,5 +1,7 @@
 <?php
 
+use Webcosmonauts\Alder\Models\Modifiers\ToDownloadPageModifier;
+
 return [
     'show_additional_message_info' => true,
     
@@ -27,5 +29,7 @@ return [
         Webcosmonauts\Alder\Models\Modifiers\TagModifier::class,
         Webcosmonauts\Alder\Models\Modifiers\TestModifier::class,
         Webcosmonauts\Alder\Models\Modifiers\ToDownloadPageModifier::class,
+
+        Webcosmonauts\Alder\Models\Modifiers\SeoKeywordModifier::class,
     ],
 ];
