@@ -2,17 +2,25 @@
 
 namespace Webcosmonauts\Alder;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Str;
+use Webcosmonauts\Alder\Commands\Test;
 use Webcosmonauts\Alder\Commands\UpgradeDatabaseStateCommand;
+use Webcosmonauts\Alder\Facades\AlderWidgets;
 use Webcosmonauts\Alder\Http\Controllers\LeavesController\LeafEntityController;
 use Webcosmonauts\Alder\Http\Controllers\NotificationController;
 use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
 use Webcosmonauts\Alder\Http\Middleware\AlderGuard;
 use Webcosmonauts\Alder\Http\Middleware\isAdmin;
 use Webcosmonauts\Alder\Http\Middleware\LocaleSwitcher;
+use Webcosmonauts\Alder\Models\Modifiers\SeoKeywordModifier;
 use Webcosmonauts\Alder\Structure\AlderScheme;
 use Webcosmonauts\Alder\Facades\Alder as AlderFacade;
+use Webcosmonauts\Alder\Structure\StructureState;
 
 class AlderServiceProvider extends ServiceProvider
 {
@@ -60,13 +68,14 @@ class AlderServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('locale-switcher', LocaleSwitcher::class);
         $this->app['router']->aliasMiddleware('AlderGuard', AlderGuard::class);
 
-        AlderFacade::addLcmModel(config('alder.modifiers'));
+        AlderFacade::registerPackage('alder', config('alder.modifiers'));
     
         if ($this->app->runningInConsole()) {
             $this->commands([
                 UpgradeDatabaseStateCommand::class,
+                Test::class,
             ]);
-    }
+        }
     }
 
     /**
@@ -83,9 +92,13 @@ class AlderServiceProvider extends ServiceProvider
         $this->app->singleton('alder', function () {
             return new Alder();
         });
-
+    
         $this->app->bind('alderscheme', function () {
             return new AlderScheme();
+        });
+    
+        $this->app->bind('alder_widgets', function () {
+            return new AlderWidgets();
         });
 
         $this->app->bind('leaf_helper', function () {
@@ -96,6 +109,33 @@ class AlderServiceProvider extends ServiceProvider
 
         $this->app->bind('template_helper', function () {
             return new TemplateController();
+        });
+
+        // TODO: переместить метод в подходящее место
+        Builder::macro('withModifiers', function($modifiers) {
+            Arr::wrap($modifiers);
+
+            foreach ($modifiers as $modifierName) {
+                [$pack, $modifier] = AlderFacade::parseModifierName($modifierName);
+                $tbl = $modifier::getTableName();
+                $tbl_trans = $modifier::getTableNameTranslatable();
+                if (Schema::hasTable($tbl)) $this->join($tbl, $tbl . '.id', '=', 'leaves.id');
+                if (Schema::hasTable($tbl_trans)) $this->join($tbl_trans, $tbl_trans . '.id', '=', 'leaves.id');
+            }
+
+            $result = $this->select('leaves.*')->get();
+
+            foreach ($modifiers as $modifierName) {
+                [$pack, $modifier] = AlderFacade::parseModifierName($modifierName);
+                $ids = $result->pluck('id');
+                $models = $modifier::find($ids);
+                $relation_name = $modifierName;
+                foreach ($result as $leaf) {
+                    $relation = $models->find($leaf->getKey());
+                    $leaf->setRelation($relation_name, $relation);
+                }
+            }
+            return $result;
         });
     }
 }

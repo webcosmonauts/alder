@@ -31,24 +31,40 @@ use Webcosmonauts\Alder\Models\User;
 class Alder
 {
     private $lcm_models = [];
+    private $packages   = [];
     
     public function getLcmModels() {
         // TODO: do we need this protection?
         return app()->runningInConsole() ? $this->lcm_models : null;
     }
-    
+
     /**
-     * Add modifier model to list
+     * Add package to list
      *
-     * @param string|array $class_pathname
+     * @param string $package
+     * @param array $pathnames
      */
-    public function addLcmModel($class_pathname) {
-        if (is_array($class_pathname)) {
-            foreach ($class_pathname as $pathname)
-                $this->lcm_models[] = $pathname;
+    public function registerPackage($package, $pathnames) {
+        $this->packages[$package] = [];
+        foreach($pathnames as $pathname) {
+            $this->packages[$package][class_basename($pathname)] = $pathname;
+            $this->lcm_models[] = $pathname;
         }
-        else
-            $this->lcm_models[] = $class_pathname;
+    }
+
+    public function getPackageModifier($package, $modifier) {
+        return $this->packages[$package][$modifier];
+    }
+
+    public function parseModifierName($modifierString) {
+        [$package, $modifier] = explode('/', $modifierString);
+        if(!isset($this->packages[$package][$modifier])) $modifier = ucfirst($modifier.'Modifier');
+        if(!isset($this->packages[$package][$modifier])) return null;
+        return [$package, $this->getPackageModifier($package, $modifier)];
+    }
+
+    public function hasPackage($package) {
+        return isset($this->packages[$package]);
     }
     
     /**
