@@ -27,6 +27,6 @@ class CreateRootTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('root_custom_modifier_values');
+        Schema::dropIfExists('root_types');
     }
 }

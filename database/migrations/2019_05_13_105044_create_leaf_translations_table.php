@@ -35,6 +35,6 @@ class CreateLeafTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leafs');
+        Schema::dropIfExists('leaf_translations');
     }
 }

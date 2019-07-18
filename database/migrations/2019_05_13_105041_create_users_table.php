@@ -23,13 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->boolean('is_active')->default(false);
             $table->string('type')->default('user');
-            $table->integer('LCM_id')->unsigned()->nullable();
-            $table->integer('LCMV_id')->unsigned()->nullable();
             $table->rememberToken();
             $table->timestamps();
-    
-            $table->foreign('LCM_id')->references('id')->on('lcms');
-            $table->foreign('LCMV_id')->references('id')->on('lcmvs');
         });
     }
 
