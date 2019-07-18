@@ -28,7 +28,7 @@ Route::group(['middleware' => 'locale-switcher'], function () {
             Route::resource('LCMs', '\Webcosmonauts\Alder\Http\Controllers\LCMController');
 
             // leaf types
-            foreach (\Webcosmonauts\Alder\Models\LeafType::all() as $type) {
+            foreach ([] as $type) {
                 Route::resource($type->slug, '\Webcosmonauts\Alder\Http\Controllers\BranchBREADController');
             }
 

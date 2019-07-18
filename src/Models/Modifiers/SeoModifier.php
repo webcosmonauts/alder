@@ -7,11 +7,11 @@ class SeoModifier extends BaseModifier
     
     public const structure = [
         'fields' => [
-            'seo_description' => [
+            'description' => [
                 'type' => 'text',
                 'nullable' => true,
             ],
-            'seo_keywords' => [
+            'keywords' => [
                 'type' => 'text',
                 'nullable' => true,
             ],

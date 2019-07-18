@@ -7,7 +7,7 @@ class ToDownloadPageModifier extends BaseModifier
     
     public const structure = [
         'fields' => [
-            'to_download_section_title' => [
+            'section_title' => [
                 'type' => 'text',
                 'nullable' => true,
             ],
@@ -15,7 +15,7 @@ class ToDownloadPageModifier extends BaseModifier
                 'type' => 'file',
                 'nullable' => true
             ],
-            'to_download_repeater' => [
+            'repeater' => [
                 'type' => 'repeater',
                 'nullable' => true,
                 'fields' => [
