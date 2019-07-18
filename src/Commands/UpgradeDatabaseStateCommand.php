@@ -4,7 +4,6 @@ namespace Webcosmonauts\Alder\Commands;
 use Webcosmonauts\Alder\Facades\AlderScheme;
 use Illuminate\Console\Command;
 use Webcosmonauts\Alder\Facades\Alder;
-use Webcosmonauts\Alder\Models\Modifiers\PageModifier;
 
 class UpgradeDatabaseStateCommand extends Command
 {
