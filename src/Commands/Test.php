@@ -54,60 +54,68 @@ class Test extends Command
         $t1 = now();
         DB::transaction(function() {
 
-//            for($i = 0; $i < 100000; $i++) {
-//                $post = new Leaf();
-//                $post->leaf_type_id = 1;
-//                $post->save();
-//
-//                for($j = 1; $j <= 5; $j++) {
-//                    /** @var SeoKeywordModifier $keyword */
-//                    $keyword = SeoKeywordModifier::find($j);
-//                    $keyword->posts()->save($post);
-//                    // $keyword->save();
-//                }
-//            }
-
-//            $tbl = SeoKeywordModifier::getTableName();
-//            $class = SeoKeywordModifier::class;
-//            $struct = new StructureState(SeoKeywordModifier::structure);
-//            $columns = [];
-//            $columns[] = 'leaves.id as Leaf.id';
-//            $columns[] = 'leaves.created_at as Leaf.created_at';
-//            $columns[] = 'leaves.updated_at as Leaf.updated_at';
-//            $columns[] = $tbl .'.id as '. $class .'.id';
-//            foreach($struct->fields->keys() as $field) {
-//                $columns[] = $tbl .'.'. $field .' as '. $class .'.'. $field;
-//            }
-//            $raw = DB::table('leaves')
-//                ->where('leaves.leaf_type_id', 2)
-//                ->join($tbl, $tbl.'.id', '=', 'leaves.id')
-//                ->where('leaves.id', '<', 3150)
-//                ->select($columns)->get();
-//
-//            $leaves = new Collection();
-//            $modifiers = new Collection();
-//
-//            foreach($raw as $entry) {
-//                $attributes = [];
-//                foreach($entry as $column => $value) {
-//                    [$prefix, $field] = explode('.', $column);
-//                    if($prefix == $class) $attributes[$field] = $value;
-//                }
-//                $modifiers = $modifiers->concat($class::hydrate([$attributes]));
-//            }
+        // for($i = 0; $i < 60000; $i++) {
+        //     $post = new Leaf();
+        //     $post->leaf_type_id = 2;
+        //     $post->save();
+        //
+        //     $k = new SeoKeywordModifier;
+        //     $k->id = $post->id;
+        //     $k->save();
+        // }
 
         });
         $t2 = now();
 
-//        $this->comment($posts);
-//        $this->comment($t2->diff($t1)->s);
+        $leaf = Leaf::where('id', 1)->with('Alder/postModifier')->first();
+        dump($leaf->{'Alder/postModifier'}->thumbnail);
 
-        dump(Leaf::withModifiers(['alder/seoKeyword'])->first()->alder->seoKeyword->keyword);
-        dump(Leaf::withModifiers(['alder/seoKeyword']));
-//        $leaf = Leaf::first();
-//
-//        dump($leaf->alder->seoKeyword->keyword);
-//        dump($leaf);
+        // $this->comment($posts);
+        // $this->comment($t2->diff($t1)->s);
+
+        // dump(Leaf::withModifiers(['alder/seoKeyword'])->first()->alder->seoKeyword->keyword);
+        $this->comment("start with eager");
+        $t1 = now();
+        $leafs = Leaf::with('Alder/seoKeywordModifier')->limit(10000)->get();
+        foreach ($leafs as $leaf) {
+            $leaf->{'Alder/seoKeywordModifier'}->keyword;
+        }
+        $t2 = now();
+        $this->comment("end");
+        $this->comment($t2->diff($t1)->s);
+
+        $this->comment("start w/o eager");
+        $t1 = now();
+        $leafs = Leaf::limit(10000)->get();
+        foreach ($leafs as $leaf) {
+            $leaf->{'Alder/seoKeywordModifier'}->keyword;
+        }
+        $t2 = now();
+        $this->comment("end");
+        $this->comment($t2->diff($t1)->s);
+
+        $this->comment("start with eager (arrows)");
+        $t1 = now();
+        $leafs = Leaf::with('Alder/seoKeywordModifier')->limit(10000)->get();
+        foreach ($leafs as $leaf) {
+            $leaf->alder->seoKeywordModifier->keyword;
+        }
+        $t2 = now();
+        $this->comment("end");
+        $this->comment($t2->diff($t1)->s);
+
+        $this->comment("start w/o eager (arrows)");
+        $t1 = now();
+        $leafs = Leaf::limit(10000)->get();
+        foreach ($leafs as $leaf) {
+            $leaf->alder->seoKeywordModifier->keyword;
+        }
+        $t2 = now();
+        $this->comment("end");
+        $this->comment($t2->diff($t1)->s);
+
+        // dump($leaf->alder->seoKeyword->keyword);
+        // dump($leaf);
 
         return;
     }

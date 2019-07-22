@@ -4,10 +4,12 @@ namespace Webcosmonauts\Alder;
 
 use Exception;
 use http\Exception\InvalidArgumentException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,26 +47,46 @@ class Alder
      * @param array $pathnames
      */
     public function registerPackage($package, $pathnames) {
+        $package = ucfirst($package);
         $this->packages[$package] = [];
         foreach($pathnames as $pathname) {
             $this->packages[$package][class_basename($pathname)] = $pathname;
             $this->lcm_models[] = $pathname;
+
+            $modifier_tag = ucfirst($package).'/'.lcfirst(class_basename($pathname));
+            Builder::macro($modifier_tag, function() use($modifier_tag, $pathname) {
+                $model = $this->getModel();
+
+                if($model instanceof Leaf) {
+                    return $model->hasOne(
+                        $pathname,
+                        'id',
+                        'id'
+                    );
+                }
+
+                return $model->$modifier_tag();
+            });
         }
     }
 
     public function getPackageModifier($package, $modifier) {
-        return $this->packages[$package][$modifier];
+        return $this->packages[ucfirst($package)][lcfirst($modifier)];
     }
 
-    public function parseModifierName($modifierString) {
-        [$package, $modifier] = explode('/', $modifierString);
-        if(!isset($this->packages[$package][$modifier])) $modifier = ucfirst($modifier.'Modifier');
-        if(!isset($this->packages[$package][$modifier])) return null;
-        return [$package, $this->getPackageModifier($package, $modifier)];
+    public function getModifiersNames() {
+        $modifiers_names = [];
+        foreach ($this->packages as $packName => $pack) {
+            $modifiers_names[ucfirst($packName)] = [];
+            foreach ($pack as $modifierName => $modifier) {
+                $modifiers_names[ucfirst($packName).'/'.lcfirst($modifierName)] = $modifier;
+            }
+        }
+        return $modifiers_names;
     }
 
     public function hasPackage($package) {
-        return isset($this->packages[$package]);
+        return isset($this->packages[ucfirst($package)]);
     }
     
     /**
