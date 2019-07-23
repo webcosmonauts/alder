@@ -18,6 +18,7 @@ use Webcosmonauts\Alder\Http\Controllers\TemplateControllers\TemplateController;
 use Webcosmonauts\Alder\Http\Middleware\AlderGuard;
 use Webcosmonauts\Alder\Http\Middleware\isAdmin;
 use Webcosmonauts\Alder\Http\Middleware\LocaleSwitcher;
+use Webcosmonauts\Alder\Models\Leaf;
 use Webcosmonauts\Alder\Models\Modifiers\SeoKeywordModifier;
 use Webcosmonauts\Alder\Structure\AlderScheme;
 use Webcosmonauts\Alder\Facades\Alder as AlderFacade;
@@ -117,31 +118,6 @@ class AlderServiceProvider extends ServiceProvider
             return new TemplateController();
         });
 
-        // TODO: переместить метод в подходящее место
-        Builder::macro('withModifiers', function($modifiers) {
-            Arr::wrap($modifiers);
-
-            foreach ($modifiers as $modifierName) {
-                [$pack, $modifier] = AlderFacade::parseModifierName($modifierName);
-                $tbl = $modifier::getTableName();
-                $tbl_trans = $modifier::getTableNameTranslatable();
-                if (Schema::hasTable($tbl)) $this->join($tbl, $tbl . '.id', '=', 'leaves.id');
-                if (Schema::hasTable($tbl_trans)) $this->join($tbl_trans, $tbl_trans . '.id', '=', 'leaves.id');
-            }
-
-            $result = $this->select('leaves.*')->get();
-
-            foreach ($modifiers as $modifierName) {
-                [$pack, $modifier] = AlderFacade::parseModifierName($modifierName);
-                $ids = $result->pluck('id');
-                $models = $modifier::find($ids);
-                $relation_name = $modifierName;
-                foreach ($result as $leaf) {
-                    $relation = $models->find($leaf->getKey());
-                    $leaf->setRelation($relation_name, $relation);
-                }
-            }
-            return $result;
-        });
+        LeafRegister::register();
     }
 }

@@ -86,6 +86,10 @@ class Leaf extends BaseModel
         if (!is_null($return))
             return $return;
     
+        if ($this->hasMacro($key)) {
+            return $this->getRelationshipFromMethod($key);
+        }
+    
         /**
          * Else, try to get modifier from registered modifiers.
          */

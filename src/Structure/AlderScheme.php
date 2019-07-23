@@ -41,7 +41,7 @@ class AlderScheme
             $nonTranslatable = $up->getNonTranslatable();
             if ($nonTranslatable->count() + $up->getBelongsTo()->count() > 0) {
                 $this->setTable($table_name, function (Blueprint $table) {
-                    $table->bigIncrements('id');
+                    $table->bigInteger('id')->primary();
                     $table->foreign('id')->references('id')->on('leaves');
                     $table->timestamps();
                 });
@@ -88,8 +88,10 @@ class AlderScheme
             $translatable = $up->getTranslatable();
             if ($translatable->count() > 0) {
                 $this->setTable($table_name_trans, function (Blueprint $table) {
-                    $table->bigIncrements('id');
+                    $table->bigInteger('id')->primary();
                     $table->foreign('id')->references('id')->on('leaves');
+                    $table->string('lang');
+                    $table->unique(['id', 'lang']);
                     $table->timestamps();
                 });
                 Schema::table($table_name_trans, function (Blueprint $table) use ($translatable, $table_name_trans, $up) {
