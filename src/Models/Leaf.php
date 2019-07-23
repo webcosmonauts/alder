@@ -1,20 +1,17 @@
 <?php
-    
 namespace Webcosmonauts\Alder\Models;
 
 use Carbon\Carbon;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 use Webcosmonauts\Alder\Facades\Alder;
-use Webcosmonauts\Alder\PackageModifiersAccessor;
-use Illuminate\Support\Str;
-use Webcosmonauts\Alder\Facades\Alder;
+use Webcosmonauts\Alder\Models\Widgets\FooterWidget;
 use Webcosmonauts\Alder\PackageModifiersAccessor;
 
 /**
  * Class Leaf
  * @package Webcosmonauts\Alder\Models
+ * @mixin \Illuminate\Database\Eloquent\Builder
  *
  * @property int id
  * @property string title
@@ -28,13 +25,20 @@ use Webcosmonauts\Alder\PackageModifiersAccessor;
  * @property string created_at
  * @property string updated_at
  *
+ * @method static \Illuminate\Database\Eloquent\Builder leafType(string $string)
+ *
  * @property User user
  */
 class Leaf extends BaseModel
 {
-    use Translatable;
     
-    public $translatedAttributes = ['title', 'slug', 'content'];
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        self::addGlobalScope('with_modifiers', function () {
+        
+        });
+    }
     
     public function user() {
         return $this->belongsTo(User::class);
@@ -45,15 +49,15 @@ class Leaf extends BaseModel
     }
     
     public function getCreatedAtAttribute($value) {
-        $date = Root::whereSlug('date-format')->value('value');
-        $time = Root::whereSlug('time-format')->value('value');
+        $date = Root::where('slug', 'date-format')->value('value');
+        $time = Root::where('slug', 'time-format')->value('value');
         $format_string = ($date ?? 'Y-m-d') . ' ' . ($time ?? 'H:i:s');
         return Carbon::parse($value)->format($format_string);
     }
     
     public function getUpdatedAtAttribute($value) {
-        $date = Root::whereSlug('date-format')->value('value');
-        $time = Root::whereSlug('time-format')->value('value');
+        $date = Root::where('slug', 'date-format')->value('value');
+        $time = Root::where('slug', 'time-format')->value('value');
         $format_string = ($date ?? 'Y-m-d') . ' ' . ($time ?? 'H:i:s');
         return Carbon::parse($value)->format($format_string);
     }
@@ -74,23 +78,46 @@ class Leaf extends BaseModel
      */
     public function getRelationValue($key)
     {
-        // If the key already exists in the relationships array, it just means the
-        // relationship has already been loaded, so we'll just return it out of
-        // here because there is no need to query within the relations twice.
-        if ($this->relationLoaded($key)) {
-            return $this->relations[$key];
-        }
-
-        // If the "attribute" exists as a method on the model, we will just assume
-        // it is a relationship and will load and return results from the query
-        // and hydrate the relationship's value on the "relationships" array.
-        if (method_exists($this, $key)) {
-            return $this->getRelationshipFromMethod($key);
-        }
-
-        // Object to access modifiers in package named $key
-        if (Alder::hasPackage($key)) {
+        $return = parent::getRelationValue($key);
+        
+        /**
+         * If Eloquent relation is found, return it.
+         */
+        if (!is_null($return))
+            return $return;
+    
+        /**
+         * Else, try to get modifier from registered modifiers.
+         */
+        if (Alder::hasPackage($key))
             return new PackageModifiersAccessor($this, $key);
-        }
+        
+        return null;
+    }
+    
+    /**
+     * Save the model to the database.
+     *
+     * @param array $options
+     * @param bool $with_modifiers
+     * @return bool
+     */
+    public function save(array $options = [], bool $with_modifiers = true)
+    {
+        /**
+         * If parent save method fails - abort.
+         */
+        if (!parent::save($options))
+            return false;
+    
+        /**
+         * If base model saving is complete and we do not need
+         * to save model's modifiers - return true. Otherwise,
+         * perform modifiers saving.
+         */
+        if (!$with_modifiers)
+            return false;
+        
+        // TODO: save modifiers
     }
 }

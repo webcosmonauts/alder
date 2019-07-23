@@ -4,6 +4,7 @@ namespace Webcosmonauts\Alder;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
@@ -67,8 +68,9 @@ class AlderServiceProvider extends ServiceProvider
         // locale switcher
         $this->app['router']->aliasMiddleware('locale-switcher', LocaleSwitcher::class);
         $this->app['router']->aliasMiddleware('AlderGuard', AlderGuard::class);
-
+    
         AlderFacade::registerPackage('alder', config('alder.modifiers'));
+        AlderFacade::registerWidget(config('alder.widgets'));
     
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -76,6 +78,10 @@ class AlderServiceProvider extends ServiceProvider
                 Test::class,
             ]);
         }
+    
+        Blade::directive('widget', function ($name) {
+            return "<?php echo app('widget')->show($name); ?>";
+        });
     }
 
     /**
@@ -93,11 +99,11 @@ class AlderServiceProvider extends ServiceProvider
             return new Alder();
         });
     
-        $this->app->bind('alderscheme', function () {
+        $this->app->bind('alder_scheme', function () {
             return new AlderScheme();
         });
     
-        $this->app->bind('alder_widgets', function () {
+        $this->app->singleton('alder_widgets', function () {
             return new AlderWidgets();
         });
 

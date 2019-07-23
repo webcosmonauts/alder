@@ -32,6 +32,7 @@ class Alder
 {
     private $lcm_models = [];
     private $packages   = [];
+    private $widgets    = [];
     
     public function getLcmModels() {
         // TODO: do we need this protection?
@@ -65,6 +66,17 @@ class Alder
 
     public function hasPackage($package) {
         return isset($this->packages[$package]);
+    }
+    
+    /**
+     * Add widget(s) to list
+     *
+     * @param string|array $widget
+     */
+    public function registerWidget($widget) {
+        is_array($widget)
+            ? array_merge($this->widgets, $widget)
+            : $this->widgets[] = $widget;
     }
     
     /**
@@ -189,38 +201,39 @@ class Alder
     /**
      * Adds new root. Creates new root type if there is none with passed name.
      *
-     * @param string|int|RootType $slug
-     * @param string $title
-     * @param array $parameters
+     * @param string|int|RootType $root_type
+     * @param array $args
      *
      * @return Root
      */
-    public function addRoot($slug, string $title, array $parameters = [])
+    public function addRoot($root_type, array $args)
     {
-        $rootType = $this->getRootType($slug);
+        $rootType = $this->getRootType($root_type);
 
-        return DB::transaction(function () use ($rootType, $title, $slug, $parameters) {
-            // make new root type if necessary
-            if (empty($rootType)) {
-                $rootType = new RootType();
-                $rootType->title = $title;
-                $rootType->slug = $slug;
-                $rootType->save();
-            }
-
+        return DB::transaction(function () use ($rootType, $args) {
             // prepare new root
             $root = new Root();
             $root->root_type_id = $rootType->id;
 
             // fields that one is allowed to fill
-            $fillables = ['title', 'slug', 'input_type',
+            $fillables = ['slug', 'input_type',
                 'value', 'options', 'order', 'capabilities', 'is_active', 'is_visible'];
             foreach ($fillables as $field) {
                 if (isset($parameters[$field]))
-                    $root->$field = $parameters[$field];
+                    $root->$field = $args[$field];
             }
 
             $root->save();
+            
+            foreach ($root->translatedAttributes as $translated_attribute) {
+                foreach ($args as $arg_name => $arg_value) {
+                    if (strpos($translated_attribute, $arg_name) !== false) {
+                        $locale = explode(':', $arg_name)[1];
+                        $root->translateOrNew($locale)->$translated_attribute = $arg_value;
+                    }
+                }
+            }
+            
             return $root;
         });
     }

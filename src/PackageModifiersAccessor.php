@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Webcosmonauts\Alder;
-
 
 use Illuminate\Support\Str;
 use Webcosmonauts\Alder\Models\Leaf;
