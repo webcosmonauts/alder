@@ -4,6 +4,7 @@ namespace Webcosmonauts\Alder\Models\Modifiers;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Webcosmonauts\Alder\Models\BaseModel;
+use Webcosmonauts\Alder\ModifierLangAccessor;
 
 abstract class BaseModifier extends BaseModel
 {
@@ -36,9 +37,9 @@ abstract class BaseModifier extends BaseModel
     {
         parent::boot();
 
-//        static::addGlobalScope('translatable', function (Builder $builder) {
-//            $builder->leftJoin(static::getTableNameTranslatable(), static::getTableName().'.id', '=', static::getTableNameTranslatable().'.id')->where(static::getTableNameTranslatable().'.lang', 'en');
-//        });
+        static::addGlobalScope('translatable', function (Builder $builder) {
+            
+        });
     }
     
     // Fields to show in browse view
@@ -51,13 +52,13 @@ abstract class BaseModifier extends BaseModel
         return $this->table ?? (static::prefix ."__". Str::snake(Str::pluralStudly(class_basename($this))));
     }
 
-    public function scopeTranslate($query, $lang)
+    public function lang($lang)
     {
-        return $query->leftJoin(static::getTableNameTranslatable(), static::getTableName().'.id', '=', static::getTableNameTranslatable().'.id')->where(static::getTableNameTranslatable().'.lang', $lang)->first();
+        return new ModifierLangAccessor($this, $lang);
     }
 
     public function getAttributeValue($key) {
-        $value = $this->getAttributeFromArray($key) ?: $this->translate('en')->getAttributeFromArray($key);
+        $value = $this->getAttributeFromArray($key) ?: $this->getAttributeFromArray('en__'.$key);
 
         // If the attribute has a get mutator, we will call that then return what
         // it returns as the value, which is useful for transforming values on

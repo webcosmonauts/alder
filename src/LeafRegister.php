@@ -43,6 +43,10 @@ class LeafRegister
             return $this->with($modifiers);
         });
 
+        Builder::macro('ofType', function($leafType) {
+            return $this->where('leaf_type', $leafType)->with(Alder::getTypeModifiers($leafType));
+        });
+
 //        Builder::macro('withModifiers', function($modifiers) {
 //            Arr::wrap($modifiers);
 //

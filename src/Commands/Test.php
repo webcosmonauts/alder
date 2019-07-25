@@ -69,53 +69,8 @@ class Test extends Command
 
         $leaf = Leaf::where('id', 1)->with('Alder/postModifier')->first();
         dump($leaf->{'Alder/postModifier'}->thumbnail);
+        dump($leaf->{'Alder/postModifier'}->lang('pl')->thumbnail);
 
-        // $this->comment($posts);
-        // $this->comment($t2->diff($t1)->s);
-
-        // dump(Leaf::withModifiers(['alder/seoKeyword'])->first()->alder->seoKeyword->keyword);
-        $this->comment("start with eager");
-        $t1 = now();
-        $leafs = Leaf::with('Alder/seoKeywordModifier')->limit(10000)->get();
-        foreach ($leafs as $leaf) {
-            $leaf->{'Alder/seoKeywordModifier'}->keyword;
-        }
-        $t2 = now();
-        $this->comment("end");
-        $this->comment($t2->diff($t1)->s);
-
-        $this->comment("start w/o eager");
-        $t1 = now();
-        $leafs = Leaf::limit(10000)->get();
-        foreach ($leafs as $leaf) {
-            $leaf->{'Alder/seoKeywordModifier'}->keyword;
-        }
-        $t2 = now();
-        $this->comment("end");
-        $this->comment($t2->diff($t1)->s);
-
-        $this->comment("start with eager (arrows)");
-        $t1 = now();
-        $leafs = Leaf::with('Alder/seoKeywordModifier')->limit(10000)->get();
-        foreach ($leafs as $leaf) {
-            $leaf->alder->seoKeywordModifier->keyword;
-        }
-        $t2 = now();
-        $this->comment("end");
-        $this->comment($t2->diff($t1)->s);
-
-        $this->comment("start w/o eager (arrows)");
-        $t1 = now();
-        $leafs = Leaf::limit(10000)->get();
-        foreach ($leafs as $leaf) {
-            $leaf->alder->seoKeywordModifier->keyword;
-        }
-        $t2 = now();
-        $this->comment("end");
-        $this->comment($t2->diff($t1)->s);
-
-        // dump($leaf->alder->seoKeyword->keyword);
-        // dump($leaf);
 
         return;
     }

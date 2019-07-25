@@ -30,12 +30,14 @@ use Webcosmonauts\Alder\Models\Root;
 use Webcosmonauts\Alder\Models\RootType;
 use Webcosmonauts\Alder\Models\User;
 
+
 class Alder
 {
     private $lcm_models = [];
     private $packages   = [];
     private $widgets    = [];
-    
+    private $leaf_types = [];
+
     public function getLcmModels() {
         // TODO: do we need this protection?
         return app()->runningInConsole() ? $this->lcm_models : null;
@@ -71,6 +73,10 @@ class Alder
         }
     }
 
+    public function getAllModifiers($package, $modifier) {
+        return Arr::flatten($this->packages);
+    }
+
     public function getPackageModifier($package, $modifier) {
         return $this->packages[ucfirst($package)][lcfirst($modifier)];
     }
@@ -89,7 +95,7 @@ class Alder
     public function hasPackage($package) {
         return isset($this->packages[ucfirst($package)]);
     }
-    
+
     /**
      * Add widget(s) to list
      *
@@ -99,6 +105,32 @@ class Alder
         is_array($widget)
             ? array_merge($this->widgets, $widget)
             : $this->widgets[] = $widget;
+    }
+
+    /**
+     * Find modifiers for each leaf type and memoize result
+     *
+     * @param string|array $widget
+     */
+    private function memoizeTypeModifiers() {
+        $modifiers = collect($this->getAllModifiers());
+        foreach ($modifiers as $modifier) {
+            $leafTypes = Arr::wrap($modifier::leaf_type)->flatten();
+            foreach ($leafTypes as $leafType) {
+                if(!isset($this->leaf_types[$leafType])) $this->leaf_types[$leafType] = [];
+                $this->leaf_types[$leafType][] = $modifier;
+            }
+        }
+    }
+
+    /**
+     * Return all modifiers for leaf type
+     *
+     * @param string|array $widget
+     */
+    public function getTypeModifiers($leafType) {
+        if(count($this->leaf_types) == 0) $this->memoizeTypeModifiers();
+        return $this->leaf_types[$leafType];
     }
     
     /**
@@ -120,64 +152,6 @@ class Alder
             return LeafType::with('LCMs')->where('slug', $param)->first();
         else
             throw new InvalidArgumentException();
-    }
-
-    /**
-     * Create new LeafType and add AdminMenuItem for it
-     *
-     * @param string $title
-     * @param string $slug
-     * @param string $lcm_title
-     * @param string $lcm_slug
-     * @param array $modifiers
-     * @param array|null $menu_item_values
-     *
-     * @return bool|mixed
-     */
-    public function createLeafType(string $title, string $slug, string $lcm_title, string $lcm_slug, array $modifiers, array $menu_item_values = null)
-    {
-        $leaf_type = LeafType::where('slug', $slug)->first();
-        $LCM = LeafCustomModifier::where('slug', $lcm_slug)->first();
-        if (!empty($leaf_type) || !empty($LCM))
-            return false;
-
-        return DB::transaction(function () use ($title, $slug, $lcm_title, $lcm_slug, $modifiers, $menu_item_values) {
-            try {
-                $LCM = new LeafCustomModifier();
-                $LCM->title = $lcm_title;
-                $LCM->slug = $lcm_slug;
-                $LCM->modifiers = $modifiers;
-                $LCM->save();
-
-                $leaf_type = new LeafType();
-                $leaf_type->title = $title;
-                $leaf_type->slug = $slug;
-                $leaf_type->LCM_id = $LCM->id;
-                $leaf_type->save();
-
-                $LCMV = new LeafCustomModifierValue();
-                $LCMV->values = [
-                    'icon' => $menu_item_values['icon'] ?? 'ellipsis-h',
-                    'position' => $menu_item_values['position'] ?? 'left',
-                    'order' => $menu_item_values['order'] ?? null,
-                    'parent_id' => $menu_item_values['parent_id'] ?? null,
-                    'is_active' => $menu_item_values['is_active'] ?? true,
-                ];
-                $LCMV->save();
-                $leaf = new Leaf();
-                $leaf->title = $title;
-                $leaf->slug = $menu_item_values['slug'] ?? $slug;
-                $leaf->status_id = LeafStatus::where('slug', 'published')->value('id');
-                $leaf->leaf_type_id = LeafType::where('slug', 'admin-menu-items')->value('id');
-                $leaf->LCMV_id = $LCMV->id;
-                $leaf->save();
-
-                return true;
-            } catch (Exception $e) {
-                DB::rollBack();
-                return false;
-            }
-        });
     }
 
     /**
@@ -742,7 +716,7 @@ class Alder
                 'exception' => $exception,
             ]);
     }
-    
+
     public function chooseNameFormRptr($field_name, $values)
     {
         if (isset($values->$field_name))
